@@ -155,7 +155,7 @@ find_in_section (bfd * bfd, asection * sect, PTR obj)
 	      first.function = function;
 	      first.line = line;
 	      first.num_lines = 1;
-	      first.limit = sect->_cooked_size;
+	      first.limit = sect->size;
 	      last_line = line;
 	    }
 	  if (line > last_line
