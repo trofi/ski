@@ -155,12 +155,6 @@ AC_SUBST(GSKI_CFLAGS)
 AC_SUBST(GSKI_LIBS)
 AM_CONDITIONAL(WITH_GTK_INTERFACE, test "x$with_gtk" = "xyes")
 
-dnl Target endianness
-AC_ARG_ENABLE(bigendian,
-AC_HELP_STRING([--enable-bigendian],
-    [the target is big endian default=no]),
-ski_cv_c_target_bigendian=${enableval}, ski_cv_c_target_bigendian=no)
-
 dnl Check for host endianness
 AC_CACHE_CHECK([whether host byte ordering is defined in sys/param.h],
 ski_cv_c_bigendian_compile,
@@ -177,30 +171,8 @@ ski_cv_c_bigendian_compile=yes, ski_cv_c_bigendian_compile=no)])
 if test "x$ski_cv_c_bigendian_compile" = xyes; then
 AC_DEFINE(ENDIANESS_IN_SYS_PARAM_H, 1,
     [define if sys/param.h defines the endiness])
-else
-AC_CACHE_CHECK([whether host byte ordering is big endian],
-ski_cv_c_bigendian,
-[AC_TRY_RUN([int main () {
-    union {
-        long l;
-        char c[sizeof (long)];
-    } u;
-    u.l = 1;
-    return (u.c[sizeof (long) - 1] == 1);
-}],
-ski_cv_c_bigendian=no, ski_cv_c_bigendian=yes,
-AC_MSG_ERROR([cannot detect host endianness]))])
-
-AC_DEFINE(BIG_ENDIAN,    4321, [define to 4321 if missing from sys/param.h])
-AC_DEFINE(LITTLE_ENDIAN, 1234, [define to 4321 if missing from sys/param.h])
-if test "x$ski_cv_c_bigendian" = xyes; then
-    AC_DEFINE(BYTE_ORDER, 4321,
-        [define to 4321 if host is big endian, 1234 if little endian])
-else
-    AC_DEFINE(BYTE_ORDER, 1234,
-        [define to 4321 if host is big endian, 1234 if little endian])
 fi
-fi
+AC_C_BIGENDIAN
 
 dnl Check for variables & functions
 
