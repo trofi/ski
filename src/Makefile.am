@@ -297,7 +297,7 @@ libski_la_LDFLAGS = \
 	-export-dynamic
 
 libski_la_LIBADD= encoder/libencoder.la decoder/libdecoder.la $(LIBLTDL) \
-	$(DWARF_LIBS) $(GSKI_LIBS)
+	$(DWARF_LIBS) $(X_INTERFACE_LIBS) $(GSKI_LIBS)
 
 EXTRA_DIST= \
 	exec_hd.c \

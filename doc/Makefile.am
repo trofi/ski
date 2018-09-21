@@ -20,4 +20,11 @@
 
 man_MANS = ski.1
 
-EXTRA_DIST = $(man_MANS) ski-notes.html perf-changes.txt ski-manual-v1.0.pdf
+EXTRA_DIST = $(man_MANS) ski-notes.html perf-changes.txt \
+ manual/debuggin.odt manual/indirect.odt manual/intro.odt \
+ manual/int_syms.odt manual/language.odt manual/license.odt \
+ manual/manipula.odt manual/menu.odt manual/messages.odt \
+ manual/os.odt manual/register.odt manual/screens.odt \
+ manual/simulate.odt manual/SkiManualMasterDoc.odm \
+ manual/SkiManualMasterDoc.pdf manual/starting.odt manual/title.odt
+

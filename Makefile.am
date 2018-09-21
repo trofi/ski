@@ -21,27 +21,27 @@
 
 SUBDIRS=macros src doc
 
-appdefaultsdir=$(libdir)/X11/app-defaults
-appdefaults_DATA=XSki
-
 bin_SCRIPTS=ski-config
 
-BUILT_SOURCES=ski-config
-
-EXTRA_DIST=ski.spec.in XSki.freebsd XSki.hpux XSki.linux \
-	misc/bskinc misc/ia64fmt
-
+if WITH_X_INTERFACE
+appdefaultsdir=/etc/X11/app-defaults
+appdefaults_DATA=XSki
+# This is a bit of a hack.  appdefaults_DATA doesn't create a target
+# for each argument, hence this doesn't get built.  We therefore add it
+# to BUILT_SOURCES conditionally -ianw
+BUILD_XSKI=XSki
 XSki:
 	@$(LN_S) $(srcdir)/XSki.$(HOST_OS) $@
+else
+BUILD_XSKI=
+endif
 
-.PHONY: files release sanity snapshot pubdist
+BUILT_SOURCES=ski-config $(BUILD_XSKI)
 
-glib-config: glib-config.in
+EXTRA_DIST=ski.spec.in XSki.freebsd XSki.hpux XSki.linux \
+	misc/bskinc misc/ia64fmt ChangeLog.2007
 
-files:
-	@files=`ls $(DISTFILES) 2> /dev/null `; for p in $$files; do \
-		echo $$p; \
-	done
+.PHONY: snapshot
 
 release:
 	$(MAKE) distcheck
@@ -68,17 +68,6 @@ if WITH_GTK_INTERFACE
 	$(LN_S) -f ski $(DESTDIR)/$(bindir)/gski
 	$(LN_S) -f ski.1 $(DESTDIR)/$(mandir)/man1/gski.1
 endif	
-
-install-exec-hook:
-	$(LN_S) -f ski $(DESTDIR)/$(bindir)/xski;  
-	$(LN_S) -f ski.1 $(DESTDIR)/$(mandir)/man1/xski.1; \
-	$(LN_S) -f ski $(DESTDIR)/$(bindir)/bski;  \
-	$(LN_S) -f ski.1 $(DESTDIR)/$(mandir)/man1/bski.1; \
-	$(LN_S) -f ski $(DESTDIR)/$(bindir)/bskinc;\
-	$(LN_S) -f ski.1 $(DESTDIR)/$(mandir)/man1/bskinc.1; \
-	$(LN_S) -f ski $(DESTDIR)/$(bindir)/gski; \
-	$(LN_S) -f ski.1 $(DESTDIR)/$(mandir)/man1/gski.1;
-
 
 rpm: $(PACKAGE).spec dist
 	build_dir=`cd .; pwd` ; \

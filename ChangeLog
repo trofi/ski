@@ -1,3 +1,10 @@
+2008-02-04  Ian Wienand  <ianw@ieee.org>
+
+	* Makefile.am: remove some old targets, hack XSki target
+	* doc/Makefile.am: add docs to extra_dist
+	* Makefile.am: add old changelog to dist
+	* src/Makefile.am: add X_INTERFACE_LIBS to fix x build
+
 2008-02-03  Al Stone <ahs3@debian.org>
 
 	* src/Makefile.am: correct the list of source files for libski.
