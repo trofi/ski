@@ -555,7 +555,8 @@ extern void mmapSyms (int, ADDR, ADDR, ADDR);
 extern void munmapSyms (ADDR, ADDR);
 extern void dynBlock (ADDR, ADDR);
 extern void memFree (ADDR);
-extern int uselib (const char *libname);	/* Linux specific */
+#include <sys/syscall.h>
+#define uselib(libname) syscall(__NR_uselib, libname)
 
 extern int setresuid (uid_t, uid_t, uid_t);
 extern int getresuid (uid_t *, uid_t *, uid_t *);
