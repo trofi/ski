@@ -1,0 +1,15 @@
+This package was debianized by Al Stone ahs3@fc.hp.com on
+Tue, 28 Jan 2003 10:14:25 -0700.
+
+Originally, this project was kept within the confines
+of Hewlett-Packard Company.  The source has now been
+opened and may be found at http://ski.sourceforge.net
+
+For all source other than that in ./libltdl:
+   Copyright (c) 1995-2007, Hewlett-Packard Development Company, L.P.
+
+For the source in ./libltdl:
+   Copyright (c) 1998, 1999, 2000 Free Software Foundation, Inc.
+   Originally by Thomas Tanner <tanner@ffii.org>
+   Source comes from GNU libtool.
+

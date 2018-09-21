@@ -1,0 +1,159 @@
+<html><head>
+
+
+<meta http-equiv="Content-Language" content="en-us">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>SKI HOW TO</title></head><body>
+
+<p><b><u><big><big>SKI HOW TO</big></big></u></b></p>
+<p><b><i><u>INTRODUCTION</u></i></b></p>
+<p><i>ski</i> is a simulator for the
+IA-64 architecture.&nbsp; It has several versions:</p>
+<ul>
+  <li>xski, which works with X Windows (Motif only, and not built by default)</li>
+  <li>ski, which works with curses inside of a terminal window</li>
+  <li>bski, which works in batch mode</li>
+</ul>
+<p>All three versions use common code and, in fact, a common binary.&nbsp;
+Normally, the three binaries are linked together and the name used to invoke it
+determines which interface to use.&nbsp; For a copy of the user manual, see the file <tt>ski-manual-v1.0.pdf</tt> in <tt>/usr/share/doc/ski</tt>.<p>
+<p>The original <i>ski</i> was written for HP-UX by HP R&amp;D personnel.&nbsp;
+It was ported to Linux by David Mosberger of HP Labs.&nbsp; Dan Magenheimer of HP Labs added significant functionality.&nbsp;
+</p>
+<h4><b><u><i>NEW FEATURES IN SKI</i></u></b></h4>
+<p>Following is a list of features in ski <i><b>added in September 2001:</b></i></p>
+<ul>
+  <li>Multiple symbol tables may be simultaneously loaded.</li>
+  <li>Symbol names are not truncated in the program window if the window is wide
+    enough.</li>
+  <li>The "-sock <i>nnnn</i>" command line option will cause <i>ski</i> to
+    link to another program (e.g., <tt>spk_console</tt>) via a socket 
+    instead of launching a console of its own.</li>
+  <li>The "bsl &lt;rid&gt; &lt;vaddr&gt;" command will set a
+    breakpoint at an 85-bit address.</li>
+  <li>Nested interrupts are now flagged.&nbsp; If the psr.ic bit is off when an
+    interruption is taken, the simulation will be stopped (<i>prior</i> to the
+    branch to the ivt) and an informative message is printed.&nbsp; This feature
+    can be turned off/on by setting the $nest$ internal variable (e.g. the
+    "= $nest$ 0" turns it off).&nbsp; The default is on.</li>
+  <li>Source lines in the program window are now highlighted to make it easier
+    to visually distinguish/ignore them.&nbsp;&nbsp; This feature is controlled
+    by the $srcemph$ internal variable.&nbsp; If set to 0, the feature is turned
+    off.&nbsp; If set to 1, source lines are underlined.&nbsp; If set to 2,
+    inverted video is used.</li>
+  <li>The "Step" command (which can be abbreviated to "S")
+    is a poor-man's version of "step over".&nbsp; It will step until
+    the ip is pointing at the next bundle after the current one.&nbsp; This
+    works great for "stepping over" function calls.&nbsp; However, if
+    you "Step" over a bundle that contains an unconditional branch, it
+    is essentially the same as a "continue"... it's not smart enough
+    to parse the instruction bundle.</li>
+  <li>The "Up" command attempts to step until the current routine
+    returns to its caller.&nbsp; It does this by taking the value of the b0
+    register at the time you invoke the "Up" command and stepping
+    until ip is pointing to this address.&nbsp; The "Up" command can
+    also take an argument (register or expression-with-no-spaces), so if b0 has
+    been squirreled away in r42 while making another call, use the command
+    "Up r42".&nbsp; Judicious use of "step",
+    "Step", and "Up" will cover most of your stepping needs,
+    but if you are inclined to just repeatedly hitting "Step", your
+    mileage may vary.</li>
+  <li>The "cmdhist" command will give you a history of the last 20 or
+    so commands.&nbsp; The "cmdrep <i>n</i>" command (where <i>n</i>
+    is a number printed next to a command by "cmdhist") will repeat
+    that command.&nbsp; The $cmdhist$ internal symbol will adjust the length of
+    the history list but this isn't implemented yet and may not be unless there
+    is sufficient demand.</li>
+  <li>The curses version (ski) now properly handles source lines that contain
+    CR-LF (because they were written in Windows).&nbsp; Interestingly, curses
+    interprets CR (aka '\r') as a line delete character so, prior to this fix,
+    ski was showing these lines as blank lines.</li>
+  <li>Poor man's symbol completion.&nbsp; If you type the first few characters
+    of a symbol, you can now avoid the annoying "Illegal expression"
+    message.&nbsp; By default, ski will now do an exhaustive symbol table
+    search to try to match a symbol that has what you typed as a prefix.&nbsp;
+    If there is more than one, the first one (essentially a random one) will be
+    chosen.&nbsp; To match only if there is exactly one symbol that matches (and
+    get the dreaded "Illegal expression" message otherwise), set the $symcompl$
+    variable to 1.&nbsp; To turn this feature off entirely, set it to 0.&nbsp;
+    To go back to the default, set it to 2.</li>
+  <li>Shorthand for long addresses.&nbsp; To type an address where the top three
+    bits in the address (the ones that select the region register) are non-zero
+    used to take a lot of counting and typing of zeroes.&nbsp; Now the first
+    character of a long address followed by a single-quote and the rest of the
+    address will set the high nibble and save all of those zeroes.&nbsp; So
+    instead of typing e000000000001234, just type e'1234.</li>
+  <font size="2"></font>
+</ul>
+<p>Following is a list of features in ski <i><b>between October 2001 and
+February 2003:</b></i></p>
+<ul>
+  <li>New command line options to initialize various
+    implementation-specific options (e.g., number of TLB entries) appropriately.</li>
+  <li>"step until privilege level = <i>n</i>" command (e.g. "supl
+    2" steps until psr.cpl = 2)</li>
+  <li>"symload" command loads symbols from a binary</li>
+  <li>"show TLB line" (sdtl/sitl) commands show a single TLB entry
+    that matches a virtual address</li>
+  <li>New command line option (-mi <i>xx) </i>to initialize memory to a non-zero
+    value.</li>
+  <li>New command line option to change the size of the TLB</li>
+  <li>The "U" command (previously called "Up", but a better
+    name is "Until") now takes two arguments and instructions execute
+    until ip is in the range specified.&nbsp; (Works great for catching the next
+    time an exception causes code in the ivt to execute.)</li>
+  <li>New "dr" command to show the dirty registers.&nbsp; The
+    "rd" (register dump) command now also dumps the dirty registers.</li>
+  <li>New "step until memory matches" (summ) command executes until a
+    physical memory location changes.</li>
+  <li>Labels (syntax: ":label") now work in a command files, which
+    means goto's now work, which means command files are now useful for
+    complicated tests/programs.</li>
+  <li>New "linuxatpp" command dumps out Linux virtual memory
+    structures.&nbsp; (Only works on native IA-64 when simulating Linux/ia64.)</li>
+  <li>New "evaltofile" command which, when used in a loop in a command
+    file, allows easy data collection.</li>
+  <li>MP support via shared memory.&nbsp; (Not yet complete and only works on
+    Linux as of now.)</li>
+</ul>
+<p>&nbsp;</p>
+<h4><u><b><i>OTHER USEFUL TIPS AND TRICKS</i></b></u></h4>
+<ul>
+  <li>
+    <p class="MsoNormal">Backspace doesn't work in some versions of ski
+    when running on Linux.&nbsp; To fix this, first make sure you have the Linux
+    version of the XSki app-defaults file in your home directory.<span style="">&nbsp;
+    </span>You have the Linux version if there is a line near the end of the
+    file which says:</p>
+    <p class="MsoNormal" style="margin-left: 0.5in;"><span style="font-size: 10pt; font-family: &quot;Courier New&quot;;">*defaultVirtualBindings:
+    \<o:p>
+    </o:p>
+    </span></p>
+    <p class="MsoNormal">Add the following line, immediately after this line.<span style="">&nbsp;
+    </span>Ensure you use the exact capitalization and punctuation:</p>
+    <p class="MsoNormal" style="margin-left: 0.5in;"><span style="font-size: 10pt; font-family: &quot;Courier New&quot;;">osfBackSpace:<span style="">&nbsp;
+    </span>&lt;Key&gt;BackSpace\n\<o:p>
+    </o:p>
+    </span></p>
+    <p class="MsoNormal" style="margin-left: 0.5in;">&nbsp;
+  </p></li><li>Use the eval command to see the value of a symbol or expression. E.g.
+    "eval f0f0+e&lt;&lt;3c".&nbsp; Note that no spaces are allowed,
+    else the parser gets screwed up.</li>
+  <li>The * character adds a level of indirection just as in C. E.g. "= r13
+    *r14" will use r14 as an address of an eight-byte pointer and assign
+    this to r13.</li>
+  <li>The ; character can be used to separate commands. This is especially
+    useful if you are repeating multiple commands, e.g. "s 100; sit"
+    is a quick way to step 100 times, then look at the instruction tlb. Then to
+    repeat, just hit Enter.</li>
+  <li>The <tt>SKI_USE_FAKE_XTERM</tt> environment variable has been added.
+    If this environment variable is set (the value is unimportant),
+    the <tt>ski-fake-xterm</tt> utility will be used for output to stdout,
+    instead of <tt>xterm</tt>.  This will result in a temporary file created
+    in the current working directory with a name of the form "ski.XXXXXX",
+    where "XXXXXX" can be any six characters.</li>
+</ul>
+
+&nbsp;
+
+</body></html>

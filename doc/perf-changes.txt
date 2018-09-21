@@ -1,0 +1,490 @@
+
+Looking at the profile for ski booting linux, searchDTLB and
+iCycleAppSysLoop appear as the most expensive functions in the
+program. iCycleSysLoop is the main dispatching function and
+searchDTLB is the lookup function to find a matching TLB entry
+for a given VA.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Optimization 1: Faster TLB lookup %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Successive calls to searchDTLB are likely to return the same. To
+improve the performance I added a cache to the lookup function.
+
+Before (SKI v0.983)
+
+Flat profile:
+
+Each sample counts as 0.00195312 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls   s/call   s/call  name    
+ 30.39     24.59    24.59        1    24.59    80.55  iCycleSysLoop
+ 29.19     48.21    23.62 31871203     0.00     0.00  searchDTLB
+  3.35     50.92     2.71  2746424     0.00     0.00  searchITLB
+  3.26     53.55     2.64 34018385     0.00     0.00  pmem_lookup
+  3.23     56.17     2.62 31860917     0.00     0.00  dataLookup
+  2.46     58.16     1.99 30132740     0.00     0.00  adds_r1_imm14_r3Comb
+  2.35     60.06     1.90 31785685     0.00     0.00  dtlbLookup
+  1.86     61.57     1.51 18408792     0.00     0.00  memRd8
+  1.59     62.86     1.29    29484     0.00     0.00  fillinDecodePage
+  1.41     64.00     1.14 16323427     0.00     0.00  ld8_r1_r3Comb
+  1.30     65.05     1.05 75372875     0.00     0.00  nop_i_imm21Comb
+  1.14     65.97     0.92  3165072     0.00     0.00  instr_decode
+  1.10     66.87     0.89 23578017     0.00     0.00  br_cond_spnt_few_target25
+
+%%% After 2-level cache:
+
+Flat profile:
+
+Each sample counts as 0.00195312 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls   s/call   s/call  name    
+ 40.02     24.64    24.64        1    24.64    61.22  iCycleSysLoop
+ 10.55     31.13     6.50 31871203     0.00     0.00  searchDTLB
+  4.48     33.89     2.76 34018385     0.00     0.00  pmem_lookup
+  3.91     36.30     2.41 31860917     0.00     0.00  dataLookup
+  3.01     38.16     1.86 30132740     0.00     0.00  adds_r1_imm14_r3Comb
+  2.86     39.92     1.76 31785685     0.00     0.00  dtlbLookup
+  2.24     41.30     1.38 18408792     0.00     0.00  memRd8
+  2.11     42.60     1.30    29484     0.00     0.00  fillinDecodePage
+  2.01     43.84     1.24  2746424     0.00     0.00  searchITLB
+  1.89     45.00     1.16 16323427     0.00     0.00  ld8_r1_r3Comb
+  1.64     46.01     1.01 75372875     0.00     0.00  nop_i_imm21Comb
+  1.44     46.90     0.89  3165072     0.00     0.00  instr_decode
+  1.30     47.70     0.80 23578017     0.00     0.00  br_cond_spnt_few_target25
+  1.09     48.38     0.67 32939314     0.00     0.00  pmemLookup
+  1.03     49.01     0.64  9452527     0.00     0.00  cmp_eq_p1_p2_imm8_r3Comb
+  0.79     49.50     0.49  4920903     0.00     0.00  cmp_eq_p1_p2_r2_r3Comb
+
+
+                static TlbEntry *searchDTLB(ADDR va)
+    31870734    {
+    31870734        unsigned i, rid = RR_RID(RR(va));
+    31870734        static TlbEntry *cache1 = 0;
+    31870734        static TlbEntry *cache2 = 0;
+    31870734        TlbEntry *e, *prev;
+                
+    31870734        if(cache1 != NULL && VAmatch(cache1, va, rid))
+    25425528           return cache1;
+                
+     6445206        if(cache2 != NULL && VAmatch(cache2, va, rid)) {
+     3401824           TlbEntry *tmp = cache1;
+     3401824           cache1 = cache2;
+     3401824           cache2 = tmp;
+     3401824           return cache1;
+                    }
+                
+    50689523        for (i = 0; i < NDTRS; i++)
+    47715903            if (VAmatch(&dtrs[i], va, rid)) {
+       69762                cache2 = cache1;
+       69762                return cache1 = &dtrs[i];
+                        }
+
+   174713331        for (i = 0; i < NDTCS; i++)
+   174707270            if (VAmatch(&dtcs[i], va, rid)) {
+     2967559                cache2 = cache1;
+     2967559                return cache1 = &dtcs[i];
+                        }
+                
+        6061        return NULL;
+                }
+
+Out of 31870734 queries, cache1 hits 79.77% of the time and cache2
+hits 10.6%. Overall the caches hit 90.45%.
+
+For those 9.55% misses, we are iterating an average of 1.97 times over
+the TRs to find a matching TR and 16 times over the TRs + 58.8 times
+over the TCs to find a matching TC.
+
+It looks like having a MRU ordered linked list for the TCs would help
+to reduce the average number of iterations.
+
+%%% After MRU ordered linked list:
+
+Flat profile:
+
+Each sample counts as 0.00195312 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls   s/call   s/call  name    
+ 43.13     25.04    25.04        1    25.04    57.67  iCycleSysLoop
+  5.83     28.42     3.38 31845395     0.00     0.00  searchDTLB
+  4.36     30.96     2.53 33992430     0.00     0.00  pmem_lookup
+  4.17     33.38     2.42 31835147     0.00     0.00  dataLookup
+  3.28     35.28     1.91 30131665     0.00     0.00  adds_r1_imm14_r3Comb
+  2.86     36.94     1.66 31759885     0.00     0.00  dtlbLookup
+  2.58     38.44     1.50 18393874     0.00     0.00  memRd8
+  2.35     39.80     1.36 16318765     0.00     0.00  ld8_r1_r3Comb
+  2.30     41.14     1.33    29484     0.00     0.00  fillinDecodePage
+  1.69     42.12     0.98 75348694     0.00     0.00  nop_i_imm21Comb
+  1.40     42.93     0.81 23573608     0.00     0.00  br_cond_spnt_few_target25
+  1.38     43.73     0.80  3164652     0.00     0.00  instr_decode
+  1.29     44.48     0.75 32913488     0.00     0.00  pmemLookup
+  1.03     45.08     0.60  9448299     0.00     0.00  cmp_eq_p1_p2_imm8_r3Comb
+
+
+                static TlbEntry *searchDTLB(ADDR va)
+    31845395    {
+    31845395        unsigned i, rid = RR_RID(RR(va));
+    31845395        static TlbEntry *cache1 = 0;
+    31845395        static TlbEntry *cache2 = 0;
+    31845395        TlbEntry *e, *prev;
+                
+    31845395        if(cache1 != NULL && VAmatch(cache1, va, rid))
+    25398545            return cache1;
+                
+     6446850        if(cache2 != NULL && VAmatch(cache2, va, rid)) {
+     3403600            TlbEntry *tmp = cache1;
+     3403600            cache1 = cache2;
+     3403600            cache2 = tmp;
+     3403600            return cache1;
+                    }
+                
+    50688345        for (i = 0; i < NDTRS; i++)
+    47714788            if (VAmatch(&dtrs[i], va, rid)) {
+       69693                cache2 = cache1;
+       69693                return cache1 = &dtrs[i];
+                        }
+                
+     2973557        e = prev = dtcs_head;
+     2973557        while (e) {
+    16579630            if (VAmatch(e, va, rid)) {
+     2967535                if (e != dtcs_head) {
+     2956759                    prev->next = e->next;
+     2956759                    e->next = dtcs_head;
+     2956759                    dtcs_head = e;
+                            }
+     2967535                cache2 = cache1;
+     2967535                return cache1 = e;
+                        }
+    13612095            prev = e;
+    13612095            e = e->next;
+                    }
+                
+        6022        return NULL;
+                }
+
+entry in TR: 1.97 it    (2.29%  of the time)
+entry in TC: 16+5.32 it (97.51% of the time)
+  not found: 128+16 it  (0.19%  of the time)
+
+Average iteration: (137295+63267846+867168)/3043250 = 21.11 it
+
+We are iterating an average of 5.32 times over the TCs when we
+have a miss. The 16 iterations over the TRs are now what takes
+most of the time in the miss case.
+
+When we miss, we find the entry in the TC 97.51% of the time, in
+the TR 2.29% and fail 0.19%.
+
+It looks like it would be more efficient to scan the TC linked
+list before the TRs. Since we cannot have duplicate entries in
+the TC and TRs this should not affect the simulator behavior.
+
+%%% After search the TC before the TRs:
+
+Flat profile:
+
+Each sample counts as 0.00195312 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls   s/call   s/call  name    
+ 43.25     25.21    25.21        1    25.21    57.92  iCycleSysLoop
+  4.85     28.04     2.83 31845395     0.00     0.00  searchDTLB
+  4.61     30.73     2.69 33992430     0.00     0.00  pmem_lookup
+  4.06     33.10     2.37 31835147     0.00     0.00  dataLookup
+  3.14     34.93     1.83 30131665     0.00     0.00  adds_r1_imm14_r3Comb
+  2.90     36.62     1.69 31759885     0.00     0.00  dtlbLookup
+  2.59     38.13     1.51 16318765     0.00     0.00  ld8_r1_r3Comb
+  2.42     39.54     1.41 18393874     0.00     0.00  memRd8
+  2.34     40.90     1.37    29484     0.00     0.00  fillinDecodePage
+  1.63     41.85     0.95 75348694     0.00     0.00  nop_i_imm21Comb
+  1.58     42.77     0.92  3164652     0.00     0.00  instr_decode
+  1.33     43.55     0.78 23573608     0.00     0.00  br_cond_spnt_few_target25
+  1.27     44.29     0.74 32913488     0.00     0.00  pmemLookup
+  1.16     44.96     0.68  9448299     0.00     0.00  cmp_eq_p1_p2_imm8_r3Comb
+
+
+                static TlbEntry *searchDTLB(ADDR va)
+    31845395    {
+    31845395        unsigned i, rid = RR_RID(RR(va));
+    31845395        static TlbEntry *cache1 = 0;
+    31845395        static TlbEntry *cache2 = 0;
+    31845395        TlbEntry *e, *prev;
+                
+    31845395        if(cache1 != NULL && VAmatch(cache1, va, rid))
+    25398545            return cache1;
+                
+     6446850        if(cache2 != NULL && VAmatch(cache2, va, rid)) {
+     3403600            TlbEntry *tmp = cache1;
+     3403600            cache1 = cache2;
+     3403600            cache2 = tmp;
+     3403600            return cache1;
+                    }
+                
+     3043250        e = prev = dtcs_head;
+     3043250        while (e) {
+    25500334            if (VAmatch(e, va, rid)) {
+     2967535                if (e != dtcs_head) {
+     2956759                    prev->next = e->next;
+     2956759                    e->next = dtcs_head;
+     2956759                    dtcs_head = e;
+                            }
+     2967535                cache2 = cache1;
+     2967535                return cache1 = e;
+                        }
+    22532799            prev = e;
+    22532799            e = e->next;
+                    }
+                
+      240250        for (i = 0; i < NDTRS; i++)
+      234228            if (VAmatch(&dtrs[i], va, rid)) {
+       69693                cache2 = cache1;
+       69693                return cache1 = &dtrs[i];
+                        }
+                
+        6022        return NULL;
+                }
+
+
+Now, in case we miss the cache, the average iterations are:
+
+entry in TC: 5.32 it     (97.51% of the time)
+entry in TR: 128+1.97 it (2.29%  of the time)
+  not found: 128+16 it   (0.19%  of the time)
+
+Average iteration: (15787286+9058000+867168)/3043250 = 8.45
+
+The average iteration is down from 21.1 to 8.45 in the 
+cache miss case. Accumulated time in searchDTLB is down from
+23.62s to 2.83s (+834% speedup)
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Optimization 2: Reduce the size of INSTINFO %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The fields in INSTINFO are not optimized. Pointers are used when
+byte offset could contain the same information. Some field are
+redundant.
+
+This is INSTINFO before:
+
+struct IC {
+    struct INSTINFO {
+        PCF combFn;
+        struct CT_t *ic;
+        WORD iptr;
+        BYTE delta;
+        BYTE qpred;
+        BYTE stop;
+        BYTE samepg;
+        void *pgrtgt;
+        void *pgrr2;
+        void *pgrr3;
+        DWORD immed64;
+        DWORD immed64_2;
+        BYTE extrainfo[8];
+        ICNTS *cnt;
+    } info;
+    IC *icpnext;
+    IC *icpnext2;
+} IC;
+
+% iptr is not necessary as (this - this->ic->instCache) would give
+  the ioffset in the curent page (I kept it in case the size of
+  struct INSTINFO is not a power of 2).
+% stop and samepg are 8bit when they could be 1bit.
+% qpred should be stored in extainfo
+% delta could be a 2bit offset.
+% pgrtgt, pgrr2 and pgrr3 are pointers and could be 8bit register
+  numbers.
+% immed64_2 is used for tag13 and retIP and could be eliminated
+% icpnext2 offers now performance improvement and can be eliminated.
+
+Total size of an IC entry is 64 bytes for ILP32.
+
+INSTINFO after:
+
+struct INSTINFO {
+    DWORD immed64;
+    BYTE extrainfo[8];
+
+    PCF combFn;
+    INSTINFO *next;
+    CT *ct;
+
+    BYTE pgrtgt, pgrr2, pgrr3;
+    BYTE delta  : 4;
+    BYTE stop   : 1;
+    BYTE samepg : 1;
+    BYTE unused : 2;
+};
+
+Total size of an IC entry is now 32 bytes for ILP32
+
+%% Performance measurements:
+
+Before:
+
+$ bski -stats bootloader vmlinux simscsi=sd simeth=eth0
+kernel exited with status 0
+208605173 insts (17012 faults), 32.12 sec, 6493909 i/s
+
+After:
+
+$ bski -stats bootloader vmlinux simscsi=sd simeth=eth0
+kernel exited with status 0
+208605173 insts (17012 faults), 29.52 sec, 7067229 i/s
+
+The benefit of reducing the size of INSTINFO is a better
+spatial locality for the IC data set and also allows us
+to double the number of IC pages to increase instruction caching
+and keep the same memory footprint.
+
+IPF might benefit from this size reduction more than x86 (my
+measurements were taken on a 2.2GHz P4).
+
+Performance improvement: +8%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Optimization 3: Rewrite of iCycleSysLoop %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Before:
+$ bski -stats bootloader vmlinux simscsi=sd simeth=eth0
+kernel exited with status 0
+208605173 insts (17012 faults), 29.52 sec, 7067229 i/s
+
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  ms/call  ms/call  name    
+ 43.09     15.66    15.66        1 15660.00 36280.00  iCycleSysLoop
+  6.05     17.86     2.20 31835637     0.00     0.00  dataLookup
+  5.72     19.94     2.08 31845885     0.00     0.00  searchDTLB
+  4.32     21.51     1.57 18394052     0.00     0.00  memRd8
+  3.94     22.94     1.43 75349069     0.00     0.00  nop_i_imm21Comb
+  3.74     24.30     1.36 30131140     0.00     0.00  adds_r1_imm14_r3Comb
+  3.14     25.44     1.14 31760375     0.00     0.00  dtlbLookup
+  2.94     26.51     1.07 16318942     0.00     0.00  ld8_r1_r3Comb
+  2.48     27.41     0.90 23573743     0.00     0.00  br_cond_spnt_few_target25
+  1.29     27.88     0.47  2746448     0.00     0.00  setSysIcp
+  1.18     28.31     0.43  2109093     0.00     0.00  instr_decode
+  1.16     28.73     0.42  9448444     0.00     0.00  cmp_eq_p1_p2_imm8_r3Comb
+
+43% of the time is spent in iCycleSysLoop to prepare the comb
+function dispatch. I the common case preparing the dispatch only
+needs to compute the new IP and ICP, check for interruptions
+and count instructions (the later could be removed if we
+do not specify the -stats flag).
+
+So if we know that PSR is not changing, that we do not have
+SSC requests pending, then the SysLoop could be as simple as:
+
+    do {
+        INSTINFO *info = icp;
+        ADDR curr_ip = ip;
+
+        st = info->combFn(info);
+
+        if (st & ST_IP_INC) {
+            if (psr_ic) {
+                IIPA = curr_ip;
+            }
+
+            icp = info->next;
+            ip += info->delta << 2;
+
+            if (info->stop) {
+                ++cycle_count;
+            }
+        }
+        else {
+            if (info->samepg && (st & ~ST_CHECK) != StFault) {
+                icp += (ip - curr_ip) >> 2;
+            }
+            else {
+                icp = NULL;
+            }
+            ++cycle_count;
+        }
+        ++insn_count;
+
+        if (++ITC == ITM || !icp || st & ST_CHECK || intrsim) {
+            break;
+        }
+
+    } while(1);
+
+This is the code for iCycleSysLoopLite. iCycleSysLoop calls this
+function if the conditions are right. iCycleSysLoopLite will try to
+execute as many instructions as possible while the assumptions
+are valid (same PSR, no fault/trap, no intr).
+
+
+After:
+
+$ bski -stats bootloader vmlinux simscsi=sd simeth=eth0 6
+kernel exited with status 0
+208605173 insts (17012 faults), 21.56 sec, 9673836 i/s
+
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  ms/call  ms/call  name    
+ 27.04      7.47     7.47  2805545     0.00     0.01  iCycleSysLoopLite
+  8.25      9.75     2.28 31835637     0.00     0.00  dataLookup
+  5.97     11.40     1.65 31845885     0.00     0.00  searchDTLB
+  5.25     12.85     1.45 18394052     0.00     0.00  memRd8
+  5.07     14.25     1.40 30131140     0.00     0.00  adds_r1_imm14_r3Comb
+  4.63     15.53     1.28 75349069     0.00     0.00  nop_i_imm21Comb
+  4.34     16.73     1.20 31760375     0.00     0.00  dtlbLookup
+  3.08     17.58     0.85 16318942     0.00     0.00  ld8_r1_r3Comb
+  2.97     18.40     0.82 23573743     0.00     0.00  br_cond_spnt_few_target25
+  1.85     18.91     0.51  9448444     0.00     0.00  cmp_eq_p1_p2_imm8_r3Comb
+  1.70     19.38     0.47  2746448     0.00     0.00  setSysIcp
+  1.27     19.73     0.35  3753858     0.00     0.00  memWrt8
+  1.05     20.02     0.29  2109093     0.00     0.00  instr_decode
+
+
+Some numbers:
+
+iCycleSysLoopLite executes 74 instructions on average before returning
+to the main iCycleSysLoop (because of a fault/trap/intr or different IC page)
+
+91.76% of the instructions are using ST_IP_INC.
+8.23%  are taken branches or faults/traps.
+84.5%  of the taken branches are hiting the same IC page and keep
+       the execution in iCycleSysLoopLite.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Compile with icc -O3 -tpp6 -axiM %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+$ bski -stats bootloader vmlinux simscsi=sd simeth=eth0 6
+kernel exited with status 0
+208602881 insts (17012 faults), 17.69 sec, 11789976 i/s
+
+Compiling w/ ICC gives a 22% performance improvement.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Overall performance improvement over 0.981l1 ToT %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+w/ gcc: 5142300/9673836  i/s    +88%
+w/ icc: 5142300/11789976 i/s    +129%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Other optimization ideas %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+1- enable SKIP_NOPS code. if PSR_SS is detected, invalidate the
+   current IC page and disable SKIP_NOPS on it.
+   The performance gain could be around 5%.
+
+2- optimize dataLookup body (common case does not need to take
+   that long). could be 5%
+

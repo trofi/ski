@@ -1,0 +1,90 @@
+# Immediate Formation
+# Generated from Itanium SDM Rev. 2.1   (15 Jan 03)
+# Generated 15 Jan 2003, 12:13:51 PM
+# Enabled Conditions: Arch_Ipref, Hide_VM, Impl_AtomicOps, Impl_Brl, Impl_MT
+#
+# Copyright (C) 1995-2007, Hewlett-Packard Development Company, L.P.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or 
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful, 
+# but WITHOUT ANY WARRANTY; without even the implied warranty of 
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+A2	count2 = ct2d + 1
+A3	imm8 = sign_ext(s << 7 | imm7b, 8)
+A8	imm8 = sign_ext(s << 7 | imm7b, 8)
+I27	imm8 = sign_ext(s << 7 | imm7b, 8)
+M30	imm8 = sign_ext(s << 7 | imm7b, 8)
+A4	imm14 = sign_ext(s << 13 | imm6d << 7 | imm7b, 14)
+A5	imm22 = sign_ext(s << 21 | imm5c << 16 | imm9d << 7 | imm7b, 22)
+A10	count2 = (ct2d > 2) ? reservedQP : ct2d + 1
+I1	count2 = (ct2d == 0) ? 0 : (ct2d == 1) ? 7 : (ct2d == 2) ? 15 : 16
+I3	mbtype4 = (mbt4c == 0) ? @brcst : (mbt4c == 8) ? @mix : (mbt4c == 9) ? @shuf : (mbt4c ==  0xA) ? @alt : (mbt4c == 0xB) ? @rev : reservedQP
+I4	mhtype8 = mht8c
+I6	count5 = count5b
+I8	count5 = 31 - ccount5c
+I10	count6 = count6d
+I11	len6 = len6d + 1
+I11	pos6 = pos6b
+I12	len6 = len6d + 1
+I12	pos6 = 63 - cpos6c
+I13	len6 = len6d + 1
+I13	pos6 = 63 - cpos6c
+I13	imm8 = sign_ext(s << 7 | imm7b, 8)
+I14	len6 = len6d + 1
+I14	pos6 = 63 - cpos6b
+I14	imm1 = sign_ext(s, 1)
+I15	len4 = len4d + 1
+I15	pos6 = 63 - cpos6d
+I16	pos6 = pos6b
+I18	imm21 = i << 20 | imm20a
+I19	imm21 = i << 20 | imm20a
+M37	imm21 = i << 20 | imm20a
+M48	imm21 = i << 20 | imm20a
+I21	tag13 = IP + (sign_ext(timm9c, 9) << 4)
+I23	mask17 = sign_ext(s << 16 | mask8c << 8 | mask7a << 1, 17)
+I24	imm44 = sign_ext(s << 43 | imm27a << 16, 44)
+M3	imm9 = sign_ext(s << 8 | i << 7 | imm7b, 9)
+M8	imm9 = sign_ext(s << 8 | i << 7 | imm7b, 9)
+M15	imm9 = sign_ext(s << 8 | i << 7 | imm7b, 9)
+M5	imm9 = sign_ext(s << 8 | i << 7 | imm7a, 9)
+M10	imm9 = sign_ext(s << 8 | i << 7 | imm7a, 9)
+M17	inc3 = sign_ext(((s) ? -1 : 1) * ((i2b == 3) ? 1 : 1 << (4 - i2b)), 6)
+I20	target25 = IP + (sign_ext(s << 20 | imm13c << 7 | imm7a, 21) << 4)
+M20	target25 = IP + (sign_ext(s << 20 | imm13c << 7 | imm7a, 21) << 4)
+M21	target25 = IP + (sign_ext(s << 20 | imm13c << 7 | imm7a, 21) << 4)
+M22	target25 = IP + (sign_ext(s << 20 | imm20b, 21) << 4)
+M23	target25 = IP + (sign_ext(s << 20 | imm20b, 21) << 4)
+M34	il = sol
+M34	o = sof - sol
+M34	r = sor << 3
+M39	imm2 = i2b
+M40	imm2 = i2b
+M44	imm24 = i << 23 | i2d << 21 | imm21a
+B1	target25 = IP + (sign_ext(s << 20 | imm20b, 21) << 4)
+B2	target25 = IP + (sign_ext(s << 20 | imm20b, 21) << 4)
+B3	target25 = IP + (sign_ext(s << 20 | imm20b, 21) << 4)
+B6	target25 = IP + (sign_ext(s << 20 | imm20b, 21) << 4)
+B6	tag13 = IP + (sign_ext(t2e << 7 | timm7a, 9) << 4)
+B7	tag13 = IP + (sign_ext(t2e << 7 | timm7a, 9) << 4)
+B9	imm21 = i << 20 | imm20a
+F5	fclass9 = fclass7c << 2 | fc2
+F12	amask7 = amask7b
+F12	omask7 = omask7c
+F14	target25 = IP + (sign_ext(s << 20 | imm20a, 21) << 4)
+F15	imm21 = i << 20 | imm20a
+F16	imm21 = i << 20 | imm20a
+X1	imm62 = imm41 << 21 | i << 20 | imm20a
+X5	imm62 = imm41 << 21 | i << 20 | imm20a
+X2	imm64 = i << 63 | imm41 << 22 | ic << 21 | imm5c << 16 | imm9d << 7 | imm7b
+X3	target64 = IP + ((i << 59 | imm39 << 20 | imm20b) << 4)
+X4	target64 = IP + ((i << 59 | imm39 << 20 | imm20b) << 4)

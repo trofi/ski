@@ -1,0 +1,49 @@
+TODO:
+
+-- Glue the test suite back together
+
+-- aclocal-1.10 is called out explicitly in autogen.sh, but automake 1.9
+   is used elswhere???
+
+-- Are all of the bugs cleaned up?
+
+-- The X version seems to have suffered from major bit-rot, likely
+   related to using Motif, instead of something out of this century.
+   All votes seem to be for just removing the X version completely --
+   which has been done in such a way it can be turned back on later:
+      -- the build no longer requires X11 to build -- xski is no longer
+         created by default.
+      -- see configure.ac for notes on how to re-enable xski when someone
+         is ready to port it to something other than Motif.
+
+-- check BitfR usage (replace everything w/ BitfX and fix the errors...)
+
+-- think about making the trcread program available
+
+-- /etc/init.d/ia64fmt may need to do "modprobe binfmt_misc" before trying
+   to register the simlautor; at least, this seems to be necessary on RH7.2
+   -- in Debian, use update-binfmt, instead
+
+-- convert the GUI to GTK or something more common than Motif
+
+-- make sure latest instruction set (SDM2.2) is supported
+
+-- redo the documentation
+
+-- add some HOWTOs (e.g., HOWTO use ski with xen)
+
+-- integrate into qemu somehow?
+
+-- graft ski and gdb together?
+
+
+DONE:
+
+-- Update the debian packaging so it works properly. (Peter)
+
+-- Is the gperf package _really_ needed?  Yes, it is.  (Peter)
+
+-- Start up ski, type 'help'.  Paging is completely busticated and
+   completely unreadable. (seems to work -- Al)
+
+

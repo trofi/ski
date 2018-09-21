@@ -1,0 +1,94 @@
+* What's New with Ski 1.1.0
+
+** Version numbers have been changed to reflect the old Linux
+kernel practice -- x.y.z, where 'x' is major changes, 'y' is
+even for stable versions, odd for development/unstable versions,
+and 'z' is a patch level.  There will also be x.y.z-d numbers
+here and there, for example on the Debian packages; when 'd' 
+changes, there's been a change to the way ski is packaged, but
+not how it functions.
+
+** Ski has been updated for the latest IA-64 architecture revision
+(SDM 2.2).
+
+* What's New With Ski v0.9.81-1
+
+** Ski has been updated for the latest IA-64 architecture 
+revision (SDM v2.1). In particular, support for the 16-byte atomic 
+operations has been added. 
+
+** The cstack command now works and displays a backtrace of the current 
+call-stack. 
+
+** Ski now additionally picks up symbol information from the dynamic 
+symbol table section, if it exists. 
+
+** The auto-detection of user- vs. system-mode should now be 
+more reliable. If a program is linked for region 0 (as is the case 
+for the Linux bootloader, for example), system-mode is assumed 
+by default. Auto-detection can be overridden with command line 
+options -forceuser and -forcesystem. 
+
+** The Linux version of the X11 app-defaults file (XSki) has been 
+updated to add a binding for the backspace key and to default 
+the background color to gray. 
+
+** An IA-64 binary of Ski is now available
+
+* What's New With Ski v0.9.77-1
+
+** Merged ski v0943l3  from David Mosberger <davidm@hpl.hp.com> with
+ski 0.977. Added new autoconf/automake build environment.
+
+* What's New With Ski v0.943l2
+
+** The "cstack" command is now fully supported and can be used to
+show a backtrace.
+
+** Ski now reads the dynamic symbol section of shared libraries.  This
+simplifies the debugging of stripped shared libraries, such as glibc,
+because the symbolic names for all entry points will be available.
+
+** Ski has been ported to IA-64.  The system call emulation support is
+still somewhat preliminary, but already good enough for a wide variety
+of applications.  Kernel simulation should work as well as on any other
+platform.
+
+* What's New With Ski v0.943l0
+
+** The shmctl() system call now implements SHM_LOCK and SHM_UNLOCK and
+semctl() now implements GETALL, SETALL, GETVAL, GETPID, GETNCNT, and
+SETVAL in addition to the previously supported commands.
+
+** The X windows accelerator keys now work under Linux.  Specifically,
+"Page Up", "Page Down", "Down" and "Up" can be used to scroll around
+in the various Ski windows when running under X11.
+
+** The curses interface no longer has the cursor positioning problems
+that used to show after commands such as "pf".  This problem was due
+to a bug in the Linux ncurses library which has been fixed in
+ncurses-5.1.
+
+** Ski is now compatible with the latest stable GNU toolchain (aka,
+"Nov 17, 2000" snapshot) and with glibc-2.2.  In particular, Ski now
+passes the AT_PAGESZ and AT_CLKTCK auxiliary tags required by
+applications linked against glibc-2.2.
+
+** A bug has been fixed in Ski which prevented the kernel "make menuconfig"
+from working.
+
+** The system call emulation in Ski has been brought in sync with
+Linux v2.4.1.  In particular, Ski now implements the new versions of
+stat(), fstat(), lstat() and getdents().  The system calls
+pivot_root(), mincore(), and madvise() are not supported under Ski
+(they will result in a warning message of the form "unimplemented
+system call").
+
+** The Ski simulator has been updated to v0.943 which contains various
+bug fixes.
+
+
+Local variables:
+mode: outline
+paragraph-separate: "[ 	]*$"
+end:

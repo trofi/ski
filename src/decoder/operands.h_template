@@ -1,0 +1,123 @@
+/*
+ * Copyright (C) 1995-2007, Hewlett-Packard Development Company, L.P.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or 
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ */
+
+/* Operands header file for encoder/decoder library */
+
+#ifndef _SKI_OPERANDS_H
+#define _SKI_OPERANDS_H
+
+#ifndef MAX_OPERANDS
+#define MAX_OPERANDS	6
+#endif
+
+typedef unsigned long Flags;
+
+typedef enum {
+	EM_OPTYPE_NONE = 0,
+	EM_OPTYPE_IREG = 0x20,		/* Integer register */
+	EM_OPTYPE_IREG_R0_3,		/* r0-r3 */
+	EM_OPTYPE_IREG_R0,		/* Integer register R0 */
+	EM_OPTYPE_IREG_R1_127,		/* r1-r127 */
+	EM_OPTYPE_IREG_NUM,		/* ireg number - for chk.a/invala */
+	EM_OPTYPE_FREG = 0x40,		/* FP register */
+	EM_OPTYPE_FREG_F2_127,		/* f2-f127 */
+	EM_OPTYPE_FREG_NUM,		/* freg number - for chk.a/invala */
+	EM_OPTYPE_BR = 0x60,		/* branch register */
+	EM_OPTYPE_IP = 0x80,		/* instruction pointer */
+	EM_OPTYPE_PREGS_ALL,		/* predicate register file */
+	EM_OPTYPE_PREGS_ROT,		/* rotating predicates */
+	EM_OPTYPE_PREG = 0xa0,		/* predicate register */
+	EM_OPTYPE_APP_REG = 0xc0,	/* application register */
+	EM_OPTYPE_APP_REG_GRP_LOW,	/* application registers 0-63 */
+	EM_OPTYPE_APP_REG_GRP_HIGH,	/* application registers 64-127 */
+	EM_OPTYPE_APP_CCV,		/* ar.ccv */
+	EM_OPTYPE_APP_PFS,		/* ar.pfs */
+	EM_OPTYPE_APP_CSD,		/* ar.csd */
+	EM_OPTYPE_PSR = 0xe0,		/* psr */
+	EM_OPTYPE_PSR_L,		/* psr.l */
+	EM_OPTYPE_PSR_UM,		/* psr.um */
+	EM_OPTYPE_CR = 0x100,		/* control register */
+	EM_OPTYPE_IND_REG_FILE = 0x120,	/* indirect register files */
+	EM_OPTYPE_PMC,
+	EM_OPTYPE_PMD,
+	EM_OPTYPE_PKR,
+	EM_OPTYPE_RR,
+	EM_OPTYPE_IBR,
+	EM_OPTYPE_DBR,
+	EM_OPTYPE_ITR,
+	EM_OPTYPE_DTR,
+	EM_OPTYPE_MSR,
+	EM_OPTYPE_CPUID,
+	EM_OPTYPE_IMM = 0x140,		/* generic immediate */
+	EM_OPTYPE_SIMM,			/* signed immediate */
+	EM_OPTYPE_SEMAPHORE_INC,	/* immediate which can have the values
+					   -16, -8, -4, -1, 1, 4, 8, or 16 
+					   only - for fetchadd */
+	EM_OPTYPE_SSHIFT_1,		/* signed immediate which has to be
+					   shifted 1 bit - for mov pr */
+	EM_OPTYPE_SSHIFT_16,		/* signed immediate which has to be
+					   shifted 16 bits - for mov pr.rot */
+	EM_OPTYPE_SSHIFT_REL,		/* IP relative signed immediate
+					   which is shifted by 4 */
+	EM_OPTYPE_UIMM,			/* unsigned immediate */
+	EM_OPTYPE_UDEC,			/* unsigned immediate which has to be
+					   decremented by 1 */
+	EM_OPTYPE_CCOUNT,		/* (31 - count) - for pshl */
+	EM_OPTYPE_CPOS,			/* (63 - pos) - for  dep */
+	EM_OPTYPE_ONE,			/* the number 1 */
+	EM_OPTYPE_EIGHT,		/* the number 8 */
+	EM_OPTYPE_SIXTEEN,		/* the number 16 */
+	EM_OPTYPE_CMP_UIMM,		/* unsigned immediate of cmp ltu */
+	EM_OPTYPE_CMP4_UIMM,		/* unsigned immediate of cmp4 ltu */
+	EM_OPTYPE_ALLOC_IOL,		/* ins, locals, and outs: can be 0-96 -
+					   for alloc */
+	EM_OPTYPE_ALLOC_ROT,		/* rotating: can be 0-96 by 8, must
+					   be right-shifted by 3 - for alloc */
+	EM_OPTYPE_COUNT_123,		/* immediate which can have the values
+					   1, 2, or 3 only and has to be
+					   decremented by 1 */
+	EM_OPTYPE_COUNT_PACK,		/* immediate which can have the values
+					   0, 7, 15, or 16 only -
+					   for pmpyshr */
+	EM_OPTYPE_PMPYSHR = EM_OPTYPE_COUNT_PACK,
+	EM_OPTYPE_MUX1,			/* immediate which can have the values
+					   0, 8, 9, 0xa, or 0xb - for mux1 */
+	EM_OPTYPE_FCLASS,		/* fclass immediate */
+	EM_OPTYPE_IMM64,		/* movl immediate */
+	EM_OPTYPE_HIMM,			/* hex immediate */
+	EM_OPTYPE_HINT_IMM,		/* hint immediate */
+	EM_OPTYPE_MEM = 0x160		/* memory address */
+} Operand_type;
+
+typedef enum {
+	EM_OPROLE_NONE = 0,
+	EM_OPROLE_SRC,
+	EM_OPROLE_DEST
+} Operand_role;
+
+typedef struct {
+    unsigned long long	bits;
+    Operand_type	type;
+    Operand_role	role;
+} Operand, *OperandPtr;
+
+typedef struct {
+    union {
+	Operand op[MAX_OPERANDS];
+

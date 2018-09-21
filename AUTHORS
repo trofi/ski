@@ -1,0 +1,20 @@
+Copyright:
+	Most code is:
+	Copyright (c) 1995-2007, Hewlett-Packard Development Company, L.P.
+
+	fake-xterm is:
+	Copyright (c) 2003, Matthew Chapman and Ian Wienand
+
+Ski Contributors:
+	Michael Morrell -- original author
+	Stephane Eranian -- corrections and cleanup
+	Dan Magenheimer -- corrections and cleanup
+	David Mosberger -- majority of changes for ia64
+	Laurent Morichetti -- corrections and cleanup
+	Al Stone -- Debian packaging
+	Peter Chubb -- all sorts of contributions
+
+Fake-xterm:
+	Original idea by Matthew Chapman <matthewc@cse.unsw.edu.au>
+	Implementation by Ian Wienand <ianw@gelato.unsw.edu.au> 
+

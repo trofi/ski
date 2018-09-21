@@ -1,0 +1,7 @@
+usr/bin
+usr/include
+usr/share/man
+usr/share/man/man1
+etc/X11
+etc/X11/app-defaults
+etc/init.d

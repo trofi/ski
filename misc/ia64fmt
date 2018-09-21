@@ -1,0 +1,115 @@
+#!/bin/sh
+#
+# Copyright (C) 1995-2007, Hewlett-Packard Development Company, L.P.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or 
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful, 
+# but WITHOUT ANY WARRANTY; without even the implied warranty of 
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+#
+# ia64fmt      This shell script takes care of starting and stopping
+#              ia64 binary interpreter
+#
+# Author:      S.Eranian <eranian@hpl.hp.com>
+#
+# chkconfig: 2345 80 30
+# description: install the binary_fmt module and also make sure the ia64
+#	       interpreter is configured properly
+# processname: 
+# config: 
+# pidfile:
+
+fmt_base=/proc/sys/fs/binfmt_misc/
+interp=/usr/bin/bskinc
+
+function verify_binfmt_mnt 
+{
+   if test -d $fmt_base; then
+      /sbin/modprobe binfmt_misc
+   fi
+   mntd=$( mount | grep binfmt_misc )
+   if test "$mntd"X = X; then
+      mount -t binfmt_misc binfmt_misc $fmt_base
+   fi
+}
+
+# See how we were called.
+case "$1" in
+  start)
+	echo -n "Installing IA-64 interpreter: "
+	verify_binfmt_mnt
+	echo ":ia64:M::\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x32\x00::$interp:" >$fmt_base/register
+	echo -n static, 
+	echo ":ia64dyn:M::\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x03\x00\x32\x00::$interp:" >$fmt_base/register
+	echo dynamic
+	;;
+
+  stop) 
+	echo -n "Removing IA-64 interpreter: "
+  	if test -f $fmt_base/ia64; then
+	   echo -1 >$fmt_base/ia64
+	fi
+	if test -f $fmt_base/ia64dyn; then
+	   echo -1 >$fmt_base/ia64dyn
+	fi
+	echo done
+	;;
+
+  restart)
+	echo -n "Restarting IA-64 interpreter: "
+	verify_binfmt_mnt
+	if [ -f $fmt_base/ia64 ]; then
+	   echo -1 >$fmt_base/ia64
+	fi
+	if test -f $fmt_base/ia64dyn; then
+	   echo -1 >$fmt_base/ia64dyn
+	fi
+	echo ":ia64:M::\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x32\x00::$interp:" >$fmt_base/register
+	echo -n static, 
+	echo ":ia64dyn:M::\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x03\x00\x32\x00::$interp:" >$fmt_base/register
+	echo dynamic
+	;;
+
+  status)
+	if [ ! -d $fmt_base ]; then
+		echo binfmt_misc support not present
+		exit 1
+	fi
+
+	echo binfmt_misc status is `cat $fmt_base/status`
+
+	if [ ! -f $fmt_base/ia64 ]; then
+		 echo ia64 static not configured
+		 exit 1
+	fi
+
+	if [ ! -f $fmt_base/ia64dyn ]; then
+		 echo ia64 dynamic not configured
+		 exit 1
+	fi
+
+	cat $fmt_base/ia64
+	cat $fmt_base/ia64dyn
+	;;
+
+  force-reload)
+	/etc/init.d/ski stop
+	/etc/init.d/ski start
+	;;
+  *)
+	echo "Usage: ia64fmt {start|stop|restart|status}"
+	exit 1
+esac
+
+exit 0
+

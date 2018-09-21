@@ -1,0 +1,219 @@
+.TH SKI 1 "Development Tools" "Hewlett-Packard Company" \" -*- nroff -*-
+.SH NAME
+ski, xski, bskinc \- An IA-64 Instruction Set Simulator
+.SH SYNOPSIS
+.BI "ski
+.I [\-help] [\-i file] [\-rest file] [\-nonet]
+.I "    [\-srcroot dir] [\-forceuser]  [\-forcesystem] [\-strace]
+.I "    [\-palen n] [\-valen n] [\-ridlen n] [\-keylen n] [\-grfile n]
+.br
+
+.BI "xski
+.I [\-help] [\-i file] [\-rest file] [\-noconsole] [\-nonet]
+.I "     [\-srcroot dir] [\-forceuser] [\-forcesystem] [\-strace]
+.I "     [\-palen n] [\-valen n] [\-ridlen n] [\-keylen n] [\-grfile n]
+.br
+
+.BI "bskinc
+.I [\-help] [\-i file] [\-rest file] [\-noconsole] [\-nonet]
+.I "     [\-forceuser] [\-forcesystem] [\-icnt file] [\-strace] [\-palen n]
+.I "     [\-valen n] [\-ridlen n] [\-keylen n] [\-grfile n]
+.br
+.SH DESCRIPTION
+Ski is an IA-64 instruction set simulator from Hewlett-Packard
+Company.  It simulates the IA-64 architecture as defined by the
+architecture manual.  This is not a full platform simulator, i.e., no
+system chipset or PCI bus simulation is done.  However it supports the
+full instruction set of the architecture, including privileged
+instructions and associated semantics.
+.PP
+Ski can be used in two operating mode: user- and system-mode. In user
+mode, you can run user level applications directly on top of the
+simulator.  The emulation stops at the system call boundary. The
+system call is emulated by calling the host OS, such as x86
+Linux. Conversions between 64-bit and 32-bit parameters are done by
+Ski as needed. This allows fast execution of user programs. Most
+system calls are emulated, though the emulation is not always 100
+percent accurate.
+.PP
+In system-mode, operating-system kernel development and execution is
+possible because interrupts and virtual memory behaviors are
+simulated. In this mode you can actually run the Linux kernel and,
+once booted, user applications can be run on top of the simulated
+kernel.
+.PP
+The ski simulator comes with three different interfaces. The simplest
+one is the batch mode, called
+.BR bskinc
+. In this mode the simulator runs in non-interactive mode, very much like
+a shell running a script.
+.PP
+There is also a full-text curses-based mode, where you can interact
+with the simulator to inspect code, set breakpoints, etc. This version
+is called
+.BR
+ski
+.
+.PP
+Finally there is a graphical version called
+.BR
+xski
+which gives you several windows where you can look at the code, inspect
+register contents, etc.
+.PP
+All three modes provides the same core simulation, only the interface
+is different.
+.PP
+.SS OPTIONS
+.TP
+.I "\-help"
+Prints the list of supported options for the specific interface
+required.  Not all options are available in every possible interface.
+.TP
+.I "\-nonet"
+When running in kernel mode, this option tells the simulator not to
+probe for existing Ethernet interfaces on the host. This way the Linux
+kernel won't detect any device. This option is useful when you don't
+want to run the simulator as root (or setuid to root). For networking
+support root privilege is required.
+.TP
+.I "\-srcroot directory"
+Specify the directory where the program sources can be found.  This
+option is only useful when combined the "mixed mode" display (see the
+"pm" command inside Ski).
+.TP
+.I "\-noconsole"
+Do not use an xterm as the default output console, but use the current tty.
+This option is only useful when ski is invoked in batch mode. It allows 
+to run in the current terminal window. This is used mostly within the NUE(1)
+environment.
+.TP
+.I "\-forceuser"
+Force the simulator into user-mode.  The simulator normally
+auto-detects which mode to run in, but this option is available to
+force user-mode in case auto-detection fails for some reason.
+.TP
+.I "\-forcesystem"
+Force the simulator into system-mode.  The simulator normally
+auto-detects which mode to run in, but this option is available to
+force system-mode in case auto-detection fails for some reason.
+.TP
+.I "\-strace"
+This option displays all the system calls executed by the user level programs.
+It is only valid when running in user-mode. The output looks like
+a highly simplified version of output from strace(1).
+.TP
+.I "\-i file"
+Process initialization <file> at startup.
+.TP
+.I "\-icnt"
+Store instruction counts in <file>.
+.TP
+.I "\-rest"
+Restore simulation state from <file>.
+.TP
+.I "\-stats"
+Display execution run-time and instruction rate.
+.TP
+.I "\-palen <n>"
+Implemented physical address bits.  Default: n=63
+.TP
+.I "\-valen <n>"
+Implemented virtual address bits.  Default: n=61
+.TP
+.I "\-ridlen <n>"
+Implemented RR.rid bits.  Default: n=24
+.TP
+.I "\-keylen <n>"
+Implemented PKR.key bits.  Default: n=24
+.TP
+.I "\-grlen <n>"
+General Register file size.  Default: n=128
+.SH Running in user-mode
+To run a simple IA-64 program in user-mode only, you can type in the
+following:
+
+.nf
+$ bskinc my_ia64_prg
+.fi
+
+.PP
+This will force execution is the current terminal and in batch mode.
+
+.BR IMPORTANT:
+.I To run dynamically linked IA-64 binaries, it is necessary to have
+IA-64 versions of the necessary shared libraries installed.  On x86
+Linux, this is most easily accomplished by installing the NUE(1)
+environment.
+
+.SH Running in system-mode
+To run a Linux kernel on top of the simulator, you need several
+components:
+.PP
+\- a Linux kernel compiled to use the HP-simulator.  It needs to have
+the CONFIG_SIMSERIAL, CONFIG_SIMSCSI, and CONFIG_SIMETH options turned
+on.
+
+.PP
+\- a boot loader that goes with it (compiled with "make boot" in the
+kernel source tree).
+
+.PP
+\- a disk image file with IA-64 binaries on it.
+
+Please refer to extra documentation to learn in greater details how to
+build those 3 components.
+
+Once you have those components, you launch execution by simply typing:
+.TP
+.nf
+$ ski bootloader vmlinux simscsi=/path/sd simeth=eth0
+.fi
+.PP
+In this example, the simscsi= option informs the Linux kernel where to
+find the SCSI disk images. Here /path/sd is just the prefix, the
+kernel will automatically look for /path/sd{a,b,c,...}. So the disk
+image must use the full name, i.e., /path/sda. The simeth= indicates
+which local interface to use for the simulated Ethernet driver. The
+simulator must be run with root privilege to get the networking
+emulation to work.
+
+You can specify other options on the command line, just like you would
+do at the LILO boot prompt for instance.
+
+.SH Getting help inside ski
+
+When you run ski in interactive mode via ski or xski, you can get help
+on commands by typing help.
+
+When running in curses mode, you must make sure that you have the
+.BR PAGER
+environment variable set to whatever is your preferred pager command. It is 
+usually set to more(1) or less(1). If the variable does not exist ski will
+default to using less(1).  Note that less(1) usually behaves the best when
+interacting with ski.
+
+.SH Using Xski
+In this version (1.1.0) of ski, the X11 interface has not been built.  If
+you would like such a GUI, please feel free to contribute patches to convert
+the current Motif version to something more modern.
+
+.SH ENVIRONMENT VARIABLES
+.TP
+.I
+.BR SKI_USE_FAKE_XTERM
+If this environment variable is set (the value is unimportant),
+the ski-fake-xterm(1) utility will be used for output to stdout,
+instead of xterm(1).  This will result in a temporary file created
+in the current working directory with a name of the form "ski.XXXXXX",
+where "XXXXXX" can be any six characters.
+
+.SH SEE ALSO
+qemu(1), bochs(1)
+
+.SH AUTHORS
+.nf
+Hewlett-Packard Company
+Stephane Eranian <eranian@hpl.hp.com>
+David Mosberger  <davidm@hpl.hp.com)
+.fi

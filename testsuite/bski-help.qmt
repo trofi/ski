@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<!DOCTYPE extension
+  PUBLIC '-//QM/2.3/Extension//EN'
+  'http://www.codesourcery.com/qm/dtds/2.3/-//qm/2.3/extension//en.dtd'>
+<extension class="command.ExecTest" kind="test"><argument name="stdin"><text/></argument><argument name="timeout"><integer>5</integer></argument><argument name="stdout"><text/></argument><argument name="prerequisites"><set/></argument><argument name="target_group"><text>.*</text></argument><argument name="exit_code"><integer>1</integer></argument><argument name="environment"><set/></argument><argument name="program"><text>../src/bski</text></argument><argument name="arguments"><set><text>--help</text></set></argument><argument name="stderr"><text>unrecognized option --help
+Usage: bski [options] [file [args]]
+Options:
+    -help        Display command-line options
+    -i &lt;file&gt;    Process initialization file at startup
+    -icnt &lt;file&gt; Store instruction counts in &lt;file&gt;
+    -rest &lt;file&gt; Restore simulation state from &lt;file&gt;
+    -stats       Display execution run-time and instruction rate
+    -forceuser   Force user-level simulation
+    -forcesystem Force system-level simulation
+    -strace      Trace system call execution
+    -simroot     Simulated root directory
+    -noconsole      Use stdout for console output
+    -conslog &lt;file&gt; Log the console output to the specified file
+    -palen &lt;n&gt;      Implemented physical address bits.  Default: 63
+    -valen &lt;n&gt;      Implemented virtual address bits.  Default: 61
+    -ridlen &lt;n&gt;     Implemented RR.rid bits.  Default: 24
+    -keylen &lt;n&gt;     Implemented PKR.key bits.  Default: 24
+    -grfile &lt;n&gt;     GR file size.  Default: 128
+</text></argument><argument name="resources"><set/></argument></extension>
