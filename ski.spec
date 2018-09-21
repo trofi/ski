@@ -3,7 +3,7 @@
 
 Summary:       The Ski simulator
 Name:          ski
-Version:       1.2.5
+Version:       1.2.6
 Release:       %{RELEASE}
 Copyright:     Copyright Hewlett-Packard Development Company, L.P.
 Vendor:        Hewlett-Packard
