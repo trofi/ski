@@ -82,6 +82,7 @@ static CTR execcnt;
 
 /* externals */
 extern dataStart;
+ADDR iAinstAddr(ADDR baseAddr, BYTE iAmode, int delta);
 
 static GtkLabel* instcount_label;
 /* sits in a background loop */
@@ -100,7 +101,7 @@ static int runItGtk(void)
 }
 
 
-void runIt_setupGtk(void *data)
+void runIt_setupGtk(void)
 {
 	g_idle_add(runItGtk, NULL);
 	stopPressed = NO;

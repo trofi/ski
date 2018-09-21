@@ -177,6 +177,7 @@ void stepIt_setupX(CTR cnt);
 void stepIt_setupGtk(CTR cnt);
 
 void runIt_setupX(void);
+void runIt_setupGtk(void);
 
 
 /*--------------------------------------------------------------------------
