@@ -49,9 +49,6 @@ extern int localtime_r(const __time_t *, __struct_tm *);
 # include <ulimit.h>
 #endif /* !defined __linux */
 #include <unistd.h>	/* Also #includes <utime.h> */
-#if !defined(__FreeBSD__)
-#include <ustat.h>
-#endif
 #include <sys/utsname.h>
 #include <ctype.h>
 #include "std.h"
