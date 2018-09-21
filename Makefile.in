@@ -126,6 +126,8 @@ FREEBSD_FALSE = @FREEBSD_FALSE@
 FREEBSD_TRUE = @FREEBSD_TRUE@
 GPERF = @GPERF@
 GREP = @GREP@
+GSKI_CFLAGS = @GSKI_CFLAGS@
+GSKI_LIBS = @GSKI_LIBS@
 HOST_OS = @HOST_OS@
 HPUX_FALSE = @HPUX_FALSE@
 HPUX_TRUE = @HPUX_TRUE@
@@ -165,6 +167,7 @@ PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PAGER = @PAGER@
 PATH_SEPARATOR = @PATH_SEPARATOR@
+PKG_CONFIG = @PKG_CONFIG@
 RANLIB = @RANLIB@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
@@ -233,12 +236,14 @@ sharedstatedir = @sharedstatedir@
 subdirs = @subdirs@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
-SUBDIRS = libltdl macros src doc testsuite
+SUBDIRS = libltdl macros src doc
 appdefaultsdir = $(libdir)/X11/app-defaults
 appdefaults_DATA = XSki
 bin_SCRIPTS = ski-config
 BUILT_SOURCES = ski-config
-EXTRA_DIST = ski.spec.in XSki.freebsd XSki.hpux XSki.linux
+EXTRA_DIST = ski.spec.in XSki.freebsd XSki.hpux XSki.linux \
+	misc/bskinc misc/ia64fmt
+
 all: $(BUILT_SOURCES) config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
@@ -479,7 +484,7 @@ distclean-tags:
 distdir: $(DISTFILES)
 	$(am__remove_distdir)
 	mkdir $(distdir)
-	$(mkdir_p) $(distdir)/. $(distdir)/macros $(distdir)/src/missing
+	$(mkdir_p) $(distdir)/. $(distdir)/macros $(distdir)/misc $(distdir)/src/missing
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \

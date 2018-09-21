@@ -18,6 +18,6 @@
 ## 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 ##
 
-man_MANS = ski.man
+man_MANS = ski.1
 
-EXTRA_DIST = $(man_MANS) ski-notes.html perf-changes.txt
+EXTRA_DIST = $(man_MANS) ski-notes.html perf-changes.txt ski-manual-v1.0.pdf

@@ -1320,14 +1320,14 @@ initConsole (int raw)
 	  fd = mkstemp(tmppat);
 	  close(fd);
           ret = execlp ("ski-fake-xterm", "ski-fake-xterm", 
-	                "-o", tmppat, cmdBuf, 0);
+	                "-o", tmppat, cmdBuf, NULL);
 	}
       else if (consLog)
           ret = execlp ("ski-fake-xterm", "ski-fake-xterm", 
-	                "-o", consLog, cmdBuf, 0);
+	                "-o", consLog, cmdBuf, NULL);
       else
         ret = execlp ("xterm", "xterm", "-geo", "80x24", "-name", 
-                      "\"Linux/ia64 Console\"", cmdBuf, 0);
+                      "\"Linux/ia64 Console\"", cmdBuf, NULL);
 
       _exit (-1);
 

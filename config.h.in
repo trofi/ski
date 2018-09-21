@@ -73,7 +73,7 @@
 #undef HAVE_STRTOULL
 
 /* Define if you have the sys_siglist variable. */
-#undef HAVE_SYS_SIGLIST
+#undef HAVE_SYS_SIGIST
 
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #undef HAVE_SYS_STAT_H

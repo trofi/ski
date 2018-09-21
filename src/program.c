@@ -268,11 +268,11 @@ char *prgwLine(ADDR ofs, unsigned *srcrows, unsigned *asmrows)
 	dasInit(DasPseudoOps|DasTemplate|DasRegNames, prgColumns - 20);
 	dasBundle(&bndl, i0Str, i1Str, i2Str);
 	ipp = instPtr(ofs, i0Str);
-	p += sprintf(p, "%s%c%c %s %s\n", srcp, bpn, ipp, buf, i0Str);
+	p += sprintf(p, "%s%c%c %s %s\r\n", srcp, bpn, ipp, buf, i0Str);
 	if (i1Str[0]) {		/* not MLX */
 	    bpn = ((i = isbpt(ofs + 4)) >= 0) ? (i + '0') : ' ';
 	    ipp = instPtr(ofs + 4, i1Str);
-	    p += sprintf(p, "%c%c %16s %s\n", bpn, ipp, "", i1Str);
+	    p += sprintf(p, "%c%c %16s %s\r\n", bpn, ipp, "", i1Str);
 	    bpn = ((i = isbpt(ofs + 8)) >= 0) ? (i + '0') : ' ';
 	    ipp = instPtr(ofs + 8, i2Str);
 	} else {		/* MLX */
@@ -280,12 +280,12 @@ char *prgwLine(ADDR ofs, unsigned *srcrows, unsigned *asmrows)
 		    ? (i + '0') : ' ';
 	    ipp = instPtr(ofs + 4, i2Str);
 	}
-	p += sprintf(p, "%c%c %16s %s\n", bpn, ipp, "", i2Str);
+	p += sprintf(p, "%c%c %16s %s\r\n", bpn, ipp, "", i2Str);
 	*asmrows = i1Str[0] ? 3 : 2;
     } else {
 xxx:
 	ipp = (ipGet(viewPid) == ofs) ? '>' : ' ';
-	(void)sprintf(line, "%c%c %s xxxxxxxx\n", bpn, ipp, buf);
+	(void)sprintf(line, "%c%c %s xxxxxxxx\r\n", bpn, ipp, buf);
 	*srcrows = 0;
 	*asmrows = 1;
     }

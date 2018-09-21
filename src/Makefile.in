@@ -104,8 +104,8 @@ am_libskiui_la_OBJECTS = $(am__objects_12) $(am__objects_13) \
 	$(am__objects_4) $(am__objects_14) ski.lo menu.lo ssDBT.lo \
 	ssDDM.lo ssDCmd.lo program.lo data.lo ssDSym.lo ssDPrs.lo \
 	traceui.lo ia_das.lo ui.lo batch.lo cur.lo ssX.lo ssXDSD.lo \
-	asm.lo version.lo eparse.lo escan.lo load.lo platform.lo \
-	libdas.lo libsrs.lo
+	ssGtk.lo asm.lo version.lo eparse.lo escan.lo load.lo \
+	platform.lo libdas.lo libsrs.lo
 libskiui_la_OBJECTS = $(am_libskiui_la_OBJECTS)
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
@@ -185,6 +185,8 @@ FREEBSD_FALSE = @FREEBSD_FALSE@
 FREEBSD_TRUE = @FREEBSD_TRUE@
 GPERF = @GPERF@
 GREP = @GREP@
+GSKI_CFLAGS = @GSKI_CFLAGS@
+GSKI_LIBS = @GSKI_LIBS@
 HOST_OS = @HOST_OS@
 HPUX_FALSE = @HPUX_FALSE@
 HPUX_TRUE = @HPUX_TRUE@
@@ -224,6 +226,7 @@ PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PAGER = @PAGER@
 PATH_SEPARATOR = @PATH_SEPARATOR@
+PKG_CONFIG = @PKG_CONFIG@
 RANLIB = @RANLIB@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
@@ -295,7 +298,7 @@ target_alias = @target_alias@
 SUBDIRS = decoder encoder fake-xterm
 AM_CPPFLAGS = $(INCLTDL) $(X_CFLAGS) $(DWARF_CFLAGS) -I$(srcdir)/decoder \
 			 -I$(srcdir)/encoder -I$(top_builddir)/src/encoder \
-			 -I$(top_builddir)/src/decoder
+			 -I$(top_builddir)/src/decoder $(GSKI_CFLAGS)
 
 lib_LTLIBRARIES = libski.la libskiui.la
 ENCODING_FILES = \
@@ -377,13 +380,13 @@ BUILT_SOURCES = \
 ski_SOURCES = \
 	main.c
 
-@HPUX_FALSE@ski_LDFLAGS = -all-static
+@HPUX_FALSE@ski_LDFLAGS = -all-static $(GSKI_LIBS)
 
 # on HPUX libtool does not work w/ -all-static
-@HPUX_TRUE@ski_LDFLAGS = -static
+@HPUX_TRUE@ski_LDFLAGS = -static $(GSKI_LIBS)
 
 # Debian wants everything to be dynamically linked
-@LINUX_TRUE@ski_LDFLAGS = 
+@LINUX_TRUE@ski_LDFLAGS = $(GSKI_LIBS)
 ski_LDADD = libskiui.la libski.la
 skiincludedir = $(includedir)/ski-$(SKI_MAJOR_VERSION).$(SKI_MINOR_VERSION)
 skiinclude_HEADERS = \
@@ -487,6 +490,7 @@ libskiui_la_SOURCES = \
 	cur.c \
 	ssX.c \
 	ssXDSD.c \
+	ssGtk.c \
 	asm.c \
 	version.c \
 	eparse.y \
@@ -545,7 +549,7 @@ libskiui_la_LDFLAGS = \
 	-release $(LT_RELEASE) \
 	-export-dynamic
 
-libskiui_la_LIBADD = $(X_INTERFACE_LIBS)
+libskiui_la_LIBADD = $(X_INTERFACE_LIBS) -lpthread
 EXTRA_DIST = \
 	exec_hd.c \
 	ia_decoder.c \
@@ -711,6 +715,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ssDDM.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ssDPrs.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ssDSym.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ssGtk.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ssX.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ssXDSD.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ssc.Plo@am__quote@
@@ -1184,9 +1189,9 @@ uninstall-info: uninstall-info-recursive
 	uninstall-libLTLIBRARIES uninstall-skiincludeHEADERS
 
 
-all-local: bski $(XSKI)
+all-local: bski $(XSKI) gski
 
-bski $(XSKI): ski
+bski $(XSKI) gski : ski
 	@rm -f $@; ln ski $@
 
 das_instr.c: das.awk $(encdir)/encoding.opcode \

@@ -19,7 +19,7 @@
 ##
 ##
 
-SUBDIRS=libltdl macros src doc testsuite
+SUBDIRS=libltdl macros src doc
 
 appdefaultsdir=$(libdir)/X11/app-defaults
 appdefaults_DATA=XSki
@@ -28,7 +28,8 @@ bin_SCRIPTS=ski-config
 
 BUILT_SOURCES=ski-config
 
-EXTRA_DIST=ski.spec.in XSki.freebsd XSki.hpux XSki.linux
+EXTRA_DIST=ski.spec.in XSki.freebsd XSki.hpux XSki.linux \
+	misc/bskinc misc/ia64fmt
 
 XSki:
 	@$(LN_S) $(srcdir)/XSki.$(HOST_OS) $@

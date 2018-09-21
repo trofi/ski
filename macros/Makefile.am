@@ -20,7 +20,6 @@
 ##
 
 MACROS = \
-	libtool.m4 \
 	aclocal-include.m4 \
 	compilers.m4
 

@@ -24,7 +24,7 @@ SUBDIRS= decoder encoder fake-xterm
 
 AM_CPPFLAGS= $(INCLTDL) $(X_CFLAGS) $(DWARF_CFLAGS) -I$(srcdir)/decoder \
 			 -I$(srcdir)/encoder -I$(top_builddir)/src/encoder \
-			 -I$(top_builddir)/src/decoder
+			 -I$(top_builddir)/src/decoder $(GSKI_CFLAGS)
 
 lib_LTLIBRARIES=libski.la libskiui.la
 
@@ -124,6 +124,8 @@ if LINUX
 # Debian wants everything to be dynamically linked
 ski_LDFLAGS = 
 endif
+
+ski_LDFLAGS+=$(GSKI_LIBS)
 
 ski_LDADD= libskiui.la libski.la
 
@@ -241,6 +243,7 @@ libskiui_la_SOURCES= \
 	cur.c \
 	ssX.c \
 	ssXDSD.c \
+	ssGtk.c \
 	asm.c \
 	version.c \
 	eparse.y \
@@ -299,7 +302,7 @@ libskiui_la_LDFLAGS = \
 	-release $(LT_RELEASE) \
 	-export-dynamic
 
-libskiui_la_LIBADD= $(X_INTERFACE_LIBS)
+libskiui_la_LIBADD= $(X_INTERFACE_LIBS) -lpthread
 
 EXTRA_DIST= \
 	exec_hd.c \
@@ -315,9 +318,9 @@ else
 XSKI=
 endif
 
-all-local: bski $(XSKI)
+all-local: bski $(XSKI) gski
 
-bski $(XSKI): ski
+bski $(XSKI) gski : ski
 	@rm -f $@; ln ski $@
 
 ## DERIVED sources rules:

@@ -43,8 +43,8 @@ AM_CONDITIONAL(FREEBSD, test "$HOST_OS" = freebsd)
 # Version number definitions
 #
 SKI_MAJOR_VERSION=1
-SKI_MINOR_VERSION=1
-SKI_MICRO_VERSION=3
+SKI_MINOR_VERSION=2
+SKI_MICRO_VERSION=4
 SKI_INTERFACE_AGE=0
 SKI_BINARY_AGE=0
 SKI_RELEASE=gplv2
@@ -255,7 +255,7 @@ funcs="strtoull __strtoull"
 # autoheader happy.
 if test "yes" = "no"; then
     AC_CHECK_FUNCS(strtoull __strtoull)
-    AC_DEFINE(HAVE_SYS_SIGLIST, 1,
+    AC_DEFINE(HAVE_SYS_SIGIST, 1,
               [Define if you have the sys_siglist variable.] )
 fi
 # Check for $vars
@@ -433,6 +433,10 @@ AC_SUBST(encdir)
 dnl Links
 #AC_CONFIG_LINKS([src/syscall-hpux.c:src/syscall.c])
 #AC_CONFIG_LINKS([src/dwarf-hpux.c:src/dwarf.c])
+
+PKG_CHECK_MODULES(GSKI, libglade-2.0 libgnomeui-2.0 >= 1.110.0)
+AC_SUBST(GSKI_CFLAGS)
+AC_SUBST(GSKI_LIBS)
 
 dnl Configuration files
 AC_CONFIG_FILES([ski.spec])

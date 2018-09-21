@@ -48,8 +48,8 @@ CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 SOURCES =
 DIST_SOURCES =
-manmdir = $(mandir)/manm
-am__installdirs = "$(DESTDIR)$(manmdir)"
+man1dir = $(mandir)/man1
+am__installdirs = "$(DESTDIR)$(man1dir)"
 NROFF = nroff
 MANS = $(man_MANS)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -91,6 +91,8 @@ FREEBSD_FALSE = @FREEBSD_FALSE@
 FREEBSD_TRUE = @FREEBSD_TRUE@
 GPERF = @GPERF@
 GREP = @GREP@
+GSKI_CFLAGS = @GSKI_CFLAGS@
+GSKI_LIBS = @GSKI_LIBS@
 HOST_OS = @HOST_OS@
 HPUX_FALSE = @HPUX_FALSE@
 HPUX_TRUE = @HPUX_TRUE@
@@ -130,6 +132,7 @@ PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PAGER = @PAGER@
 PATH_SEPARATOR = @PATH_SEPARATOR@
+PKG_CONFIG = @PKG_CONFIG@
 RANLIB = @RANLIB@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
@@ -198,8 +201,8 @@ sharedstatedir = @sharedstatedir@
 subdirs = @subdirs@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
-man_MANS = ski.man
-EXTRA_DIST = $(man_MANS) ski-notes.html perf-changes.txt
+man_MANS = ski.1
+EXTRA_DIST = $(man_MANS) ski-notes.html perf-changes.txt ski-manual-v1.0.pdf
 all: all-am
 
 .SUFFIXES:
@@ -242,14 +245,14 @@ clean-libtool:
 distclean-libtool:
 	-rm -f libtool
 uninstall-info-am:
-install-manm: $(manm_MANS) $(man_MANS)
+install-man1: $(man1_MANS) $(man_MANS)
 	@$(NORMAL_INSTALL)
-	test -z "$(manmdir)" || $(mkdir_p) "$(DESTDIR)$(manmdir)"
-	@list='$(manm_MANS) $(dist_manm_MANS) $(nodist_manm_MANS)'; \
+	test -z "$(man1dir)" || $(mkdir_p) "$(DESTDIR)$(man1dir)"
+	@list='$(man1_MANS) $(dist_man1_MANS) $(nodist_man1_MANS)'; \
 	l2='$(man_MANS) $(dist_man_MANS) $(nodist_man_MANS)'; \
 	for i in $$l2; do \
 	  case "$$i" in \
-	    *.m*) list="$$list $$i" ;; \
+	    *.1*) list="$$list $$i" ;; \
 	  esac; \
 	done; \
 	for i in $$list; do \
@@ -257,35 +260,35 @@ install-manm: $(manm_MANS) $(man_MANS)
 	  else file=$$i; fi; \
 	  ext=`echo $$i | sed -e 's/^.*\\.//'`; \
 	  case "$$ext" in \
-	    m*) ;; \
-	    *) ext='m' ;; \
+	    1*) ;; \
+	    *) ext='1' ;; \
 	  esac; \
 	  inst=`echo $$i | sed -e 's/\\.[0-9a-z]*$$//'`; \
 	  inst=`echo $$inst | sed -e 's/^.*\///'`; \
 	  inst=`echo $$inst | sed '$(transform)'`.$$ext; \
-	  echo " $(INSTALL_DATA) '$$file' '$(DESTDIR)$(manmdir)/$$inst'"; \
-	  $(INSTALL_DATA) "$$file" "$(DESTDIR)$(manmdir)/$$inst"; \
+	  echo " $(INSTALL_DATA) '$$file' '$(DESTDIR)$(man1dir)/$$inst'"; \
+	  $(INSTALL_DATA) "$$file" "$(DESTDIR)$(man1dir)/$$inst"; \
 	done
-uninstall-manm:
+uninstall-man1:
 	@$(NORMAL_UNINSTALL)
-	@list='$(manm_MANS) $(dist_manm_MANS) $(nodist_manm_MANS)'; \
+	@list='$(man1_MANS) $(dist_man1_MANS) $(nodist_man1_MANS)'; \
 	l2='$(man_MANS) $(dist_man_MANS) $(nodist_man_MANS)'; \
 	for i in $$l2; do \
 	  case "$$i" in \
-	    *.m*) list="$$list $$i" ;; \
+	    *.1*) list="$$list $$i" ;; \
 	  esac; \
 	done; \
 	for i in $$list; do \
 	  ext=`echo $$i | sed -e 's/^.*\\.//'`; \
 	  case "$$ext" in \
-	    m*) ;; \
-	    *) ext='m' ;; \
+	    1*) ;; \
+	    *) ext='1' ;; \
 	  esac; \
 	  inst=`echo $$i | sed -e 's/\\.[0-9a-z]*$$//'`; \
 	  inst=`echo $$inst | sed -e 's/^.*\///'`; \
 	  inst=`echo $$inst | sed '$(transform)'`.$$ext; \
-	  echo " rm -f '$(DESTDIR)$(manmdir)/$$inst'"; \
-	  rm -f "$(DESTDIR)$(manmdir)/$$inst"; \
+	  echo " rm -f '$(DESTDIR)$(man1dir)/$$inst'"; \
+	  rm -f "$(DESTDIR)$(man1dir)/$$inst"; \
 	done
 tags: TAGS
 TAGS:
@@ -325,7 +328,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(MANS)
 installdirs:
-	for dir in "$(DESTDIR)$(manmdir)"; do \
+	for dir in "$(DESTDIR)$(man1dir)"; do \
 	  test -z "$$dir" || $(mkdir_p) "$$dir"; \
 	done
 install: install-am
@@ -376,7 +379,7 @@ install-exec-am:
 
 install-info: install-info-am
 
-install-man: install-manm
+install-man: install-man1
 
 installcheck-am:
 
@@ -398,18 +401,18 @@ ps-am:
 
 uninstall-am: uninstall-info-am uninstall-man
 
-uninstall-man: uninstall-manm
+uninstall-man: uninstall-man1
 
 .PHONY: all all-am check check-am clean clean-generic clean-libtool \
 	distclean distclean-generic distclean-libtool distdir dvi \
 	dvi-am html html-am info info-am install install-am \
 	install-data install-data-am install-exec install-exec-am \
-	install-info install-info-am install-man install-manm \
+	install-info install-info-am install-man install-man1 \
 	install-strip installcheck installcheck-am installdirs \
 	maintainer-clean maintainer-clean-generic mostlyclean \
 	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
 	uninstall uninstall-am uninstall-info-am uninstall-man \
-	uninstall-manm
+	uninstall-man1
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

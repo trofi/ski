@@ -135,6 +135,7 @@ do
             < libltdl/Makefile.am > libltdl/Makefile.am.new;
             rm -f libltdl/Makefile.am;
             mv libltdl/Makefile.am.new libltdl/Makefile.am
+	    cd libltdl; automake --add-missing; cd ..;
         fi
       fi
       echo "Running $ACLOCAL $aclocalinclude ..."

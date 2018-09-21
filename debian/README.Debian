@@ -1,8 +1,0 @@
-ski for Debian
------------------
-
-Ski is a CPU simulator for the ia64 architecture, derived from the
-work done with the ski simulator.  It is not a system simulator,
-so things like busses and IO are not handled in any way.
-
- -- Al Stone <ahs3@fc.hp.com>, Tue, 3 April 2007 11:42:17 -0700

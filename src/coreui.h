@@ -1,4 +1,4 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 4 -*-
+/* -*- Mode: C; tab-width: 8; indent-tab-mode: t; c-basic-offset: 4 -*-
  *
  * Simulator Core User Interface Header
  *
@@ -31,7 +31,7 @@
 #define RFT "016llx"
 
 typedef enum { ASM, MIXED, SRC } PrgwMode;
-typedef enum { BATCH = 0, X_INTERFACE, CURSES_INTERFACE } Interface;
+typedef enum { BATCH = 0, X_INTERFACE, CURSES_INTERFACE, GTK_INTERFACE } Interface;
 
 
 /*--------------------------------------------------------------------------
@@ -101,7 +101,7 @@ void regwDrawX(void);
 void regwUpdate(void);
 void regwUpdateCur(void);
 void regwUpdateX(void);
-
+void regwUpdateGtk(void);
 
 /*--------------------------------------------------------------------------
  *  Data window interface
@@ -122,9 +122,11 @@ char *dmembuf(unsigned datwSz);
 void datwDraw(void);
 void datwDrawCur(void);
 void datwDrawX(void);
+void datwDrawGtk(void);
 void datwUpdate(void);
 void datwUpdateCur(void);
 void datwUpdateX(void);
+void datwUpdateGtk(void);
 
 
 /*--------------------------------------------------------------------------
@@ -134,9 +136,11 @@ void datwUpdateX(void);
 void prgwDraw(void);
 void prgwDrawCur(void);
 void prgwDrawX(void);
+void prgwDrawGtk(void);
 void prgwUpdate(void);
 void prgwUpdateCur(void);
 void prgwUpdateX(void);
+void prgwUpdateGtk(void);
 void prgwPCRedraw(void);
 
 
@@ -150,15 +154,19 @@ void cmdErr(const char *, ...);
 void cmdWarn(const char *, ...);
 void cmdwUpdateCur(void);
 void cmdwUpdateX(void);
+void cmdwUpdateGtk(void);
 void cmdwSetStatus(const char *);
 void cmdwSetStatusCur(const char *);
 void cmdwSetStatusX(const char *);
+void cmdwSetStatusGtk(const char *);
 void cmdwPrint(const char *, ...);
 void cmdwPrintBatch(const char *);
 void cmdwPrintCur(const char *);
 void cmdwPrintX(const char *);
+void cmdwPrintGtk(const char *);
 void msgwPrint(const char *, ...);
 void msgwPrintX(const char *);
+void msgwPrintGtk(const char *);
 
 void cleanup_execLoop(BOOL showIrate);
 
@@ -166,6 +174,7 @@ void stepUntil_setupX(const char *expr);
 BOOL stepUntil_loopX(CTR delay, REG val, const char *expr);
 
 void stepIt_setupX(CTR cnt);
+void stepIt_setupGtk(CTR cnt);
 
 void runIt_setupX(void);
 
@@ -180,20 +189,25 @@ void scrnInit(void);
 void scrnInitBatch(void);
 void scrnInitCur(void);
 void scrnInitX(void);
+void scrnInitGtk(void);
 void scrnUpdate(void);
 void scrnRedrawCur(void);
 void scrnRedrawX(void);
+void scrnRedrawGtk(void);
 void scrnEnd(void);
 void scrnEndCur(void);
 void scrnEndX(void);
+void scrnEndGtk(void);
 
 void cmdOutBatch(const char *hdr, const char *buf);
 void cmdOutCur(const char *hdr, const char *buf);
 void cmdOutX(const char *name, const char *hdr, const char *buf);
+void cmdOutGtk(const char *name, const char *hdr, const char *buf);
 void cmdLoop(void);
 void cmdLoopBatch(void);
 void cmdLoopCur(void);
 void cmdLoopX(void);
+void cmdLoopGtk(void);
 
 /*--------------------------------------------------------------------------
  *  DWARF stuff

@@ -388,6 +388,9 @@ static void stepIt(CTR cnt)
 		     "Sorry, MOTIF support has not been compiled in.\n");
 	    exit (-1);
 #endif
+        case GTK_INTERFACE:
+	    stepIt_setupGtk(cnt);
+	    break;
 	case CURSES_INTERFACE:
 	case BATCH:
 	    (void)stepIt_loop(cnt);
@@ -458,6 +461,9 @@ void runIt(BOOL showIrate)
 		     "Sorry, MOTIF support has not been compiled in.\n");
 	    exit (-1);
 #endif
+        case GTK_INTERFACE:
+	    runIt_setupGtk();
+	    break;
 	case CURSES_INTERFACE:
 	case BATCH:
 	    (void)runIt_loop();
