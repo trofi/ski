@@ -9,6 +9,9 @@
 	initConsole().
 	* src/: from Ian Wienand -- various changes and additions to
 	get a GTK interface working.
+	* src/linux/syscall-linux.c: from David Mosberger -- repair problem
+	with user-level simulation and newer glibc's so ski will run code
+	again.
 
 2007-08-12  Al Stone <ahs3@debian.org>
 

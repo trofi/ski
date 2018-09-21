@@ -3117,7 +3117,7 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
 	{
 	  strcpy (&((struct utsname *)buf)->machine[0], "ia64");
 	  /* new glibc's check for this: */
-	  strcpy (&((struct utsname *)buf)->release[0], "2.4.0");
+	  strcpy (&((struct utsname *)buf)->release[0], "2.6.23");
 	  memBBWrt_alloc (ADDPTR (arg0), buf, sizeof (struct utsname));
 	}
       setStatReturn (ret, status);
