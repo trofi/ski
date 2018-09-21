@@ -43,8 +43,8 @@ AM_CONDITIONAL(FREEBSD, test "$HOST_OS" = freebsd)
 # Version number definitions
 #
 SKI_MAJOR_VERSION=1
-SKI_MINOR_VERSION=2
-SKI_MICRO_VERSION=6
+SKI_MINOR_VERSION=3
+SKI_MICRO_VERSION=1
 SKI_INTERFACE_AGE=0
 SKI_BINARY_AGE=0
 SKI_RELEASE=gplv2
@@ -116,86 +116,44 @@ YFLAGS=-d
 AC_SUBST(YFLAGS)
 
 dnl Initialize libtool
-AC_CONFIG_SUBDIRS(libltdl)
 AC_LIBTOOL_DLOPEN
-AC_LIBLTDL_CONVENIENCE
+
 AM_PROG_LIBTOOL
-AC_SUBST(LIBLTDL)
-AC_SUBST(INCLTDL)
+
+# build ltdl.o in src
+AC_LIB_LTDL
 
 dnl Initialize maintainer mode
 AM_MAINTAINER_MODE
 
-dnl ****************************************************************
-dnl Due to severe bit-rot, and a lack of support for Motif, I have
-dnl simply turned off building the X11 GUI for ski.  At some point,
-dnl should someone decide they _want_ an X11 GUI, they'll need to
-dnl rewrite/refurbish those parts of ski.  Most people tend to use
-dnl the ncurses interface, so this should not be much of an issue.
-dnl
-dnl dnl Check for X11 libraries
-dnl AC_PATH_X
-dnl AC_PATH_XTRA
-dnl 
-dnl if test "x$have_x" = xyes; then
-dnl dnl Check for Motif
-dnl save_CPPFLAGS=$CPPFLAGS
-dnl save_CFLAGS=$CFLAGS
-dnl save_LIBS=$LIBS
-dnl CPPFLAGS="$CPPFLAGS $X_CFLAGS"
-dnl CFLAGS="$CFLAGS $X_CFLAGS"
-dnl LIBS="$LIBS $X_LIBS $X_PRE_LIBS -lXext -lX11 $X_EXTRA_LIBS"
-dnl 
-dnl AC_CHECK_HEADER(Xm/Xm.h, have_Xm_h=yes)
-dnl if test "x$have_Xm_h" = xyes; then
-dnl     AC_CHECK_LIB(Xt, XtSetSubvalue, MOTIF_LIBS="-lXt $MOTIF_LIBS",
-dnl 		     have_libXt=no)
-dnl     if test "x$have_libXt" = xno; then
-dnl         # Xt might depend on libpthread (for ProcessLock())
-dnl         AC_CHECK_LIB(pthread, pthread_mutex_init, have_libpthread=yes)
-dnl         if test "x$have_libpthread" = xyes; then
-dnl             # try Xt again w/ -lpthread
-dnl             AC_CHECK_LIB(Xt, XtRealloc,
-dnl                 MOTIF_LIBS="-lXt -lpthread $MOTIF_LIBS",,-lpthread)
-dnl         fi
-dnl     fi
-dnl     AC_CHECK_LIB(Xp, XpQueryExtension, MOTIF_LIBS="-lXp $MOTIF_LIBS",, \
-dnl 		     $MOTIF_LIBS)
-dnl     AC_CHECK_LIB(Xm, XmStringFree, have_libXm=yes,, $MOTIF_LIBS)
-dnl     if test "x$have_libXm" = xyes; then
-dnl         MOTIF_LIBS="-lXm $MOTIF_LIBS"
-dnl     	AC_DEFINE(HAVE_MOTIF, 1, [define if you have motif])
-dnl 	    X_INTERFACE_LIBS='$(X_LIBS) $(X_PRE_LIBS) -lXext -lX11 $(X_EXTRA_LIBS)'
-dnl 	    X_INTERFACE_LIBS="$MOTIF_LIBS $X_INTERFACE_LIBS"
-dnl 	    AC_SUBST(X_INTERFACE_LIBS)
-dnl     fi
-dnl 
-dnl dnl Check for Lesstif
-dnl     AC_MSG_CHECKING(for Lesstif)
-dnl     AC_EGREP_CPP(yes,
-dnl [#include <Xm/Xm.h>
-dnl #ifdef LESSTIF_VERSION
-dnl yes
-dnl #endif
-dnl ], have_lesstif=yes, have_lesstif=no)
-dnl     AC_MSG_RESULT($have_lesstif)
-dnl     if test "x$have_lesstif" = xyes; then
-dnl         AC_DEFINE(HAVE_LESSTIF, 1, [define if you have lesstif])
-dnl     fi
-dnl fi
-dnl 
-dnl CPPFLAGS=$save_CPPFLAGS
-dnl CFLAGS=$save_CFLAGS
-dnl LIBS=$save_LIBS
-dnl fi # with_x = yes
-dnl AM_CONDITIONAL(WITH_X_INTERFACE, test "x$have_libXm" = "xyes")
+dnl See if we build X11
+AC_ARG_WITH(x11,
+AC_HELP_STRING([--with-x11],
+    [Enable the Motif based X11 interface default=no]),
+    [with_x11=yes],[with_x11=no])
+  
+if test "x$with_x11" = "xyes"; then
+  dnl Check for motif, error out if not found
+  AC_WITH_MOTIF
+fi
+# either way we need to set these
+AM_CONDITIONAL(WITH_X_INTERFACE, test "x$with_x11" = "xyes")
+AC_SUBST(X_INTERFACE_LIBS)
+  
+dnl See if we build GTK
+AC_ARG_WITH(gtk,
+AC_HELP_STRING([--with-gtk],
+    [Enable building the GTK Ski interface default=no]),
+    [with_gtk=yes],[with_gtk=no]
+)
 
-dnl remove this chunk when X11 is turned back on
-AC_DEFINE(HAVE_LESSTIF, 0, [define if you have lesstif])
-AM_CONDITIONAL(WITH_X_INTERFACE, 0)
-
-dnl end of removed section for taking out X11
-dnl ****************************************************************
+if test "x$with_gtk" = "xyes"; then
+ PKG_CHECK_MODULES([GSKI], [libglade-2.0 libgnomeui-2.0 >= 1.110.0])
+ AC_DEFINE(HAVE_GTK, 1, [define if you have GTK support])
+fi
+AC_SUBST(GSKI_CFLAGS)
+AC_SUBST(GSKI_LIBS)
+AM_CONDITIONAL(WITH_GTK_INTERFACE, test "x$with_gtk" = "xyes")
 
 dnl Target endianness
 AC_ARG_ENABLE(bigendian,
@@ -433,10 +391,6 @@ AC_SUBST(encdir)
 dnl Links
 #AC_CONFIG_LINKS([src/syscall-hpux.c:src/syscall.c])
 #AC_CONFIG_LINKS([src/dwarf-hpux.c:src/dwarf.c])
-
-PKG_CHECK_MODULES(GSKI, libglade-2.0 libgnomeui-2.0 >= 1.110.0)
-AC_SUBST(GSKI_CFLAGS)
-AC_SUBST(GSKI_LIBS)
 
 dnl Configuration files
 AC_CONFIG_FILES([ski.spec])

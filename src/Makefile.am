@@ -24,9 +24,10 @@ SUBDIRS= decoder encoder fake-xterm
 
 AM_CPPFLAGS= $(INCLTDL) $(X_CFLAGS) $(DWARF_CFLAGS) -I$(srcdir)/decoder \
 			 -I$(srcdir)/encoder -I$(top_builddir)/src/encoder \
-			 -I$(top_builddir)/src/decoder $(GSKI_CFLAGS)
+			 -I$(top_builddir)/src/decoder $(GSKI_CFLAGS) \
+			 -DSKI_DATA_DIR=\"$(pkgdatadir)\"
 
-lib_LTLIBRARIES=libski.la libskiui.la
+lib_LTLIBRARIES=libski.la
 
 bin_PROGRAMS= ski
 
@@ -56,6 +57,10 @@ noinst_DATA= \
 	execTbl \
 	$(ENCODING_FILES) \
 	Copyright
+
+gskidir= $(datadir)/ski
+gski_DATA= \
+	gski.glade
 
 COMBFNS_FILES= \
 	exec.c \
@@ -125,9 +130,7 @@ if LINUX
 ski_LDFLAGS = 
 endif
 
-ski_LDFLAGS+=$(GSKI_LIBS)
-
-ski_LDADD= libskiui.la libski.la
+ski_LDADD= libski.la -ldl
 
 skiincludedir= $(includedir)/ski-$(SKI_MAJOR_VERSION).$(SKI_MINOR_VERSION)
 skiinclude_HEADERS= \
@@ -138,7 +141,7 @@ skiinclude_HEADERS= \
 	fields.h \
 	libcore.h \
 	libsym.h \
-	memory.h \
+	simmem.h \
 	os_support.h \
 	platform.h \
 	sim.h \
@@ -178,7 +181,8 @@ noinst_HEADERS= \
 	eparse.h \
 	libdas.h \
 	netdev.h \
-	osload.h
+	osload.h \
+	ltdl.h
 
 EXTRA_linux_FILES = \
 	linux/dwarf-linux.c \
@@ -222,7 +226,33 @@ else
 freebsd_FILES =
 endif
 
-libskiui_la_SOURCES= \
+libski_la_SOURCES= \
+	$(COMBFNS_DERIVED) \
+	$(PREDECODE_DERIVED) \
+	$(IAEXEC_DECODER_DERIVED) \
+	$(ICNT_DERIVED) \
+	state.c \
+	sim.c \
+	simmem.c \
+	float.c \
+	interruption.c \
+	tlb.c \
+	ia_read.c \
+	ia_exec.c \
+	ia_write.c \
+	dos.c \
+	memui.c \
+	trace.c \
+	libtrace.c \
+	impl.c \
+	os_support.c \
+	ski_hook.c \
+	instr.c \
+	$(NETDEV_C) \
+	$(linux_FILES) \
+	$(hpux_FILES) \
+	$(freebsd_FILES) \
+	libsym.c \
 	$(ASM_HASH_DERIVED) \
 	$(IADAS_DECODER_DERIVED) \
 	$(IADAS_TYPES_DERIVED) \
@@ -249,43 +279,16 @@ libskiui_la_SOURCES= \
 	eparse.y \
 	escan.l \
 	load.c \
+	ltdl.c \
 	platform.c \
 	libdas.c \
 	libsrs.c
-
-libski_la_SOURCES= \
-	$(COMBFNS_DERIVED) \
-	$(PREDECODE_DERIVED) \
-	$(IAEXEC_DECODER_DERIVED) \
-	$(ICNT_DERIVED) \
-	state.c \
-	sim.c \
-	memory.c \
-	float.c \
-	interruption.c \
-	tlb.c \
-	ia_read.c \
-	ia_exec.c \
-	ia_write.c \
-	dos.c \
-	memui.c \
-	trace.c \
-	libtrace.c \
-	impl.c \
-	os_support.c \
-	ski_hook.c \
-	instr.c \
-	$(NETDEV_C) \
-	$(linux_FILES) \
-	$(hpux_FILES) \
-	$(freebsd_FILES) \
-	libsym.c
 
 EXTRA_libski_la_SOURCES = \
 	$(EXTRA_linux_FILES) \
 	$(EXTRA_hpux_FILES) \
 	$(EXTRA_freebsd_FILES) \
-	netdev.c
+	netdev.c 
 
 libski_la_LDFLAGS = \
 	-thread-safe -no-undefined \
@@ -294,21 +297,14 @@ libski_la_LDFLAGS = \
 	-export-dynamic
 
 libski_la_LIBADD= encoder/libencoder.la decoder/libdecoder.la $(LIBLTDL) \
-	$(DWARF_LIBS)
-
-libskiui_la_LDFLAGS = \
-	-thread-safe -no-undefined \
-	-version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE) \
-	-release $(LT_RELEASE) \
-	-export-dynamic
-
-libskiui_la_LIBADD= $(X_INTERFACE_LIBS) -lpthread
+	$(DWARF_LIBS) $(GSKI_LIBS)
 
 EXTRA_DIST= \
 	exec_hd.c \
 	ia_decoder.c \
 	missing/ski_elf.h \
 	$(COMBFNS_FILES) \
+	$(gski_DATA) \
 	$(noinst_DATA) \
 	$(noinst_SCRIPTS)
 
@@ -318,9 +314,15 @@ else
 XSKI=
 endif
 
-all-local: bski $(XSKI) gski
+if WITH_GTK_INTERFACE
+GSKI= gski
+else
+GSKI=
+endif
 
-bski $(XSKI) gski : ski
+all-local: bski $(XSKI) $(GSKI)
+
+bski $(XSKI) $(GSKI) : ski
 	@rm -f $@; ln ski $@
 
 ## DERIVED sources rules:
@@ -397,4 +399,4 @@ instr.c: $(encdir)/encoding.opcode \
 eparse.h: eparse.c
 
 distclean-local:
-	-rm -f $(XSKI) bski $(BUILT_SOURCES)
+	-rm -f $(XSKI) $(GSKI) bski $(BUILT_SOURCES)

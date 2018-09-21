@@ -66,10 +66,10 @@
 #include "fields.h"
 #include "state.h"
 #include "ssc.h"
-#include "sim.h"	/* For Status used in memory.h & progExit; preInst */
+#include "sim.h"	/* For Status used in simmem.h & progExit; preInst */
 #include "libcore.h"
 #include "os_support.h"
-#include "memory.h"
+#include "simmem.h"
 #include "lp64struct.h"
 #include "libui.h"
 

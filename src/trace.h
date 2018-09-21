@@ -128,7 +128,7 @@ do {									\
     (void)traceWrite(tracef, &irpt_trec);				\
 } while (0)
 
-/* Used in memory.c */
+/* Used in simmem.c */
 #define WRT_DOFFSET_TR(adr,typ,sz)					\
 do {									\
     doffset_trec.doffset = adr;						\

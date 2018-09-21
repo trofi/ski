@@ -36,7 +36,7 @@
 #include "exportui.h"
 #include "coreui.h"
 #include "libsym.h"
-#include "memory.h"
+#include "simmem.h"
 #include "tlb.h"
 
 #if 0

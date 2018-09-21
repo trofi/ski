@@ -61,7 +61,7 @@ extern int localtime_r(const __time_t *, __struct_tm *);
 #include "fields.h"
 #include "state.h"
 #include "sim.h"	/* just for Status & progExit */
-#include "memory.h"
+#include "simmem.h"
 #include "ia_types.h"
 #include "ia_state.h"
 #include "ia_exec.h"

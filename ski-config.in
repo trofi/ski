@@ -80,5 +80,5 @@ if test "$echo_ldflags" = "yes"; then
     echo -L@libdir@
 fi
 if test "$echo_libs" = "yes"; then
-    echo -lskiui -lski
+    echo -lski
 fi

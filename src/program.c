@@ -42,7 +42,7 @@
 #include "ia_decoder.h"
 #include "ia_exec.h"
 #include "state.h"
-#include "memory.h"
+#include "simmem.h"
 
 static char instPtr(ADDR addr, char *dline);
 static IAinstInfoPtr addrToIAinfo(ADDR adr, BYTE iAmode, unsigned *nbytes);

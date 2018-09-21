@@ -389,7 +389,12 @@ static void stepIt(CTR cnt)
 	    exit (-1);
 #endif
         case GTK_INTERFACE:
+#ifdef HAVE_GTK
 	    stepIt_setupGtk(cnt);
+#else
+	    fprintf (stderr,
+		     "Sorry, GTK support has not been compiled in.\n");
+#endif
 	    break;
 	case CURSES_INTERFACE:
 	case BATCH:
@@ -462,8 +467,14 @@ void runIt(BOOL showIrate)
 	    exit (-1);
 #endif
         case GTK_INTERFACE:
+#ifdef HAVE_GTK
 	    runIt_setupGtk();
 	    break;
+#else
+	    fprintf (stderr,
+		     "Sorry, GTK support has not been compiled in.\n");
+	    exit(-1);
+#endif
 	case CURSES_INTERFACE:
 	case BATCH:
 	    (void)runIt_loop();

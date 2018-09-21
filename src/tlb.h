@@ -22,7 +22,7 @@
 #ifndef _SKI_TLB_H_
 #define	_SKI_TLB_H_
 
-#include "memory.h"
+#include "simmem.h"
 
 #define NDTRS	 16
 #define NITRS	 16

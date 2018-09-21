@@ -30,7 +30,7 @@
 #include "fields.h"
 #include "state.h"
 #include "sim.h"
-#include "memory.h"
+#include "simmem.h"
 #include "tlb.h"
 #include "interruption.h"
 

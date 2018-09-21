@@ -30,7 +30,7 @@
 #include "types.h"
 #include "fields.h"
 #include "sim.h"
-#include "memory.h"
+#include "simmem.h"
 #include "ia_types.h"
 #include "ia_exec.h"
 #include "ia_read.h"

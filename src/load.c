@@ -53,7 +53,7 @@
 #include "coreui.h"
 #include "lm.h"
 #include "sim.h"
-#include "memory.h"
+#include "simmem.h"
 #include "osload.h"
 
 #if defined(__FreeBSD__)
@@ -91,8 +91,8 @@ static REG psrval = 0;
 
 extern void addLM (const char*, Elf64_Phdr*, int, ADDR, int);
 
-extern char *sim_root;
-extern size_t sim_root_len;
+char *sim_root = NULL;
+size_t sim_root_len = 0;
 
 /*##################### Globals - Exports ##################################*/
 
@@ -737,7 +737,9 @@ static BOOL interp(int fd, off_t offset, unsigned sz)
     ADDR rtld_text, rtld_data = 0, unwind_base = 0;
     unsigned char class;
 
-    strncpy(buffer, sim_root, sizeof(buffer));
+    memset(buffer, 0, sizeof(buffer));
+    if (sim_root)
+    	strncpy(buffer, sim_root, sizeof(buffer));
     buffer[sizeof(buffer) - 1] = 0;
     interpName = buffer + sim_root_len;
 

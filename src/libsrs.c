@@ -30,7 +30,7 @@
 #include "types.h"
 #include "state.h"
 #include "sim.h"
-#include "memory.h"
+#include "simmem.h"
 #include "libsrs.h"
 #include "libcore.h"
 #include "libui.h"

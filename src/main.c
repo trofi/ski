@@ -73,8 +73,8 @@ extern BOOL trace_syscalls;
 #define	DEFAULT_SIM_ROOT	""
 #endif
 
-char *sim_root = NULL;
-size_t sim_root_len;
+extern char *sim_root;
+extern size_t sim_root_len;
 
 static char *progname;
 char *fileName;

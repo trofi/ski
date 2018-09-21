@@ -29,7 +29,7 @@
 #include "fields.h"
 #include "state.h"
 #include "sim.h"
-#include "memory.h"
+#include "simmem.h"
 #include "ia_types.h"
 #include "ia_state.h"
 #include "ia_exec.h"

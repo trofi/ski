@@ -449,7 +449,7 @@ BOOL cmdLoad(unsigned argc, char *argv[])
     }
 #endif
     if (!elfLoad(argv[0], argc, argv)) {
-	fprintf(stderr, "Could not open %s for reading\n", argv[0]);
+	fprintf(stderr, "Could not load ELF file: %s\n", argv[0]);
 	return NO;
     }
     initAppState(0);

@@ -86,7 +86,7 @@
 #include "asm.h"
 #include "lm.h"
 #include "state.h"
-#include "memory.h"
+#include "simmem.h"
 
 #if 0
 #include "ssDefs.h"

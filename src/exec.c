@@ -29,7 +29,7 @@
 #include "fields.h"
 #include "state.h"
 #include "sim.h"
-#include "memory.h"
+#include "simmem.h"
 
 Status addEx(INSTINFO *info)
 {

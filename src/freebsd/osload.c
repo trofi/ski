@@ -30,7 +30,7 @@
 #include "fields.h"
 #include "libcore.h"
 #include "sim.h"
-#include "memory.h"
+#include "simmem.h"
 
 extern char **environ;
 

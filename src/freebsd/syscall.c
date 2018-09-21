@@ -42,7 +42,7 @@
 #include "types.h"
 #include "sim.h"
 #include "state.h"
-#include "memory.h"
+#include "simmem.h"
 #include "libsrs.h"
 #include "libcore.h"
 #include "os_support.h"

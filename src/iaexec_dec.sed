@@ -1,7 +1,7 @@
 /undef MAX/a\
 #undef PAGESIZE
 /"sim\.h"/a\
-#include "memory.h"\
+#include "simmem.h"\
 #include "ia_types.h"
 /"ia_exec\.h"/a\
 #include "ia_read.h"\

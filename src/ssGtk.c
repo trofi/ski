@@ -22,6 +22,8 @@
 
 #include "std.h"
 
+#ifdef HAVE_GTK
+
 #include "types.h"
 #include "exportui.h"
 #include "coreui.h"
@@ -45,8 +47,15 @@
 
 /* file globals */
 static GladeXML *xml;
-unsigned nproc = 1;
-extern unsigned cproc; /* from ssX.c, can't define again */
+
+/* both these from ssX.c, can't define again if we build it in */
+#if HAVE_MOTIF
+extern unsigned nproc;
+extern unsigned cproc;
+#else
+unsigned nproc;
+unsigned cproc;
+#endif
 
 /* program window */
 static GtkTextView *prgw_view;
@@ -584,7 +593,7 @@ void scrnInitGtk(void)
 
     gtk_init(NULL, NULL);
 
-    xml = glade_xml_new("gski.glade", NULL, NULL);
+    xml = glade_xml_new(SKI_DATA_DIR "/gski.glade", NULL, NULL);
 
     /* connect signal handlers */
     glade_xml_signal_autoconnect(xml);
@@ -637,3 +646,6 @@ void cmdLoopGtk(void)
 	printf("*** cmdLoopGtk\n");
 	gtk_main();
 }
+
+#endif /* !HAVE_GTK */
+

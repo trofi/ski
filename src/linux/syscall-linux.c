@@ -82,7 +82,7 @@
 #include "state.h"
 #include "ssc.h"
 #include "sim.h"
-#include "memory.h"
+#include "simmem.h"
 #include "libui.h"
 #include "float.h"
 #include "hpux/syscall-hpux.h"

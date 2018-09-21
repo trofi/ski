@@ -29,7 +29,7 @@
 #include "state.h"
 #include "sim.h"
 #include "libcore.h"
-#include "memory.h"
+#include "simmem.h"
 #include "libsym.h"
 #include "interruption.h"
 #include "ia_types.h"

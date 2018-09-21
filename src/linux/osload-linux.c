@@ -28,7 +28,7 @@
 #include "state.h"
 #include "libcore.h"
 #include "sim.h"
-#include "memory.h"
+#include "simmem.h"
 #include "fields.h"
 
 extern char **environ;

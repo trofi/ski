@@ -19,7 +19,7 @@
 ##
 ##
 
-SUBDIRS=libltdl macros src doc
+SUBDIRS=macros src doc
 
 appdefaultsdir=$(libdir)/X11/app-defaults
 appdefaults_DATA=XSki
@@ -55,6 +55,31 @@ distclean-hook:
 dist-hook: ski.spec
 	cp ski.spec $(distdir)
 
+install-exec-hook:
+	$(LN_S) -f ski $(DESTDIR)/$(bindir)/bski;
+	$(LN_S) -f ski.1 $(DESTDIR)/$(mandir)/man1/bski.1;
+	$(LN_S) -f ski $(DESTDIR)/$(bindir)/bskinc;
+	$(LN_S) -f ski.1 $(DESTDIR)/$(mandir)/man1/bskinc.1;
+if WITH_X_INTERFACE
+	$(LN_S) -f ski $(DESTDIR)/$(bindir)/xski;
+	$(LN_S) -f ski.1 $(DESTDIR)/$(mandir)/man1/xski.1;
+endif
+if WITH_GTK_INTERFACE
+	$(LN_S) -f ski $(DESTDIR)/$(bindir)/gski
+	$(LN_S) -f ski.1 $(DESTDIR)/$(mandir)/man1/gski.1
+endif	
+
+install-exec-hook:
+	$(LN_S) -f ski $(DESTDIR)/$(bindir)/xski;  
+	$(LN_S) -f ski.1 $(DESTDIR)/$(mandir)/man1/xski.1; \
+	$(LN_S) -f ski $(DESTDIR)/$(bindir)/bski;  \
+	$(LN_S) -f ski.1 $(DESTDIR)/$(mandir)/man1/bski.1; \
+	$(LN_S) -f ski $(DESTDIR)/$(bindir)/bskinc;\
+	$(LN_S) -f ski.1 $(DESTDIR)/$(mandir)/man1/bskinc.1; \
+	$(LN_S) -f ski $(DESTDIR)/$(bindir)/gski; \
+	$(LN_S) -f ski.1 $(DESTDIR)/$(mandir)/man1/gski.1;
+
+
 rpm: $(PACKAGE).spec dist
 	build_dir=`cd .; pwd` ; \
 	rpm --define "_topdir $$build_dir"   --define "_sourcedir $$build_dir" \
@@ -62,15 +87,3 @@ rpm: $(PACKAGE).spec dist
 	   --define "_rpmdir $$build_dir"    --define "_target_cpu @host_cpu@" \
 	   -ba --clean $(PACKAGE).spec
 
-pubdist: src/ski
-	mkdir -p usr/bin usr/man/man1 usr/X11R6/lib/X11/app-defaults;	     \
-	cp ../../XSki usr/X11R6/lib/X11/app-defaults;			     \
-	ln -s ski.1 usr/man/man1/xski.1;				     \
-	ln -s ski.1 usr/man/man1/bskinc.1;			     \
-	objcopy --strip-all ../../src/ski usr/bin/ski;		     \
-	ln -s ski usr/bin/xski;					     \
-	ln -s ski usr/bin/bski;					     \
-	ln -s ski usr/bin/bskinc;					     \
-	cd ..;								     \
-	tar czf								     \
-	  ../$(PACKAGE)-$(SKI_VERSION)-$(SKI_RELEASE)-`uname -m`.tar.gz .

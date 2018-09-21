@@ -31,7 +31,7 @@
 #include "float.h"
 #include "sim.h"
 #include "combfns.h"
-#include "memory.h"
+#include "simmem.h"
 #include "tlb.h"
 #include "instinfo.h"
 #include "sign_ext.h"
