@@ -72,7 +72,6 @@
 #include <sys/uio.h>
 
 #include <linux/serial.h>
-#include <asm/page.h>
 #include <asm/unistd.h>
 
 #include "std.h"
