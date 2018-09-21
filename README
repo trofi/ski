@@ -1,13 +1,23 @@
 General Information
 ===================
 
-This is ski version 1.1.1
+This is ski: an ia64 instruction set simulator
 
-The official Ski web site is:
+This repository is a fork of:
   http://ski.sourceforge.net
-
 
 Installation
 ============
 
 See the file 'INSTALL'
+
+
+Fork-specific notes
+===================
+
+The goal of this fork is to keep ski running on modern
+systems. This include but is not limited to:
+
+- pulling in downstream distribution patches
+- updating dynamic translator code to work on
+  modern linux
