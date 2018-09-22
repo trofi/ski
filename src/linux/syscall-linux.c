@@ -1711,6 +1711,28 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
       setStatReturn (ret, status);
       break;
 
+    case LIA64_openat:
+      simroot(ADDPTR(arg1), buf, arg2 & O_CREAT);
+      *status = openat (arg0, (char *)buf, arg2, arg3);
+      if ((int)*status != -1) {
+#ifdef HOST_MAP
+	int simfd;
+
+	for (simfd = 0; simfd < FDMAX; simfd++)
+	  if (fdmap[simfd] == -1)
+	    break;
+	fdInfo[simfd].name = strdup (buf);
+	fdInfo[simfd].oflag = arg2;
+	fdInfo[simfd].mode = arg3;
+	fdmap[simfd] = *status;
+	*status = simfd;
+#else
+	*status = fdmap_alloc (*status);
+#endif
+      }
+      setStatReturn (ret, status);
+      break;
+
     case SYS_CLOSE:
     case LIA64_close:
       CHECK_FD (arg0);
