@@ -391,7 +391,7 @@ static Elf *elfOpen(const char *file_name, FILE *errf, int *fd, int how,
 
 	if (!os_elf64_abi(ident, ehdr, (how == EO_EXEC))) {
 	    if (errf)
-		(void)fprintf(stderr, "%s - unsupported ABI\n", file_name);
+		(void)fprintf(stderr, "%s - unsupported ELF64 ABI\n", file_name);
 	    elfClose(elfptr, *fd);
 	    return NO;
 	}
@@ -433,7 +433,7 @@ static Elf *elfOpen(const char *file_name, FILE *errf, int *fd, int how,
 
 	if (!os_elf32_abi(ident, ehdr, (how == EO_EXEC))) {
 	    if (errf)
-		(void)fprintf(stderr, "%s - unsupported ABI\n", file_name);
+		(void)fprintf(stderr, "%s - unsupported ELF32 ABI\n", file_name);
 	    elfClose(elfptr, *fd);
 	    return NO;
 	}
