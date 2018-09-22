@@ -48,8 +48,9 @@ os_elf64_abi(char *ident, Elf64_Ehdr *ehdr, int set)
 	extern BOOL force_user, force_system;
 	int region, userland;
 
-	if (ident[EI_OSABI] != ELFOSABI_SYSV)
+	if (ident[EI_OSABI] != ELFOSABI_SYSV && ident[EI_OSABI] != ELFOSABI_LINUX) {
 		return (0);
+	}
 
 	region = ehdr->e_entry >> 61;
 	userland = !force_system &&
