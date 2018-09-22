@@ -3114,8 +3114,10 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
       if ((int) *status == 0)
 	{
 	  strcpy (&((struct utsname *)buf)->machine[0], "ia64");
-	  /* new glibc's check for this: */
-	  strcpy (&((struct utsname *)buf)->release[0], "2.6.23");
+	  /* New glibc's check for minimum kernel. Defined in glibc as:
+	   * sysdeps/unix/sysv/linux/ia64/configure.ac:arch_minimum_kernel=3.2.18
+	   */
+	  strcpy (&((struct utsname *)buf)->release[0], "3.2.18");
 	  memBBWrt_alloc (ADDPTR (arg0), buf, sizeof (struct utsname));
 	}
       setStatReturn (ret, status);
