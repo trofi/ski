@@ -29,7 +29,7 @@
 #include "platform.h"
 #include "state.h"
 
-BOOL autoAlloc, noConsole;
+extern BOOL autoAlloc, noConsole;
 extern char *consLog;
 extern unsigned va_len, pa_len, rid_len, key_len;
 extern unsigned mips;

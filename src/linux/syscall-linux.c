@@ -539,7 +539,7 @@ pid_t cons_pid = -1;
 static int cfd = -1;
 BOOL trace_syscalls;
 char *consLog = NULL;
-extern BOOL noConsole;
+BOOL noConsole;
 extern BOOL userint;
 static struct termios sane_ttyIos;
 
