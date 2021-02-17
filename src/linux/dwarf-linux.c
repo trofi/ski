@@ -116,14 +116,14 @@ find_in_section (bfd * bfd, asection * sect, PTR obj)
   /*
    * we're looking at loadable code only
    */
-  if ((bfd_get_section_flags (bfd, sect) & (SEC_CODE | SEC_ALLOC)) == 0)
+  if ((bfd_section_flags (sect) & (SEC_CODE | SEC_ALLOC)) == 0)
     return;
 
   /*
    * check if address belongs to this section
    */
-  vma = bfd_get_section_vma (bfd, sect);
-  size = bfd_section_size (bfd, sect);
+  vma = bfd_section_vma (sect);
+  size = bfd_section_size (sect);
 
   offset = info->address - vma;
   if (offset >= size)
