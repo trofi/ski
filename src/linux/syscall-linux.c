@@ -3066,6 +3066,24 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
       setStatReturn (ret, status);
       break;
 
+    case LIA64_newfstatat:
+      /* arg0: int fd
+         arg1: const char * filename
+         arg2: stat * statbuf
+         arg3: int flags
+      */
+      CHECK_FD (arg0);
+      memBBRd (ADDPTR (arg1), buf, 0);
+      *status = fstatat (fdmap[arg0], buf, &host_stat, arg3);
+      if ((int) *status != -1)
+	{
+	  stat_host2lia64 (&host_stat, &lia64_stat);
+	  memBBWrt_alloc (ADDPTR (arg2), (BYTE *) &lia64_stat,
+			  sizeof (lia64_stat));
+	}
+      setStatReturn (ret, status);
+      break;
+
     case LIA64_vhangup:
       *status = vhangup ();
       setStatReturn (ret, status);
