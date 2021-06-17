@@ -1923,6 +1923,11 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
       setStatReturn (ret, status);
       break;
 
+    case LIA64_gettid:
+      *status = gettid ();
+      setStatReturn (ret, status);
+      break;
+
     case LIA64_mount:
       memBBRd (ADDPTR (arg0), buf, 0);
       memBBRd (ADDPTR (arg1), buf1, 0);

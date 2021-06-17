@@ -110,7 +110,7 @@
 #define LIA64_setpriority		1102
 #define LIA64_statfs			1103
 #define LIA64_fstatfs			1104
-/* unused; used to be LIA64_ioperm */
+#define LIA64_gettid			1105
 #define LIA64_semget			1106
 #define LIA64_semop			1107
 #define LIA64_semctl			1108
