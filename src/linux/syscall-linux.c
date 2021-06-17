@@ -1994,6 +1994,11 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
       setStatReturn (ret, status);
       break;
 
+    case LIA64_tgkill:
+      *status = tgkill (arg0, arg1, arg2);
+      setStatReturn (ret, status);
+      break;
+
     case SYS_RENAME:
     case LIA64_rename:
       memBBRd (ADDPTR (arg0), buf, 0);
