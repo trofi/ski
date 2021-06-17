@@ -1968,7 +1968,7 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
     case SYS_ACCESS:
     case LIA64_access:
       simroot(ADDPTR(arg0), buf, 0);
-	  *status = access (buf, arg1);
+      *status = access (buf, arg1);
       setStatReturn (ret, status);
       break;
 
