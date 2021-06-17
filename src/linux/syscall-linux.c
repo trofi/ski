@@ -1972,6 +1972,12 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
       setStatReturn (ret, status);
       break;
 
+    case LIA64_faccessat:
+      simroot(ADDPTR(arg1), buf, 0);
+      *status = faccessat (fdmap[arg0], buf, arg2, arg3);
+      setStatReturn (ret, status);
+      break;
+
     case LIA64_sync:
       sync ();
       break;
