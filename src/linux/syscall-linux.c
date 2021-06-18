@@ -1924,7 +1924,7 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
       break;
 
     case LIA64_gettid:
-      *status = gettid ();
+      *status = syscall (SYS_gettid);
       setStatReturn (ret, status);
       break;
 
@@ -2001,7 +2001,7 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
       break;
 
     case LIA64_tgkill:
-      *status = tgkill (arg0, arg1, arg2);
+      *status = syscall (SYS_tgkill, arg0, arg1, arg2);
       setStatReturn (ret, status);
       break;
 
