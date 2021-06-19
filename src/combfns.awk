@@ -66,6 +66,15 @@ function copyfile(fname) {
     print "    BYTE cpl, traps, ctrls;" > CFILE
     print "    REG arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7;" > CFILE
     print "    REG scStatus, scRetval;\n" > CFILE
+    print "    /* suppress unused */" > CFILE
+    print "    (void)src1;(void)src2;(void)src3;(void)cntx;(void)dst1;(void)dst2;" > CFILE
+    print "    (void)srcnat1;(void)srcnat2;(void)srcnat3;(void)dstnat1;(void)dstnat2;" > CFILE
+    print "    (void)cmpres1;(void)cmpres2;(void)pdst1;(void)qual;" > CFILE
+    print "    (void)fsrc1;(void)fsrc2;(void)fsrc3;(void)fdst1;(void)fdst2;(void)syscallno;(void)st;" > CFILE
+    print "    (void)sofx;(void)soilx;(void)sorx;(void)posx;(void)lenx;(void)mhtypex;" > CFILE
+    print "    (void)cpl;(void)traps;(void)ctrls;" > CFILE
+    print "    (void)arg0;(void)arg1;(void)arg2;(void)arg3;(void)arg4;(void)arg5;(void)arg6;(void)arg7;" > CFILE
+    print "    (void)scStatus;(void)scRetval;" > CFILE
     copyfile(retfn)
     print "\treturn StSuccess;" > CFILE
     printf "    {\n" > CFILE
