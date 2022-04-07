@@ -67,8 +67,9 @@ unsigned frsqrta(const FREG *f1, FREG *ft, BOOL *pt, BYTE traps);
 unsigned fprsqrta(const FREG *f1, FREG *ft, BOOL *pt, BYTE traps);
 unsigned famax(FREG *f1, FREG *f2, FREG *ft, BYTE traps);
 unsigned famin(FREG *f1, FREG *f2, FREG *ft, BYTE traps);
-unsigned fmax(FREG *f1, FREG *f2, FREG *ft, BYTE traps);
-unsigned fmin(FREG *f1, FREG *f2, FREG *ft, BYTE traps);
+/* avoid collision with c99's fmin()/fmax() */
+unsigned fmax_(FREG *f1, FREG *f2, FREG *ft, BYTE traps);
+unsigned fmin_(FREG *f1, FREG *f2, FREG *ft, BYTE traps);
 unsigned fcvtfx(const FREG *f1, FREG *ft, BYTE traps, BYTE controls);
 unsigned fcvtfu(const FREG *f1, FREG *ft, BYTE traps, BYTE controls);
 unsigned fpcvtfx(const FREG *f1, FREG *ft, BYTE traps, BYTE controls);

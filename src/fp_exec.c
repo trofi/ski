@@ -378,7 +378,7 @@ Status fnmadEx(INSTINFO *info)
 
 Status fmaxEx(INSTINFO *info)
 {
-    DST1 = fmax(&FSRC1, &FSRC2, &FDST1, TRAPS);
+    DST1 = fmax_(&FSRC1, &FSRC2, &FDST1, TRAPS);
     if (DST1 & FP_FAULT) {
 	fpExceptionFault(DST1);
 	return StFault;
@@ -388,7 +388,7 @@ Status fmaxEx(INSTINFO *info)
 
 Status fminEx(INSTINFO *info)
 {
-    DST1 = fmin(&FSRC1, &FSRC2, &FDST1, TRAPS);
+    DST1 = fmin_(&FSRC1, &FSRC2, &FDST1, TRAPS);
     if (DST1 & FP_FAULT) {
 	fpExceptionFault(DST1);
 	return StFault;
@@ -971,12 +971,12 @@ Status fpmaxEx(INSTINFO *info)
 
 	FSRC1 = sgl2freg(WD0(val1));
 	FSRC2 = sgl2freg(WD0(val2));
-	ret0 = fmax(&FSRC1, &FSRC2, &FDST1, TRAPS);
+	ret0 = fmax_(&FSRC1, &FSRC2, &FDST1, TRAPS);
 	WD0(result) = freg2sgl(FDST1);
 
 	FSRC1 = sgl2freg(WD1(val1));
 	FSRC2 = sgl2freg(WD1(val2));
-	ret1 = fmax(&FSRC1, &FSRC2, &FDST1, TRAPS);
+	ret1 = fmax_(&FSRC1, &FSRC2, &FDST1, TRAPS);
 	WD1(result) = freg2sgl(FDST1);
 
 	FDST1 = dword2freg(result);
@@ -1004,12 +1004,12 @@ Status fpminEx(INSTINFO *info)
 
 	FSRC1 = sgl2freg(WD0(val1));
 	FSRC2 = sgl2freg(WD0(val2));
-	ret0 = fmin(&FSRC1, &FSRC2, &FDST1, TRAPS);
+	ret0 = fmin_(&FSRC1, &FSRC2, &FDST1, TRAPS);
 	WD0(result) = freg2sgl(FDST1);
 
 	FSRC1 = sgl2freg(WD1(val1));
 	FSRC2 = sgl2freg(WD1(val2));
-	ret1 = fmin(&FSRC1, &FSRC2, &FDST1, TRAPS);
+	ret1 = fmin_(&FSRC1, &FSRC2, &FDST1, TRAPS);
 	WD1(result) = freg2sgl(FDST1);
 
 	FDST1 = dword2freg(result);

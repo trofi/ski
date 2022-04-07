@@ -1326,7 +1326,7 @@ static unsigned full_fmax(FREG *f1, FREG *f2, FREG *ft, BYTE traps)
     return flags;
 }
 
-unsigned fmax(FREG *f1, FREG *f2, FREG *ft, BYTE traps)
+unsigned fmax_(FREG *f1, FREG *f2, FREG *ft, BYTE traps)
 {
     unsigned flags;
 
@@ -1371,7 +1371,7 @@ static unsigned full_fmin(FREG *f1, FREG *f2, FREG *ft, BYTE traps)
     return flags;
 }
 
-unsigned fmin(FREG *f1, FREG *f2, FREG *ft, BYTE traps)
+unsigned fmin_(FREG *f1, FREG *f2, FREG *ft, BYTE traps)
 {
     unsigned flags;
 
