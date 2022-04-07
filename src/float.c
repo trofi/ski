@@ -317,7 +317,7 @@ static BOOL overflow(RMODE rmode, unsigned emax, unsigned mwidth, FREG *d)
     return inf;
 }
 
-static unsigned round(FREG *d, unsigned mantWidth, RMODE rmode, DWORD resLo)
+static unsigned round_freg(FREG *d, unsigned mantWidth, RMODE rmode, DWORD resLo)
 {
     BOOL last, guard, sticky;
     unsigned fpa = 0;
@@ -438,7 +438,7 @@ static unsigned normalize(FREG *d, DWORD low, unsigned flags, RMODE rmode,
     d2 = *d;
     f2 = flags;
 
-    flags |= round(d, mantWidth, rmode, low);
+    flags |= round_freg(d, mantWidth, rmode, low);
     if (d->exp > expMax) {		/* Overflow */
 	if (traps & O_MASK) {
 	    BOOL fpa;
@@ -484,7 +484,7 @@ static unsigned normalize(FREG *d, DWORD low, unsigned flags, RMODE rmode,
 		    d->mant = 0x1;
 		mantWidth = 0;
 	    }
-	    flags |= round(d, mantWidth, rmode, low);
+	    flags |= round_freg(d, mantWidth, rmode, low);
 	    if (d->mant) {
 		d->unorm = expMin - d->exp;
 		if (expMin == EXT_EMIN && d->unorm)
