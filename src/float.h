@@ -40,8 +40,9 @@ typedef enum {
     CLASS_DE0, CLASS_FR0 = 0xFF
 } FPCLASS;
 
-unsigned fma(FREG *a, FREG *b, FREG *c, FREG *d, FPPC prec, BYTE traps,
-	     BYTE controls);
+/* avoid collision with c99's fma() */
+unsigned fma_(FREG *a, FREG *b, FREG *c, FREG *d, FPPC prec, BYTE traps,
+	      BYTE controls);
 unsigned fms(FREG *a, FREG *b, FREG *c, FREG *d, FPPC prec, BYTE traps,
 	     BYTE controls);
 unsigned fnma(FREG *a, FREG *b, FREG *c, FREG *d, FPPC prec, BYTE traps,

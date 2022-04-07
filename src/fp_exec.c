@@ -288,7 +288,7 @@ Status fmergeseEx(INSTINFO *info)
 
 Status fmaEx(INSTINFO *info)
 {
-    DST1 = fma(&FSRC1, &FSRC2, &FSRC3, &FDST1, PC_DYN, TRAPS, CTRLS);
+    DST1 = fma_(&FSRC1, &FSRC2, &FSRC3, &FDST1, PC_DYN, TRAPS, CTRLS);
     if (DST1 & FP_FAULT) {
 	fpExceptionFault(DST1);
 	return StFault;
@@ -298,7 +298,7 @@ Status fmaEx(INSTINFO *info)
 
 Status fmasEx(INSTINFO *info)
 {
-    DST1 = fma(&FSRC1, &FSRC2, &FSRC3, &FDST1, PC_SGL, TRAPS, CTRLS);
+    DST1 = fma_(&FSRC1, &FSRC2, &FSRC3, &FDST1, PC_SGL, TRAPS, CTRLS);
     if (DST1 & FP_FAULT) {
 	fpExceptionFault(DST1);
 	return StFault;
@@ -308,7 +308,7 @@ Status fmasEx(INSTINFO *info)
 
 Status fmadEx(INSTINFO *info)
 {
-    DST1 = fma(&FSRC1, &FSRC2, &FSRC3, &FDST1, PC_DBL, TRAPS, CTRLS);
+    DST1 = fma_(&FSRC1, &FSRC2, &FSRC3, &FDST1, PC_DBL, TRAPS, CTRLS);
     if (DST1 & FP_FAULT) {
 	fpExceptionFault(DST1);
 	return StFault;
@@ -866,13 +866,13 @@ Status fpmaEx(INSTINFO *info)
 	FSRC1 = sgl2freg(WD0(val1));
 	FSRC2 = sgl2freg(WD0(val2));
 	FSRC3 = f2 ? sgl2freg(WD0(val3)) : FrRd(0);
-	DST1 = fma(&FSRC1, &FSRC2, &FSRC3, &FDST1, PC_SIMD, TRAPS, CTRLS);
+	DST1 = fma_(&FSRC1, &FSRC2, &FSRC3, &FDST1, PC_SIMD, TRAPS, CTRLS);
 	WD0(result) = freg2sgl(FDST1);
 
 	FSRC1 = sgl2freg(WD1(val1));
 	FSRC2 = sgl2freg(WD1(val2));
 	FSRC3 = f2 ? sgl2freg(WD1(val3)) : FrRd(0);
-	DST2 = fma(&FSRC1, &FSRC2, &FSRC3, &FDST1, PC_SIMD, TRAPS, CTRLS);
+	DST2 = fma_(&FSRC1, &FSRC2, &FSRC3, &FDST1, PC_SIMD, TRAPS, CTRLS);
 	WD1(result) = freg2sgl(FDST1);
 
 	FDST1 = dword2freg(result);

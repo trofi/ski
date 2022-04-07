@@ -737,8 +737,8 @@ static unsigned fmpyadd(const FREG *a, const FREG *b, FREG *c, FREG *d,
 }
 
 /* Sets d = a * b + c */
-unsigned fma(FREG *a, FREG *b, FREG *c, FREG *d, FPPC prec, BYTE traps,
-	     BYTE controls)
+unsigned fma_(FREG *a, FREG *b, FREG *c, FREG *d, FPPC prec, BYTE traps,
+	      BYTE controls)
 {
     unsigned flags;
 
