@@ -2887,6 +2887,12 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
       setStatReturn (ret, status);
       break;
 
+    case LIA64_set_tid_address:
+      arg0 = ADDPTR (arg0);
+      *status = syscall (__NR_set_tid_address, arg0);
+      setStatReturn (ret, status);
+      break;
+
     case LIA64_shmat:
       *ret = EINVAL;
       shmseg = shmseg_lookup_id (arg0);
