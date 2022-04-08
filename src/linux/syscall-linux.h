@@ -177,7 +177,7 @@
 #define LIA64_nanosleep			1168
 #define LIA64_nfsservctl		1169
 #define LIA64_prctl			1170
-/* 1171 is reserved for backwards compatibility with old LIA64_getpagesize */
+#define LIA64_old_getpagesize		1171
 #define LIA64_mmap2			1172
 #define LIA64_pciconfig_read		1173
 #define LIA64_pciconfig_write		1174

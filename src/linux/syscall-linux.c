@@ -3775,7 +3775,7 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
 	}
       break;
 
-    case 1171:	/* was getpagesize(); we keep this for backwards compat. */
+    case LIA64_old_getpagesize: /* was getpagesize(); we keep this for backwards compat. */
       *status = page_size;
       setStatReturn (ret, status);
       break;
