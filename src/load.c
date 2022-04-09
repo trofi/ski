@@ -88,6 +88,15 @@ static REG psrval = 0;
 
 #define LI_TRACE	0x2		/* from load_info.h or crt0.h */
 
+/* #define DO_DEBUG_LOAD 1 */
+#ifdef DO_DEBUG_LOAD
+#    define DEBUG(...) do { \
+        (void)fprintf(stderr, "DEBUG: "); \
+        (void)fprintf(stderr, __VA_ARGS__); \
+    } while (0)
+#else
+#    define DEBUG(...) do { } while (0)
+#endif
 
 extern void addLM (const char*, Elf64_Phdr*, int, ADDR, int);
 
@@ -609,6 +618,8 @@ static void segload(BYTE *p, ADDR addr, unsigned len, unsigned flags)
 {
     unsigned size;
 
+    DEBUG("segload: addr: %#llx - %#llx flags: %#x\n", addr, addr + len, flags);
+
     for (; len; len -= size, addr += size, p += size) {
 	if (len + page_offset(addr) < page_size)
 	    size = len;
@@ -749,6 +760,7 @@ static BOOL interp(int fd, off_t offset, unsigned sz)
     }
     lseek(fd, offset, SEEK_SET);
     read(fd, interpName, sz);
+    DEBUG("interp: '%s'\n", interpName);
 
     /* skip interp info past first colon */
     (void)strtok(interpName, ":");
@@ -761,6 +773,8 @@ static BOOL interp(int fd, off_t offset, unsigned sz)
 	Elf64_Ehdr *ehdr;
 	Elf64_Phdr *phdr;
 	unsigned i;
+
+	DEBUG("interp: ELF64\n");
 
 	if (!(ehdr = elf64_getehdr(elfptr))) {
 	    elfClose(elfptr, fd);
@@ -775,16 +789,20 @@ static BOOL interp(int fd, off_t offset, unsigned sz)
 	}
 
 	rtld_text = os_rtld64_text(phdr);
+	DEBUG("interp: rtld_text: %#llx\n", rtld_text);
+	DEBUG("interp: program_headers: %u\n", ehdr->e_phnum);
 
 	for (i = 0; i < ehdr->e_phnum; i++) {
 	    if (phdr[i].p_type == PT_IA_64_UNWIND) {
 		addLM("ld.so", phdr, ehdr->e_phnum, rtld_text, 1);
 		unwind_base = phdr[i].p_vaddr;
+		DEBUG("interp: PT_IA_64_UNWIND: %#llx\n", unwind_base);
 	    }
 	    if (phdr[i].p_type != PT_LOAD)
 		continue;
 	    if (phdr[i].p_flags & PF_X) {
 		entry_ip = rtld_text + ehdr->e_entry - phdr[i].p_vaddr;
+		DEBUG("interp: entry: %#llx\n", entry_ip);
 		unwind_base += rtld_text - phdr[i].p_vaddr;
 		if (!elf64SegmentLoad(phdr + i, rtld_text, fd, interpName)) {
 		    elfClose(elfptr, fd);
@@ -792,6 +810,7 @@ static BOOL interp(int fd, off_t offset, unsigned sz)
 		}
 		text_base = rtld_text;
 		text_end  = text_base + phdr[i].p_memsz - 1;
+		DEBUG("interp: text_base: %#llx - %#llx\n", text_base, text_end);
 	    } else {
 		rtld_data = os_rtld64_data(phdr + i);
 		if (!elf64SegmentLoad(phdr + i, rtld_data, fd, interpName)) {
@@ -1002,6 +1021,8 @@ BOOL elfLoad(const char *file_name, int s_argc, char *s_argv[])
     REG rsc;
     BOOL abi;
 
+    DEBUG("%s('%s')\n", __func__, file_name);
+
     if ((fd = peChk(file_name)) != -1)
 	return peLoad(fd, s_argc, s_argv);
     elfptr = elfOpen(file_name, stderr, &fd, EO_EXEC, &class);
@@ -1028,6 +1049,8 @@ BOOL elfLoad(const char *file_name, int s_argc, char *s_argv[])
 	unsigned i;
 	ADDR pstart, pend;
 
+	DEBUG("ELF64\n");
+
 	if (!(ehdr = elf64_getehdr(elfptr))) {
 	    elfClose(elfptr, fd);
 	    return NO;
@@ -1038,6 +1061,7 @@ BOOL elfLoad(const char *file_name, int s_argc, char *s_argv[])
 	    ehdr->e_type = ET_EXEC;
 	    ehdr->e_flags |= EF_IA_64_BE;
 	    (void)grSet(0, GP_ID, getNSgp(elfptr));
+	    DEBUG("*** Enable Big Endian hack\n");
 	}
 
 	if (!(phdr = elf64_getphdr(elfptr))) {
@@ -1047,8 +1071,10 @@ BOOL elfLoad(const char *file_name, int s_argc, char *s_argv[])
 	}
 
 	entry_ip = ehdr->e_entry;
+	DEBUG("entry: %#lx\n", ehdr->e_entry);
 	proc.ehdr_flags = ehdr->e_flags;
 
+	DEBUG("program headers: %u\n", ehdr->e_phnum);
 	for (i = 0; i < ehdr->e_phnum; i++)
 	    switch (phdr[i].p_type) {
 #ifdef __hpux
@@ -1061,6 +1087,7 @@ BOOL elfLoad(const char *file_name, int s_argc, char *s_argv[])
 		    addLM(file_name, phdr, ehdr->e_phnum, 0, 1);
 		    unwind_base = phdr[i].p_vaddr;
 		    /*unwind_end = phdr[i].p_vaddr + phdr[i].p_filesz;*/
+		    DEBUG("PT_IA_64_UNWIND: %#llx\n", unwind_base);
 		    break;
 		case PT_INTERP:
 		    if (!abi) {
@@ -1074,10 +1101,12 @@ BOOL elfLoad(const char *file_name, int s_argc, char *s_argv[])
 			return NO;
 		    proc.has_rtld = 1;
 		    proc.rtld_base = text_base;
+		    DEBUG("PT_INTERP: rtld: %#llx\n", proc.rtld_base);
 		    break;
 		case PT_LOAD:
 		    pstart = phdr[i].p_vaddr;
 		    pend = pstart + phdr[i].p_memsz - 1;
+		    DEBUG("PT_LOAD: pstart: %#llx - %#llx\n", pstart, pend);
 		    if (!elf64SegmentLoad(&phdr[i], pstart, fd, file_name)) {
 			elfClose(elfptr, fd);
 			return NO;
@@ -1087,6 +1116,7 @@ BOOL elfLoad(const char *file_name, int s_argc, char *s_argv[])
 			/* XXX - especially if aout_base needs swapping? */
 			text_base = proc.aout_base = pstart;
 			text_end = pend;
+			DEBUG("*** PT_LOAD: text_base: %#llx - %#llx\n", text_base, text_end);
 		    } else
 			end_addr = pend + 1;
 	    }
