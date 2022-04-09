@@ -1033,12 +1033,12 @@ BOOL elfLoad(const char *file_name, int s_argc, char *s_argv[])
 	    return NO;
 	}
 
-/* XXX - NonStop hack */
-if (ehdr->e_type == 100) {
-    ehdr->e_type = ET_EXEC;
-    ehdr->e_flags |= EF_IA_64_BE;
-    (void)grSet(0, GP_ID, getNSgp(elfptr));
-}
+	/* XXX - NonStop hack */
+	if (ehdr->e_type == 100) {
+	    ehdr->e_type = ET_EXEC;
+	    ehdr->e_flags |= EF_IA_64_BE;
+	    (void)grSet(0, GP_ID, getNSgp(elfptr));
+	}
 
 	if (!(phdr = elf64_getphdr(elfptr))) {
 	    (void)fprintf(stderr, "%s - %s\n", file_name, elf_errmsg(0));
