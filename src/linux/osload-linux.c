@@ -31,6 +31,16 @@
 #include "simmem.h"
 #include "fields.h"
 
+/* #define DO_DEBUG_OSLOAD_LINUX 1 */
+#ifdef DO_DEBUG_OSLOAD_LINUX
+#    define DEBUG(...) do { \
+        (void)fprintf(stderr, "DEBUG: "); \
+        (void)fprintf(stderr, __VA_ARGS__); \
+    } while (0)
+#else
+#    define DEBUG(...) do { } while (0)
+#endif
+
 extern char **environ;
 
 #define BSP64_ADDR	0x9FFFFFFF7F600000ULL
@@ -140,6 +150,7 @@ os_setup_process(const char *file_name, int s_argc, char *s_argv[],
 
 	sp = 0xA000000000000000ULL;
 	setMaxSP(sp);
+	DEBUG("SP: %#llx\n", sp);
 
 	for (argv_sz = i = 0; i < s_argc; i++)
 		argv_sz += strlen(s_argv[i]) + 1;
@@ -152,19 +163,34 @@ os_setup_process(const char *file_name, int s_argc, char *s_argv[],
 		str_p -= 8;
 	aux_sz = 0;
 
+	DEBUG("populate AT_* entries\n");
+	DEBUG("AT_NULL: %u\n", 0);
 	NEW_AUX_ENT(AT_NULL, 0);
+	DEBUG("AT_HWCAP: %u\n", 0);
 	NEW_AUX_ENT(AT_HWCAP, 0);
+	DEBUG("AT_PAGESZ: %lu\n", page_size);
 	NEW_AUX_ENT(AT_PAGESZ, page_size);
+	DEBUG("AT_CLKTCK: %lu\n", sysconf(_SC_CLK_TCK));
 	NEW_AUX_ENT(AT_CLKTCK, sysconf(_SC_CLK_TCK));
+	DEBUG("AT_PHDR: %#llx\n", proc->phdr_addr);
 	NEW_AUX_ENT(AT_PHDR, proc->phdr_addr);
+	DEBUG("AT_PHENT: %lu\n", sizeof (Elf64_Phdr));
 	NEW_AUX_ENT(AT_PHENT, sizeof (Elf64_Phdr));
+	DEBUG("AT_PHNUM: %u\n", proc->phdr_count);
 	NEW_AUX_ENT(AT_PHNUM, proc->phdr_count);
+	DEBUG("AT_BASE: %#llx\n", proc->rtld_base);
 	NEW_AUX_ENT(AT_BASE, proc->rtld_base);
+	DEBUG("AT_FLAGS: %u\n", 0);
 	NEW_AUX_ENT(AT_FLAGS, 0);
+	DEBUG("AT_ENTRY: %#llx\n", proc->proc_entry);
 	NEW_AUX_ENT(AT_ENTRY, proc->proc_entry);
+	DEBUG("AT_UID: %u\n", getuid());
 	NEW_AUX_ENT(AT_UID, getuid());
+	DEBUG("AT_EUID: %u\n", geteuid());
 	NEW_AUX_ENT(AT_EUID, geteuid());
+	DEBUG("AT_GID: %u\n", getgid());
 	NEW_AUX_ENT(AT_GID, getgid());
+	DEBUG("AT_EGID: %u\n", getegid());
 	NEW_AUX_ENT(AT_EGID, getegid());
 
 	arg_p = (str_p - aux_sz - ((s_argc + n_env + 3) * 8));
@@ -199,6 +225,9 @@ os_setup_process(const char *file_name, int s_argc, char *s_argv[],
 	/* Backing Store */
 	(void)arSet(curPid, BSP_ID, BSP64_ADDR);
 	(void)arSet(curPid, BSPST_ID, BSP64_ADDR);
+
+	DEBUG("BSP: %#llx\n", BSP64_ADDR);
+	DEBUG("BSPSTORE: %#llx\n", BSP64_ADDR);
 
 	return (0);
 }
