@@ -156,18 +156,16 @@ os_setup_process(const char *file_name, int s_argc, char *s_argv[],
 	NEW_AUX_ENT(AT_HWCAP, 0);
 	NEW_AUX_ENT(AT_PAGESZ, page_size);
 	NEW_AUX_ENT(AT_CLKTCK, sysconf(_SC_CLK_TCK));
-	if (proc->has_rtld) {
-		NEW_AUX_ENT(AT_PHDR, proc->phdr_addr);
-		NEW_AUX_ENT(AT_PHENT, sizeof (Elf64_Phdr));
-		NEW_AUX_ENT(AT_PHNUM, proc->phdr_count);
-		NEW_AUX_ENT(AT_BASE, proc->rtld_base);
-		NEW_AUX_ENT(AT_FLAGS, 0);
-		NEW_AUX_ENT(AT_ENTRY, proc->proc_entry);
-		NEW_AUX_ENT(AT_UID, getuid());
-		NEW_AUX_ENT(AT_EUID, geteuid());
-		NEW_AUX_ENT(AT_GID, getgid());
-		NEW_AUX_ENT(AT_EGID, getegid());
-	}
+	NEW_AUX_ENT(AT_PHDR, proc->phdr_addr);
+	NEW_AUX_ENT(AT_PHENT, sizeof (Elf64_Phdr));
+	NEW_AUX_ENT(AT_PHNUM, proc->phdr_count);
+	NEW_AUX_ENT(AT_BASE, proc->rtld_base);
+	NEW_AUX_ENT(AT_FLAGS, 0);
+	NEW_AUX_ENT(AT_ENTRY, proc->proc_entry);
+	NEW_AUX_ENT(AT_UID, getuid());
+	NEW_AUX_ENT(AT_EUID, geteuid());
+	NEW_AUX_ENT(AT_GID, getgid());
+	NEW_AUX_ENT(AT_EGID, getegid());
 
 	arg_p = (str_p - aux_sz - ((s_argc + n_env + 3) * 8));
 	grSet(0, SP_ID, arg_p - 16);	/* leave 16 byte scratch space */
