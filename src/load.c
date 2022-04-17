@@ -813,6 +813,7 @@ static BOOL interp(int fd, off_t offset, unsigned sz)
 		DEBUG("interp: text_base: %#llx - %#llx\n", text_base, text_end);
 	    } else {
 		rtld_data = os_rtld64_data(phdr + i);
+		DEBUG("interp: data_base: %#llx\n", rtld_data);
 		if (!elf64SegmentLoad(phdr + i, rtld_data, fd, interpName)) {
 		    elfClose(elfptr, fd);
 		    return NO;
