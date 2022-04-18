@@ -90,29 +90,33 @@ os_rtld64_bias(void)
 
 /* On Linux, the stack is layed out like this:
 
-	+------------+
+	+------------+ <- 0xA000000000000000
+	| AT_RANDOM  |
+	+------------+ <- u_random_p
 	|   strings  |
-	+------------+
+	+------------+ <- str_p
 	| AUX table  |
 	+------------+
 	|    NULL    |
 	+------------+
 	|   env[N]   |
 	+------------+
-	/	     /
-	/	     /
+	/    ...     /
+	+------------+
+	|   env[0]   |
 	+------------+
 	|    NULL    |
 	+------------+
 	|   arg[N]   |
 	+------------+
-	/	     /
-	/	     /
+	/    ...     /
 	+------------+
 	|   arg[0]   |
-	+------------+
+	+------------+ <- arg_p
 	|   argc     |
 	+------------+
+	|   scratch  |
+	+------------+ <- sp
 */
 
 #define	NEW_AUX_ENT(name,value)					\
@@ -131,19 +135,22 @@ int
 os_setup_process(const char *file_name, int s_argc, char *s_argv[],
     struct os_proc *proc)
 {
-	ADDR arg_p, sp, str_p;
+	ADDR arg_p, sp, str_p, u_random_p;
 	size_t argv_sz, aux_sz, env_sz;
 	int i, n_env;
-
-	sp = 0xA000000000000000ULL;
-	setMaxSP(sp);
-	DEBUG("SP: %#llx\n", sp);
 
 	for (argv_sz = i = 0; i < s_argc; i++)
 		argv_sz += strlen(s_argv[i]) + 1;
 	for (env_sz = i = 0; environ[i]; i++)
 		env_sz += strlen(environ[i]) + 1;
 	n_env = i;
+
+	sp = 0xA000000000000000ULL;
+	setMaxSP(sp);
+	DEBUG("SP start: %#llx\n", sp);
+
+	u_random_p = sp - 16;
+	sp -= 16;
 
 	str_p = (sp - (argv_sz + env_sz)) & ~(ADDR)0xf;
 	if ((s_argc + n_env + 3) & 1)
@@ -179,9 +186,14 @@ os_setup_process(const char *file_name, int s_argc, char *s_argv[],
 	NEW_AUX_ENT(AT_GID, getgid());
 	DEBUG("AT_EGID: %u\n", getegid());
 	NEW_AUX_ENT(AT_EGID, getegid());
+	DEBUG("AT_RANDOM: %#llx\n", u_random_p);
+	NEW_AUX_ENT(AT_RANDOM, u_random_p);
+	/* TODO: Make it truly random? */
+	memMWrt(u_random_p, 8, 0x12AB34CD56EF7890LLU);
 
 	arg_p = (str_p - aux_sz - ((s_argc + n_env + 3) * 8));
 	grSet(0, SP_ID, arg_p - 16);	/* leave 16 byte scratch space */
+	DEBUG("SP: %#llx\n", arg_p - 16);
 	pmemLookup_p(page_base(arg_p));
 	memMWrt(arg_p, 8, s_argc);
 	arg_p += 8;
