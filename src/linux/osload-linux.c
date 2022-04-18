@@ -76,29 +76,16 @@ os_elf64_abi(char *ident, Elf64_Ehdr *ehdr, int set)
 }
 
 ADDR
-os_rtld32_text(Elf32_Phdr *phdr)
+os_rtld32_bias(void)
 {
 	/* No ILP32. */
 	return (0);
 }
 
 ADDR
-os_rtld32_data(Elf32_Phdr *phdr)
-{
-	/* No ILP32. */
-	return (0);
-}
-
-ADDR
-os_rtld64_text(Elf64_Phdr *phdr)
+os_rtld64_bias(void)
 {
 	return (0x2000000000000000ULL);
-}
-
-ADDR
-os_rtld64_data(Elf64_Phdr *phdr)
-{
-	return (os_rtld64_text(phdr) + phdr->p_vaddr);
 }
 
 /* On Linux, the stack is layed out like this:

@@ -33,10 +33,15 @@ struct os_proc
 
 int	os_elf32_abi(char *, Elf32_Ehdr *, int);
 int	os_elf64_abi(char *, Elf64_Ehdr *, int);
+
+/* TODO: can we get rid of _data/_text in favour of _bias on ELF?. */
 ADDR	os_rtld32_data(Elf32_Phdr *);
 ADDR	os_rtld32_text(Elf32_Phdr *);
 ADDR	os_rtld64_data(Elf64_Phdr *);
 ADDR	os_rtld64_text(Elf64_Phdr *);
+
+ADDR	os_rtld32_bias(void);
+ADDR	os_rtld64_bias(void);
 int	os_setup_process(const char *, int, char **, struct os_proc *);
 
 #endif	/* _SKI_OSLOAD_H */

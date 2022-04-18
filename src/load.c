@@ -770,6 +770,7 @@ static BOOL interp(int fd, off_t offset, unsigned sz)
 	return NO;
 
     if (class == ELFCLASS64) {
+	ADDR bias = os_rtld64_bias();
 	Elf64_Ehdr *ehdr;
 	Elf64_Phdr *phdr;
 	unsigned i;
@@ -788,23 +789,22 @@ static BOOL interp(int fd, off_t offset, unsigned sz)
 	    return NO;
 	}
 
-	rtld_text = os_rtld64_text(phdr);
+	rtld_text = bias + phdr->p_vaddr;
 	DEBUG("interp: rtld_text: %#llx\n", rtld_text);
 	DEBUG("interp: program_headers: %u\n", ehdr->e_phnum);
 
 	for (i = 0; i < ehdr->e_phnum; i++) {
 	    if (phdr[i].p_type == PT_IA_64_UNWIND) {
-		addLM("ld.so", phdr, ehdr->e_phnum, rtld_text, 1);
-		unwind_base = phdr[i].p_vaddr;
+		addLM("ld.so", phdr, ehdr->e_phnum, bias, 1);
+		unwind_base = bias + phdr[i].p_vaddr;
 		DEBUG("interp: PT_IA_64_UNWIND: %#llx\n", unwind_base);
 	    }
 	    if (phdr[i].p_type != PT_LOAD)
 		continue;
 	    if (phdr[i].p_flags & PF_X) {
-		entry_ip = rtld_text + ehdr->e_entry - phdr[i].p_vaddr;
+		entry_ip = bias + ehdr->e_entry;
 		DEBUG("interp: entry: %#llx\n", entry_ip);
-		unwind_base += rtld_text - phdr[i].p_vaddr;
-		if (!elf64SegmentLoad(phdr + i, rtld_text, fd, interpName)) {
+		if (!elf64SegmentLoad(&phdr[i], bias + phdr[i].p_vaddr, fd, interpName)) {
 		    elfClose(elfptr, fd);
 		    return NO;
 		}
@@ -812,9 +812,9 @@ static BOOL interp(int fd, off_t offset, unsigned sz)
 		text_end  = text_base + phdr[i].p_memsz - 1;
 		DEBUG("interp: text_base: %#llx - %#llx\n", text_base, text_end);
 	    } else {
-		rtld_data = os_rtld64_data(phdr + i);
+		rtld_data = bias + phdr[i].p_vaddr;
 		DEBUG("interp: data_base: %#llx\n", rtld_data);
-		if (!elf64SegmentLoad(phdr + i, rtld_data, fd, interpName)) {
+		if (!elf64SegmentLoad(&phdr[i], rtld_data, fd, interpName)) {
 		    elfClose(elfptr, fd);
 		    return NO;
 		}
@@ -822,6 +822,7 @@ static BOOL interp(int fd, off_t offset, unsigned sz)
 	}
 	elf64_slurp_all_symbols(elfptr, ehdr, phdr, rtld_text);
     } else {	/* ELFCLASS32 */
+	ADDR bias = os_rtld32_bias();
 	Elf32_Ehdr *ehdr;
 	Elf32_Phdr *phdr;
 	unsigned i;
@@ -838,25 +839,24 @@ static BOOL interp(int fd, off_t offset, unsigned sz)
 	    return NO;
 	}
 
-	rtld_text = os_rtld32_text(phdr);
+	rtld_text = bias + phdr->p_vaddr;
 
 	for (i = 0; i < ehdr->e_phnum; i++) {
 	    if (phdr[i].p_type == PT_IA_64_UNWIND)
-		unwind_base = phdr[i].p_vaddr;
+		unwind_base = bias + phdr[i].p_vaddr;
 	    if (phdr[i].p_type != PT_LOAD)
 		continue;
 	    if (phdr[i].p_flags & PF_X) {
-		entry_ip = rtld_text + ehdr->e_entry - phdr[i].p_vaddr;
-		unwind_base += rtld_text - phdr[i].p_vaddr;
-		if (!elf32SegmentLoad(phdr + i, rtld_text, fd, interpName)) {
+		entry_ip = bias + ehdr->e_entry;
+		if (!elf32SegmentLoad(&phdr[i], rtld_text, fd, interpName)) {
 		    elfClose(elfptr, fd);
 		    return NO;
 		}
 		text_base = rtld_text;
 		text_end  = text_base + phdr[i].p_memsz - 1;
 	    } else {
-		rtld_data = os_rtld32_data(phdr + i);
-		if (!elf32SegmentLoad(phdr + i, rtld_data, fd, interpName)) {
+		rtld_data = bias + phdr[i].p_vaddr;
+		if (!elf32SegmentLoad(&phdr[i], rtld_data, fd, interpName)) {
 		    elfClose(elfptr, fd);
 		    return NO;
 		}
@@ -1071,7 +1071,15 @@ BOOL elfLoad(const char *file_name, int s_argc, char *s_argv[])
 	    return NO;
 	}
 
-	entry_ip = ehdr->e_entry;
+	ADDR bias = 0;
+	if (ehdr->e_type == ET_DYN) {
+		/* PIE: a base that looks like ld.so but does not conflict
+		  with it. TODO: make it random. */
+		bias = 0x2000000100000000ULL;
+		DEBUG("bias: %#llx\n", bias);
+	}
+
+	entry_ip = bias + ehdr->e_entry;
 	DEBUG("entry: %#lx\n", ehdr->e_entry);
 	proc.ehdr_flags = ehdr->e_flags;
 
@@ -1081,13 +1089,15 @@ BOOL elfLoad(const char *file_name, int s_argc, char *s_argv[])
 #ifdef __hpux
 		case PT_PHDR:
 		    /* XXX - check alignment?  Must be 4K aligned? */
-		    proc.aout_phdr = phdr[i].p_vaddr;
+		    /* TODO: account for ELF bias? */
+		    proc.aout_phdr = bias + phdr[i].p_vaddr;
 		    break;
 #endif
 		case PT_IA_64_UNWIND:
-		    addLM(file_name, phdr, ehdr->e_phnum, 0, 1);
-		    unwind_base = phdr[i].p_vaddr;
-		    /*unwind_end = phdr[i].p_vaddr + phdr[i].p_filesz;*/
+		    /* TODO: account for ELF bias? */
+		    addLM(file_name, phdr, ehdr->e_phnum, bias, 1);
+		    unwind_base = bias + phdr[i].p_vaddr;
+		    /*unwind_end = bias + phdr[i].p_vaddr + phdr[i].p_filesz;*/
 		    DEBUG("PT_IA_64_UNWIND: %#llx\n", unwind_base);
 		    break;
 		case PT_INTERP:
@@ -1102,10 +1112,10 @@ BOOL elfLoad(const char *file_name, int s_argc, char *s_argv[])
 			return NO;
 		    proc.has_rtld = 1;
 		    proc.rtld_base = text_base;
-		    DEBUG("PT_INTERP: rtld: %#llx\n", proc.rtld_base);
+		    DEBUG("PT_INTERP: rtld_base: %#llx\n", proc.rtld_base);
 		    break;
 		case PT_LOAD:
-		    pstart = phdr[i].p_vaddr;
+		    pstart = bias + phdr[i].p_vaddr;
 		    pend = pstart + phdr[i].p_memsz - 1;
 		    DEBUG("PT_LOAD: pstart: %#llx - %#llx\n", pstart, pend);
 		    if (!elf64SegmentLoad(&phdr[i], pstart, fd, file_name)) {
@@ -1121,10 +1131,10 @@ BOOL elfLoad(const char *file_name, int s_argc, char *s_argv[])
 		    } else
 			end_addr = pend + 1;
 	    }
-	elf64_slurp_all_symbols(elfptr, ehdr, phdr, 0);
+	elf64_slurp_all_symbols(elfptr, ehdr, phdr, bias);
 	proc.phdr_count = ehdr->e_phnum;
 	proc.phdr_addr = proc.aout_base + ehdr->e_phoff;
-	proc.proc_entry = ehdr->e_entry;
+	proc.proc_entry = bias + ehdr->e_entry;
     } else {	/* ELFCLASS32 */
 	Elf32_Ehdr *ehdr;
 	Elf32_Phdr *phdr;
