@@ -113,6 +113,8 @@ BUILT_SOURCES= \
 	$(DAS_INSTR_DERIVED) \
 	$(ASM_HASH_DERIVED) \
 	$(ICNT_DERIVED) \
+	eparse.h eparse.c \
+	escan.h escan.c \
 	instr.c
 
 ski_SOURCES= \
@@ -396,6 +398,7 @@ instr.c: $(encdir)/encoding.opcode \
 		-f $(srcdir)/opcode.awk $(encdir)/encoding.opcode \
 		unused=1 $(encdir)/encoding.unusedop
 
+escan.h: escan.c
 eparse.h: eparse.c
 
 distclean-local:
