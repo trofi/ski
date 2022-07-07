@@ -164,10 +164,11 @@ netdev_open (char *name, unsigned char *macaddr)
   /*
    * Open a RAW/PACKET socket (just like tcpdump)
    *
-   * I still don't understand why htons() and why 3.
-   * according to /etc/protocols 3 = ggp !
+   * See 'man 7 packet' on Linux.
+   *
+   * TODO: switch obsolete PF_INET to AF_PACKET.
    */
-  fd = socket (PF_INET, SOCK_PACKET, htons (3));
+  fd = socket (PF_INET, SOCK_PACKET, htons(ETH_P_ALL));
   if (fd == -1)
     {
       if (errno == EPERM)  
