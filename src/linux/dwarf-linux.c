@@ -97,7 +97,7 @@ fatal_error (char *msg)
  * The last "opaque" argument contains the address we're looking for
  */
 void
-find_in_section (bfd * bfd, asection * sect, PTR obj)
+find_in_section (bfd * bfd, asection * sect, void * obj)
 {
   struct line_info *info = obj;
   unsigned int last_line = 0, line;
