@@ -4283,13 +4283,13 @@ iskbdio (void)
 }
 
 static void
-writeConsole (char *buf)
+writeConsole (char *buf, size_t len)
 {
     /*
      * always use raw mode so we get a clean output
      * 05/07/99 S.Eranian
      */
-    write (noConsole ? 1: cfd, buf, strlen (buf));
+    write (noConsole ? 1 : cfd, buf, len);
 }
 
 static void
@@ -4754,7 +4754,7 @@ doSSC (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG *ret)
     case SSC_PUTCHAR:
       buf[0] = arg0;
       buf[1] = '\0';
-      writeConsole ((char *)buf);
+      writeConsole ((char *)buf, 1);
       /* no return value */
       break;
 
