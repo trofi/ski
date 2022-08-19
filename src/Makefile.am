@@ -307,8 +307,6 @@ XSKI=
 endif
 
 if WITH_GTK_INTERFACE
-WITH_GTK_INTERFACE
-
 gskidir= $(datadir)/ski
 gski_DATA= \
 	gski.glade
