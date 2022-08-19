@@ -113,7 +113,7 @@ AS_IF([test "x$with_x11" = "xyes"],[AC_WITH_MOTIF])
 # either way we need to set these
 AM_CONDITIONAL(WITH_X_INTERFACE, test "x$with_x11" = "xyes")
 AC_SUBST(X_INTERFACE_LIBS)
-  
+
 dnl See if we build GTK
 AC_ARG_WITH([gtk],
   AS_HELP_STRING([--with-gtk],
