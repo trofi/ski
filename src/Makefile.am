@@ -58,10 +58,6 @@ noinst_DATA= \
 	$(ENCODING_FILES) \
 	Copyright
 
-gskidir= $(datadir)/ski
-gski_DATA= \
-	gski.glade
-
 COMBFNS_FILES= \
 	exec.c \
 	fp_exec.c \
@@ -313,6 +309,11 @@ XSKI=
 endif
 
 if WITH_GTK_INTERFACE
+WITH_GTK_INTERFACE
+
+gskidir= $(datadir)/ski
+gski_DATA= \
+	gski.glade
 GSKI= gski
 else
 GSKI=
