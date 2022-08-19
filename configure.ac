@@ -29,9 +29,7 @@ AM_SILENT_RULES([yes])
 AC_CONFIG_SRCDIR([src/main.c])
 AC_CONFIG_HEADERS([config.h])
 
-dnl Canonical host
 AC_CANONICAL_HOST
-host_alias=$host dnl For dejagnu
 
 case $host_os in
     linux*)	HOST_OS=linux;;
