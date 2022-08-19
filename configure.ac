@@ -366,7 +366,6 @@ dnl Links
 #AC_CONFIG_LINKS([src/dwarf-hpux.c:src/dwarf.c])
 
 dnl Configuration files
-AC_CONFIG_FILES([ski.spec])
 AC_CONFIG_FILES([ski-config], [chmod +x ski-config])
 AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([macros/Makefile])

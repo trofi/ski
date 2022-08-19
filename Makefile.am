@@ -38,7 +38,7 @@ endif
 
 BUILT_SOURCES=ski-config $(BUILD_XSKI)
 
-EXTRA_DIST=ski.spec.in XSki.freebsd XSki.hpux XSki.linux \
+EXTRA_DIST=XSki.freebsd XSki.hpux XSki.linux \
 	misc/bskinc misc/ia64fmt ChangeLog.2007
 
 .PHONY: snapshot
@@ -51,9 +51,6 @@ snapshot:
 
 distclean-hook:
 	rm -f XSki
-
-dist-hook: ski.spec
-	cp ski.spec $(distdir)
 
 install-exec-hook:
 	$(LN_S) -f ski $(DESTDIR)/$(bindir)/bski;
