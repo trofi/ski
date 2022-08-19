@@ -177,7 +177,7 @@ fi
 AM_CONDITIONAL(WITH_NETDEV, test "x$with_netdev" = xyes)
 
 if test "$HOST_OS" = freebsd; then
-	LDFLAGS="$LDFLAGS -lutil"
+    LDFLAGS="$LDFLAGS -lutil"
 fi
 
 dnl Check for optional libs
@@ -227,7 +227,6 @@ if test "x$have_bfd" = xyes; then
     AC_DEFINE(HAVE_DWARF_SUPPORT, 1, [define if you have dwarf support])
 fi
 
-
 AC_SUBST(DWARF_CFLAGS)
 AC_SUBST(DWARF_LIBS)
 
@@ -248,7 +247,7 @@ if test "$HOST_OS" = hpux; then
         AC_DEFINE(__HP_CURSES, 1, [define if you want to use HP curses])
         LIBS="-lHcurses $LIBS"
         check_curses=no], [])
-fi    
+fi
 
 if test "x$check_curses" != xno; then
     PKG_CHECK_MODULES([NCURSES], [ncurses])
