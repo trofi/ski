@@ -74,7 +74,7 @@ if test "$echo_exec_prefix" = "yes"; then
 fi
 if test "$echo_cflags" = "yes"; then
     skiversion=@SKI_MAJOR_VERSION@.@SKI_MINOR_VERSION@
-    echo -I@includedir@/ski-$skiversion -I@libdir@/ski/include $includes
+    echo -I@includedir@/ski-$skiversion
 fi
 if test "$echo_ldflags" = "yes"; then
     echo -L@libdir@
