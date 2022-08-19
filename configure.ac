@@ -73,10 +73,6 @@ AC_SUBST(LT_CURRENT)
 AC_SUBST(LT_REVISION)
 AC_SUBST(LT_AGE)
 
-# Package information
-PACKAGE=ski
-VERSION=$SKI_VERSION
-
 # Specify the default install prefix
 AC_PREFIX_DEFAULT(/usr/local)
 
