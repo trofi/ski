@@ -116,13 +116,7 @@ dnl Set yacc flags
 YFLAGS=-d
 AC_SUBST(YFLAGS)
 
-dnl Initialize libtool
-AC_LIBTOOL_DLOPEN
-
 AM_PROG_LIBTOOL
-
-# build ltdl.o in src
-AC_LIB_LTDL
 
 dnl Initialize maintainer mode
 AM_MAINTAINER_MODE

@@ -26,7 +26,6 @@
 #include <setjmp.h>
 #include <stdarg.h>
 #include <stdlib.h>
-#include <ltdl.h>
 
 /* XXX should list systems that need the header */
 #if !defined(linux) && !defined HPUX9 && !defined(__FreeBSD__)
@@ -87,12 +86,6 @@ REG os_boot_rendez_gp;
 unsigned preInst;
 #endif
 
-
-lt_dlhandle hook_handle = 0;
-typedef void (*PFHOOK)(void);
-PFHOOK ski_hook_init, ski_hook, ski_hook_fini;
-#define PRE_HOOK 32
-
 static BOOL cntlC = NO;
 
 #if 0
@@ -143,9 +136,6 @@ static unsigned traceSve;	/* For timer interrupt support */
 extern PCF instFetchDecodeFP;
 extern PCF illCombFP, illQpCombFP;
 
-extern void hook_init (void);
-extern void hook (void);
-extern void hook_fini (void);
 extern Status iAexec(IAinstInfoPtr info);
 
 extern void profCnt (void);
@@ -640,10 +630,6 @@ Status iCycleApp(void)
     Status st;
 
     if (preInst) {
-#ifndef HPUX9
-	if (ski_hook)
-	    hook();
-#endif
 #ifdef __linux__
 	if (signal_pending()) {
 	    signal_invoke_handler(0);
@@ -888,13 +874,6 @@ IAinstInfoPtr addrToIAcacheInfo(ADDR adr)
 
 void initSysState(void)
 {
-    char *hook_path;
-    int status;
-    status = lt_dlinit();
-    if(status != 0) {
-        fprintf(stderr, "lt_dlinit failed (%s)\n", lt_dlerror());
-        exit(EXIT_FAILURE);
-    }
    
 #ifdef NEW_MP
     instsLeft = ipts = mips * TIMESLICE;
@@ -902,39 +881,6 @@ void initSysState(void)
     /* This value is only changed by a call to PAL_PLATFORM_ADDR */
     ibBase  = 0x00000000FEE00000ULL;
     preInst = icntEnb ? PRE_ICNT : 0;
-    if ((hook_path = getenv("SKIHOOK_PATH"))) {
-	if (!(hook_handle = lt_dlopen(hook_path))) {
-	    fprintf(stderr, "Could not load hook: %s (%s)\n",
-		    hook_path, lt_dlerror());
-        lt_dlexit();
-	    exit(EXIT_FAILURE);
-	}
-	ski_hook = (PFHOOK) lt_dlsym(hook_handle, "ski_hook");
-	if (!ski_hook) {
-	    fprintf(stderr, "Could not find ski_hook\n");
-        lt_dlexit();
-	    exit(EXIT_FAILURE);
-	}
-    ski_hook_init = (PFHOOK) lt_dlsym(hook_handle, "ski_hook_init");
-	if (ski_hook_init != NULL) {
-	    hook_init();
-	}
-	preInst |= PRE_HOOK;
-    }
-}
-
-void skiHookFini(void)
-{
-    int status;
-    ski_hook_fini = (PFHOOK) lt_dlsym(hook_handle, "ski_hook_fini");
-	if (ski_hook_init != NULL) {
-	    hook_fini();
-	}
-    status = lt_dlexit();
-    if(status != 0) {
-        fprintf(stderr, "lt_dlexit failed (%s)\n", lt_dlerror());
-        exit(EXIT_FAILURE);
-    }
 }
 
 void resetState(int proc)
@@ -1467,10 +1413,6 @@ again:
 
 static BOOL preInstStuff(INSTINFO *info)
 {
-#ifndef HPUX9
-    if (ski_hook)
-	hook();
-#endif
 #ifdef __linux__
     if (signal_pending()) {
 	signal_invoke_handler(0);

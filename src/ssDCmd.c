@@ -63,8 +63,6 @@ extern	ADDR	dataStart;
 #endif
 extern	BOOL	userint;
 
-extern void skiHookFini(void);
-
 /*##################### Globals - Exports ##################################*/
 
 #if 0
@@ -832,7 +830,6 @@ void exitSim(int exitval)
 {
     if (traceOutClose() == -1)
 	cmdErr("Error when closing trace file\n");
-    skiHookFini();
     scrnEnd();
     exit(exitval);
 }

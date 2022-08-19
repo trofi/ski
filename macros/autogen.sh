@@ -124,19 +124,9 @@ do
           test -r $dr/aclocal.m4 && chmod u+w $dr/aclocal.m4
         fi
       fi
-      if grep "^AC_LIBLTDL_CONVENIENCE" $cf >/dev/null; then
-	    lt_opt=--ltdl
-      fi
       if grep "^AM_PROG_LIBTOOL" $cf >/dev/null; then
 	    echo "Running libtoolize..."
 	    libtoolize --force --copy $lt_opt
-        if test -f libltdl/Makefile.am; then
-            sed -e 's/\$(OBJECTS): libtool/ltdl.lo: libtool/' \
-            < libltdl/Makefile.am > libltdl/Makefile.am.new;
-            rm -f libltdl/Makefile.am;
-            mv libltdl/Makefile.am.new libltdl/Makefile.am
-	    cd libltdl; automake --add-missing; cd ..;
-        fi
       fi
       echo "Running $ACLOCAL $aclocalinclude ..."
       $ACLOCAL $aclocalinclude || {

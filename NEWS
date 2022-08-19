@@ -18,6 +18,10 @@ world programs.
 ** Dropped ski-config from installed files. Ski does not provide a
 stable library interface.
 
+** Dropped dynamic hook loading infrastructure support. Ski no longer
+tries to load and execute any libraries via 'SKIHOOK_PATH'. LTDL is
+not required anymore.
+
 * What's New with Ski 1.1.0
 
 ... some release entries are skipped ...
