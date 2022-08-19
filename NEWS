@@ -1,4 +1,23 @@
+* What's New with Ski 1.4.0 (not released yet)
+
+It's a new fork based on lates 1.3.2 version available. It's new home
+is https://github.com/trofi/ski. There are many changes since 1.1.0.
+We'll list a few here since 1.3.2:
+
+** https://github.com/trofi/ski is a new Ski home.
+
+** Build is fixed to work with modern glibc, binutils and linux kernel
+headers versions.
+
+** More linux syscalls are emulated to at least get basic printf() to
+work. More work needs to be done before Ski user emulation can run real
+world programs.
+
+** Dropped outdated ski-config and ski.spec from tarball.
+
 * What's New with Ski 1.1.0
+
+... some release entries are skipped ...
 
 ** Version numbers have been changed to reflect the old Linux
 kernel practice -- x.y.z, where 'x' is major changes, 'y' is
