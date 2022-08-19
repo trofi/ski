@@ -144,15 +144,15 @@ AM_CONDITIONAL(WITH_GTK_INTERFACE, test "x$with_gtk" = "xyes")
 dnl Check for host endianness
 AC_CACHE_CHECK([whether host byte ordering is defined in sys/param.h],
 ski_cv_c_bigendian_compile,
-[AC_TRY_COMPILE([
+[AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
 #include <sys/types.h>
 #include <sys/param.h>
-],[
+]],[[
 #if !BYTE_ORDER || !BIG_ENDIAN || !LITTLE_ENDIAN
 #error bogus endian macros
 #endif
-],
-ski_cv_c_bigendian_compile=yes, ski_cv_c_bigendian_compile=no)])
+]])],
+[ski_cv_c_bigendian_compile=yes], [ski_cv_c_bigendian_compile=no])])
 
 if test "x$ski_cv_c_bigendian_compile" = xyes; then
 AC_DEFINE(ENDIANESS_IN_SYS_PARAM_H, 1,
@@ -164,34 +164,7 @@ dnl Check for variables & functions
 
 AC_FUNC_ALLOCA
 
-vars=""
-funcs="strtoull __strtoull"
-
-# These are neither executed nor required, but they help keep
-# autoheader happy.
-if test "yes" = "no"; then
-    AC_CHECK_FUNCS(strtoull __strtoull)
-    AC_DEFINE(HAVE_SYS_SIGIST, 1,
-              [Define if you have the sys_siglist variable.] )
-fi
-# Check for $vars
-for var in $vars; do
-    AC_MSG_CHECKING([for $var])
-    AC_CACHE_VAL(ski_cv_var_$var,
-    [AC_TRY_LINK([int *p;], [extern int $var; p = &$var;],
-                 [eval "ski_cv_var_$var=yes"],
-                 [eval "ski_cv_var_$var=no"])])
-    if eval "test \"`echo '$ski_cv_var_'$var`\" = yes"; then
-        AC_MSG_RESULT(yes)
-        n=HAVE_`echo $var | tr 'abcdefghijklmnopqrstuvwxyz' \
-                'ABCDEFGHIJKLMNOPQRSTUVWXYZ'`
-        AC_DEFINE_UNQUOTED($n)
-    else
-        AC_MSG_RESULT(no)
-    fi
-done
-# Check for $funcs
-AC_CHECK_FUNCS($funcs)
+AC_CHECK_FUNCS([strtoull __strtoull])
 
 dnl Find libelf.h
 AC_CHECK_HEADER(libelf.h,,
@@ -244,13 +217,11 @@ else
     CFLAGS="$CFLAGS $BFD_CFLAGS"
     LDFLAGS="$LDFLAGS $BFD_LDFLAGS"
     LIBS="$LIBS -lbfd -liberty"
-    AC_TRY_RUN([
-        #include <bfd.h>
-        int main() {
+    AC_RUN_IFELSE([AC_LANG_PROGRAM([[#include <bfd.h>]],[[
             bfd_init ();
             return bfd_set_default_target ("elf64-ia64-little") == 0;
-        }],
-        have_bfd=yes, have_bfd=no)
+        ]])],
+        [have_bfd=yes], [have_bfd=no],[have_bfd=no])
     CFLAGS=$save_CFLAGS
     LDFLAGS=$save_LDFLAGS
     LIBS=$save_LIBS
