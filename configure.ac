@@ -81,7 +81,6 @@ AM_INIT_AUTOMAKE($PACKAGE,$VERSION)
 
 # Specify a configuration file
 AM_CONFIG_HEADER(config.h)
-AM_ACLOCAL_INCLUDE(macros)
 
 # Checks for programs.
 AC_PROG_CC
@@ -330,10 +329,12 @@ dnl Links
 
 dnl Configuration files
 AC_CONFIG_FILES([Makefile])
-AC_CONFIG_FILES([macros/Makefile])
 AC_CONFIG_FILES([src/Makefile src/decoder/Makefile src/encoder/Makefile])
 AC_CONFIG_FILES([src/fake-xterm/Makefile])
 AC_CONFIG_FILES([doc/Makefile])
+
+dnl Where to place automatically pulled in macros
+AC_CONFIG_MACRO_DIRS([m4])
 
 dnl Output the files
 AC_OUTPUT

@@ -19,7 +19,9 @@
 ##
 ##
 
-SUBDIRS=macros src doc
+ACLOCAL_AMFLAGS = -I m4 -I macros
+
+SUBDIRS=src doc
 
 if WITH_X_INTERFACE
 appdefaultsdir=/etc/X11/app-defaults

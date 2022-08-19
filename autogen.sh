@@ -1,7 +1,5 @@
 #!/bin/sh
 # 
-# Copyright (C) 1995-2007, Hewlett-Packard Development Company, L.P.
-# 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or 
@@ -15,20 +13,6 @@
 # You should have received a copy of the GNU General Public License along
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-# 
-#
-# Run this to generate all the initial makefiles, etc.
-#
 
-srcdir=`dirname $0`
-test -z "${srcdir}" && srcdir=.
-
-PKG_NAME="ski"
-
-(test -f ${srcdir}/configure.ac) || {
-    echo "**Error**: Directory "\`${srcdir}\'" does not look like the"\
-         "top-level ${PKG_NAME} directory"
-    exit 1
-}
-
-. ${srcdir}/macros/autogen.sh
+mkdir -p m4
+autoreconf -i -W all
