@@ -153,7 +153,6 @@ done
 
 conf_flags=""
 conf_flags="$conf_flags --enable-maintainer-mode"
-conf_flags="$conf_flags --enable-compile-warnings"
 conf_flags="$conf_flags --enable-dependency-tracking"
 #conf_flags="$conf_flags --enable-iso-c"
 
