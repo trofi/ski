@@ -21,8 +21,6 @@
 
 SUBDIRS=macros src doc
 
-bin_SCRIPTS=ski-config
-
 if WITH_X_INTERFACE
 appdefaultsdir=/etc/X11/app-defaults
 appdefaults_DATA=XSki
@@ -36,7 +34,7 @@ else
 BUILD_XSKI=
 endif
 
-BUILT_SOURCES=ski-config $(BUILD_XSKI)
+BUILT_SOURCES=$(BUILD_XSKI)
 
 EXTRA_DIST=XSki.freebsd XSki.hpux XSki.linux \
 	misc/bskinc misc/ia64fmt ChangeLog.2007

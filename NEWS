@@ -15,6 +15,9 @@ world programs.
 
 ** Dropped outdated ski.spec from tarball.
 
+** Dropped ski-config from installed files. Ski does not provide a
+stable library interface.
+
 * What's New with Ski 1.1.0
 
 ... some release entries are skipped ...
