@@ -337,27 +337,6 @@ elif test "x$GCC" = xyes; then
     CFLAGS="$CFLAGS -D__norcsid -fno-strict-aliasing";
 fi
 
-AC_ARG_ENABLE(compile-warnings,
-    AC_HELP_STRING([--enable-compile-warnings=[no/minimum/yes]],
-        [Turn on compiler warnings.]),,enable_compile_warnings=minimum)
-
-dnl Add warnings flags on Compiler kind
-if test "x$enable_compile_warnings" != xno; then
-    if test "x$GCC" = xyes; then
-        # CC is GNU cc
-        CFLAGS="$CFLAGS -Wall -Wunused"
-        if test "x$enable_compile_warnings" = xnot_ready_for_yes; then
-            CFLAGS="$CFLAGS -Wmissing-prototypes -Wmissing-declarations"
-        fi
-    elif test "x$ICC" = xyes; then
-        # CC is Intel icc 
-       CFLAGS="$CFLAGS -w1"
-    elif test "x$HPCC" = xyes; then
-        # CC is HP ansic
-        CFLAGS="$CFLAGS +w3"
-    fi
-fi
-
 encdir='$(top_srcdir)'/src/encodings
 AC_SUBST(encdir)
 
