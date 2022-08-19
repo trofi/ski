@@ -24,4 +24,4 @@
 
 /*##################### Globals - Exports ##################################*/
 
-char version[] = "Version " VERSION "-" SKI_RELEASE;
+char version[] = "Version " VERSION;
