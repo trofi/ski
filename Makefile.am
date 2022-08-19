@@ -63,11 +63,3 @@ if WITH_GTK_INTERFACE
 	$(LN_S) -f ski $(DESTDIR)/$(bindir)/gski
 	$(LN_S) -f ski.1 $(DESTDIR)/$(mandir)/man1/gski.1
 endif	
-
-rpm: $(PACKAGE).spec dist
-	build_dir=`cd .; pwd` ; \
-	rpm --define "_topdir $$build_dir"   --define "_sourcedir $$build_dir" \
-	   --define "_srcrpmdir $$build_dir" --define "_builddir $$build_dir"  \
-	   --define "_rpmdir $$build_dir"    --define "_target_cpu @host_cpu@" \
-	   -ba --clean $(PACKAGE).spec
-
