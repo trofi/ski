@@ -315,11 +315,12 @@ AC_CHECK_LIB(elf, elf_begin, [],
 
 dnl Add extra flags to CFLAGS depending on os
 case $host_os in
-    linux*)	CFLAGS="$CFLAGS -DLINUX -D_GNU_SOURCE";;
+    linux*)	CFLAGS="$CFLAGS -D_GNU_SOURCE";;
     hpux9*)	CFLAGS="$CFLAGS -DHPUX9";;
     hpux10*)	CFLAGS="$CFLAGS -DHPUX1020";;
     hpux11*)	CFLAGS="$CFLAGS -DHPUX1100";;
-    freebsd*)	CFLAGS="$CFLAGS -DFREEBSD -D__linux__";;
+    # __linux__ on freebsd looks scary. Does it work at all?
+    freebsd*)	CFLAGS="$CFLAGS -D__linux__";;
 esac
 
 # CPU instructions modify arbitrary memory.
