@@ -30,7 +30,7 @@ BEGIN {
     close((prefix "Copyright"));
 
     while (getline ln < (prefix "libdas.c") == 1) {
-      if (ln ~ "^\t\{EM_") {
+      if (ln ~ "^\t{EM_") {
 	sub(/,.*$/, "", ln);
 	instID = substr(ln, 3);
 	if (!(instID in pseudo))
