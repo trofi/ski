@@ -27,7 +27,7 @@ AM_CPPFLAGS= $(X_CFLAGS) $(DWARF_CFLAGS) -I$(srcdir)/decoder \
 			 -I$(top_builddir)/src/decoder $(GSKI_CFLAGS) \
 			 -DSKI_DATA_DIR=\"$(pkgdatadir)\"
 
-lib_LTLIBRARIES=libski.la
+noinst_LTLIBRARIES=libski.la
 
 bin_PROGRAMS= ski
 
@@ -132,10 +132,9 @@ if LINUX
 ski_LDFLAGS = 
 endif
 
-ski_LDADD= libski.la -ldl
+ski_LDADD= libski.la
 
-skiincludedir= $(includedir)/ski-$(SKI_MAJOR_VERSION).$(SKI_MINOR_VERSION)
-skiinclude_HEADERS= \
+noinst_HEADERS= \
 	asm.h \
 	bits.h \
 	coreui.h \
@@ -150,9 +149,8 @@ skiinclude_HEADERS= \
 	ski.h \
 	state.h \
 	std.h \
-	types.h
-
-noinst_HEADERS= \
+	types.h \
+	\
 	tlb.h \
 	instinfo.h \
 	sign_ext.h \

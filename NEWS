@@ -22,6 +22,9 @@ stable library interface.
 tries to load and execute any libraries via 'SKIHOOK_PATH'. LTDL is
 not required anymore.
 
+** libski is not installed any more and is considered an internal
+implementation detail of Ski.
+
 * What's New with Ski 1.1.0
 
 ... some release entries are skipped ...
