@@ -84,7 +84,7 @@ AM_CONFIG_HEADER(config.h)
 AM_ACLOCAL_INCLUDE(macros)
 
 # Checks for programs.
-AC_PROG_CC( icc ecc gcc3 cc gcc )
+AC_PROG_CC
 AM_PROG_CC_STDC
 AM_PROG_AS
 AC_PROG_INSTALL
