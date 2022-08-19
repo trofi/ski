@@ -44,5 +44,6 @@ AS_IF([test "x$no_x" != xyes], [
   CPPFLAGS=$save_CPPFLAGS
   CFLAGS=$save_CFLAGS
   LIBS=$save_LIBS
-]) # no_x != yes
+], [
+  AC_MSG_ERROR([X11 libraries not found!])])
 ])
