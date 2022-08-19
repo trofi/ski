@@ -11,6 +11,84 @@ Installation
 
 See the file 'INSTALL'
 
+Running
+=======
+
+Running Ski requires a few moving parts:
+
+1. build ski-specific linux kernel
+2. prepare disk image of a file system
+3. run ski
+
+1. Building kernel
+
+The caveat is that upstream removed Ski-specific bits from linux-5.0.
+Thus latest supported kernel by Ski is 4.19 (see TODOs to get Ski ported
+to newer kernels).
+
+Once you get ia64-unknown-linux cross-compiler toolchain it is
+straightforward:
+
+    $ wget https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.19.241.tar.xz
+    $ tar -xf linux-4.19.241.tar.xz
+    $ cd linux-4.19.241
+    $ ARCH=ia64 CROSS_COMPILE=ia64-unknown-linux-gnu- make sim_defconfig
+    $ ARCH=ia64 CROSS_COMPILE=ia64-unknown-linux-gnu- make -j$(nproc)
+
+The toolchain versions I used to get working setup are:
+- gcc-11.3.0
+- binutils-2.36
+
+Newer ones should work as well.
+
+2. Preparing disk image
+
+That can be any filesystem supported by guest kernel. sim_defconfig
+supports ext2 as is. I used fresh Gentoo image to verify it:
+
+    $ wget https://bouncer.gentoo.org/fetch/root/all/releases/ia64/autobuilds/20220420T025349Z/stage3-ia64-systemd-20220420T025349Z.tar.xz
+    $ dd of=sdc if=/dev/zero bs=512 count=10485760 #5G
+    $ /sbin/mke2fs sdc
+    $ mkdir mnt
+    $ mknod /dev/loop0 b 7 0
+    $ mount -t ext2 -oloop sdc ./mnt
+    $ cd mnt
+    $ tar -xpf ../stage3-ia64-systemd-20220420T025349Z.tar.xz
+    # ignore dev creation failures
+    $ cd ..
+    $ umount mnt
+
+Here we created `sdc` file and populated it with contents of `stage3`.
+
+3. Running Ski
+
+Once you have got the bits it should just run:
+
+    $ bski linux-4.19.241/arch/ia64/hp/sim/boot/bootloader linux-4.19.241/vmlinux root=/dev/sda simscsi=./sd simeth=eth0 init=/bin/bash PATH=/bin rw
+    ...
+    loading linux-4.19.241/vmlinux...
+    starting kernel...
+    Linux version 4.19.241 (root@gentoo) (gcc version 11.3.0 (Gentoo 11.3.0 p4)) #1 SMP PREEMPT Tue May 3 23:52:46 BST 2022
+    ...
+    root@(none) / # mount -t proc proc /proc
+    root@(none) / # uname -a
+    Linux (none) 4.19.241 #1 SMP PREEMPT Tue May 3 23:52:46 BST 2022 ia64 McKinley HP Ski Simulator GNU/Linux
+    root@(none) / # cat /proc/cpuinfo
+    processor  : 0
+    vendor     : HP Ski Simulator
+    arch       : IA-64
+    family     : 31
+    model      : 0
+    model name : McKinley
+    revision   : 0
+    archrev    : 0
+    features   : branchlong, 16-byte atomic ops
+    cpu number : 0
+    cpu regs   : 4
+    cpu MHz    : 2.000
+    itc MHz    : 2.000000
+    BogoMIPS   : 1.23
+    siblings   : 1
 
 Fork-specific notes
 ===================
@@ -21,3 +99,23 @@ systems. This include but is not limited to:
 - pulling in downstream distribution patches
 - updating dynamic translator code to work on
   modern linux
+
+TODOs
+=====
+
+- Port from ski-specific virtual devices to more standard VIRTIO:
+  * simcons -> virtio-console
+  * simscsi -> virtio-blk
+  * simeth  -> virtio-net
+
+- Bring CPU emulator up to the state where we could include it in qemu
+  * Currently CPU emulator uses global state for various things. It's
+    not very reusable as is.
+
+- stop requiring 'bootloader' and be able to run unmodified ia64 kernel
+  * plumb EFI mapping
+  * plumb ACPI space
+  * plumb PCI space
+  * add support for initramfs loading
+
+- covert doc/ documentation into something closer to plain text
