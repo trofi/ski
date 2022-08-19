@@ -19,11 +19,15 @@
 ##
 ##
 
-# Requires autoconf 2.61
-AC_PREREQ(2.61)
+AC_PREREQ(2.70)
 
-# Initialize autoconf (and check for presence of src/ski.h)
-AC_INIT(src/ski.h)
+AC_INIT([ski],[1.4.0-pre],[slyich@gmail.com], [ski], [https://github.com/trofi/ski])
+AC_CONFIG_AUX_DIR([build-aux])
+AM_INIT_AUTOMAKE([foreign subdir-objects dist-xz dist-lzip no-dist-gzip])
+AM_SILENT_RULES([yes])
+
+AC_CONFIG_SRCDIR([src/main.c])
+AC_CONFIG_HEADERS([config.h])
 
 dnl Canonical host
 AC_CANONICAL_HOST
@@ -76,29 +80,19 @@ VERSION=$SKI_VERSION
 # Specify the default install prefix
 AC_PREFIX_DEFAULT(/usr/local)
 
-# Initialize automake
-AM_INIT_AUTOMAKE($PACKAGE,$VERSION)
-
-# Specify a configuration file
-AM_CONFIG_HEADER(config.h)
-
 # Checks for programs.
 AC_PROG_CC
-AM_PROG_CC_STDC
 AM_PROG_AS
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_AWK
 AC_PROG_SED
 AC_PROG_YACC
-AM_PROG_LEX
+AC_PROG_LEX([noyywrap])
 PKG_PROG_PKG_CONFIG
 
 AC_C_INLINE
 AC_C_CONST
-
-dnl Disable shared for default (enable with --enable-shared) 
-AM_DISABLE_SHARED
 
 dnl Check for compiler kind (HP cc or Intel icc)
 AC_LANG_COMPILER_CHECK
@@ -115,14 +109,12 @@ dnl Set yacc flags
 YFLAGS=-d
 AC_SUBST(YFLAGS)
 
-AM_PROG_LIBTOOL
-
 dnl Initialize maintainer mode
 AM_MAINTAINER_MODE
 
 dnl See if we build X11
-AC_ARG_WITH(x11,
-AC_HELP_STRING([--with-x11],
+AC_ARG_WITH([x11],
+  AS_HELP_STRING([--with-x11],
     [Enable the Motif based X11 interface default=no]),
     [with_x11=$withval])
   
@@ -135,8 +127,8 @@ AM_CONDITIONAL(WITH_X_INTERFACE, test "x$with_x11" = "xyes")
 AC_SUBST(X_INTERFACE_LIBS)
   
 dnl See if we build GTK
-AC_ARG_WITH(gtk,
-AC_HELP_STRING([--with-gtk],
+AC_ARG_WITH([gtk],
+  AS_HELP_STRING([--with-gtk],
     [Enable building the GTK Ski interface default=no]),
     [with_gtk=$withval]
 )
@@ -211,8 +203,8 @@ fi
 
 dnl Check for netdev support
 if test "$HOST_OS" = linux; then
-AC_ARG_ENABLE(netdev,
-    AC_HELP_STRING([--disable-netdev], [disable netdev support]))
+AC_ARG_ENABLE([netdev],
+    AS_HELP_STRING([--disable-netdev], [disable netdev support]))
 if test "x$enable_netdev" != xno; then
     AC_DEFINE(SKINET_ENABLE, 1, [define if you want netdev support])
     with_netdev=yes
@@ -230,18 +222,18 @@ AC_CHECK_LIB(unwind-ia64, _Uia64_get_proc_name, )
 
 # Test for IA-64 libbfd
 
-AC_ARG_WITH(bfd-includes,
-AC_HELP_STRING([--with-bfd-includes],[specify location of bfd headers]),[
+AC_ARG_WITH([bfd-includes],
+  AS_HELP_STRING([--with-bfd-includes],[specify location of bfd headers]),[
     BFD_CFLAGS="-I$withval"
 ])
 
-AC_ARG_WITH(bfd-libs,
-AC_HELP_STRING([--with-bfd-libs],[specify location of bfd libraries]),[
+AC_ARG_WITH([bfd-libs],
+  AS_HELP_STRING([--with-bfd-libs],[specify location of bfd libraries]),[
     BFD_LDFLAGS="-L$withval"
 ])
 
 AC_MSG_CHECKING([for bfd support])
-AC_ARG_WITH(bfd, AC_HELP_STRING([--with-bfd],[use the bfd library]))
+AC_ARG_WITH([bfd], AS_HELP_STRING([--with-bfd],[use the bfd library]))
 
 if test "x$with_bfd" = xno; then
     have_bfd=disabled
@@ -333,7 +325,7 @@ AC_CONFIG_FILES([src/Makefile src/decoder/Makefile src/encoder/Makefile])
 AC_CONFIG_FILES([src/fake-xterm/Makefile])
 AC_CONFIG_FILES([doc/Makefile])
 
-dnl Where to place automatically pulled in macros
+LT_INIT
 AC_CONFIG_MACRO_DIRS([m4])
 
 dnl Output the files

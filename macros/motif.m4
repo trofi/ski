@@ -38,7 +38,7 @@ if test "x$no_x" != xyes; then
     X_INTERFACE_LIBS="$X_LIBS $X_PRE_LIBS -lXext -lX11 $X_EXTRA_LIBS"
     X_INTERFACE_LIBS="$MOTIF_LIBS $X_INTERFACE_LIBS"
   else
-    AC_ERROR([Motif libraries not found!])
+    AC_MSG_ERROR([Motif libraries not found!])
   fi
 
   CPPFLAGS=$save_CPPFLAGS
