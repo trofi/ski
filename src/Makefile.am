@@ -286,8 +286,6 @@ EXTRA_libski_la_SOURCES = \
 
 libski_la_LDFLAGS = \
 	-thread-safe -no-undefined \
-	-version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE) \
-	-release $(LT_RELEASE) \
 	-export-dynamic
 
 libski_la_LIBADD= encoder/libencoder.la decoder/libdecoder.la \
