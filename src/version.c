@@ -20,23 +20,8 @@
  *
  */
 
-
 #include "std.h"
-
-/*##################### Header and Constant Definitions ####################*/
-
-#if !defined VERSION
-#  define VERSION "1.1.0"
-#endif /* !defined VERSION */
 
 /*##################### Globals - Exports ##################################*/
 
-#if 0
-char version[] = "Version " VERSION " [" HOST "]";
-#else
-char version[] = "Version " VERSION
-# ifdef SKI_RELEASE
-		     "-" SKI_RELEASE
-# endif
-		     ;
-#endif
+char version[] = "Version " VERSION "-" SKI_RELEASE;
