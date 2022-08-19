@@ -6,6 +6,8 @@ This is ski: an ia64 instruction set simulator
 This repository is a fork of:
   http://ski.sourceforge.net
 
+The license is GPL-2.
+
 Installation
 ============
 
