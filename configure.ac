@@ -73,9 +73,6 @@ AC_SUBST(LT_CURRENT)
 AC_SUBST(LT_REVISION)
 AC_SUBST(LT_AGE)
 
-# Specify the default install prefix
-AC_PREFIX_DEFAULT(/usr/local)
-
 # Checks for programs.
 AC_PROG_CC
 AM_PROG_AS
