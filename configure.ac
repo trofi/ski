@@ -107,11 +107,9 @@ AC_ARG_WITH([x11],
   AS_HELP_STRING([--with-x11],
     [Enable the Motif based X11 interface default=no]),
     [with_x11=$withval])
-  
-if test "x$with_x11" = "xyes"; then
-  dnl Check for motif, error out if not found
-  AC_WITH_MOTIF
-fi
+
+AS_IF([test "x$with_x11" = "xyes"],[AC_WITH_MOTIF])
+
 # either way we need to set these
 AM_CONDITIONAL(WITH_X_INTERFACE, test "x$with_x11" = "xyes")
 AC_SUBST(X_INTERFACE_LIBS)
@@ -123,10 +121,10 @@ AC_ARG_WITH([gtk],
     [with_gtk=$withval]
 )
 
-if test "x$with_gtk" = "xyes"; then
+AS_IF([test "x$with_gtk" = "xyes"], [
  PKG_CHECK_MODULES([GSKI], [libglade-2.0 libgnomeui-2.0 >= 1.110.0])
  AC_DEFINE(HAVE_GTK, 1, [define if you have GTK support])
-fi
+])
 AC_SUBST(GSKI_CFLAGS)
 AC_SUBST(GSKI_LIBS)
 AM_CONDITIONAL(WITH_GTK_INTERFACE, test "x$with_gtk" = "xyes")
@@ -144,10 +142,10 @@ ski_cv_c_bigendian_compile,
 ]])],
 [ski_cv_c_bigendian_compile=yes], [ski_cv_c_bigendian_compile=no])])
 
-if test "x$ski_cv_c_bigendian_compile" = xyes; then
+AS_IF([test "x$ski_cv_c_bigendian_compile" = xyes], [
 AC_DEFINE(ENDIANESS_IN_SYS_PARAM_H, 1,
     [define if sys/param.h defines the endiness])
-fi
+])
 AC_C_BIGENDIAN
 
 dnl Check for variables & functions
@@ -160,25 +158,25 @@ dnl Find libelf.h
 AC_CHECK_HEADER(libelf.h,,
     [AC_CHECK_HEADER(libelf/libelf.h, have_libelf_libelf_h=yes,
         [AC_MSG_ERROR(Required libelf.h header not found.)])])
-if test "x$have_libelf_libelf_h" = xyes; then
+AS_IF([test "x$have_libelf_libelf_h" = xyes], [
     AC_DEFINE(HAVE_LIBELF_LIBELF_H, 1, [define if you have libelf/libelf.h])
-fi
+])
 
 dnl Check for netdev support
-if test "$HOST_OS" = linux; then
-AC_ARG_ENABLE([netdev],
+AS_IF([test "$HOST_OS" = linux], [
+  AC_ARG_ENABLE([netdev],
     AS_HELP_STRING([--disable-netdev], [disable netdev support]))
-if test "x$enable_netdev" != xno; then
+  AS_IF([test "x$enable_netdev" != xno], [
     AC_DEFINE(SKINET_ENABLE, 1, [define if you want netdev support])
     with_netdev=yes
-fi
-fi
+  ])
+])
 
 AM_CONDITIONAL(WITH_NETDEV, test "x$with_netdev" = xyes)
 
-if test "$HOST_OS" = freebsd; then
+AS_IF([test "$HOST_OS" = freebsd], [
     LDFLAGS="$LDFLAGS -lutil"
-fi
+])
 
 dnl Check for optional libs
 AC_CHECK_LIB(unwind-ia64, _Uia64_get_proc_name, )
@@ -198,9 +196,7 @@ AC_ARG_WITH([bfd-libs],
 AC_MSG_CHECKING([for bfd support])
 AC_ARG_WITH([bfd], AS_HELP_STRING([--with-bfd],[use the bfd library]))
 
-if test "x$with_bfd" = xno; then
-    have_bfd=disabled
-else
+AS_IF([test "x$with_bfd" = xno], [have_bfd=disabled], [
     save_CFLAGS=$CFLAGS
     save_LDFLAGS=$LDFLAGS
     save_LIBS=$LIBS
@@ -215,45 +211,45 @@ else
     CFLAGS=$save_CFLAGS
     LDFLAGS=$save_LDFLAGS
     LIBS=$save_LIBS
-fi
+])
 
-if test "x$have_bfd" = xyes; then
+AS_IF([test "x$have_bfd" = xyes], [
     DWARF_CFLAGS="$BFD_CFLAGS"
     DWARF_LIBS="$BFD_LDFLAGS -lbfd -liberty"
-fi
+])
 AC_MSG_RESULT([$have_bfd])
 
-if test "x$have_bfd" = xyes; then
+AS_IF([test "x$have_bfd" = xyes], [
     AC_DEFINE(HAVE_DWARF_SUPPORT, 1, [define if you have dwarf support])
-fi
+])
 
 AC_SUBST(DWARF_CFLAGS)
 AC_SUBST(DWARF_LIBS)
 
 dnl Check if ski_elf.h is missing
 AC_CHECK_HEADER(ski_elf.h,,ske_elf_h_is_missing=yes)
-if test "x$ske_elf_h_is_missing" = xyes; then
+AS_IF([test "x$ske_elf_h_is_missing" = xyes], [
     AC_CONFIG_LINKS([src/ski_elf.h:src/missing/ski_elf.h])
-fi
+])
 
 dnl Check for required libs
 
 AC_CHECK_LIB(m, ldexp, [],
     [AC_MSG_ERROR(Required library libm not found.)])
 
-if test "$HOST_OS" = hpux; then
+AS_IF([test "$HOST_OS" = hpux], [
     # HPUX prefers libHcurses.
     AC_CHECK_LIB(Hcurses, tgetent,[
         AC_DEFINE(__HP_CURSES, 1, [define if you want to use HP curses])
         LIBS="-lHcurses $LIBS"
         check_curses=no], [])
-fi
+])
 
-if test "x$check_curses" != xno; then
+AS_IF([test "x$check_curses" != xno], [
     PKG_CHECK_MODULES([NCURSES], [ncurses])
     CFLAGS="$CFLAGS $NCURSES_CFLAGS"
     LIBS="$LIBS $NCURSES_LIBS"
-fi
+])
 
 AC_CHECK_LIB(elf, elf_begin, [],
     [AC_MSG_ERROR(Required library libelf not found.)])
