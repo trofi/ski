@@ -39,14 +39,6 @@ BUILT_SOURCES=$(BUILD_XSKI)
 EXTRA_DIST=XSki.freebsd XSki.hpux XSki.linux \
 	misc/bskinc misc/ia64fmt ChangeLog.2007
 
-.PHONY: snapshot
-
-release:
-	$(MAKE) distcheck
-
-snapshot:
-	$(MAKE) dist distdir=$(PACKAGE)-`date +"%Y%m%d"`
-
 distclean-hook:
 	rm -f XSki
 
