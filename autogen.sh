@@ -31,17 +31,4 @@ PKG_NAME="ski"
     exit 1
 }
 
-# Deal with the GNUism or Linuxism of always including /usr/local.
-# This is not done on FreeBSD, because /usr/local is not dictated
-# or enforced by FreeBSD and system administrators are free to
-# pick a different tree like /opt for there add-on bits. As such,
-# they are responsible for telling the compiler where the add-on
-# bits are. By default things are put under /usr/local though, so
-# that's our default as well...
-if [ `uname` = FreeBSD ]; then
-    _BASE=${LOCALBASE:=/usr/local}
-    export CPPFLAGS=-I${_BASE}/include
-    export LDFLAGS=-L${_BASE}/lib
-fi
-
 . ${srcdir}/macros/autogen.sh
