@@ -94,9 +94,6 @@ PKG_PROG_PKG_CONFIG
 AC_C_INLINE
 AC_C_CONST
 
-dnl Check for compiler kind (HP cc or Intel icc)
-AC_LANG_COMPILER_CHECK
-
 dnl Check for required build tools
 AC_CHECK_PROG(GPERF, gperf, gperf)
 test -z "$GPERF" && GPERF='$(top_srcdir)/missing gperf'
