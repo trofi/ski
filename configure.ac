@@ -322,20 +322,9 @@ case $host_os in
     freebsd*)	CFLAGS="$CFLAGS -DFREEBSD -D__linux__";;
 esac
 
-dnl Add extra flags to CFLAGS depending on compiler
-echo "$CFLAGS" | grep "\-g" > /dev/null && cc_dash_g=yes
-if test "x$HPCC" = xyes; then
-    # if -g is specified add +ESdbgasm for _asm inlined assembly
-    test "x$cc_dash_g" = xyes && CFLAGS="$CFLAGS +ESdbgasm"
-    # Add architecture flags
-    case $host_cpu in
-        hppa2.0*) CFLAGS="$CFLAGS +DA20 +DS20"; 
-                  LDFLAGS="-Wl,+vnocompatwarnings";;
-        hppa1.1*) CFLAGS="$CFLAGS +DA11 +DS11";;
-    esac
-elif test "x$GCC" = xyes; then
-    CFLAGS="$CFLAGS -D__norcsid -fno-strict-aliasing";
-fi
+# CPU instructions modify arbitrary memory.
+# No chance to maintain aliasing guarantees.
+CFLAGS="$CFLAGS -fno-strict-aliasing"
 
 encdir='$(top_srcdir)'/src/encodings
 AC_SUBST(encdir)
