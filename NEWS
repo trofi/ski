@@ -13,7 +13,7 @@ headers versions.
 work. More work needs to be done before Ski user emulation can run real
 world programs.
 
-** Dropped outdated ski-config and ski.spec from tarball.
+** Dropped outdated ski.spec from tarball.
 
 * What's New with Ski 1.1.0
 
