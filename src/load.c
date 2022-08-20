@@ -1272,9 +1272,10 @@ static int peChk(const char *name)
         (void)fprintf(stderr, "%s - %s\n", name, strerror(errno));
     else {
 	char id[2];
+	ssize_t ret;
 
-	read(fd, id, 2);
-	if (id[0] != 'M' || id[1] != 'Z') {
+	ret = read(fd, id, 2);
+	if (ret != 2 || id[0] != 'M' || id[1] != 'Z') {
 	    close(fd);
 	    fd = -1;
 	}
