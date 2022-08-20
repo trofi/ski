@@ -51,7 +51,9 @@ instID.h: instID.awk $(encdir)/encoding.opcode $(encdir)/encoding.unusedop
 		$(encdir)/encoding.unusedop
 
 operands.h: operands.awk $(encdir)/encoding.opcode operands.h_template
-	$(AWK) -f $(srcdir)/operands.awk -v prefix=$(srcdir)/ \
+	$(AWK) -f $(srcdir)/operands.awk \
+		-v OPFILE=operands.h \
+		-v TEMPLATE=$(srcdir)/operands.h_template \
 		$(encdir)/encoding.opcode
 
 decode_tree.c:

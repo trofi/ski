@@ -8,7 +8,7 @@ function printEmacs(file)
     printf "%s\n", Emacs > file
 }
 
-function printWarn(file, i)
+function printWarn(file)
 {
   printf("/* DO NOT EDIT - Automatically generated using:\n") > file;
   for (i = 0; i < ARGC; i++)
@@ -17,8 +17,6 @@ function printWarn(file, i)
 }
 
 BEGIN {
-    OPFILE="operands.h";
-    TEMPLATE=prefix "operands.h_template";
     printEmacs(OPFILE);
     printWarn(OPFILE);
     while (getline ln < TEMPLATE == 1) {
