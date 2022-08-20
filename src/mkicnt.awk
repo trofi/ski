@@ -2,8 +2,6 @@
 
 BEGIN {
     unused = 0
-    HFILE_UI="icnt_ui.h"
-    HFILE_CORE="icnt_core.h"
     Emacs="/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t;" \
       " c-basic-offset: 4 -*- */\n"
     printf "%s", Emacs > HFILE_UI
@@ -14,11 +12,11 @@ BEGIN {
 	 " */\n"
     printf "%s", Warn > HFILE_UI
     printf "%s", Warn > HFILE_CORE
-    while (getline ln < (prefix "Copyright") == 1) {
+    while (getline ln < COPYRIGHT == 1) {
 	print ln > HFILE_UI
 	print ln > HFILE_CORE
     }
-    close((prefix "Copyright"))
+    close(COPYRIGHT)
 
     print "" > HFILE_UI
     print "typedef struct {" > HFILE_UI

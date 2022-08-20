@@ -338,7 +338,10 @@ icnt_core.h: mkicnt.awk $(encdir)/encoding.opcode \
 				 $(encdir)/encoding.unusedop \
 				 $(srcdir)/Copyright
 	@rm -f $(ICNT_DERIVED)
-	$(AWK) -v prefix=$(srcdir)/ -f $(srcdir)/mkicnt.awk \
+	$(AWK) -f $(srcdir)/mkicnt.awk \
+		-v COPYRIGHT=$(srcdir)/Copyright \
+		-v HFILE_UI=icnt_ui.h \
+		-v HFILE_CORE=icnt_core.h \
 		$(encdir)/encoding.opcode \
 		unused=1 $(encdir)/encoding.unusedop
 	touch icnt_ui.h
