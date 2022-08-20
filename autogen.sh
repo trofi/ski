@@ -15,4 +15,4 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 mkdir -p m4
-autoreconf -i -W all
+autoreconf -i -f -W all
