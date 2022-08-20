@@ -390,7 +390,12 @@ predecode.c: $(encdir)/encoding.format $(encdir)/encoding.imm \
 	@rm -rf $(PREDECODE_DERIVED)
 	$(AWK) -v encdir=$(encdir) -f $(srcdir)/fmtimm.awk \
 		$(encdir)/encoding.format | \
-		$(AWK) -v prefix=$(srcdir)/ -f $(srcdir)/predecode.awk -
+		$(AWK) -f $(srcdir)/predecode.awk \
+			-v CFILE=predecode.c \
+			-v PHFILE=predecode.h \
+			-v IHFILE=immed.h \
+			-v COPYRIGHT=$(srcdir)/Copyright \
+			-
 	@touch predecode.h immed.h
 
 instr.c: $(encdir)/encoding.opcode \

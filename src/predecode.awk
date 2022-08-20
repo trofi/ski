@@ -1,9 +1,6 @@
 # -*- Mode: AWK; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 4 -*-
 
 BEGIN {
-    CFILE="predecode.c"
-    PHFILE="predecode.h"
-    IHFILE="immed.h"
     Emacs="/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t;" \
       " c-basic-offset: 4 -*- */\n"
     printf "%s", Emacs > CFILE
@@ -16,12 +13,12 @@ BEGIN {
     printf "%s", Warn > CFILE
     printf "%s", Warn > PHFILE
     printf "%s", Warn > IHFILE
-    while (getline ln < (prefix "Copyright") == 1) {
+    while (getline ln < COPYRIGHT == 1) {
 	print ln > CFILE
 	print ln > PHFILE
 	print ln > IHFILE
     }
-    close((prefix "Copyright"))
+    close(COPYRIGHT)
     print "BOOL illpredecode(DWORD, INSTINFO *);" > PHFILE
     print "BOOL illQPpredecode(DWORD, INSTINFO *);" > PHFILE
     print "BOOL illBQPpredecode(DWORD, INSTINFO *);" > PHFILE
