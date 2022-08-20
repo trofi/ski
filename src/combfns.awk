@@ -1,8 +1,6 @@
 # -*- Mode: AWK; tab-width: 8; indent-tabs-mode: t; awk-basic-offset: 4 -*-
 
 BEGIN {
-    CFILE="combfns.c"
-    HFILE="combfns.h"
     Emacs="/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t;" \
       " c-basic-offset: 4 -*- */\n"
     printf "%s", Emacs > CFILE
@@ -13,11 +11,11 @@ BEGIN {
 	 " */\n"
     printf "%s", Warn > CFILE
     printf "%s", Warn > HFILE
-    while (getline ln < (prefix "Copyright") == 1) {
+    while (getline ln < COPYRIGHT == 1) {
 	print ln > CFILE
 	print ln > HFILE
     }
-    close((prefix "Copyright"))
+    close(COPYRIGHT)
     print "#include \"exec_hd.c\"" > CFILE
     print "Status illComb(INSTINFO *info);" > HFILE
     print "Status illQpComb(INSTINFO *info);" > HFILE

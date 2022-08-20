@@ -368,7 +368,10 @@ combfns.c: execTbl $(COMBFNS_FILES) mkfns.awk combfns.awk
 		$(srcdir)/read.c \
 		$(srcdir)/sys_exec.c \
 		$(srcdir)/write.c
-	$(AWK) -v prefix=$(srcdir)/ -f $(srcdir)/combfns.awk \
+	$(AWK) -f $(srcdir)/combfns.awk \
+		-v CFILE=combfns.c \
+		-v HFILE=combfns.h \
+		-v COPYRIGHT=$(srcdir)/Copyright \
 		$(srcdir)/execTbl
 	@touch combfns.h
 	@rm -rf ./temp
