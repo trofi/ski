@@ -397,8 +397,11 @@ instr.c: $(encdir)/encoding.opcode \
 		 $(encdir)/encoding.unusedop \
 		 opcode.awk execTbl $(srcdir)/Copyright
 	@rm -f instr.c
-	$(AWK) -v prefix=$(srcdir)/ \
-		-f $(srcdir)/opcode.awk $(encdir)/encoding.opcode \
+	$(AWK) -f $(srcdir)/opcode.awk \
+		-v CFILE=instr.c \
+		-v COPYRIGHT=$(srcdir)/Copyright \
+		-v EXECTBL=execTbl \
+		$(encdir)/encoding.opcode \
 		unused=1 $(encdir)/encoding.unusedop
 
 escan.h: escan.c

@@ -8,7 +8,7 @@ function printEmacs(file)
     printf "%s\n", Emacs > file
 }
 
-function printWarn(file, i)
+function printWarn(file)
 {
   printf "/* DO NOT EDIT - Automatically generated using:\n" \
 	 "    ./opcode.awk" > file
@@ -27,12 +27,11 @@ function printInstrData(pdec,comb,flags)
 
 BEGIN {
     unused = 0
-    CFILE="instr.c"
     printEmacs(CFILE)
     printWarn(CFILE)
-    while (getline ln < (prefix "Copyright") == 1)
+    while (getline ln < COPYRIGHT == 1)
 	printf "%s\n", ln > CFILE
-    close((prefix "Copyright"))
+    close(COPYRIGHT)
 
     print "#include \"std.h\"" > CFILE
     print "#include \"types.h\"" > CFILE
@@ -48,7 +47,7 @@ BEGIN {
     printInstrData("illBQPpredecode","illBQpComb","0x1")
     printInstrData("ignpredecode","ignComb","0x0")
     printInstrData("lUnitImm41predecode","illComb","0x0")
-    while (getline ln < ("execTbl") == 1)
+    while (getline ln < EXECTBL == 1)
 	if (index(ln,"alias")) {
 	    split(ln,arr)
 	    temp = arr[3]
