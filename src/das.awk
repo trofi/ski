@@ -8,15 +8,12 @@ function printEmacs(file)
     printf "%s\n", Emacs > file
 }
 
-function printWarn(file,    i, date)
+function printWarn(file, i)
 {
-  "date" | getline date;
-  printf("/* DO NOT EDIT - Automatically generated %s using:\n   ", \
-	 date) > file;
+  printf("/* DO NOT EDIT - Automatically generated using:\n   ") > file;
   for (i = 0; i < ARGC; i++)
     printf(" %s", ARGV[i]) > file;
   printf("\n */\n\n") > file;
-  close("date");
 }
 
 BEGIN {

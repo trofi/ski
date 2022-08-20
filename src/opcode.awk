@@ -8,11 +8,10 @@ function printEmacs(file)
     printf "%s\n", Emacs > file
 }
 
-function printWarn(file, i, date)
+function printWarn(file, i)
 {
-  "date" | getline date
-  printf "/* DO NOT EDIT - Automatically generated %s using:\n" \
-	 "    ./opcode.awk", date > file
+  printf "/* DO NOT EDIT - Automatically generated using:\n" \
+	 "    ./opcode.awk" > file
   for (i = 1; i < ARGC; i++)
 	printf " %s", ARGV[i] > file
   print "\n */" > file
