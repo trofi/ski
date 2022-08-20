@@ -194,7 +194,7 @@ static REG rd8(REG addr)
 {
     DWORD dval;
 
-    return memMRd(0, addr, 8, &dval) ? dval : 0;
+    return memMRd(addr, 8, &dval) ? dval : 0;
 }
 
 static REG strtonum(char *str, int base)

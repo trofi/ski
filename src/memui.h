@@ -22,7 +22,7 @@
 #ifndef _SKI_MEMUI_H
 #define _SKI_MEMUI_H
 
-BOOL memMRd(int cproc, ADDR adr, unsigned size, DWORD *pval);
+BOOL memMRd(ADDR adr, unsigned size, DWORD *pval);
 BOOL memMIAIRd(WORD eip, BYTE *pval, unsigned nbytes);
 
 #endif	/* _SKI_MEMUI_H */
