@@ -2,14 +2,14 @@
 
 /^Status/ {
     split($2, arr, "(")
-    file = "temp/"arr[1]
+    file = TEMP"/"arr[1]
     system("touch " file)
     next
 }
 
 /^void.*INSTINFO/ {
     split($2, arr, "(")
-    file = "temp/"arr[1]
+    file = TEMP"/"arr[1]
     system("touch " file)
     next
 }

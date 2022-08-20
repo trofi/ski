@@ -363,7 +363,8 @@ iadas_types.h: $(srcdir)/ia_types.h $(srcdir)/ia_types.sed
 combfns.h: combfns.c
 combfns.c: execTbl $(COMBFNS_FILES) mkfns.awk combfns.awk
 	@(rm -rf ./temp; mkdir temp; rm -f $(COMBFNS_DERIVED))
-	$(AWK) -v prefix=$(srcdir)/ -f $(srcdir)/mkfns.awk \
+	$(AWK) -f $(srcdir)/mkfns.awk \
+		-v TEMP=temp \
 		$(srcdir)/exec.c \
 		$(srcdir)/fp_exec.c \
 		$(srcdir)/mem_exec.c \
