@@ -533,7 +533,7 @@ addLM5 (const char *name, Elf64_Phdr *phdr, int phnum, ADDR load_base,
     struct load_module *lm;
 
     lm = malloc (sizeof (struct load_module));
-    memset (lm, 0, sizeof (lm));
+    memset (lm, 0, sizeof (*lm));
 
     lm->name = strdup (name);
     lm->phnum = phnum;
