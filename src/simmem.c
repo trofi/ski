@@ -244,19 +244,6 @@ pmem_update_flags(ADDR va, unsigned int set, unsigned int clear)
 }
 
 /*
- * Perform a load from the given address.
- * XXX needs tracing.
- */
-inline static int
-pmem_load(ADDR va, void *buf, size_t sz, int flags)
-{
-    pmemStruct *ps;
-
-    ps = pmem_lookup(va);
-    assert(0);
-}
-
-/*
  * Compatibility cruft. Needs reviewing and either removed or formalized.
  */
 
