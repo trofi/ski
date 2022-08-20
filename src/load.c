@@ -98,7 +98,7 @@ static REG psrval = 0;
 #    define DEBUG(...) do { } while (0)
 #endif
 
-extern void addLM (const char*, Elf64_Phdr*, int, ADDR, int);
+extern void addLM5 (const char*, Elf64_Phdr*, int, ADDR, int);
 
 char *sim_root = NULL;
 size_t sim_root_len = 0;
@@ -542,7 +542,7 @@ void mmapSyms(int fd, ADDR start, ADDR len, ADDR offset)
 
 	for (i = 0; i < ehdr->e_phnum; i++) {
 	    if (phdr[i].p_type == PT_IA_64_UNWIND) {
-		addLM("shlib", phdr, ehdr->e_phnum, start, 0);
+		addLM5("shlib", phdr, ehdr->e_phnum, start, 0);
 		break;
 	    }
 	}
@@ -795,7 +795,7 @@ static BOOL interp(int fd, off_t offset, unsigned sz)
 
 	for (i = 0; i < ehdr->e_phnum; i++) {
 	    if (phdr[i].p_type == PT_IA_64_UNWIND) {
-		addLM("ld.so", phdr, ehdr->e_phnum, bias, 1);
+		addLM5("ld.so", phdr, ehdr->e_phnum, bias, 1);
 		unwind_base = bias + phdr[i].p_vaddr;
 		DEBUG("interp: PT_IA_64_UNWIND: %#llx\n", unwind_base);
 	    }
@@ -934,7 +934,7 @@ BOOL elfSymLoad(const char *file_name)
 		text_end = text_base + phdr[i].p_memsz - 1;
 	    }
 
-	addLM(file_name, phdr, ehdr->e_phnum, 0, 1);
+	addLM5(file_name, phdr, ehdr->e_phnum, 0, 1);
 	elf64_slurp_all_symbols(elfptr, ehdr, phdr, 0);
     } else {	/* ELFCLASS32 */
 	Elf32_Ehdr *ehdr;
@@ -1095,7 +1095,7 @@ BOOL elfLoad(const char *file_name, int s_argc, char *s_argv[])
 #endif
 		case PT_IA_64_UNWIND:
 		    /* TODO: account for ELF bias? */
-		    addLM(file_name, phdr, ehdr->e_phnum, bias, 1);
+		    addLM5(file_name, phdr, ehdr->e_phnum, bias, 1);
 		    unwind_base = bias + phdr[i].p_vaddr;
 		    /*unwind_end = bias + phdr[i].p_vaddr + phdr[i].p_filesz;*/
 		    DEBUG("PT_IA_64_UNWIND: %#llx\n", unwind_base);

@@ -477,7 +477,7 @@ void switchBanks(void);
 void arithFlagsFromEflags(void);
 void setIAmode(void);
 void clearPdecode(ADDR adr, unsigned size);
-void addLM(ADDR adr, size_t len);
+void addLM2(ADDR adr, size_t len);
 int isbpt(ADDR adr);
 
 /* consider #include'ing trace.h instead of declaring the following var/fns */

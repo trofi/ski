@@ -516,7 +516,6 @@ BOOL pagGProt(unsigned argc, char *argv[])
 
 #endif
 
-#ifdef HAVE_LIBUNWIND_IA64
 
 struct load_module {
     struct load_module *next;
@@ -528,7 +527,7 @@ struct load_module {
 } *load_module_list;
 
 void
-addLM (const char *name, Elf64_Phdr *phdr, int phnum, ADDR load_base,
+addLM5 (const char *name, Elf64_Phdr *phdr, int phnum, ADDR load_base,
        int discontiguous)
 {
     struct load_module *lm;
@@ -546,6 +545,8 @@ addLM (const char *name, Elf64_Phdr *phdr, int phnum, ADDR load_base,
     lm->next = load_module_list;
     load_module_list = lm;
 }
+
+#ifdef HAVE_LIBUNWIND_IA64
 
 static int
 get_unwind_table (unw_dyn_info_t *di, unw_addr_space_t as,
@@ -996,7 +997,7 @@ fprintf(stderr, "read_tgt_mem called: %llx %x\n", src, (unsigned)nbytes);
 
 #define ADDPTR(addr)    (addr = (BitfX(addr,32,32) | BitfX(addr,32,2) << 61))
 
-void addLM(ADDR adr, size_t len)
+void addLM2(ADDR adr, size_t len)
 {
 #ifdef HAVE_UNWIND_SUPPORT
     struct load_module_desc lmd;

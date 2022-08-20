@@ -277,7 +277,7 @@ Status breakEx(INSTINFO *info)
 	switch ((int)ARG0) {
 	    case BREAK_DE_SVC_LOADED:
 	    case BREAK_DE_LIB_LOADED:
-		addLM(ARG1, ARG2);
+		addLM2(ARG1, ARG2);
 		break;
 	    case BREAK_DE_LIB_UNLOADED:
 		break;
