@@ -29,7 +29,7 @@
 #include "os_support.h"
 
 extern char *sim_root;
-extern int sim_root_len;
+extern size_t sim_root_len;
 
 static SimTime simtime0;
 
