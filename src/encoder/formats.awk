@@ -8,7 +8,7 @@ function printEmacs(file)
     printf "%s\n", Emacs > file
 }
 
-function printWarn(file, i)
+function printWarn(file)
 {
   printf("/* DO NOT EDIT - Automatically generated using:\n") > file;
   for (i = 0; i < ARGC; i++)
@@ -17,15 +17,12 @@ function printWarn(file, i)
 }
 
 BEGIN {
-    HFILE="EMformats.h";
     printEmacs(HFILE);
-    CFILE="formats.c";
-    TEMPLATE="formats.c_template";
     printWarn(HFILE);
-    while (getline ln < (prefix "Copyright") == 1) {
+    while (getline ln < COPYRIGHT == 1) {
         print ln > HFILE
     }
-    close((prefix "Copyright"))
+    close(COPYRIGHT)
 
     print "" > HFILE
     print "/* $Head" "er$ */" > HFILE
@@ -39,10 +36,10 @@ BEGIN {
     print "    EM_FORMAT_NONE = 0," > HFILE
 
     printWarn(CFILE);
-    while (getline ln < (prefix TEMPLATE) == 1) {
+    while (getline ln < TEMPLATE == 1) {
 	print ln > CFILE
     }
-    close((prefix TEMPLATE));
+    close(TEMPLATE);
     print "static char *formatName[NUM_FORMATS+1] = {" > CFILE
     print "    \"???\"," > CFILE
 }

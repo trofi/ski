@@ -39,7 +39,11 @@ noinst_SCRIPTS= formats.awk
 EMformats.h formats.c: formats.awk formats.c_template \
 					   $(encdir)/encoding.format Copyright
 	rm -f $@;
-	$(AWK) -f $(srcdir)/formats.awk -v prefix=$(srcdir)/ \
+	$(AWK) -f $(srcdir)/formats.awk \
+		-v HFILE=EMformats.h \
+		-v CFILE=formats.c \
+		-v TEMPLATE=$(srcdir)/formats.c_template \
+		-v COPYRIGHT=$(srcdir)/Copyright \
 		$(encdir)/encoding.format
 
 encode_table.c:
