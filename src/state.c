@@ -129,6 +129,7 @@ REG grGet(int proc, int i)
     curPid = proc;
 #endif
     GrRd(i, val, nat, NO);
+    (void)nat;
 #ifdef NEW_MP
     curPid = save;
 #endif
@@ -145,6 +146,7 @@ REG grNatGet(int proc, int i)
     curPid = proc;
 #endif
     GrRd(i, val, nat, NO);
+    (void)val;
 #ifdef NEW_MP
     curPid = save;
 #endif
@@ -627,12 +629,14 @@ BOOL grSet(int proc, int i, REG val)
 	return NO;
     }
     GrRd(i, old, nat, NO);
+    (void)old;
     GrWrtx(i, val, nat);
     curPid = save;
 #else
     if (!i || i >= GR_STK_BASE+sof)
 	return NO;
     GrRd(i, old, nat, NO);
+    (void)old;
     GrWrtx(i, val, nat);
 #endif
     return YES;
@@ -651,12 +655,14 @@ BOOL grNatSet(int proc, int i, BOOL nat)
 	return NO;
     }
     GrRd(i, val, old, NO);
+    (void)old;
     GrWrtx(i, val, nat & 1);
     curPid = save;
 #else
     if (!i || i >= GR_STK_BASE+sof)
 	return NO;
     GrRd(i, val, old, NO);
+    (void)old;
     GrWrtx(i, val, nat & 1);
 #endif
     return YES;
