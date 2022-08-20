@@ -8,7 +8,7 @@ function printEmacs(file)
     printf "%s\n", Emacs > file
 }
 
-function printWarn(file, i)
+function printWarn(file)
 {
   printf("/* DO NOT EDIT - Automatically generated using:\n") > file;
   for (i = 0; i < ARGC; i++)
@@ -17,13 +17,12 @@ function printWarn(file, i)
 }
 
 BEGIN {
-    IDFILE="instID.h";
     printEmacs(IDFILE);
     printWarn(IDFILE);
-    while (getline ln < (prefix "Copyright") == 1) {
+    while (getline ln < COPYRIGHT == 1) {
 	print ln > IDFILE
     }
-    close((prefix "Copyright"))
+    close(COPYRIGHT)
 
     print "/* $Head" "er$ */" > IDFILE
     print "" > IDFILE

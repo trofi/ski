@@ -44,7 +44,9 @@ noinst_SCRIPTS= \
 	operands.awk
 
 instID.h: instID.awk $(encdir)/encoding.opcode $(encdir)/encoding.unusedop
-	$(AWK) -f $(srcdir)/instID.awk -v prefix=$(srcdir)/ \
+	$(AWK) -f $(srcdir)/instID.awk \
+		-v IDFILE=instID.h \
+		-v COPYRIGHT=$(srcdir)/Copyright \
 		$(encdir)/encoding.opcode \
 		$(encdir)/encoding.unusedop
 
