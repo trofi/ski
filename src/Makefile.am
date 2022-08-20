@@ -326,7 +326,10 @@ das_instr.c: das.awk $(encdir)/encoding.opcode \
 			 $(encdir)/encoding.unusedop \
 			 $(srcdir)/libdas.c $(srcdir)/Copyright
 	@rm -f $(DAS_INSTR_DERIVED)
-	$(AWK) -v prefix=$(srcdir)/ -f $(srcdir)/das.awk \
+	$(AWK) -f $(srcdir)/das.awk \
+		-v COPYRIGHT=$(srcdir)/Copyright \
+		-v LIBDAS_C=$(srcdir)/libdas.c \
+		-v CFILE=das_instr.c \
 		$(encdir)/encoding.opcode \
 		unused=1 $(encdir)/encoding.unusedop
 

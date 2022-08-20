@@ -8,7 +8,7 @@ function printEmacs(file)
     printf "%s\n", Emacs > file
 }
 
-function printWarn(file, i)
+function printWarn(file)
 {
   printf("/* DO NOT EDIT - Automatically generated using:\n   ") > file;
   for (i = 0; i < ARGC; i++)
@@ -18,15 +18,14 @@ function printWarn(file, i)
 
 BEGIN {
     unused = 0
-    CFILE="das_instr.c"
     printEmacs(CFILE)
     printWarn(CFILE)
-    while (getline ln < (prefix "Copyright") == 1) {
+    while (getline ln < COPYRIGHT == 1) {
 	print ln > CFILE
     }
-    close((prefix "Copyright"));
+    close(COPYRIGHT);
 
-    while (getline ln < (prefix "libdas.c") == 1) {
+    while (getline ln < LIBDAS_C == 1) {
       if (ln ~ "^\t{EM_") {
 	sub(/,.*$/, "", ln);
 	instID = substr(ln, 3);
@@ -35,7 +34,7 @@ BEGIN {
 	pnum++;
       }
     }
-    close((prefix "libdas.c"));
+    close(LIBDAS_C);
 
     print "" > CFILE
     print "#include \"das_instr.h\"" > CFILE
