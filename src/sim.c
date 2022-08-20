@@ -831,13 +831,12 @@ Status iAiCycle(void)
 {
     IAinstInfoPtr info = 0;
     Status st;
-    ADDR pip, iaTag;
+    ADDR pip;
 
     if (dosABI)
         pip = ip;
     else if (!itlbLookup(ip, PSR_IT, &pip))
         return StFault;
-    iaTag = pip & CTTAGMASK;
     /* XXX - add code-segment limit checks */
     if (!ia_decode(EIP, info))
         return StFault;
@@ -2364,6 +2363,7 @@ BOOL brTaken(ADDR a, ADDR *next)
 	BOOL nat;
 
 	GrRd(info.extrainfo[2], junk, nat, NO);
+	(void)junk;
 	tkn = PrRd(info.qpred) && nat;
 	*next = tkn ? BADDR(a) + info.immed64 : nextIp(a);
 	return tkn;
@@ -2460,13 +2460,11 @@ MEMTYPE memType(ADDR a)
     BundlePtr b;
     unsigned s;
     DecodedInstr instr[SLOTS_PER_BUNDLE];
-    PdecFn pdecFn;
 
     if (!(b = pxx(BADDR(a))))
 	return MEMT_NONE;
     s = SLOT(a);
     (void)bundle_decode(b, instr, 0);
-    pdecFn = instrs[instr[s].instID].pdecFn;
     if (!(instrs[instr[s].instID].flags & (EM_FLAG_LMEM|EM_FLAG_SMEM)))
 	return MEMT_NONE;
     if (!(instrs[instr[s].instID].flags & EM_FLAG_LMEM))
