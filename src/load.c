@@ -759,7 +759,10 @@ static BOOL interp(int fd, off_t offset, unsigned sz)
 	return NO;
     }
     lseek(fd, offset, SEEK_SET);
-    read(fd, interpName, sz);
+    if (read(fd, interpName, sz) != sz) {
+	(void)fprintf(stderr, "Failed to load interpName\n");
+	return NO;
+    }
     DEBUG("interp: '%s'\n", interpName);
 
     /* skip interp info past first colon */
