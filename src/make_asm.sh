@@ -126,7 +126,7 @@ z_opts="-n -k 4"                                 #        3,            3     *
 cat << EOF > $c_file
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 4 -*- */
 /* DO NOT EDIT - Automatically generated using:
-     make_asm
+     make_asm.sh
  */
 EOF
 cat $srcdir/Copyright >> $c_file

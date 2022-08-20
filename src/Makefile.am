@@ -51,7 +51,7 @@ noinst_SCRIPTS= \
 	iaexec_dec.sed \
 	iadas_dec.sed \
 	ia_types.sed \
-	make_asm
+	make_asm.sh
 
 noinst_DATA= \
 	execTbl \
@@ -341,9 +341,9 @@ icnt_core.h: mkicnt.awk $(encdir)/encoding.opcode \
 	touch icnt_ui.h
 
 asm_hash.c: $(encdir)/encoding.opcode \
-			asm.awk make_asm $(srcdir)/Copyright
+			asm.awk make_asm.sh $(srcdir)/Copyright
 	@rm -f $(ASM_HASH_DERIVED)
-	sh $(srcdir)/make_asm -p $(encdir) -e /dev/null
+	sh $(srcdir)/make_asm.sh -p $(encdir) -e /dev/null
 
 iaexec_decoder.c: $(srcdir)/ia_decoder.c $(srcdir)/iaexec_dec.sed
 	@rm -f $(IAEXEC_DECODER_DERIVED)
