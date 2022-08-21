@@ -1838,11 +1838,13 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
 	  }
 	else
 	  {
+	    int r;
 	    fdmap_make_identity_map ();
 	    elfhdr[18] = 0;
 	    elfhdr[19] = 0;
 	    fd = open (argv[1], O_RDONLY);
-	    read (fd, elfhdr, sizeof (elfhdr));
+	    r = read (fd, elfhdr, sizeof (elfhdr));
+	    (void)r; /* TODO */
 	    close (fd);
 	    if (elfhdr[18] == 50 && elfhdr[19] == 0)
 	      /* looks like an IA-64 binary: */
@@ -3295,6 +3297,7 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
 	  unsigned char lia64_type;
 	  unsigned short lia64_reclen;
 	  int old_wd;
+	  int r;
 
 	  *status = old_wd = open (".", 0);
 	  if ((int) *status == -1)
@@ -3306,7 +3309,9 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
 	  *status = fchdir (fdmap[arg0]);
 	  if ((int) *status == -1)
 	    {
-	      fchdir (old_wd);
+	      int r;
+	      r = fchdir (old_wd);
+	      (void)r; /* TODO */
 	      close (old_wd);
 	      setStatReturn (ret, status);
 	      break;
@@ -3354,7 +3359,8 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
 	      total += lia64_reclen;
 	    }
 
-	  fchdir (old_wd);
+	  r = fchdir (old_wd);
+	  (void)r; /* TODO */
 	  close (old_wd);
 
 	  *status = total;
@@ -4285,11 +4291,13 @@ iskbdio (void)
 static void
 writeConsole (char *buf, size_t len)
 {
+    ssize_t r;
     /*
      * always use raw mode so we get a clean output
      * 05/07/99 S.Eranian
      */
-    write (noConsole ? 1 : cfd, buf, len);
+    r = write (noConsole ? 1 : cfd, buf, len);
+    (void)r; /* TODO */
 }
 
 static void
