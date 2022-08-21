@@ -5,7 +5,7 @@
 }
 /^[A-Z]/ {
     if (format) {
-	cmd = "grep \"" format "	.*=\" " encdir "/encoding.imm"
+	cmd = "grep \"" format "	.*=\" " ENCODING_IMM
 	while (cmd | getline ln == 1) {
 	    split(ln,arr,"\t")
 	    print " " arr[2]
@@ -20,7 +20,7 @@
 }
 END {
     if (format) {
-	cmd = "grep \"" format "	.*=\" " encdir "/encoding.imm"
+	cmd = "grep \"" format "	.*=\" " ENCODING_IMM
 	while (cmd | getline ln == 1) {
 	    split(ln,arr,"\t")
 	    print " " arr[2]

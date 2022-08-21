@@ -388,7 +388,8 @@ immed.h: predecode.c
 predecode.c: $(encdir)/encoding.format $(encdir)/encoding.imm \
 			 fmtimm.awk predecode.awk $(srcdir)/Copyright
 	@rm -rf $(PREDECODE_DERIVED)
-	$(AWK) -v encdir=$(encdir) -f $(srcdir)/fmtimm.awk \
+	$(AWK) -f $(srcdir)/fmtimm.awk \
+		-v ENCODING_IMM=$(encdir)/encoding.imm \
 		$(encdir)/encoding.format | \
 		$(AWK) -f $(srcdir)/predecode.awk \
 			-v CFILE=predecode.c \
