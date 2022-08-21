@@ -32,18 +32,18 @@ libencoder_la_SOURCES= \
 	encoder.h encoder.c \
 	$(BUILT_SOURCES)
 
-noinst_DATA= Copyright formats.c_template
+noinst_DATA = formats.c_template
 
 noinst_SCRIPTS= formats.awk
 
 EMformats.h formats.c: formats.awk formats.c_template \
-					   $(encdir)/encoding.format Copyright
+					   $(encdir)/encoding.format $(srcdir)/../Copyright
 	rm -f $@;
 	$(AWK) -f $(srcdir)/formats.awk \
 		-v HFILE=EMformats.h \
 		-v CFILE=formats.c \
 		-v TEMPLATE=$(srcdir)/formats.c_template \
-		-v COPYRIGHT=$(srcdir)/Copyright \
+		-v COPYRIGHT=$(srcdir)/../Copyright \
 		$(encdir)/encoding.format
 
 encode_table.c:

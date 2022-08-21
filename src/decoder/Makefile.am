@@ -46,7 +46,7 @@ noinst_SCRIPTS= \
 instID.h: instID.awk $(encdir)/encoding.opcode $(encdir)/encoding.unusedop
 	$(AWK) -f $(srcdir)/instID.awk \
 		-v IDFILE=instID.h \
-		-v COPYRIGHT=$(srcdir)/Copyright \
+		-v COPYRIGHT=$(srcdir)/../Copyright \
 		$(encdir)/encoding.opcode \
 		$(encdir)/encoding.unusedop
 
@@ -65,7 +65,7 @@ encode_table.c:
 ../encoder/EMformats.h: $(srcdir)/../encoder/formats.awk \
 					    $(srcdir)/../encoder/formats.c_template \
 					    $(encdir)/encoding.format \
-					    $(srcdir)/../encoder/Copyright
+					    $(srcdir)/../Copyright
 	(cd ../encoder; $(MAKE) EMformats.h)
 
 EXTRA_DIST= $(noinst_DATA) $(noinst_SCRIPTS)
