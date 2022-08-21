@@ -8,3 +8,12 @@ Makefile.in
 /configure
 /configure~
 /m4/
+
+# configure
+Makefile
+/config.h
+/config.log
+/config.status
+/libtool
+.deps/
+/stamp-h1
