@@ -59,9 +59,6 @@ operands.h: operands.awk $(encdir)/encoding.opcode operands.h_template
 decode_tree.c:
 	@$(LN_S) $(encdir)/encoding.decode $@
 
-encode_table.c:
-	@$(LN_S) $(encdir)/encoding.encode $@
-
 ../encoder/EMformats.h: $(srcdir)/../encoder/formats.awk \
 					    $(srcdir)/../encoder/formats.c_template \
 					    $(encdir)/encoding.format \
