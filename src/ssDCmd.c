@@ -608,6 +608,7 @@ static BOOL bin_load(unsigned argc, char *argv[], ADDR offset)
     if (argc >= 3) {	/* map file specified */
 	char line[100], *p;
 	ADDR seg, ofs, adr;
+	char * rl;
 
 	if (!(fp = cmdOpenFile(argv[2], "r")))
 	    return NO;
@@ -617,7 +618,8 @@ static BOOL bin_load(unsigned argc, char *argv[], ADDR offset)
 		break;
 	}
 	/* skip blank line */
-	(void)fgets(line, 100, fp);
+	rl = fgets(line, 100, fp);
+	(void)rl;
 	/* put addresses into symbol table */
 	while (fgets(line, 100, fp)) {
 	    if (strlen(line) < 8)	/* "blank" line marks end of section */
@@ -711,6 +713,7 @@ BOOL cmdFWLoad(unsigned argc, char *argv[])
     if (argc >= 2) {	/* map file specified */
 	char line[100], *p;
 	ADDR seg, ofs, adr;
+	char * rl;
 
 	if (!(fp = cmdOpenFile(argv[1], "r")))
 	    return NO;
@@ -720,7 +723,8 @@ BOOL cmdFWLoad(unsigned argc, char *argv[])
 		break;
 	}
 	/* skip blank line */
-	(void)fgets(line, 100, fp);
+	rl = fgets(line, 100, fp);
+	(void)rl;
 	/* put addresses into symbol table */
 	while (fgets(line, 100, fp)) {
 	    if (strlen(line) < 8)	/* "blank" line marks end of section */
