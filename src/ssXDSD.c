@@ -27,6 +27,7 @@
 
 #ifdef HAVE_MOTIF
 
+#include <stdint.h>
 #include <unistd.h>
 #include <sys/stat.h>
 #include <Xm/Xm.h>
@@ -767,7 +768,7 @@ void prgwDrawX(void)
 	XtManageChild(jump = XmCreatePushButtonGadget(rc, "goto", NULL, 0));
 	XtManageChild(helpW = XmCreatePushButtonGadget(rc, "help", NULL, 0));
 	XtAddCallback(closeW, XmNactivateCallback, closeCB, pw);
-	XtAddCallback(jump, XmNactivateCallback, gotoCB, (XtPointer)cproc);
+	XtAddCallback(jump, XmNactivateCallback, gotoCB, (XtPointer)(uintptr_t)cproc);
 	XtAddCallback(helpW, XmNactivateCallback, helpCB, pwt);
 #if 0
 	XtAddEventHandler(pwt, StructureNotifyMask, False,
@@ -999,7 +1000,7 @@ void datwDrawX(void)
 	    XtManageChild(helpW = XmCreatePushButtonGadget(rc, "help",
 							   NULL, 0));
 	    XtAddCallback(closeW, XmNactivateCallback, datwCloseCB, dw);
-	    XtAddCallback(jump, XmNactivateCallback, gotoCB, (XtPointer)cproc);
+	    XtAddCallback(jump, XmNactivateCallback, gotoCB, (XtPointer)(uintptr_t)cproc);
 	    XtAddCallback(helpW, XmNactivateCallback, helpCB, dwt);
 #if 0
 	    XtAddEventHandler(dwt, StructureNotifyMask, False,
