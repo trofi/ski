@@ -91,7 +91,7 @@ BOOL cmdISymLst(unsigned argc, char *argv[])
 	if (ent->type == REGSET_SYM && ent->start) {
 	    char buf[30];
 
-	    (void)sprintf(buf, "%s - %s\n", ent->name, ent->name);
+	    (void)snprintf(buf, sizeof (buf), "%s - %s\n", ent->name, ent->name);
 	    p += sprintf(p, buf, 0, ent->ndx-1);
 	} else
 	    p += sprintf(p, "%s\n", ent->name);
