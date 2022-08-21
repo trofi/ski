@@ -1301,57 +1301,69 @@ static BOOL peLoad(int fd, int s_argc, char *s_argv[])
     HWORD machine, opt_hdr_size, subsyst;
     unsigned char buf2[2], buf4[4], buf8[8];
     unsigned num_sections;
+    ssize_t r;
 
     lseek(fd, 0x3C, SEEK_SET);
-    read(fd, buf4, 4);
+    r = read(fd, buf4, 4);
+    (void)r;
     z = (WORD)buf4[3] << 24 | (WORD)buf4[2] << 16 |
 	(WORD)buf4[1] << 8 | buf4[0];
 
     lseek(fd, z, SEEK_SET);
-    read(fd, buf4, 4);
+    r = read(fd, buf4, 4);
+    (void)r;
     if (memcmp(buf4, "PE\0", 4)) {
 	(void)fprintf(stderr, "Incorrect signature\n");
 	return NO;
     }
-    read(fd, buf2, 2);
+    r = read(fd, buf2, 2);
+    (void)r;
     machine = (HWORD)buf2[1] << 8 | buf2[0];
     if (machine != IMAGE_FILE_MACHINE_IA64) {
 	(void)fprintf(stderr, "Incorrect machine type\n");
 	return NO;
     }
-    read(fd, buf2, 2);
+    r = read(fd, buf2, 2);
+    (void)r;
     num_sections = (HWORD)buf2[1] << 8 | buf2[0];
 
     lseek(fd, 4, SEEK_CUR);	/* skip TimeDateStamp */
-    read(fd, buf4, 4);
+    r = read(fd, buf4, 4);
+    (void)r;
     symTblOfs = (WORD)buf4[3] << 24 | (WORD)buf4[2] << 16 |
 		(WORD)buf4[1] << 8 | buf4[0];
-    read(fd, buf4, 4);
+    r = read(fd, buf4, 4);
+    (void)r;
     num_syms = (WORD)buf4[3] << 24 | (WORD)buf4[2] << 16 |
 	       (WORD)buf4[1] << 8 | buf4[0];
     strTblBase = symTblOfs+18*num_syms;	/* 18 is size of a symbol entry */
 
-    read(fd, buf2, 2);
+    r = read(fd, buf2, 2);
+    (void)r;
     opt_hdr_size = (HWORD)buf2[1] << 8 | buf2[0];
 
     lseek(fd, z+0x28, SEEK_SET);
-    read(fd, buf4, 4);
+    r = read(fd, buf4, 4);
+    (void)r;
     ep = (WORD)buf4[3] << 24 | (WORD)buf4[2] << 16 |
 	 (WORD)buf4[1] << 8 | buf4[0];
 
     /* XXX - code_base not used */
-    read(fd, buf4, 4);
+    r = read(fd, buf4, 4);
+    (void)r;
     code_base = (WORD)buf4[3] << 24 | (WORD)buf4[2] << 16 |
 		(WORD)buf4[1] << 8 | buf4[0];
 
-    read(fd, buf8, 8);
+    r = read(fd, buf8, 8);
+    (void)r;
     image_base = (ADDR)buf8[7] << 56 | (ADDR)buf8[6] << 48 |
 		 (ADDR)buf8[5] << 40 | (ADDR)buf8[4] << 32 |
 		 (ADDR)buf8[3] << 24 | (ADDR)buf8[2] << 16 |
 		 (ADDR)buf8[1] <<  8 | (ADDR)buf8[0];
 
     lseek(fd, 36, SEEK_CUR);	/* Skip to subsystem */
-    read(fd, buf2, 2);
+    r = read(fd, buf2, 2);
+    (void)r;
     subsyst = (HWORD)buf2[1] << 8 | buf2[0];
     if (subsyst != IMAGE_SUBSYSTEM_EFI_APPLICATION) {
 	(void)fprintf(stderr, "Incorrect subsystem (%d)\n", subsyst);
@@ -1372,18 +1384,23 @@ static BOOL peLoad(int fd, int s_argc, char *s_argv[])
 	WORD mem_size, mem_addr, file_size, file_ofs;
 	off_t sav;
 	char *buf;
+	ssize_t r;
 
 	lseek(fd, 8, SEEK_CUR);	/* name */
-	read(fd, buf4, 4);
+	r = read(fd, buf4, 4);
+	(void)r;
 	mem_size = (WORD)buf4[3] << 24 | (WORD)buf4[2] << 16 |
 		   (WORD)buf4[1] << 8 | buf4[0];
-	read(fd, buf4, 4);
+	r = read(fd, buf4, 4);
+	(void)r;
 	mem_addr = (WORD)buf4[3] << 24 | (WORD)buf4[2] << 16 |
 		   (WORD)buf4[1] << 8 | buf4[0];
-	read(fd, buf4, 4);
+	r = read(fd, buf4, 4);
+	(void)r;
 	file_size = (WORD)buf4[3] << 24 | (WORD)buf4[2] << 16 |
 		    (WORD)buf4[1] << 8 | buf4[0];
-	read(fd, buf4, 4);
+	r = read(fd, buf4, 4);
+	(void)r;
 	file_ofs = (WORD)buf4[3] << 24 | (WORD)buf4[2] << 16 |
 		   (WORD)buf4[1] << 8 | buf4[0];
 	sav = lseek(fd, 16, SEEK_CUR);
@@ -1391,7 +1408,8 @@ static BOOL peLoad(int fd, int s_argc, char *s_argv[])
 	buf = calloc(mem_size, 1);
 	if (file_size > mem_size)
 	    file_size = mem_size;
-	read(fd, buf, file_size);
+	r = read(fd, buf, file_size);
+	(void)r;
 	sec_addr[i] = image_base+mem_addr;
 {
 ADDR a, s, e;
@@ -1416,8 +1434,10 @@ e = s + mem_size - 1;
 	WORD sym_value;
 	HWORD section_num, sym_type;
 	BYTE sym_class, num_aux;
+	ssize_t r;
 
-	read(fd, buf8, 8);
+	r = read(fd, buf8, 8);
+	(void)r;
 	if (buf8[0] || buf8[1] || buf8[2] || buf8[3]) {
 	    sym_name = malloc(9);
 	    memcpy(sym_name, buf8, 8);
@@ -1432,26 +1452,31 @@ e = s + mem_size - 1;
 			(WORD)buf8[5] << 8 | buf8[4];
 	    lseek(fd, strTblBase+strTblOfs, SEEK_SET);
 	    do {
-		read(fd, &ch, 1);
+		r = read(fd, &ch, 1);
+		(void)r;
 		sym_len++;
 	    } while (ch);
 	    lseek(fd, strTblBase+strTblOfs, SEEK_SET);
 	    sym_name = malloc(sym_len);
-	    read(fd, sym_name, sym_len);
+	    r = read(fd, sym_name, sym_len);
+	    (void)r;
 	    lseek(fd, sav, SEEK_SET);
 	}
-	read(fd, buf4, 4);
+	r = read(fd, buf4, 4);
+	(void)r;
 	sym_value = (WORD)buf4[3] << 24 | (WORD)buf4[2] << 16 |
 		    (WORD)buf4[1] << 8 | buf4[0];
-	read(fd, buf2, 2);
+	r = read(fd, buf2, 2);
+	(void)r;
 	section_num = (HWORD)buf2[1] << 8 | buf2[0];
-	read(fd, buf2, 2);
+	r = read(fd, buf2, 2);
+	(void)r;
 	sym_type = (HWORD)buf2[1] << 8 | buf2[0];
 	/* XXX - sym_type is always 0, add check? */
-	read(fd, &sym_class, 1);
-	/* XXX - sym_class is always 2 or 3, add check? */
-	read(fd, &num_aux, 1);
-	/* XXX - num_aux is always 0, add check? */
+	r = read(fd, &sym_class, 1);
+	(void)r; /* XXX - sym_class is always 2 or 3, add check? */
+	r = read(fd, &num_aux, 1);
+	(void)r; /* XXX - num_aux is always 0, add check? */
 #if 0
 	printf("%08x %d %d %s\n",
 	    sym_value, section_num, sym_class, sym_name);
