@@ -48,19 +48,19 @@ GREG bankedGrs[NBGRS];
 BOOL prs[NPRS];
 FREG frs[NFRS];
 unsigned frmap[NFRS + FR_ROT_SIZE];
-REG brs[NBRS];
-REG ars[NARS];
+REG brs[NBRS];   /* Branch Registers */
+REG ars[NARS];   /* Application Registers */
 
-REG psr = 0;
+REG psr = 0;     /* Processor Status Register */
 
-REG crs[NCRS];
-REG rrs[NRRS];
-REG pkrs[NPKRS];
-REG dbrs[NDBRS];
-REG ibrs[NIBRS];
-REG pmcs[NPMS];
-REG pmds[NPMS];
-REG msrs[NMSRS];
+REG crs[NCRS];   /* Control Registers */
+REG rrs[NRRS];   /* Region Register ID */
+REG pkrs[NPKRS]; /* Protection Key Register ID */
+REG dbrs[NDBRS]; /* Data Breakpoint Register */
+REG ibrs[NIBRS]; /* Instruction Breakpoint Register */
+REG pmcs[NPMS];  /* Performance Monitor Configuration */
+REG pmds[NPMS];  /* Performance Monitor Data */
+REG msrs[NMSRS]; /* Model Specific Register */
 #if 0
 const REG cpuids[NCPUIDS] = { 0x2d7474656c776548ULL, 0x006472616b636150ULL,
 #else
