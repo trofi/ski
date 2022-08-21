@@ -349,7 +349,12 @@ icnt_core.h: mkicnt.awk $(encdir)/encoding.opcode \
 asm_hash.c: $(encdir)/encoding.opcode \
 			asm.awk make_asm.sh $(srcdir)/Copyright
 	@rm -f $(ASM_HASH_DERIVED)
-	sh $(srcdir)/make_asm.sh -p $(encdir) -e /dev/null
+	sh $(srcdir)/make_asm.sh \
+		-f $(srcdir)/asm.awk \
+		-o $(encdir)/encoding.opcode \
+		-c asm_hash.c \
+		-e asm_hash.err \
+		-C $(srcdir)/Copyright
 
 iaexec_decoder.c: $(srcdir)/ia_decoder.c $(srcdir)/iaexec_dec.sed
 	@rm -f $(IAEXEC_DECODER_DERIVED)

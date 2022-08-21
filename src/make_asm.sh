@@ -27,37 +27,38 @@
 srcdir=`dirname $0`
 test -z "${srcdir}" && srcdir=.
 
-encdir=${srcdir}/encodings
-
-export SHLIB_PATH=/opt/gnu/lib
-
+awk_file=$srcdir/asm.awk
+C_file=$srcdir/Copyright
 c_file="asm_hash.c"
 err_file="asm_hash.err"
+opcode_file=$srcdir/encodings/encoding.opcode
 cmd_opts=""
 awk="all"
 rm="yes"
 lets="a b c d e f g h i j k l m n o p q r s t u v w x y z"
 
-while getopts Ac:de:l:p:RS name
+while getopts AC:c:de:f:l:o:RS name
 do
   case $name in
   A) awk="only";;
+  C) C_file="$OPTARG";;
   c) c_file="$OPTARG";;
   d) cmd_opts="$cmd_opts -$name";;
   e) err_file="$OPTARG";;
+  f) awk_file="$OPTARG";;
   l) lets="$OPTARG";;
-  p) encdir="$OPTARG";;
+  o) opcode_file="$OPTARG";;
   R) rm="no";;
   S) awk="skip";;
-  ?) printf "Usage: %s [-A] [-d] [-l lets] [-R] [-S]\n" $0 1>&2
+  ?) printf "Usage: %s [-A] [-C Copyright] [-c c_file] [-d] [-e err_file] [-f awk_file] [-l lets] [-o opcode_file] [-R] [-S]\n" $0 1>&2
      exit 2;;
   esac
 done
 
 if [ $awk != "skip" ]
 then
-    sort -b -k2 < ${encdir}/encoding.opcode | \
-        awk -f $srcdir/asm.awk -v prefix=$srcdir/ -
+    sort -b -k2 < $opcode_file | \
+        awk -f $awk_file -
 fi
 
 if [ $awk = "only" ]
@@ -129,7 +130,7 @@ cat << EOF > $c_file
      make_asm.sh
  */
 EOF
-cat $srcdir/Copyright >> $c_file
+cat $C_file >> $c_file
 cat << EOF >> $c_file
 
 #include <asm.h>
