@@ -26,7 +26,7 @@
 #include "std.h"
 
 #ifdef HAVE_MOTIF
-
+#include <stdint.h>
 #include <Xm/Xm.h>
 #include <Xm/CascadeB.h>
 #include <Xm/Command.h>
@@ -280,7 +280,7 @@ void scrnInitX(void)
 	    (void)sprintf(name, "p%d", i);
 	    proc[i] = XmCreatePushButton(procMenu, name, NULL, 0);
 	    XtAddCallback(proc[i], XmNactivateCallback,
-			  changeCprocCallback, (XtPointer)i);
+			  changeCprocCallback, (XtPointer)(uintptr_t)i);
 	}
 	XtManageChildren(proc, nproc);
 	n = 0;
@@ -484,7 +484,7 @@ static void createSubmenuItem(Widget parent, char *name, XtCallbackProc p)
 /*ARGSUSED*/
 static void changeCprocCallback(CALLBACK_ARGS)
 {
-    cproc = (unsigned)client_data;
+    cproc = (unsigned)(uintptr_t)client_data;
     (void)XmProcessTraversal(cmd, XmTRAVERSE_CURRENT);
 }
 
