@@ -17,3 +17,16 @@ Makefile
 /libtool
 .deps/
 /stamp-h1
+
+# make
+*.o
+*.la
+*.lo
+.dirstamp
+.libs/
+/XSki
+/src/bski
+/src/fake-xterm/ski-fake-xterm
+/src/gski
+/src/ski
+/src/xski
