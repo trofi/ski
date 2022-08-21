@@ -111,6 +111,7 @@ Status dosInt21(BYTE func, BYTE subFunc)
     ADDR adr;
     static char *malargbuf;
     static unsigned malargbufsize = 0;
+    ssize_t r;
 
     /* initialize malargbuf ptr & fhmap if necessary */
     if (malargbufsize == 0) {
@@ -129,7 +130,8 @@ Status dosInt21(BYTE func, BYTE subFunc)
 	break;
     case 0x02:				/* display character */
 	buf[0] = DL;
-	(void)write(fhmap[1], buf, 1);
+	r = write(fhmap[1], buf, 1);
+	(void)r;
 	break;
     case 0x08:				/* read keyboard without echo */
 	if (isatty(fhmap[0])) {
