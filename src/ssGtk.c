@@ -81,7 +81,7 @@ static BOOL stopPressed;
 static CTR execcnt;
 
 /* externals */
-extern dataStart;
+extern ADDR dataStart;
 ADDR iAinstAddr(ADDR baseAddr, BYTE iAmode, int delta);
 
 static GtkLabel* instcount_label;
