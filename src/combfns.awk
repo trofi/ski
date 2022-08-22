@@ -83,16 +83,5 @@ function copyfile(fname) {
     printf "    }\n\n    {\n" > CFILE
     copyfile(wrfn)
     printf "    }\n" > CFILE
-    print "    if (0) {" > CFILE
-    print "      src1=0;src2=0;src3=0;cntx=0;dst1=0;dst2=0;" > CFILE
-    print "      srcnat1=0;srcnat2=0;srcnat3=0;dstnat1=0;dstnat2=0;" > CFILE
-    print "      cmpres1=0;cmpres2=0;pdst1=0;qual=0;" > CFILE
-    print "      fsrc1.mant=0;fsrc2.mant=0;fsrc3.mant=0;" > CFILE
-    print "      fdst1.mant=0;fdst2.mant=0;syscallno=0;" > CFILE
-    print "      sofx=0;soilx=0;sorx=0;posx=0;lenx=0;mhtypex=0;" > CFILE
-    print "      cpl=0;traps=0;ctrls=0;" > CFILE
-    print "      arg0=arg1=arg2=arg3=arg4=arg5=arg6=arg7=0;" > CFILE
-    print "      scStatus=0;scRetval=0;\n" > CFILE
-    print "    }" > CFILE
     printf "    return StSuccess | st;\n}\n" > CFILE
 }
