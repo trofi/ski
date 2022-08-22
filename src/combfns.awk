@@ -49,9 +49,9 @@ function copyfile(fname) {
 	print "#define " comb " " $3 "Comb" > HFILE
 	next
     }
-    exfn = "temp/" $2
-    rdfn = "temp/" $3
-    wrfn = "temp/" $4
+    exfn = TEMP "/" $2
+    rdfn = TEMP "/" $3
+    wrfn = TEMP "/" $4
     retfn = rdfn ".return"
     print "extern Status " comb "(INSTINFO *info);" > HFILE
     print "" > CFILE

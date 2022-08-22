@@ -381,6 +381,7 @@ combfns.c: execTbl $(COMBFNS_FILES) mkfns.awk combfns.awk
 		$(srcdir)/sys_exec.c \
 		$(srcdir)/write.c
 	$(AWK) -f $(srcdir)/combfns.awk \
+		-v TEMP=temp \
 		-v CFILE=combfns.c \
 		-v HFILE=combfns.h \
 		-v COPYRIGHT=$(srcdir)/Copyright \
