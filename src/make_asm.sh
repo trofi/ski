@@ -31,13 +31,13 @@ awk_file=$srcdir/asm.awk
 C_file=$srcdir/Copyright
 c_file="asm_hash.c"
 err_file="asm_hash.err"
+temp_dir="asm_hash.gen"
 opcode_file=$srcdir/encodings/encoding.opcode
 cmd_opts=""
 awk="all"
-rm="yes"
 lets="a b c d e f g h i j k l m n o p q r s t u v w x y z"
 
-while getopts AC:c:de:f:l:o:RS name
+while getopts AC:c:de:f:l:o:ST: name
 do
   case $name in
   A) awk="only";;
@@ -48,17 +48,18 @@ do
   f) awk_file="$OPTARG";;
   l) lets="$OPTARG";;
   o) opcode_file="$OPTARG";;
-  R) rm="no";;
   S) awk="skip";;
-  ?) printf "Usage: %s [-A] [-C Copyright] [-c c_file] [-d] [-e err_file] [-f awk_file] [-l lets] [-o opcode_file] [-R] [-S]\n" $0 1>&2
+  T) temp_dir="$OPTARG";;
+  ?) printf "Usage: %s [-A] [-C Copyright] [-c c_file] [-d] [-e err_file] [-f awk_file] [-l lets] [-o opcode_file] [-S] [-T temp_dir]\n" $0 1>&2
      exit 2;;
   esac
 done
 
 if [ $awk != "skip" ]
 then
+    mkdir $temp_dir
     sort -b -k2 < $opcode_file | \
-        awk -f $awk_file -
+        awk -f $awk_file -v TEMP="$temp_dir" -
 fi
 
 if [ $awk = "only" ]
@@ -137,7 +138,7 @@ cat << EOF >> $c_file
 EOF
 for let in $lets
 do
-  file="asm_$let.gperf"
+  file="$temp_dir/asm_$let.gperf"
   if [ -r $file ]
   then
     echo $file":" 1>&2
@@ -145,10 +146,6 @@ do
     eval gperf -t -L ANSI-C -p -C -E -H ${let}_hash -N ${let}_lookup \
      \$${let}_opts -T $cmd_opts $file |
        sed 's/^const struct asm_id .$/static const struct asm_id */'
-    if [ $rm = "yes" ]
-    then
-	rm -f $file
-    fi
   else
     cat << EOF
 

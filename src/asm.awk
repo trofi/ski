@@ -2,7 +2,7 @@
 
 BEGIN {
     LET1="a"
-    GFILE="asm_a.gperf"
+    GFILE= TEMP "/asm_a.gperf"
     print "struct asm_id { char *name; InstID id; };" > GFILE
     print "%%" > GFILE
     opMap["ar.pfs"] = "A";
@@ -78,7 +78,7 @@ BEGIN {
     first = substr(mnem,1,1);
     if (first != LET1) {
       close(GFILE);
-      GFILE="asm_" first ".gperf";
+      GFILE= TEMP "/asm_" first ".gperf";
       LET1 = first;
       print "struct asm_id { char *name; InstID id; };" > GFILE;
       print "%%" > GFILE
