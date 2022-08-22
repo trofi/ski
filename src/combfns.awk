@@ -54,7 +54,9 @@ function copyfile(fname) {
     wrfn = "temp/" $4
     retfn = rdfn ".return"
     print "extern Status " comb "(INSTINFO *info);" > HFILE
-    printf "\nStatus " comb "(INSTINFO *info)\n{\n" > CFILE
+    print "" > CFILE
+    print "Status " comb "(INSTINFO *info)" > CFILE
+    print "{" > CFILE
     print "    REG src1, src2, src3, cntx, dst1, dst2;" > CFILE
     print "    BOOL srcnat1, srcnat2, srcnat3, dstnat1, dstnat2;" > CFILE
     print "    BOOL cmpres1, cmpres2, pdst1, qual;" > CFILE
@@ -75,13 +77,17 @@ function copyfile(fname) {
     print "    (void)scStatus;(void)scRetval;" > CFILE
     copyfile(retfn)
     print "\treturn StSuccess;" > CFILE
-    printf "    {\n" > CFILE
+    print "    {" > CFILE
     copyfile(rdfn)
     print "    }" > CFILE
-    printf "\n    {\n" > CFILE
+    print "" > CFILE
+    print "    {" > CFILE
     copyfile(exfn)
-    printf "    }\n\n    {\n" > CFILE
+    print "    }" > CFILE
+    print "" > CFILE
+    print "    {" > CFILE
     copyfile(wrfn)
-    printf "    }\n" > CFILE
-    printf "    return StSuccess | st;\n}\n" > CFILE
+    print "    }" > CFILE
+    print "    return StSuccess | st;" > CFILE
+    print "}" > CFILE
 }
