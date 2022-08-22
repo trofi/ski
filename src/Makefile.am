@@ -370,9 +370,11 @@ iadas_types.h: $(srcdir)/ia_types.h $(srcdir)/ia_types.sed
 
 combfns.h: combfns.c
 combfns.c: execTbl $(COMBFNS_FILES) mkfns.awk combfns.awk
-	@(rm -rf ./temp; mkdir temp; rm -f $(COMBFNS_DERIVED))
+	@rm -rf ./combfns.gen
+	@mkdir combfns.gen
+	@rm -f $(COMBFNS_DERIVED)
 	$(AWK) -f $(srcdir)/mkfns.awk \
-		-v TEMP=temp \
+		-v TEMP=combfns.gen \
 		$(srcdir)/exec.c \
 		$(srcdir)/fp_exec.c \
 		$(srcdir)/mem_exec.c \
@@ -381,13 +383,12 @@ combfns.c: execTbl $(COMBFNS_FILES) mkfns.awk combfns.awk
 		$(srcdir)/sys_exec.c \
 		$(srcdir)/write.c
 	$(AWK) -f $(srcdir)/combfns.awk \
-		-v TEMP=temp \
+		-v TEMP=combfns.gen \
 		-v CFILE=combfns.c \
 		-v HFILE=combfns.h \
 		-v COPYRIGHT=$(srcdir)/Copyright \
 		$(srcdir)/execTbl
 	@touch combfns.h
-	@rm -rf ./temp
 
 predecode.h: predecode.c
 immed.h: predecode.c
