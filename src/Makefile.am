@@ -183,7 +183,9 @@ EXTRA_linux_FILES = \
 	linux/dwarf-linux.c \
 	linux/osload-linux.c \
 	linux/syscall-linux.c \
-	linux/syscall-linux.h
+	linux/syscall-linux.h \
+	linux/syscall-print.h \
+	linux/syscall-print.c
 
 if LINUX
 linux_FILES = $(EXTRA_linux_FILES)

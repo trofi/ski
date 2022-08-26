@@ -82,6 +82,7 @@
 #include "ssc.h"
 #include "sim.h"
 #include "simmem.h"
+#include "syscall-print.h"
 #include "libui.h"
 #include "float.h"
 #include "hpux/syscall-hpux.h"
@@ -1651,8 +1652,7 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
     }
 
   if (trace_syscalls)
-    cmdwPrint ("<sc%d>(0x%llx,0x%llx,0x%llx,0x%llx,0x%llx,0x%llx) -> ",
-	       num, arg0, arg1, arg2, arg3, arg4, arg5);
+    traceSyscallEnter (num, arg0, arg1, arg2, arg3, arg4, arg5);
 
   *status = -1;
   *ret = ENOSYS;
@@ -4267,7 +4267,7 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
     }
  done:
   if (trace_syscalls)
-    cmdwPrint ("0x%llx/%lld\n", *ret, *status);
+    traceSyscallExit (*ret, *status);
 }
 
 static inline int
