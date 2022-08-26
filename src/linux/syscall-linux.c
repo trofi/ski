@@ -4262,8 +4262,11 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
     case LIA64_mincore:
     case LIA64_madvise:
     default:
-      sprintf ((char *)msg, "doSyscall: unimplemented system call %u\n", num);
-      sysWrite (STDERR_FILENO, msg, strlen ((char *)msg));
+      {
+        const char * sn = syscallName (num);
+        sprintf ((char *)msg, "doSyscall: unimplemented system call %s(%u)\n", sn ? sn : "???", num);
+        sysWrite (STDERR_FILENO, msg, strlen ((char *)msg));
+      }
     }
  done:
   if (trace_syscalls)

@@ -7,6 +7,9 @@
 
 #include "types.h"
 
+/* Returns syscall name or NULL. */
+const char * syscallName (HWORD num);
+
 void traceSyscallEnter (HWORD num, REG arg0, REG arg1, REG arg2,
 			REG arg3, REG arg4, REG arg5);
 void traceSyscallExit (REG ret, REG status);
