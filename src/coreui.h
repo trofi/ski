@@ -22,6 +22,8 @@
 #ifndef _SKI_COREUI_H
 #define _SKI_COREUI_H
 
+#include "std.h"
+#include "exportui.h"
 
 #define EXPRSIZ		20
 #define TITLESIZ	80
