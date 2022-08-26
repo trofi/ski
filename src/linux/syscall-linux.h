@@ -333,7 +333,7 @@
 #define LIA64_fanotify_mark		1324
 #define LIA64_prlimit64			1325
 #define LIA64_name_to_handle_at		1326
-#define LIA64_open_by_handle_at  	1327
+#define LIA64_open_by_handle_at		1327
 #define LIA64_clock_adjtime		1328
 #define LIA64_syncfs			1329
 #define LIA64_setns			1330
