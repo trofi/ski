@@ -573,16 +573,16 @@ void scrnEndGtk(void)
 
 static void tlbwInit()
 {
-	GtkTextBuffer *tb;
+	GtkTextView *w;
 
-	tb = glade_xml_get_widget(xml, "textviewDtlbw");
-	assert(tb);
-	gtk_text_buffer_create_tag(gtk_text_view_get_buffer(tb),
+	w = GTK_TEXT_VIEW(glade_xml_get_widget(xml, "textviewDtlbw"));
+	assert(w);
+	gtk_text_buffer_create_tag(gtk_text_view_get_buffer(w),
 				   "font", "font", "fixed", NULL);
 
-	tb = glade_xml_get_widget(xml, "textviewItlbw");
-	assert(tb);
-	gtk_text_buffer_create_tag(gtk_text_view_get_buffer(tb),
+	w = GTK_TEXT_VIEW(glade_xml_get_widget(xml, "textviewItlbw"));
+	assert(w);
+	gtk_text_buffer_create_tag(gtk_text_view_get_buffer(w),
 				   "font", "font", "fixed", NULL);
 }
 
