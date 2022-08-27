@@ -148,7 +148,7 @@ void stepIt_setupGtk(CTR cnt)
 static void stop_simulator(void)
 {
 	stopPressed = YES;
-	gtk_widget_hide_all(glade_xml_get_widget(xml, "running_window"));
+	gtk_widget_hide(glade_xml_get_widget(xml, "running_window"));
 }
 
 /* commands to keep in history */
