@@ -41,6 +41,9 @@
 #include <fcntl.h>
 #include <sys/mman.h>	/* NEW for mmap */
 #include <limits.h>
+
+#include "load.h"
+
 #include "bits.h"
 #include "types.h"
 #include "fields.h"

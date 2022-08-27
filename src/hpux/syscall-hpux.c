@@ -72,6 +72,7 @@
 #include "simmem.h"
 #include "lp64struct.h"
 #include "libui.h"
+#include "load.h"
 
 /* Prototypes for *64 functions */
 off64_t lseek64(int, off64_t, int);
@@ -116,9 +117,6 @@ static struct {
 /* XXX - move these (and following prototypes) to .h file? */
 extern BOOL intrsim, extint, kybdint;
 
-void mmapSyms(int, ADDR, ADDR, ADDR);
-void munmapSyms(ADDR, ADDR);
-void dynBlock(ADDR, ADDR);
 void clearPdecode(ADDR adr, unsigned size);
 BOOL acceptIrpt(void);
 void memMPMap(ADDR, char *, size_t);
@@ -126,7 +124,6 @@ void memMPMap(ADDR, char *, size_t);
 extern void memFree (ADDR);
 extern void memFreeAll(void);
 extern void resetState(int);
-extern BOOL elfLoad(const char *file_name, int s_argc, char *s_argv[]);
 
 extern int getdents (unsigned int, void*, unsigned int);
 extern int getdomainname(char *, int);

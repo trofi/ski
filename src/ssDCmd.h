@@ -58,9 +58,6 @@ void exitSim(int exitval);
 /* ssDPrs.c */
 void catArgs(unsigned start, unsigned cnt, char *argv[], char *buf);
 
-/* load.c */
-BOOL elfLoad(const char *file_name, int s_argc, char *s_argv[]);
-
 /* menu.c */
 BOOL stateRest(unsigned argc, char *argv[]);
 

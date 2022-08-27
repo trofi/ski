@@ -44,6 +44,7 @@
 #include "coreui.h"
 #include "fields.h"
 #include "libui.h"
+#include "load.h"
 #include "sim.h"
 #include "state.h"
 #include "simmem.h"

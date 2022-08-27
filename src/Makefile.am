@@ -270,6 +270,7 @@ libski_la_SOURCES= \
 	eparse.y \
 	escan.l \
 	load.c \
+	load.h \
 	platform.c \
 	libdas.c \
 	libsrs.c

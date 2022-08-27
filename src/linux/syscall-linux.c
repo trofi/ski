@@ -91,6 +91,7 @@
 #include "coreui.h"
 #include "libsrs.h"
 #include "libcore.h"
+#include "load.h"
 #include "combfns.h"
 #include "interruption.h"
 #include "netdev.h"
@@ -552,9 +553,6 @@ static char *slave;
 # define MASTER_ID	13
 #endif
 
-extern void mmapSyms (int, ADDR, ADDR, ADDR);
-extern void munmapSyms (ADDR, ADDR);
-extern void dynBlock (ADDR, ADDR);
 extern void memFree (ADDR);
 #include <sys/syscall.h>
 #define uselib(libname) syscall(__NR_uselib, libname)

@@ -40,6 +40,7 @@
 #include "coreui.h"
 #include "libsym.h"
 #include "libcore.h"	/* for initAppState,initState,initSysState */
+#include "load.h"
 #include "platform.h"
 
 extern Interface interface;
