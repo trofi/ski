@@ -1646,6 +1646,7 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
   ADDR end;
   REG curr;
   char *cp;
+  int sig;
 
   if (need_init)
     {
@@ -3216,7 +3217,13 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
 
     case LIA64_clone: /* (flags, newsp, parent_tid, tls, child_tid) */
     case LIA64_clone2: /* (flags, newsp, stack_size, parent_tid, child_tid, tls) */
-      if ((arg0 == SIGCHLD || arg0 == (/* vfork | clone_vm */ 0x4100 | SIGCHLD)) && arg1 == 0)
+      sig = arg0 & 0xff;
+      tmp = arg0 & ~sig;
+      if (   sig == SIGCHLD
+	  && arg1 == 0
+	  && ((tmp & ~(CLONE_PARENT_SETTID | CLONE_CHILD_CLEARTID | CLONE_CHILD_SETTID) == 0) /* fork()-ish */
+	      || (tmp == CLONE_VFORK | CLONE_VM)) /* vfork()-ish */
+	  )
 	{
 	  /* we're doing a plain-ol' fork or vfork */
 	  *status = fork ();
@@ -3230,7 +3237,7 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
 	}
       else
 	{
-	  sprintf ((char *)msg, "Ignoring unimplemented clone(flags=%#llx) system call\n", (long long)arg0);
+	  sprintf ((char *)msg, "Ignoring unimplemented clone(flags=%#llx, newsp=%#llx) system call sig=%d tmp=%#llx\n", (long long)arg0, (long long)arg1, sig, (long long)tmp);
 	  sysWrite (STDERR_FILENO, msg, strlen ((char *)msg));
 	}
       break;
