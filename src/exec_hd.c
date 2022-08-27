@@ -618,9 +618,7 @@ int rse_load(void)
     return status;
 }
 
-/* eclipse - made rse_new_frame non-static for access outside library */
-/* static BOOL rse_new_frame(int growth) */
-BOOL rse_new_frame(int growth)
+static BOOL rse_new_frame(int growth)
 {
     if (growth <= (int)invalid)
 	invalid -= growth;
