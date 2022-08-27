@@ -86,7 +86,7 @@ ADDR iAinstAddr(ADDR baseAddr, BYTE iAmode, int delta);
 
 static GtkLabel* instcount_label;
 /* sits in a background loop */
-static int runItGtk(void)
+static gboolean runItGtk(gpointer data)
 {
 	char label[200];
 	if (!stopPressed && runIt_loopX(GTK_REFRESH_RATE)) {
