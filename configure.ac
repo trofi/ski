@@ -244,8 +244,9 @@ AX_CHECK_COMPILE_FLAG([-Werror=implicit-int], [CFLAGS="$CFLAGS -Werror=implicit-
 dnl Treat warnings as errors
 AC_ARG_ENABLE([werror],
   AS_HELP_STRING([--enable-werror],
-    [Fail on encountered compiler warnings]),
-    [CFLAGS="$CFLAGS -Werror"])
+    [Fail on encountered compiler warnings]))
+AS_IF([test "x$enable_werror" = "xyes"],
+  [CFLAGS="$CFLAGS -Werror"])
 
 encdir='$(top_srcdir)'/src/encodings
 AC_SUBST(encdir)
