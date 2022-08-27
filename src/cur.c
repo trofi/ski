@@ -215,7 +215,7 @@ void datwUpdateCur(void)
     if (datExpr[0] && !strcmp(actDatw->tag, "Data")) {
 	char buf[80];
 
-	(void)sprintf(buf, "%s      (Tracking: %s)", actDatw->title, datExpr);
+	(void)snprintf(buf, sizeof (buf), "%s      (Tracking: %s)", actDatw->title, datExpr);
 	mvwprintw(datw, 0, 0, "%-*s", COLS, buf);
     } else
 	mvwprintw(datw, 0, 0, "%-*s", COLS, actDatw->title);
