@@ -116,16 +116,10 @@ BUILT_SOURCES= \
 ski_SOURCES= \
 	main.c
 
-if HPUX
-# on HPUX libtool does not work w/ -all-static
-ski_LDFLAGS=-static
-else
-ski_LDFLAGS=-all-static
-endif
-
-if LINUX
-# Debian wants everything to be dynamically linked
-ski_LDFLAGS = 
+if WITH_GTK_INTERFACE
+# gski exports some callbacks to gski.glade for
+# dynamic discovery.
+ski_LDFLAGS=-export-dynamic
 endif
 
 ski_LDADD= libski.la
