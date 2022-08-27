@@ -2503,8 +2503,3 @@ int instrID(ADDR a)
     (void)bundle_decode(b, instr, 0);
     return instr[s].instID;
 }
-
-unsigned phyGrNum(unsigned grNum)
-{
-    return PHYS_GR(grNum);
-}
