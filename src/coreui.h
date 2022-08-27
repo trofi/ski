@@ -40,8 +40,8 @@ typedef enum { BATCH = 0, X_INTERFACE, CURSES_INTERFACE, GTK_INTERFACE } Interfa
  *  Internal symbol interface
  *-------------------------------------------------------------------------*/
 
-typedef REG (*PGetFn)();
-typedef BOOL (*PSetFn)();
+typedef REG (*PGetFn)(/* TODO: add prototype here */);
+typedef BOOL (*PSetFn)(/* TODO: add prototype here */);
 
 struct isym {
     char name[NAMLEN];          /* internal symbol name */
