@@ -472,7 +472,7 @@ dbg = fopen("cur.dbg", "w");
     ski_id = skiID();
     cmdwSetStatusCur("");
     for (i = 0; i < CMDHISTSIZE; i++)
-	mvwprintw(cmdw, i, 0, "");
+	mvwprintw(cmdw, i, 0, "%s", "");
     mvwprintw(cmdw, CMDHISTSIZE-1, 0, "* ");
 
     scrnUpdate();
