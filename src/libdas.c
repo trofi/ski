@@ -1121,7 +1121,7 @@ static char unitName(const Unit unit, DasOptions opts)
     return (opts & DasTemplateLC) ? tolower(ret) : ret;
 }
 
-size_t templName(const TemplateInfoPtr t, DasOptions opts, char name[])
+static size_t templName(const TemplateInfoPtr t, DasOptions opts, char name[])
 {
     size_t i = 1;
 
@@ -1138,7 +1138,7 @@ size_t templName(const TemplateInfoPtr t, DasOptions opts, char name[])
     return i;
 }
 
-void hexAddr(ADDR addr, char *str)
+static void hexAddr(ADDR addr, char *str)
 {
     sprintf(str, "%08x", (unsigned int)(addr >> 32));
     str[8] = '.';
