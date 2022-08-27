@@ -1609,7 +1609,9 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
   struct flock host_flock;
   struct lia64_flock lia64_flock;
   struct rlimit host_rlimit;
+  struct rlimit host_rlimit_old;
   struct lia64_rlimit lia64_rlimit;
+  struct lia64_rlimit lia64_rlimit_old;
   struct rusage host_rusage;
   struct lia64_rusage lia64_rusage;
   struct lia64_timeval lia64_timeval;
@@ -2579,6 +2581,42 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
 	  memBBWrt_alloc (arg1, (BYTE *)&lia64_rlimit,
 			  sizeof (struct lia64_rlimit));
 	}
+      setStatReturn (ret, status);
+      break;
+
+    // int prlimit64(pid_t pid, int resource,
+    // 		     const struct rlimit64 *new, struct rlimit64 *old);
+    case LIA64_prlimit64:
+
+      memBBRd (arg2, (BYTE *)&lia64_rlimit, sizeof (struct lia64_rlimit));
+      host_rlimit.rlim_cur = lia64_rlimit.rlim_cur;
+      host_rlimit.rlim_max = lia64_rlimit.rlim_max;
+
+      switch (arg1)
+	{
+	case LIA64_RLIMIT_CPU:		resource = RLIMIT_CPU; break;
+	case LIA64_RLIMIT_FSIZE: 	resource = RLIMIT_FSIZE; break;
+	case LIA64_RLIMIT_DATA:		resource = RLIMIT_DATA; break;
+	case LIA64_RLIMIT_STACK: 	resource = RLIMIT_STACK; break;
+	case LIA64_RLIMIT_CORE:		resource = RLIMIT_CORE; break;
+	case LIA64_RLIMIT_RSS:		resource = RLIMIT_RSS; break;
+	case LIA64_RLIMIT_NPROC: 	resource = RLIMIT_NPROC; break;
+	case LIA64_RLIMIT_NOFILE: 	resource = RLIMIT_NOFILE; break;
+	case LIA64_RLIMIT_MEMLOCK: 	resource = RLIMIT_MEMLOCK; break;
+	case LIA64_RLIMIT_AS:		resource = RLIMIT_AS; break;
+	default:			resource = -1; break;
+	}
+
+      *status = prlimit (arg0, resource, &host_rlimit, &host_rlimit_old);
+
+      if ((int) *status != -1)
+	{
+	  lia64_rlimit_old.rlim_cur = host_rlimit_old.rlim_cur;
+	  lia64_rlimit_old.rlim_max = host_rlimit_old.rlim_max;
+	  memBBWrt_alloc (arg3, (BYTE *)&lia64_rlimit_old,
+			  sizeof (struct lia64_rlimit));
+	}
+
       setStatReturn (ret, status);
       break;
 
