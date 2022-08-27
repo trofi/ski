@@ -358,7 +358,7 @@ fflush(dbg);
     cmdwSetStatusCur("");
 #else
     wstandout(cmdh);
-    mvwprintw(cmdh, 0, 0, "%s%*s", "Command", COLS-strlen("Command"), ski_id);
+    mvwprintw(cmdh, 0, 0, "%s%*s", "Command", (int)(COLS-strlen("Command")), ski_id);
     wstandend(cmdh);
 #endif
 }
@@ -519,7 +519,7 @@ void cmdwSetStatusCur(const char *msg)
     wstandout(cmdh);
     (void)sprintf(buf, "Command %2d/%-2d  %s", viewPid+2, 5, msg);
     mvwaddstr(cmdh, 0, 0, buf);
-    mvwprintw(cmdh, 0, strlen(buf), "%*s", COLS-strlen(buf), ski_id);
+    mvwprintw(cmdh, 0, strlen(buf), "%*s", (int)(COLS-strlen(buf)), ski_id);
     wstandend(cmdh);
     wrefresh(cmdh);
 }
