@@ -1115,10 +1115,6 @@ BOOL cmdUpdate(unsigned argc, char *argv[])
     return YES;
 }
 
-void scrnClear(void)
-{
-}
-
 void scrnEndX(void)
 {
     /* Used by ssDCmd.c(cmdExit), ssDSD.c(ctrlz), ssErr.c(panic) */

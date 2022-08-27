@@ -200,20 +200,6 @@ BOOL cmdExLin(const char *cmdlin)
     return YES;
 }
 
-#if 0
-/*--------------------------------------------------------------------------
- * command$SystemEscape - Get and pass a command string to the system for
- *  execution.
- *--------------------------------------------------------------------------*/
-BOOL cmdSysEsc(unsigned argc, char *argv[])
-{
-    scrnClear();
-    (void)system(argv[0]);
-    nlWait("\nRETURN to continue...");
-    scrnRedraw();
-}
-#endif
-
 /*--------------------------------------------------------------------------
  * command$Evaluate - Evaluate the expression and display its value
  *--------------------------------------------------------------------------*/
