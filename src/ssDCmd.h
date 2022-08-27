@@ -50,7 +50,7 @@ extern unsigned nproc;              /* user-specified number of processors */
 void cmdOut(const char *name, const char *hdr, const char *buf, FILE *f);
 
 /* ssDCmd.c */
-BOOL cmdExLin(char *cmdlin);
+BOOL cmdExLin(const char *cmdlin);
 BOOL readCmdFile(char *fname);
 FILE *cmdOpenFile(char *name, char *mode);
 void exitSim(int exitval);

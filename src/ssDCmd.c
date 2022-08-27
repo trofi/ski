@@ -176,7 +176,7 @@ static BOOL cmdEx(char *cmd)
  * command$ExecuteLine - Executes all commands in the passed newline
  *  (and NULL) terminated string.
  *--------------------------------------------------------------------------*/
-BOOL cmdExLin(char *cmdlin)
+BOOL cmdExLin(const char *cmdlin)
 {
     char cmdbuf[MAXCMDLEN], *cmd[MAXCMDS];
     unsigned i, ccnt;

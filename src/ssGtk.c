@@ -155,7 +155,7 @@ static void stop_simulator(void)
 static GtkComboBox *cmd_combo_box;
 static char *cmd_history[GTK_CMD_HISTORY];
 static int cmd_history_len;
-static void add_to_cmd_history(char *s)
+static void add_to_cmd_history(const char *s)
 {
 	char *new_str = malloc(strlen(s) + 1);
 	if (!new_str) return;
@@ -214,10 +214,10 @@ void SimComboCmdGtk(void *data)
  * run. */
 void SimBtnCmdGtk(void *data)
 {
-	gchar *btn = gtk_widget_get_name((GtkWidget *)data);
+	const gchar *btn = gtk_widget_get_name(GTK_WIDGET(data));
 
 	// cmd to pass to simulator
-	char *cmd = NULL;
+	const char *cmd = NULL;
 	printf("*** SimCmdGtk() \n");
 	printf("    -> %s\n", btn);
 
