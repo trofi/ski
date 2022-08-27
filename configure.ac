@@ -241,6 +241,12 @@ CFLAGS="$CFLAGS -fno-strict-aliasing"
 # Pull in -Werror= flags to catch obviously wrong code
 AX_CHECK_COMPILE_FLAG([-Werror=implicit-int], [CFLAGS="$CFLAGS -Werror=implicit-int"], [], [-Werror])
 
+dnl Treat warnings as errors
+AC_ARG_ENABLE([werror],
+  AS_HELP_STRING([--enable-werror],
+    [Fail on encountered compiler warnings]),
+    [CFLAGS="$CFLAGS -Werror"])
+
 encdir='$(top_srcdir)'/src/encodings
 AC_SUBST(encdir)
 
