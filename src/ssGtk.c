@@ -417,7 +417,7 @@ void prgwUpdateGtk(void)
 
 static void fake_tlb_update(void);
 
-void regwDrawGtk(void)
+static void regwDrawGtk(void)
 {
 	int i;
 	REG size;
