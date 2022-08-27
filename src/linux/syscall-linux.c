@@ -2669,6 +2669,19 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
       setStatReturn (ret, status);
       break;
 
+    // int clock_gettime(clockid_t clockid, struct timespec *tp);
+    case LIA64_clock_gettime:
+      *status = clock_gettime (arg0, &host_timespec);
+      if ((int)*status != -1)
+	{
+	  lia64_timespec.tv_sec = host_timespec.tv_sec;
+	  lia64_timespec.tv_nsec = host_timespec.tv_nsec;
+	  memBBWrt_alloc (arg1, (BYTE *) &lia64_timespec,
+			  sizeof (struct lia64_timespec));
+	}
+      setStatReturn (ret, status);
+      break;
+
     case LIA64_select:
       nfds = 0;
       if (arg1)
