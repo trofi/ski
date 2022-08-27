@@ -91,7 +91,7 @@ static int runItGtk(void)
 	char label[200];
 	if (!stopPressed && runIt_loopX(GTK_REFRESH_RATE)) {
 		execcnt += GTK_REFRESH_RATE;
-		sprintf(label, "%ld cycles\n", execcnt);
+		sprintf(label, "%llu cycles\n", execcnt);
 		gtk_label_set_text(instcount_label, label);
 		// run again
 		return TRUE;
@@ -123,7 +123,7 @@ static int stepItGtk(void *data)
 	if (!stopPressed && !stepIt_loop(GTK_REFRESH_RATE)) {
 		execcnt += GTK_REFRESH_RATE;
 		tostep -= GTK_REFRESH_RATE;
-		sprintf(label, "%ld cycles\n", execcnt);
+		sprintf(label, "%llu cycles\n", execcnt);
 		gtk_label_set_text(instcount_label, label);
 		// run again
 		return TRUE;
@@ -135,7 +135,7 @@ static int stepItGtk(void *data)
 
 void stepIt_setupGtk(CTR cnt)
 {
-	printf("*** stepIt_setupGtk -> step %d\n", cnt);
+	printf("*** stepIt_setupGtk -> step %llu\n", cnt);
 	tostep = cnt;
 	g_idle_add(stepItGtk, NULL);
 	stopPressed = NO;
