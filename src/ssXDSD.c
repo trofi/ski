@@ -1118,14 +1118,6 @@ void scrnRedrawX(void)
 {
 }
 
-#if 0
-/* Used by the "redraw" command, which is currently disabled */
-BOOL cmdRedraw(unsigned argc, char *argv[])
-{
-    scrnRedraw();
-}
-#endif
-
 static void listUpd(listWidget *wp, const char *hdr, const char *buf)
 {
     if (wp->hdr) {

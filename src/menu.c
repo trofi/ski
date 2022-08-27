@@ -189,9 +189,6 @@ BOOL cmdRegLst(unsigned argc, char *argv[]);
 BOOL dtlbShow(unsigned argc, char *argv[]);
 BOOL itlbShow(unsigned argc, char *argv[]);
 
-/* ssXDSD.c */
-BOOL cmdRedraw(unsigned argc, char *argv[]);
-
 /* stack.c */
 BOOL cmdStkTrc(unsigned argc, char *argv[]);
 #endif
@@ -348,10 +345,6 @@ MENU cmdmenu[MENUTBLSIZ] = {
 			"\trb [ <count> ]"},
     {"rd",	0, 1, "dump register contents", regwDump,
 			"\trd [ <file> ]"},
-#if 0
-    {"redraw",	0, 0, "redraw screen", dummyCmd, /* cmdRedraw, */
-			"\tredraw"},
-#endif
     {"rest",	1, 1, "restore simulator state from a file", stateRest,
 			"\trest <file>"},
     {"rf",	0, 1, "move register window forward n lines", regwFwd,
