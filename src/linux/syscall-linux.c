@@ -4296,6 +4296,16 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
       }
       break;
 
+    // long futex(unsigned int * uaddr, int op, unsigned int val,
+    // 		  const struct timespec * utime, unsigned int * uaddr2,
+    // 		  unsigned int val3);
+    case LIA64_futex:
+      // Have to mimic part of kernel's state machine?
+      // Or can run it as is?
+      *status = syscall (SYS_futex, arg0, arg1, arg2, arg3, arg4, arg5);
+      setStatReturn (ret, status);
+      break;
+
     case LIA64_pivot_root:
     case LIA64_mincore:
     case LIA64_madvise:
