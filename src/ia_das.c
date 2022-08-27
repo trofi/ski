@@ -203,9 +203,9 @@ static char *rep(IAinstInfoPtr info, char *mne)
     return buf;
 }
 
-static void sibEA(IAinstInfoPtr info, BYTE mod, char *buf)
+static void sibEA(IAinstInfoPtr info, BYTE mod, char *buf, size_t buf_sz)
 {
-    char baseStr[6], scaleStr[3], indexStr[8];
+    char baseStr[6], scaleStr[5], indexStr[8];
     BYTE defSeg;
 
     if (info->base == NO_REG) {
@@ -232,18 +232,18 @@ static void sibEA(IAinstInfoPtr info, BYTE mod, char *buf)
     switch (mod) {
     case 0:
 	if (info->base == NO_REG)
-	    (void)sprintf(buf, "%s%s%s", segOverride(info, defSeg),
+	    (void)snprintf(buf, buf_sz, "%s%s%s", segOverride(info, defSeg),
 			  disp(info, 4), indexStr);
 	else
-	    (void)sprintf(buf, "%s%s%s", segOverride(info, defSeg),
+	    (void)snprintf(buf, buf_sz, "%s%s%s", segOverride(info, defSeg),
 			  baseStr, indexStr);
 	break;
     case 1:
-	(void)sprintf(buf, "%s%s%s%s", segOverride(info, defSeg),
+	(void)snprintf(buf, buf_sz, "%s%s%s%s", segOverride(info, defSeg),
 		      disp(info, 1), baseStr, indexStr);
 	break;
     case 2:
-	(void)sprintf(buf, "%s%s%s%s", segOverride(info, defSeg),
+	(void)snprintf(buf, buf_sz, "%s%s%s%s", segOverride(info, defSeg),
 		      disp(info, 4), baseStr, indexStr);
 	break;
     }
@@ -280,7 +280,7 @@ static char *modrmEA(IAinstInfoPtr info)
 	case 0:
 	    eai = ea32Info(info->modrm);
 	    if (info->modrm.rm == SIB_RM)		/* SIB */
-		sibEA(info, info->modrm.mod, buf);
+		sibEA(info, info->modrm.mod, buf, sizeof (buf));
 	    else if (info->modrm.rm == DISP32_RM)	/* disp32 */
 		/* XXX - add symbol lookup */
 		(void)sprintf(buf, eai->fmt, segOverride(info, eai->defSeg),
@@ -291,7 +291,7 @@ static char *modrmEA(IAinstInfoPtr info)
 	case 1:
 	case 2:
 	    if (info->modrm.rm == SIB_RM)		/* SIB */
-		sibEA(info, info->modrm.mod, buf);
+		sibEA(info, info->modrm.mod, buf, sizeof (buf));
 	    else {
 		eai = ea32Info(info->modrm);
 		(void)sprintf(buf, eai->fmt, segOverride(info, eai->defSeg),
