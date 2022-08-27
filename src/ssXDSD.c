@@ -1109,12 +1109,6 @@ void cmdwSetStatusX(const char *msg)
     XmStringFree(cmdmsg);
 }
 
-BOOL cmdUpdate(unsigned argc, char *argv[])
-{
-    scrnUpdate();
-    return YES;
-}
-
 void scrnEndX(void)
 {
     /* Used by ssDCmd.c(cmdExit), ssDSD.c(ctrlz), ssErr.c(panic) */

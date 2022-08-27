@@ -190,7 +190,6 @@ BOOL dtlbShow(unsigned argc, char *argv[]);
 BOOL itlbShow(unsigned argc, char *argv[]);
 
 /* ssXDSD.c */
-BOOL cmdUpdate(unsigned argc, char *argv[]);
 BOOL cmdRedraw(unsigned argc, char *argv[]);
 
 /* stack.c */
@@ -388,10 +387,6 @@ MENU cmdmenu[MENUTBLSIZ] = {
 			"\ttrace <bool expr>\n"},
     {"trfile",	1, 2, "specify trace file", traceFile,
 			"\ttrfile <file> [w|a]\n"},
-#if 0
-    {"update",	0, 0, "update screen", dummyCmd, /* cmdUpdate, */
-			"\tupdate"},
-#endif
     {"ur",	0, 0, "show User Registers (PRs/BRs/ARs) in register window",
 			showUrs, "\tur"},
     {"", 0, 0, "", 0, ""}
