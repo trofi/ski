@@ -237,6 +237,10 @@ esac
 # No chance to maintain aliasing guarantees.
 CFLAGS="$CFLAGS -fno-strict-aliasing"
 
+# Macro from autoconf-archive.
+# Pull in -Werror= flags to catch obviously wrong code
+AX_CHECK_COMPILE_FLAG([-Werror=implicit-int], [CFLAGS="$CFLAGS -Werror=implicit-int"], [], [-Werror])
+
 encdir='$(top_srcdir)'/src/encodings
 AC_SUBST(encdir)
 
