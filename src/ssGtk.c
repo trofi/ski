@@ -243,7 +243,7 @@ void SimBtnCmdGtk(void *data)
 void SimShowAbout(void *data)
 {
 	printf("*** SimShowAbout()\n");
-	GtkDialog *about = glade_xml_get_widget(xml, "about_dialog");
+	GtkWidget *about = glade_xml_get_widget(xml, "about_dialog");
 	assert(about);
 
 	gtk_widget_show_all(about);
