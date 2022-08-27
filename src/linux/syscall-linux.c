@@ -2040,12 +2040,30 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
       setStatReturn (ret, status);
       break;
 
+    // A bit unusual syscall API:
+    // struct fd_pair { long fd[2]; };
+    // struct fd_pair pipe(void);
     case LIA64_pipe:
       *status = pipe (pfd);
       if ((int)*status != -1)
 	{
 	  *status = fdmap_alloc (pfd[0]);
 	  GrWrtx (9, fdmap_alloc (pfd[1]), 0);
+	}
+      setStatReturn (ret, status);
+      break;
+
+    // int pipe2(int pipefd[2], int flags);
+    case LIA64_pipe2:
+      *status = pipe2 (pfd, arg1);
+      if ((int)*status != -1)
+	{
+	  int ia64_pfd[2] = {
+	    fdmap_alloc (pfd[0]),
+	    fdmap_alloc (pfd[1]),
+	  };
+	  memBBWrt_alloc (ADDPTR (arg0), (BYTE *) ia64_pfd,
+			  sizeof (ia64_pfd));
 	}
       setStatReturn (ret, status);
       break;
