@@ -240,10 +240,6 @@ CFLAGS="$CFLAGS -fno-strict-aliasing"
 encdir='$(top_srcdir)'/src/encodings
 AC_SUBST(encdir)
 
-dnl Links
-#AC_CONFIG_LINKS([src/syscall-hpux.c:src/syscall.c])
-#AC_CONFIG_LINKS([src/dwarf-hpux.c:src/dwarf.c])
-
 dnl Configuration files
 AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([src/Makefile src/decoder/Makefile src/encoder/Makefile])
