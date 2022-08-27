@@ -595,7 +595,7 @@ static BOOL showInstTlb(unsigned argc, char *argv[])
 	cmdErr("Could not malloc space for itlb list\n");
 	return NO;
     }
-    getInstTlbInfo(hdr, buf);
+    getInstTlbInfo(hdr, sizeof (hdr), buf, bufsz+1);
     if (argc == 1 && !(f = cmdOpenFile(argv[0], "w"))) {
 	free(buf);
 	return NO;
@@ -622,7 +622,7 @@ static BOOL showDataTlb(unsigned argc, char *argv[])
 	cmdErr("Could not malloc space for dtlb list\n");
 	return NO;
     }
-    getDataTlbInfo(hdr, buf);
+    getDataTlbInfo(hdr, sizeof (hdr), buf, bufsz+1);
     if (argc == 1 && !(f = cmdOpenFile(argv[0], "w"))) {
 	free(buf);
 	return NO;

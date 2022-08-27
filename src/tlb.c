@@ -1541,7 +1541,7 @@ static char *tlbEntryLine(TlbEntry *e)
 	"UC ", "UCE", "WC ", "NaT",
     };
 
-    (void)sprintf(buf,
+    (void)snprintf(buf, sizeof (buf),
 		  "%d %06x %013llx %013llx %s %-2d %-2d %d  %d %d %3s %d %06x",
 		  (int)~e->vpn & 1,
 		  e->rid, e->vpn >> 12, e->ppn >> 12,
@@ -1560,28 +1560,56 @@ size_t dataTlbDisplaySize(void)
     return unixABI ? 0 : sizeof TLB_DATA * (NDTRS+NDTCS) + 1;
 }
 
-void getInstTlbInfo(char hdr[], char buf[])
+void getInstTlbInfo(char * hdr, size_t hdr_sz, char * buf, size_t buf_sz)
 {
     int i;
     char *p = buf;
+    size_t p_left = buf_sz;
+    size_t w;
 
-    (void)strcpy(hdr, TLB_HDR);
+    (void)snprintf(hdr, hdr_sz, "%s", TLB_HDR);
     for (i = 0; i < NITRS; i++)
-	p += sprintf(p, "%s\n", tlbEntryLine(&itrs[i]));
-    p += sprintf(p, "\n");
+    {
+	w = snprintf(p, p_left, "%s\n", tlbEntryLine(&itrs[i]));
+	if (w >= p_left) return; /* Output truncated */
+	p_left -= w;
+    }
+
+    w = snprintf(p, p_left, "\n");
+    if (w >= p_left) return; /* Output truncated */
+    p_left -= w;
+
     for (i = 0; i < NITCS; i++)
-	p += sprintf(p, "%s\n", tlbEntryLine(&itcs[i]));
+    {
+	w = snprintf(p, p_left, "%s\n", tlbEntryLine(&itcs[i]));
+	if (w >= p_left) return; /* Output truncated */
+	p_left -= w;
+    }
 }
 
-void getDataTlbInfo(char hdr[], char buf[])
+void getDataTlbInfo(char * hdr, size_t hdr_sz, char * buf, size_t buf_sz)
 {
     int i;
     char *p = buf;
+    size_t p_left = buf_sz;
+    size_t w;
 
-    (void)strcpy(hdr, TLB_HDR);
+    (void)snprintf(hdr, hdr_sz, "%s", TLB_HDR);
     for (i = 0; i < NDTRS; i++)
-	p += sprintf(p, "%s\n", tlbEntryLine(&dtrs[i]));
-    p += sprintf(p, "\n");
+    {
+	w = snprintf(p, p_left, "%s\n", tlbEntryLine(&dtrs[i]));
+	if (w >= p_left) return; /* Output truncated */
+	p_left -= w;
+    }
+
+    w = snprintf(p, p_left, "\n");
+    if (w >= p_left) return; /* Output truncated */
+    p_left -= w;
+
     for (i = 0; i < NDTCS; i++)
-	p += sprintf(p, "%s\n", tlbEntryLine(&dtcs[i]));
+    {
+	w = snprintf(p, p_left, "%s\n", tlbEntryLine(&dtcs[i]));
+	if (w >= p_left) return; /* Output truncated */
+	p_left -= w;
+    }
 }

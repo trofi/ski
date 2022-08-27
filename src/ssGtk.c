@@ -501,14 +501,14 @@ static void fake_tlb_update(void)
 	bufsz = instTlbDisplaySize();
 	buf = malloc(bufsz+1);
 	assert(buf);
-	getInstTlbInfo(hdr, buf);
+	getInstTlbInfo(hdr, sizeof (hdr), buf, bufsz+1);
 	tlbwUpdate('I', hdr, buf);
 	free(buf);
 
 	bufsz = dataTlbDisplaySize();
 	buf = malloc(bufsz+1);
 	assert(buf);
-	getDataTlbInfo(hdr, buf);
+	getDataTlbInfo(hdr, sizeof (hdr), buf, bufsz+1);
 	tlbwUpdate('D', hdr, buf);
 	free(buf);
 }
