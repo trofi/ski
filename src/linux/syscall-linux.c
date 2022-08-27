@@ -2607,9 +2607,12 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
     // 		     const struct rlimit64 *new, struct rlimit64 *old);
     case LIA64_prlimit64:
 
-      memBBRd (arg2, (BYTE *)&lia64_rlimit, sizeof (struct lia64_rlimit));
-      host_rlimit.rlim_cur = lia64_rlimit.rlim_cur;
-      host_rlimit.rlim_max = lia64_rlimit.rlim_max;
+      if (arg2)
+      {
+	memBBRd (arg2, (BYTE *)&lia64_rlimit, sizeof (struct lia64_rlimit));
+        host_rlimit.rlim_cur = lia64_rlimit.rlim_cur;
+        host_rlimit.rlim_max = lia64_rlimit.rlim_max;
+      }
 
       switch (arg1)
 	{
@@ -2626,9 +2629,9 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
 	default:			resource = -1; break;
 	}
 
-      *status = prlimit (arg0, resource, &host_rlimit, &host_rlimit_old);
+      *status = prlimit (arg0, resource, arg2 ? &host_rlimit : 0, arg3 ? &host_rlimit_old : 0);
 
-      if ((int) *status != -1)
+      if ((int) *status != -1 && arg3)
 	{
 	  lia64_rlimit_old.rlim_cur = host_rlimit_old.rlim_cur;
 	  lia64_rlimit_old.rlim_max = host_rlimit_old.rlim_max;
