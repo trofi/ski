@@ -265,6 +265,7 @@ libski_la_SOURCES= \
 	ssX.c \
 	ssXDSD.c \
 	ssGtk.c \
+	ssGtk.h \
 	asm.c \
 	version.c \
 	eparse.y \

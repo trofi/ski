@@ -39,6 +39,8 @@
 #include <string.h>
 #include <assert.h>
 
+#include "ssGtk.h"
+
 /* cycles to do in one background loop */
 #define GTK_REFRESH_RATE 100000
 
