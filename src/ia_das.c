@@ -222,7 +222,7 @@ static void sibEA(IAinstInfoPtr info, BYTE mod, char *buf)
     if (info->scale == 1)
 	scaleStr[0] = '\0';
     else
-	(void)sprintf(scaleStr, "*%d", info->scale);
+	(void)snprintf(scaleStr, sizeof (scaleStr), "*%d", info->scale);
 
     if (info->index == NO_REG)
 	indexStr[0] = '\0';
