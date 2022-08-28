@@ -22,6 +22,10 @@
 #ifndef _SKI_IA_EXEC_H
 #define _SKI_IA_EXEC_H
 
+#include "ia_types.h"
+#include "sim.h"
+#include "types.h"
+
 #define IPfromEIP(eip)		((ADDR)((ADDR4)(eip) + (ADDR4)CSD.base))
 #define EIPfromIP(ip)		((ADDR4)(ip) - (ADDR4)CSD.base)
 

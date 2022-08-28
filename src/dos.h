@@ -20,6 +20,8 @@
 #ifndef _SKI_DOS_H
 #define _SKI_DOS_H
 
+#include "ia_types.h"
+
 typedef struct {
     IAWORD exSignature;		/* EXE signature = 0x5A4D = "MZ" */
     IAWORD exExtraBytes;	/* # of bytes in last partial page in file */

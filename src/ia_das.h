@@ -22,6 +22,8 @@
 #ifndef _SKI_IA_DAS_H
 #define _SKI_IA_DAS_H
 
+#include "ia_types.h"
+
 void add_ExGx_das(IAinstInfoPtr info, char *str);	/* 00 - 01 */
 void add_GxEx_das(IAinstInfoPtr info, char *str);	/* 02 - 03 */
 void add_reg_imm_das(IAinstInfoPtr info, char *str);	/* 04 - 05 */

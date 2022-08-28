@@ -22,6 +22,9 @@
 #ifndef _SKI_PROGRAM_H
 #define _SKI_PROGRAM_H
 
+#include "std.h"
+#include "types.h"
+
 #ifndef XSIM
 typedef int Widget;
 #define WIDGET_TYPEDEF

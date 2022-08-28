@@ -22,6 +22,9 @@
 #ifndef _SKI_MEMUI_H
 #define _SKI_MEMUI_H
 
+#include "std.h"
+#include "types.h"
+
 BOOL memMRd(ADDR adr, unsigned size, DWORD *pval);
 BOOL memMIAIRd(WORD eip, BYTE *pval, unsigned nbytes);
 

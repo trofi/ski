@@ -22,6 +22,9 @@
 #ifndef _SKI_IA_READ_H
 #define _SKI_IA_READ_H
 
+#include "ia_types.h"
+#include "sim.h"
+
 Status immIARd(IAinstInfoPtr info, Accesstype acc, IADWORD *val,
 	       ADDR *adr, ADDR *adr2);
 Status iretIARd(IAinstInfoPtr, Accesstype, IADWORD *, ADDR*, ADDR*);

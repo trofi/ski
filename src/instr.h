@@ -22,6 +22,9 @@
 #ifndef _SKI_INSTR_H
 #define _SKI_INSTR_H
 
+#include "sim.h"
+#include "std.h"
+
 typedef BOOL (*PdecFn)(DWORD, INSTINFO *);
 
 typedef struct instr {
@@ -31,6 +34,6 @@ typedef struct instr {
     ICNTS cnt;
 } Instr, *InstrPtr;
 
-extern InstrPtr instrs;
+extern InstrPtr instrs; /* TODO: should be const? */
 
 #endif /* _SKI_INSTR_H */

@@ -19,6 +19,8 @@
 #ifndef _SKI_MACHDEP_H
 #define _SKI_MACHDEP_H
 
+#include "types.h"
+
 #define	SKI_NFDS		20
 
 typedef struct {

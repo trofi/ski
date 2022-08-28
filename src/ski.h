@@ -23,6 +23,8 @@
 #ifndef _SKI_SKI_H
 #define _SKI_SKI_H
 
+#include "std.h"
+
 #define GR_STK_BASE	32
 #define NATVAL(s,e,m)	(!s && e == 0x1FFFE && !m)
 

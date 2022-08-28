@@ -22,6 +22,9 @@
 #ifndef _SKI_SIM_H_
 #define	_SKI_SIM_H_
 
+#include "std.h"
+#include "types.h"
+
 /* the bits of Status encode the following: */
 #define ST_STOP		0x01	/* must be low-order bit */
 #define ST_IP_INC	0x02

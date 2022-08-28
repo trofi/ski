@@ -22,6 +22,8 @@
 #ifndef _SKI_LIBSYM_H
 #define _SKI_LIBSYM_H
 
+#include "std.h"
+
 typedef struct {
     char *name;			/* symbol name */
     void *extra;		/* pointer to extra symbol info */

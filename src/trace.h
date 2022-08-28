@@ -22,6 +22,10 @@
 #ifndef _SKI_TRACE_H
 #define _SKI_TRACE_H
 
+#include <stdio.h>
+
+#include "libtrace.h"
+
 /* Constants */
 
 /* trc_flags values */

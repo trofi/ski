@@ -22,6 +22,8 @@
 #ifndef _SKI_FLOAT_H
 #define _SKI_FLOAT_H
 
+#include "state.h"
+
 #define FP_FLAGS	0x3F
 #define FP_FAULT	0x3C0
 #define FP_TRAP		0x3800

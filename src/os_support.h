@@ -19,6 +19,9 @@
 #ifndef _SKI_OS_SUPPORT_H
 #define _SKI_OS_SUPPORT_H
 
+#include "std.h"
+#include "types.h"
+
 typedef struct {
 	WORD	simSec;
 	WORD	simUsec;

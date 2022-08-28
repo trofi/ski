@@ -29,12 +29,14 @@
 #include <sys/param.h>	/* for MIN */
 #include <string.h>
 #include <signal.h>
+
+#include "ssDCmd.h"
+
 #include "std.h"
 #include "bits.h"
 #include "types.h"
 #include "fields.h"
 #include "ski.h"
-#include "ssDCmd.h"
 #include "exportui.h"
 #include "coreui.h"
 #include "data.h"

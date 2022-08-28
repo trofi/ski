@@ -22,6 +22,9 @@
 #ifndef _SKI_FIELDS_H
 #define _SKI_FIELDS_H
 
+#include "std.h"
+#include "types.h"
+
 typedef DWORD	INST;
 
 #define B0(x)	BitfR(x,0,8)

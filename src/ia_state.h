@@ -22,6 +22,8 @@
 #ifndef _SKI_IA_STATE_H
 #define _SKI_IA_STATE_H
 
+#include "ia_types.h"
+
 /* mapping of iA state onto IA-64 GRs */
 /* XXX - the following definitions work on a BIG-ENDIAN host only */
 

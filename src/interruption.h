@@ -22,6 +22,8 @@
 #ifndef _SKI_INTERRUPTION_H
 #define _SKI_INTERRUPTION_H
 
+#include "simmem.h"
+
 /* IA-64 Interruption Vector Offsets */
 #define VHPT_VECTOR				0x0000
 #define PAGE_NOT_PRESENT_VECTOR			0x5000

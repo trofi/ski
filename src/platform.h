@@ -23,6 +23,8 @@
 #ifndef _SKI_PLATFORM_H
 #define _SKI_PLATFORM_H
 
+#include "types.h"
+
 /*--------------------------------------------*/
 /*  Data structures defined in this file only */
 /*--------------------------------------------*/

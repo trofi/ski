@@ -22,6 +22,8 @@
 #ifndef _SKI_LIBSRS_H
 #define _SKI_LIBSRS_H
 
+#include "std.h"
+
 typedef enum { ERROR, FOUND, NOT_FOUND } RstStat;
 
 /*

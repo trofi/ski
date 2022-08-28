@@ -39,6 +39,10 @@ static void yyerror(char *);
 
 %}
 
+%code requires {
+#include "types.h" /* REG used in tokens */
+}
+
 %union	{
 	    char *str;
 	    REG val;

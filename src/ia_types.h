@@ -22,6 +22,10 @@
 #ifndef _SKI_IA_TYPES_H
 #define _SKI_IA_TYPES_H
 
+#include "sim.h"
+#include "simmem.h"
+#include "std.h"
+
 #define IA16	2
 #define IA32	4
 

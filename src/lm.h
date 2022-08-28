@@ -20,6 +20,8 @@
 #ifndef _SKI_LM_H
 #define _SKI_LM_H
 
+#include "types.h"
+
 #define MAX_LOAD_MODULES 12
 
 typedef struct {

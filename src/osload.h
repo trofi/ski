@@ -19,6 +19,8 @@
 #ifndef _SKI_OSLOAD_H
 #define _SKI_OSLOAD_H
 
+#include "types.h"
+
 struct os_proc
 {
 	int	has_rtld;

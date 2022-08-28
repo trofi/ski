@@ -25,6 +25,8 @@
 #ifndef _SKI_LIBTRACE_H
 #define _SKI_LIBTRACE_H
 
+#include "std.h"
+
 /* XXX - should this library have any dependence on types such as BOOL
 	 and ADDR? */
 /* XXX - Add documentation/comments to describe how atomic records get

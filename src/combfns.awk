@@ -17,6 +17,9 @@ BEGIN {
     }
     close(COPYRIGHT)
     print "#include \"exec_hd.c\"" > CFILE
+
+    print "#include \"sim.h\"" > HFILE
+    print "" > HFILE
     print "Status illComb(INSTINFO *info);" > HFILE
     print "Status illQpComb(INSTINFO *info);" > HFILE
     print "Status illBQpComb(INSTINFO *info);" > HFILE

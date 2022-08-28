@@ -19,11 +19,16 @@ BEGIN {
 	print ln > IHFILE
     }
     close(COPYRIGHT)
+
+    print "#include \"sim.h\"" > PHFILE
+    print "#include \"std.h\"" > PHFILE
+    print "" > PHFILE
     print "BOOL illpredecode(DWORD, INSTINFO *);" > PHFILE
     print "BOOL illQPpredecode(DWORD, INSTINFO *);" > PHFILE
     print "BOOL illBQPpredecode(DWORD, INSTINFO *);" > PHFILE
     print "BOOL ignpredecode(DWORD, INSTINFO *);" > PHFILE
     print "BOOL lUnitImm41predecode(DWORD, INSTINFO *);" > PHFILE
+
     print "#include \"std.h\"" > CFILE
     print "#include \"bits.h\"" > CFILE
     print "#include \"types.h\"" > CFILE

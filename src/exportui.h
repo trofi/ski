@@ -22,6 +22,9 @@
 #ifndef _SKI_EXPORTUI_H
 #define _SKI_EXPORTUI_H
 
+#include "std.h"
+#include "types.h"
+
 /*--------------------------------------------------------------------------
  *  Interface to expression evaluation
  *-------------------------------------------------------------------------*/

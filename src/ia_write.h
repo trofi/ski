@@ -22,6 +22,8 @@
 #ifndef _SKI_IA_WRITE_H
 #define _SKI_IA_WRITE_H
 
+#include "ia_types.h"
+
 void immIAWr(IAinstInfoPtr info, IADWORD val, ADDR adr, ADDR adr2);
 void reg8IAWr(IAinstInfoPtr info, IADWORD val, ADDR adr, ADDR adr2);
 void reg16IAWr(IAinstInfoPtr info, IADWORD val, ADDR adr, ADDR adr2);

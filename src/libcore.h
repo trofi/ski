@@ -22,6 +22,9 @@
 #ifndef _SKI_LIBCORE_H
 #define _SKI_LIBCORE_H
 
+#include "std.h"
+#include "types.h"
+
 /* This requires std.h and types.h */
 
 #ifdef NEW_MP

@@ -22,6 +22,10 @@
 #ifndef _SKI_SSDCMD_H
 #define _SKI_SSDCMD_H
 
+#include <stdio.h>
+
+#include "std.h"
+
 #define MAXCMDS	10
 #define MAXARGS	64
 
