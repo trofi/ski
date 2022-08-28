@@ -51,6 +51,9 @@ extern int localtime_r(const __time_t *, __struct_tm *);
 #include <unistd.h>	/* Also #includes <utime.h> */
 #include <sys/utsname.h>
 #include <ctype.h>
+
+#include "dos.h"
+
 #include "std.h"
 #include "bits.h"
 #include "types.h"

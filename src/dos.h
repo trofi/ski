@@ -21,6 +21,8 @@
 #define _SKI_DOS_H
 
 #include "ia_types.h"
+#include "sim.h"
+#include "types.h"
 
 typedef struct {
     IAWORD exSignature;		/* EXE signature = 0x5A4D = "MZ" */
@@ -65,5 +67,7 @@ typedef struct {
     IAWORD ofs;
     IAWORD seg;
 } EXErelocItem, *EXErelocItemPtr;
+
+Status dosInt21(BYTE func, BYTE subFunc);
 
 #endif	/* _SKI_DOS_H */
