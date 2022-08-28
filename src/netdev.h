@@ -26,4 +26,7 @@ extern int netdev_attach (int fd, unsigned int ipaddr);
 extern int netdev_detach (int fd);
 extern void netdev_cleanup (void);
 
+long netdev_recv (int fd, char *fbuf, int len);
+long netdev_send (int fd, char *fbuf, int len);
+
 #endif /* _SKI_NETDEV_H */

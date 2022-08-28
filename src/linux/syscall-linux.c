@@ -4886,7 +4886,6 @@ doSSC (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG *ret)
 
     case SSC_NETDEV_SEND:
       {
-	extern long netdev_send (int, char *, int);
 	olddt = PSR_DT;
         PSR_DT = 0;
 	if (arg2 > 0)
@@ -4898,8 +4897,6 @@ doSSC (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG *ret)
 
     case SSC_NETDEV_RECV:
       {
-	extern long netdev_recv (int, char *, int);
-
 	*ret = netdev_recv (arg0, (char *)frame, arg2);
 	olddt = PSR_DT;
         PSR_DT = 0;
