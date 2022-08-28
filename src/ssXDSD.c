@@ -42,6 +42,9 @@
 #include <Xm/Text.h>
 #include <Xm/TextF.h>
 #include <Xm/ToggleBG.h>
+
+#include "ssXDSD.h"
+
 #include "types.h"
 #include "ssDCmd.h"
 #include "exportui.h"
@@ -805,27 +808,6 @@ void prgwUpdateX(void)
 	if (Mapped(prgInfo.perProc[proc].form))
 	    prgwUpd(proc, prgwCVA);
 }
-
-void prgwBRedraw(void)
-{
-    /* Used by ssDBT.c(bptSet, bptDelete, bptDeleteAll) */
-    prgwUpdateX();
-}
-
-#if 0
-
-void prgwSUp(void)
-{
-    prgwCVA += 4;
-    prgwDrawX();
-}
-
-void prgwSDown(void)
-{
-    prgwCVA -= 4;
-    prgwDrawX();
-}
-#endif
 
 /************************/
 /* Data Window Routines */

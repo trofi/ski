@@ -49,6 +49,7 @@
 #include "coreui.h"
 #include "ssDCmd.h"
 #include "libcore.h"
+#include "ssXDSD.h"
 
 #if 0
 /* Include files not needed for now in the simulator */
@@ -66,11 +67,8 @@
 extern BOOL noscreen;
 
 void prgFmtCallback(CALLBACK_ARGS);
-void prgwInit(void);
 void datFmtCallback(CALLBACK_ARGS);
-void datwInit(void);
 void regFmtCallback(CALLBACK_ARGS);
-void regwInit(void);
 void cmdHelpCallback(CALLBACK_ARGS);
 void prodInfoCallback(CALLBACK_ARGS);
 
@@ -149,10 +147,6 @@ static Boolean stepItX(XtPointer client_data);
 static Boolean runItX(XtPointer client_data);
 static void stop_execLoopXCB(CALLBACK_ARGS);
 
-void pwResize(Widget w, XEvent *event,
-	      String *params, Cardinal *num_params);
-void dwResize(Widget w, XEvent *event,
-	      String *params, Cardinal *num_params);
 static XtActionsRec actions[] = {
     { "SimCmd", SimCmd },
     { "dwResize", dwResize },

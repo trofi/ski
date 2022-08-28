@@ -264,6 +264,7 @@ libski_la_SOURCES= \
 	cur.c \
 	ssX.c \
 	ssXDSD.c \
+	ssXDSD.h \
 	ssGtk.c \
 	ssGtk.h \
 	asm.c \
