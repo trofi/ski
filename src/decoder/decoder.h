@@ -22,8 +22,8 @@
 #ifndef _SKI_DECODER_H
 #define _SKI_DECODER_H
 
-#include <instID.h>
-#include <operands.h>
+#include <instID.gen.h>
+#include <operands.gen.h>
 
 #define SLOTS_PER_BUNDLE	3
 

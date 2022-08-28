@@ -20,50 +20,51 @@
 ##
 
 
-AM_CPPFLAGS= -I$(top_srcdir)/src/encoder -I$(top_builddir)/src/encoder \
+AM_CPPFLAGS = -I$(top_srcdir)/src/encoder -I$(top_builddir)/src/encoder \
 			 -I$(top_srcdir)/src
 
-BUILT_SOURCES= \
-	decode_tree.c \
-	operands.h \
-	instID.h \
-	../encoder/EMformats.h
+BUILT_SOURCES = \
+	decode_tree.gen.c \
+	operands.gen.h \
+	instID.gen.h \
+	../encoder/EMformats.gen.h
 
-noinst_LTLIBRARIES=libdecoder.la
+noinst_LTLIBRARIES = libdecoder.la
 
-libdecoder_la_SOURCES= \
+libdecoder_la_SOURCES = \
 	_decoder.h \
-	decoder.h decoder.c \
+	decoder.c \
+	decoder.h \
 	parts.c \
 	$(BUILT_SOURCES)
 
-noinst_DATA= operands.h_template
+noinst_DATA = operands.h_template
 
 noinst_SCRIPTS= \
 	instID.awk \
 	operands.awk
 
-instID.h: instID.awk $(encdir)/encoding.opcode $(encdir)/encoding.unusedop
+instID.gen.h: instID.awk $(encdir)/encoding.opcode $(encdir)/encoding.unusedop
 	$(AWK) -f $(srcdir)/instID.awk \
-		-v IDFILE=instID.h \
+		-v IDFILE=instID.gen.h \
 		-v COPYRIGHT=$(srcdir)/../Copyright \
 		$(encdir)/encoding.opcode \
 		$(encdir)/encoding.unusedop
 
-operands.h: operands.awk $(encdir)/encoding.opcode operands.h_template
+operands.gen.h: operands.awk $(encdir)/encoding.opcode operands.h_template
 	$(AWK) -f $(srcdir)/operands.awk \
-		-v OPFILE=operands.h \
+		-v OPFILE=operands.gen.h \
 		-v TEMPLATE=$(srcdir)/operands.h_template \
 		$(encdir)/encoding.opcode
 
-decode_tree.c:
+decode_tree.gen.c:
 	@$(LN_S) $(encdir)/encoding.decode $@
 
-../encoder/EMformats.h: $(srcdir)/../encoder/formats.awk \
+../encoder/EMformats.gen.h: $(srcdir)/../encoder/formats.awk \
 					    $(srcdir)/../encoder/formats.c_template \
 					    $(encdir)/encoding.format \
 					    $(srcdir)/../Copyright
-	(cd ../encoder; $(MAKE) EMformats.h)
+	(cd ../encoder; $(MAKE) EMformats.gen.h)
 
 EXTRA_DIST= $(noinst_DATA) $(noinst_SCRIPTS)
 

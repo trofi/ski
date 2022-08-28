@@ -20,36 +20,37 @@
 ##
 
 
-AM_CPPFLAGS= -I$(top_srcdir)/src/decoder -I$(top_builddir)/src/decoder \
+AM_CPPFLAGS = -I$(top_srcdir)/src/decoder -I$(top_builddir)/src/decoder \
 			 -I$(top_srcdir)/src
 
-BUILT_SOURCES= EMformats.h encode_table.c formats.c
+BUILT_SOURCES = EMformats.gen.h encode_table.gen.c formats.gen.c
 
-noinst_LTLIBRARIES=libencoder.la
+noinst_LTLIBRARIES = libencoder.la
 
 libencoder_la_SOURCES= \
 	EMInst.h \
-	encoder.h encoder.c \
+	encoder.c \
+	encoder.h \
 	$(BUILT_SOURCES)
 
 noinst_DATA = formats.c_template
 
-noinst_SCRIPTS= formats.awk
+noinst_SCRIPTS = formats.awk
 
-EMformats.h formats.c: formats.awk formats.c_template \
+EMformats.gen.h formats.gen.c: formats.awk formats.c_template \
 					   $(encdir)/encoding.format $(srcdir)/../Copyright
 	rm -f $@;
 	$(AWK) -f $(srcdir)/formats.awk \
-		-v HFILE=EMformats.h \
-		-v CFILE=formats.c \
+		-v HFILE=EMformats.gen.h \
+		-v CFILE=formats.gen.c \
 		-v TEMPLATE=$(srcdir)/formats.c_template \
 		-v COPYRIGHT=$(srcdir)/../Copyright \
 		$(encdir)/encoding.format
 
-encode_table.c:
+encode_table.gen.c:
 	@$(LN_S) $(encdir)/encoding.encode $@
 
-EXTRA_DIST= $(noinst_DATA) $(noinst_SCRIPTS)
+EXTRA_DIST = $(noinst_DATA) $(noinst_SCRIPTS)
 
 distclean-local:
 	-rm -rf $(BUILT_SOURCES)
