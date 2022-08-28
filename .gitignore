@@ -19,6 +19,8 @@ Makefile
 /stamp-h1
 
 # make
+*.gen/
+*.gen.*
 *.o
 *.la
 *.lo

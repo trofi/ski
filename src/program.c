@@ -38,7 +38,7 @@
 #include "libcore.h"
 #include "libdas.h"
 #include "libsym.h"
-#include "iadas_types.h"	/* for IAinstInfo/IAinstInfoPtr */
+#include "iadas_types.gen.h"	/* for IAinstInfo/IAinstInfoPtr */
 #include "ia_decoder.h"
 #include "ia_exec.h"
 #include "state.h"

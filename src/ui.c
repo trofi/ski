@@ -42,7 +42,7 @@
 #include "data.h"
 #include "libsym.h"
 #include "libcore.h"
-#include "iadas_types.h"	/* for ADDR4 */
+#include "iadas_types.gen.h"	/* for ADDR4 */
 
 #ifdef __linux__
 extern double ldexp (double x, int exp);

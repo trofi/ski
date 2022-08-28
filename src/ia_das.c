@@ -32,7 +32,7 @@
 #include "libsym.h"
 #include "libcore.h"	/* XXX - Just for grGet used by IPfromEIP which is
 			 * only used in a call to symAddrtoName -- redesign? */
-#include "iadas_types.h"
+#include "iadas_types.gen.h"
 #include "ia_decoder.h"
 #include "ia_das.h"
 

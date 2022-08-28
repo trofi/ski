@@ -1,6 +1,6 @@
 /"sim\.h"/a\
 #include "memui.h"\
-#include "iadas_types.h"
+#include "iadas_types.gen.h"
 /"ia_exec\.h"/a\
 #include "ia_das.h"
 s/ [^ ]*IARd/ 0/
