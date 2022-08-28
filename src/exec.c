@@ -30,6 +30,7 @@
 #include "state.h"
 #include "sim.h"
 #include "simmem.h"
+#include "trace.h"
 
 Status addEx(INSTINFO *info)
 {

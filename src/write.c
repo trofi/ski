@@ -29,6 +29,7 @@
 #include "fields.h"
 #include "state.h"
 #include "sim.h"
+#include "trace.h"
 
 void nullWrt(INSTINFO *info)
 {

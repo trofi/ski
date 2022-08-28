@@ -25,6 +25,7 @@
 #include <stdio.h>
 
 #include "libtrace.h"
+#include "types.h"
 
 /* Constants */
 
@@ -61,6 +62,11 @@ extern Region_Chng_Trec		region_trec;
 extern Prev_Pfs_Trec		prev_pfs_trec;
 extern Br_Pred_Trec		br_pred_trec;
 
+/* Functions */
+
+void traceArTgt(REG ar);
+void traceBrPred(REG br);
+void tracePrevPFS(REG prevPfs);
 
 /* Macros */
 

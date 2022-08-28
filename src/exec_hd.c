@@ -480,12 +480,6 @@ void clearPdecode(ADDR adr, unsigned size);
 void addLM2(ADDR adr, size_t len);
 int isbpt(ADDR adr);
 
-/* consider #include'ing trace.h instead of declaring the following var/fns */
-extern unsigned traceEnb;
-void tracePrevPFS(REG prevPfs);
-void traceBrPred(REG br);
-void traceArTgt(REG ar);
-
 void alat_inval_single_entry(BOOL fpreg, int rega);
 void alat_write(BOOL fpreg, int rega, ADDR pa, unsigned size);
 int alat_cmp(BOOL fpreg, int rega, BOOL clearit);

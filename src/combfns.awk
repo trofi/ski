@@ -16,6 +16,7 @@ BEGIN {
 	print ln > HFILE
     }
     close(COPYRIGHT)
+    print "#include \"trace.h\"" > CFILE
     print "#include \"exec_hd.c\"" > CFILE
 
     print "#include \"sim.h\"" > HFILE

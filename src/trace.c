@@ -145,4 +145,3 @@ void traceVcyEnb(void)
     if (traceEnb)
 	traceVcy = total_insts;
 }
-
