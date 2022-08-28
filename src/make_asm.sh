@@ -29,8 +29,8 @@ test -z "${srcdir}" && srcdir=.
 
 awk_file=$srcdir/asm.awk
 C_file=$srcdir/Copyright
-c_file="asm_hash.c"
-err_file="asm_hash.err"
+c_file="asm_hash.gen.c"
+err_file="asm_hash.gen.err"
 temp_dir="asm_hash.gen"
 opcode_file=$srcdir/encodings/encoding.opcode
 cmd_opts=""

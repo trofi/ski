@@ -35,8 +35,8 @@ BEGIN {
     print "#include \"sim.h\"" > CFILE
     print "#include \"state.h\"" > CFILE
     print "#include \"instinfo.h\"" > CFILE
-    print "#include \"immed.h\"" > CFILE
-    print "#include \"predecode.h\"" > CFILE
+    print "#include \"immed.gen.h\"" > CFILE
+    print "#include \"predecode.gen.h\"" > CFILE
     print "" > CFILE
     print "static DWORD imm41;" > CFILE
     print "static ADDR ippg;" > CFILE

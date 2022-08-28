@@ -92,7 +92,7 @@
 #include "libsrs.h"
 #include "libcore.h"
 #include "load.h"
-#include "combfns.h"
+#include "combfns.gen.h"
 #include "interruption.h"
 #include "netdev.h"
 #include "os_support.h"

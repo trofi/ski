@@ -40,7 +40,7 @@
 #include "coreui.h"
 #include "libsrs.h"
 #include "libcore.h"
-#include "icnt_ui.h"
+#include "icnt_ui.gen.h"
 
 #define NELEM(arr)	(sizeof arr/sizeof arr[0])
 

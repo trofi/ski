@@ -59,7 +59,7 @@
 #include "ia_exec.h"
 #include "EMInst.h"
 #include "instinfo.h"
-#include "icnt_core.h"
+#include "icnt_core.gen.h"
 #include "os_support.h"
 
 #define ALARM
@@ -286,7 +286,7 @@ void switchBanks(void)
 static int fdCnt = 0;
 #endif
 
-#include "combfns.h"
+#include "combfns.gen.h"
 
 #ifdef USE_PSEUDOS
 /* XXX - add this prototype to combfns.h via combfns.awk */
@@ -2162,7 +2162,7 @@ static BundlePtr pxx(ADDR a)
 }
 
 /* XXX - move this to the top of the file? */
-#include "predecode.h"
+#include "predecode.gen.h"
 /* XXX - copied from libcore_types.h!! */
 #define BADDR(ip)       ((ip) & ~(ADDR)0xF)
 int ldTgt(ADDR a)

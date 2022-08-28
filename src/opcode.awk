@@ -37,8 +37,8 @@ BEGIN {
     print "#include \"types.h\"" > CFILE
     print "#include \"sim.h\"" > CFILE
     print "#include \"instr.h\"" > CFILE
-    print "#include \"predecode.h\"" > CFILE
-    print "#include \"combfns.h\"" > CFILE
+    print "#include \"predecode.gen.h\"" > CFILE
+    print "#include \"combfns.gen.h\"" > CFILE
 
     print "Instr baseInstrs[] = {" > CFILE
 

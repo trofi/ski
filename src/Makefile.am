@@ -67,13 +67,13 @@ COMBFNS_FILES= \
 	sys_exec.c \
 	write.c
 
-COMBFNS_DERIVED= \
-	combfns.h combfns.c
+COMBFNS_DERIVED = \
+	combfns.gen.h combfns.gen.c
 
-PREDECODE_DERIVED= \
-	predecode.c \
-	predecode.h \
-	immed.h
+PREDECODE_DERIVED = \
+	predecode.gen.c \
+	predecode.gen.h \
+	immed.gen.h
 
 IAEXEC_DECODER_DERIVED = \
 	iaexec_decoder.gen.c
@@ -84,15 +84,15 @@ IADAS_DECODER_DERIVED = \
 IADAS_TYPES_DERIVED = \
 	iadas_types.gen.h
 
-DAS_INSTR_DERIVED= \
-	das_instr.c
+DAS_INSTR_DERIVED = \
+	das_instr.gen.c
 
-ASM_HASH_DERIVED= \
-	asm_hash.c
+ASM_HASH_DERIVED = \
+	asm_hash.gen.c
 
-ICNT_DERIVED= \
-	icnt_core.h \
-	icnt_ui.h
+ICNT_DERIVED = \
+	icnt_core.gen.h \
+	icnt_ui.gen.h
 
 if WITH_NETDEV
 NETDEV_C=netdev.c
@@ -100,7 +100,7 @@ else
 NETDEV_C=
 endif
 
-BUILT_SOURCES= \
+BUILT_SOURCES = \
 	$(COMBFNS_DERIVED) \
 	$(PREDECODE_DERIVED) \
 	$(IAEXEC_DECODER_DERIVED) \
@@ -111,9 +111,9 @@ BUILT_SOURCES= \
 	$(ICNT_DERIVED) \
 	eparse.h eparse.c \
 	escan.h escan.c \
-	instr.c
+	instr.gen.c
 
-ski_SOURCES= \
+ski_SOURCES = \
 	main.c
 
 if WITH_GTK_INTERFACE
@@ -238,7 +238,7 @@ libski_la_SOURCES= \
 	impl.c \
 	impl.h \
 	os_support.c \
-	instr.c \
+	instr.gen.c \
 	$(NETDEV_C) \
 	$(linux_FILES) \
 	$(hpux_FILES) \
@@ -321,39 +321,39 @@ bski $(XSKI) $(GSKI) : ski
 
 ## DERIVED sources rules:
 
-das_instr.c: das.awk $(encdir)/encoding.opcode \
+das_instr.gen.c: das.awk $(encdir)/encoding.opcode \
 			 $(encdir)/encoding.unusedop \
 			 $(srcdir)/libdas.c $(srcdir)/Copyright
 	@rm -f $(DAS_INSTR_DERIVED)
 	$(AWK) -f $(srcdir)/das.awk \
 		-v COPYRIGHT=$(srcdir)/Copyright \
 		-v LIBDAS_C=$(srcdir)/libdas.c \
-		-v CFILE=das_instr.c \
+		-v CFILE=das_instr.gen.c \
 		$(encdir)/encoding.opcode \
 		unused=1 $(encdir)/encoding.unusedop
 
-icnt_ui.h: icnt_core.h
-icnt_core.h: mkicnt.awk $(encdir)/encoding.opcode \
+icnt_ui.gen.h: icnt_core.gen.h
+icnt_core.gen.h: mkicnt.awk $(encdir)/encoding.opcode \
 				 $(encdir)/encoding.unusedop \
 				 $(srcdir)/Copyright
 	@rm -f $(ICNT_DERIVED)
 	$(AWK) -f $(srcdir)/mkicnt.awk \
 		-v COPYRIGHT=$(srcdir)/Copyright \
-		-v HFILE_UI=icnt_ui.h \
-		-v HFILE_CORE=icnt_core.h \
+		-v HFILE_UI=icnt_ui.gen.h \
+		-v HFILE_CORE=icnt_core.gen.h \
 		$(encdir)/encoding.opcode \
 		unused=1 $(encdir)/encoding.unusedop
-	touch icnt_ui.h
+	touch icnt_ui.gen.h
 
-asm_hash.c: $(encdir)/encoding.opcode \
+asm_hash.gen.c: $(encdir)/encoding.opcode \
 			asm.awk make_asm.sh $(srcdir)/Copyright
 	@rm -f $(ASM_HASH_DERIVED)
 	@rm -rf asm_hash.gen
 	sh $(srcdir)/make_asm.sh \
 		-f $(srcdir)/asm.awk \
 		-o $(encdir)/encoding.opcode \
-		-c asm_hash.c \
-		-e asm_hash.err \
+		-c asm_hash.gen.c \
+		-e asm_hash.gen.err \
 		-C $(srcdir)/Copyright \
 		-T asm_hash.gen
 
@@ -369,8 +369,8 @@ iadas_types.gen.h: $(srcdir)/ia_types.h $(srcdir)/ia_types.sed
 	@rm -f $(IADAS_TYPES_DERIVED)
 	sed -f $(srcdir)/ia_types.sed $(srcdir)/ia_types.h > iadas_types.gen.h
 
-combfns.h: combfns.c
-combfns.c: execTbl $(COMBFNS_FILES) mkfns.awk combfns.awk
+combfns.gen.h: combfns.gen.c
+combfns.gen.c: execTbl $(COMBFNS_FILES) mkfns.awk combfns.awk
 	@rm -rf ./combfns.gen
 	@mkdir combfns.gen
 	@rm -f $(COMBFNS_DERIVED)
@@ -385,34 +385,34 @@ combfns.c: execTbl $(COMBFNS_FILES) mkfns.awk combfns.awk
 		$(srcdir)/write.c
 	$(AWK) -f $(srcdir)/combfns.awk \
 		-v TEMP=combfns.gen \
-		-v CFILE=combfns.c \
-		-v HFILE=combfns.h \
+		-v CFILE=combfns.gen.c \
+		-v HFILE=combfns.gen.h \
 		-v COPYRIGHT=$(srcdir)/Copyright \
 		$(srcdir)/execTbl
-	@touch combfns.h
+	@touch combfns.gen.h
 
-predecode.h: predecode.c
-immed.h: predecode.c
-predecode.c: $(encdir)/encoding.format $(encdir)/encoding.imm \
+predecode.gen.h: predecode.gen.c
+immed.gen.h: predecode.gen.c
+predecode.gen.c: $(encdir)/encoding.format $(encdir)/encoding.imm \
 			 fmtimm.awk predecode.awk $(srcdir)/Copyright
 	@rm -rf $(PREDECODE_DERIVED)
 	$(AWK) -f $(srcdir)/fmtimm.awk \
 		-v ENCODING_IMM=$(encdir)/encoding.imm \
 		$(encdir)/encoding.format | \
 		$(AWK) -f $(srcdir)/predecode.awk \
-			-v CFILE=predecode.c \
-			-v PHFILE=predecode.h \
-			-v IHFILE=immed.h \
+			-v CFILE=predecode.gen.c \
+			-v PHFILE=predecode.gen.h \
+			-v IHFILE=immed.gen.h \
 			-v COPYRIGHT=$(srcdir)/Copyright \
 			-
-	@touch predecode.h immed.h
+	@touch predecode.gen.h immed.gen.h
 
-instr.c: $(encdir)/encoding.opcode \
+instr.gen.c: $(encdir)/encoding.opcode \
 		 $(encdir)/encoding.unusedop \
 		 opcode.awk execTbl $(srcdir)/Copyright
-	@rm -f instr.c
+	@rm -f instr.gen.c
 	$(AWK) -f $(srcdir)/opcode.awk \
-		-v CFILE=instr.c \
+		-v CFILE=instr.gen.c \
 		-v COPYRIGHT=$(srcdir)/Copyright \
 		-v EXECTBL=execTbl \
 		$(encdir)/encoding.opcode \

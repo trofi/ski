@@ -30,7 +30,7 @@
 #include "state.h"
 #include "float.h"
 #include "sim.h"
-#include "combfns.h"
+#include "combfns.gen.h"
 #include "simmem.h"
 #include "tlb.h"
 #include "instinfo.h"
