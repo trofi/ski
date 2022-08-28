@@ -44,7 +44,6 @@
 
 Status dosInt21(BYTE ah, BYTE al);
 int isbpt(ADDR adr);
-Status iretIARd(IAinstInfoPtr, Accesstype, IADWORD *, ADDR*, ADDR*);
 
 /* Internal IA Simulator State - not mapped onto EM State */
 

@@ -24,6 +24,7 @@
 
 Status immIARd(IAinstInfoPtr info, Accesstype acc, IADWORD *val,
 	       ADDR *adr, ADDR *adr2);
+Status iretIARd(IAinstInfoPtr, Accesstype, IADWORD *, ADDR*, ADDR*);
 Status reg8IARd(IAinstInfoPtr info, Accesstype acc, IADWORD *val,
 		ADDR *adr, ADDR *adr2);
 Status reg16IARd(IAinstInfoPtr info, Accesstype acc, IADWORD *val,
