@@ -481,9 +481,6 @@ void initAppState(int cproc);
 /* Sets the ABI to App-mode or Sys-mode */
 void setABI(BOOL val);
 
-/* Returns a string indicating the implementation */
-char *getImplStr(void);
-
 /* Returns the next static ip after the specified address */
 ADDR nextIp(ADDR a);
 

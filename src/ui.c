@@ -27,10 +27,12 @@
 #include <string.h>
 #include <stdarg.h>
 #include <unistd.h>
+
 #include "std.h"
 #include "bits.h"
 #include "types.h"
 #include "fields.h"
+#include "impl.h"
 #include "ski.h"
 #include "sim.h"
 #include "ssDCmd.h"

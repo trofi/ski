@@ -236,6 +236,7 @@ libski_la_SOURCES= \
 	trace.c \
 	libtrace.c \
 	impl.c \
+	impl.h \
 	os_support.c \
 	instr.c \
 	$(NETDEV_C) \

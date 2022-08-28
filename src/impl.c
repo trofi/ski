@@ -22,12 +22,13 @@
  *
  */
 
+#include "impl.h"
 
 #include "std.h"
 #include "types.h"
 #include "libsrs.h"
 
-char *getImplStr(void)
+const char *getImplStr(void)
 {
     return "SDM 2.1";
 }
