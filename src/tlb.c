@@ -163,8 +163,7 @@ static void setQuickChk(TlbEntry *e)
     }
 }
 
-/* XXX - Non-static for random code generators */
-void tlbInsert(TlbEntry *e, ADDR tva, ADDR tpa, ADDR tar)
+static void tlbInsert(TlbEntry *e, ADDR tva, ADDR tpa, ADDR tar)
 {
     extern void bptLoad (void);
     extern int numBptsToLoad;

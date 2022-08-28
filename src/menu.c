@@ -31,6 +31,7 @@
 #include "libsym.h"
 #include "libsrs.h"
 #include "libcore.h"	/* for setDerivedState, and get*TlbInfo */
+#include "tlb.h"
 
 #define MENUTBLSIZ	200
 
@@ -200,8 +201,6 @@ BOOL stepProg(unsigned argc, char *argv[]);
 BOOL cstkDisplay(unsigned argc, char *argv[]);
 BOOL showLoadModules(unsigned argc, char *argv[]);
 
-void uiDtrInsert(unsigned slot, ADDR tva, ADDR tpa, ADDR tar);
-void uiItrInsert(unsigned slot, ADDR tva, ADDR tpa, ADDR tar);
 static BOOL cmdItr_d(unsigned argc, char *argv[]);
 static BOOL cmdItr_i(unsigned argc, char *argv[]);
 

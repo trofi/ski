@@ -472,14 +472,6 @@ BOOL dataTranslate(ADDR va, BOOL rd, ADDR *pa);
 /* Translates the virtual address using the ITLB */
 BOOL instTranslate(ADDR va, ADDR *pa);
 
-/* Displays the ITLB */
-size_t instTlbDisplaySize(void);
-void getInstTlbInfo(char * hdr, size_t hdr_sz, char * buf, size_t buf_sz);
-
-/* Displays the DTLB */
-size_t dataTlbDisplaySize(void);
-void getDataTlbInfo(char * hdr, size_t hdr_sz, char * buf, size_t buf_sz);
-
 /* Initializes basic machine state for cproc */
 void initState(int cproc);
 

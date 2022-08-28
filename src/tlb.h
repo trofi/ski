@@ -117,4 +117,15 @@ void epcCheck(BYTE *pl);
 int vhptLookup(ADDR va, ADDR *pa);
 BOOL vmswCheck(BOOL virtual);
 
+void uiDtrInsert(unsigned slot, ADDR tva, ADDR tpa, ADDR tar);
+void uiItrInsert(unsigned slot, ADDR tva, ADDR tpa, ADDR tar);
+
+/* Displays the ITLB */
+size_t instTlbDisplaySize(void);
+void getInstTlbInfo(char * hdr, size_t hdr_sz, char * buf, size_t buf_sz);
+
+/* Displays the DTLB */
+size_t dataTlbDisplaySize(void);
+void getDataTlbInfo(char * hdr, size_t hdr_sz, char * buf, size_t buf_sz);
+
 #endif /* _SKI_TLB_H_ */
