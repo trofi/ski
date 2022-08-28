@@ -136,8 +136,6 @@ static unsigned traceSve;	/* For timer interrupt support */
 extern PCF instFetchDecodeFP;
 extern PCF illCombFP, illQpCombFP;
 
-extern Status iAexec(IAinstInfoPtr info);
-
 extern void profCnt (void);
 
 extern void alat_inval_single_entry(BOOL fpreg, int rega);
@@ -825,6 +823,11 @@ Status iCycleSys(void)
     }
 #endif
     return st | info->stop;
+}
+
+static Status iAexec(IAinstInfoPtr info)
+{
+    return info->execFn(info);
 }
 
 Status iAiCycle(void)

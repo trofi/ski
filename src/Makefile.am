@@ -237,7 +237,6 @@ libski_la_SOURCES= \
 	libtrace.c \
 	impl.c \
 	os_support.c \
-	ski_hook.c \
 	instr.c \
 	$(NETDEV_C) \
 	$(linux_FILES) \
