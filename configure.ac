@@ -240,6 +240,7 @@ CFLAGS="$CFLAGS -fno-strict-aliasing"
 # Macro from autoconf-archive.
 # Pull in -Werror= flags to catch obviously wrong code
 AX_CHECK_COMPILE_FLAG([-Werror=implicit-int], [CFLAGS="$CFLAGS -Werror=implicit-int"], [], [-Werror])
+AX_CHECK_COMPILE_FLAG([-Werror=implicit-function-declaration], [CFLAGS="$CFLAGS -Werror=implicit-function-declaration"], [], [-Werror])
 # Useful to catch missing 'static' declarations and missing header
 # inclusion to keep header and .c file prototypes in sync.
 AX_CHECK_COMPILE_FLAG([-Wmissing-declarations], [CFLAGS="$CFLAGS -Wmissing-declarations"], [], [-Werror])
