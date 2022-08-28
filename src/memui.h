@@ -28,4 +28,7 @@
 BOOL memMRd(ADDR adr, unsigned size, DWORD *pval);
 BOOL memMIAIRd(WORD eip, BYTE *pval, unsigned nbytes);
 
+/* Translates the virtual address using the ITLB */
+BOOL instTranslate(ADDR va, ADDR *pa);
+
 #endif	/* _SKI_MEMUI_H */

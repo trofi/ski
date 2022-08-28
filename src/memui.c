@@ -20,25 +20,13 @@
  *
  */
 
+#include "memui.h"
 
 #include "std.h"
 #include "bits.h"
 #include "types.h"
 #include "fields.h"
 #include "state.h"
-BOOL dtlbMLookup(ADDR va, int at, unsigned pl, BOOL virtual, ADDR *pa);
-BOOL itlbMLookup(ADDR va, BOOL virtual, ADDR *pa);
-
-BOOL dataTranslate(ADDR va, BOOL rd, ADDR *pa)
-{
-    int at = rd ? 0 : 2;
-
-    if (abi) {
-	*pa = va;
-	return YES;
-    }
-    return dtlbMLookup(va, at, PSR_CPL, PSR_DT, pa);
-}
 
 BOOL instTranslate(ADDR va, ADDR *pa)
 {

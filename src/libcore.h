@@ -469,12 +469,6 @@ void getGrMapInfo(char buf[]);
 size_t pageTableDisplaySize(void);
 void getPageTableInfo(char buf[]);
 
-/* Translates the virtual address using the DTLB */
-BOOL dataTranslate(ADDR va, BOOL rd, ADDR *pa);
-
-/* Translates the virtual address using the ITLB */
-BOOL instTranslate(ADDR va, ADDR *pa);
-
 /* Initializes basic machine state for cproc */
 void initState(int cproc);
 
