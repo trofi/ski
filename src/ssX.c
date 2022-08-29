@@ -51,11 +51,6 @@
 #include "libcore.h"
 #include "ssXDSD.h"
 
-#if 0
-/* Include files not needed for now in the simulator */
-#include "mp.h"
-#endif
-
 #define FIXED_RSRCS	4
 #define FIXED_OPTIONS	6
 #define REFRESH_RATE	100000		/* ~1 sec wait */
@@ -127,10 +122,6 @@ static Widget createMBitem(Widget parent, char *name);
 static void createSubmenuItem(Widget parent, char *name, XtCallbackProc p);
 static void changeCprocCallback(CALLBACK_ARGS);
 static void simCmdCallback(CALLBACK_ARGS);
-#if 0
-static void loadCallback(CALLBACK_ARGS);
-static void loadOkCallback(CALLBACK_ARGS);
-#endif
 static void programCallback(CALLBACK_ARGS);
 static void dataCallback(CALLBACK_ARGS);
 static void regCallback(CALLBACK_ARGS);
@@ -186,10 +177,6 @@ void scrnInitX(void)
     XtSetValues(toplevel, args, 1);
 #endif
 
-#if 0
-    XSynchronize(dpy, True);
-#endif
-
     /* create control window manager */
     control = XmCreateForm(toplevel, "control", NULL, 0);
     XtManageChild(control);
@@ -206,11 +193,7 @@ void scrnInitX(void)
     confMenu = createMBitem(mb, "Configure");
     helpMenu = createMBitem(mb, "Help");
 
-#if 0
-    createSubmenuItem(fileMenu, "load", loadCallback);
-#else
     createSubmenuItem(fileMenu, "load", 0);
-#endif
     createSubmenuItem(fileMenu, "save", 0);
     createSubmenuItem(fileMenu, "trace", 0);
     createSubmenuItem(fileMenu, "traceOn", 0);
@@ -232,21 +215,11 @@ void scrnInitX(void)
     createSubmenuItem(viewMenu, "symbols", symlistCallback);
     createSubmenuItem(viewMenu, "macros", 0);
 
-#if 0
-/* No support for window format yet */
-    createSubmenuItem(confMenu, "program", prgFmtCallback);
-#else
     createSubmenuItem(confMenu, "program", 0);
-#endif
 
     createSubmenuItem(confMenu, "data", 0);
 
-#if 0
-/* No support for window format yet */
-    createSubmenuItem(confMenu, "registers", regFmtCallback);
-#else
     createSubmenuItem(confMenu, "registers", 0);
-#endif
 
     createSubmenuItem(helpMenu, "context", 0);
     createSubmenuItem(helpMenu, "overview", 0);
@@ -521,40 +494,6 @@ static void simCmdCallback(CALLBACK_ARGS)
     (void)XmProcessTraversal(cmd, XmTRAVERSE_CURRENT);
 }
 
-#if 0
-static void loadCallback(CALLBACK_ARGS)
-{
-    static Widget fsd = NULL;
-
-    if (!fsd) {
-	fsd = XmCreateFileSelectionDialog(cmd, "loadFSD", NULL, 0);
-	XtAddCallback(fsd, XmNokCallback, loadOkCallback, fsd);
-	XtManageChild(XmCreateToggleButton(fsd, "load_syms", NULL, 0));
-    }
-    XtManageChild(fsd);
-}
-#endif
-
-#if 0
-static void loadOkCallback(CALLBACK_ARGS)
-{
-    Widget fsd = (Widget)client_data;
-    XmFileSelectionBoxCallbackStruct *cbs =
-	(XmFileSelectionBoxCallbackStruct *)call_data;
-    char *loadStr, s[100];
-
-    (void)XmStringGetLtoR(cbs->value, XmSTRING_DEFAULT_CHARSET, &loadStr);
-    (void)sprintf(s, "load %s\n", loadStr);
-#if 0
-    cmdExLin(s);
-#else
-    printf("(In loadOkCallback)  Call cmdExLin: cmd = %s\n", s);
-#endif
-    XtUnmanageChild(fsd);
-    (void)XmProcessTraversal(cmd, XmTRAVERSE_CURRENT);
-}
-#endif
-
 static void programCallback(CALLBACK_ARGS)
 {
     prgwDrawX();
@@ -732,22 +671,6 @@ void cmdLoopX(void)
 	XtDispatchEvent(&Event);
     }
 }
-
-#if 0
-void beep(void)
-{
-#if 0
-    XKeyboardControl kb_state;
-
-    XGetKeyboardControl(dpy, &kb_state);
-    XBell(dpy, kb_state->bell_percent);
-#endif
-    if (noscreen)
-	(void)putc(BEL, stderr);
-    else
-	XBell(dpy, 0);
-}
-#endif
 
 #else /* !HAVE_MOTIF */
 
