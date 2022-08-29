@@ -296,17 +296,6 @@ tlbCur()
 #ifdef CUR_DEBUG
 static FILE *dbg;
 #endif
-void showPrgDim(void)
-{
-#if defined CUR_DEBUG && !defined __linux__
-fprintf(dbg, "new: %d %d %d %d %d %d %d %d\n",
-prgw->_maxx, prgw->_maxy,
-prgw->_begx, prgw->_begy,
-prgw->_allocx, prgw->_allocy,
-prgw->_bmarg, prgw->_flags);
-fflush(dbg);
-#endif /* defined CUR_DEBUG && !defined __linux__ */
-}
 
 static void createWindows(void)
 {

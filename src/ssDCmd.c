@@ -212,17 +212,6 @@ BOOL cmdEval(unsigned argc, char *argv[])
     struct isym *psym;
     ADDR adr;
 
-#if 0
-if (!strcmp(argv[0], "cols")) {
-extern int COLS;
-msgwPrint("%s = %d %s\n", argv[0], COLS, getenv("COLUMNS"));
-return YES;
-}
-if (!strcmp(argv[0], "prgw")) {
-showPrgDim();
-return YES;
-}
-#endif
     for (i = 0; i < argc; i++) {
 	if (!evalExpr(argv[i], HEXEXP, &expr))
 	    return NO;
