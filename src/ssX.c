@@ -80,7 +80,6 @@ unsigned nproc = 1, cproc = 0;
 /*##################### Local Variables ####################################*/
 
 static XtAppContext app_context;
-static Widget top_level;	/* XXX - temporary for Platform only */
 static Widget stopsim;
 static XtWorkProcId stopsimWP;
 static BOOL firstTime, stopPressed;
@@ -174,7 +173,6 @@ void scrnInitX(void)
     toplevel = XtAppInitialize(&app_context, "XSki",
 			       options, topopts, &argc, NULL,
 			       NULL, NULL, 0);
-    top_level = toplevel;	/* XXX - temporary for Platform only */
     XtGetApplicationResources(toplevel, &app_data,
 			      resources, toprsrc, NULL, 0);
     XtAppAddActions(app_context, actions, XtNumber(actions));
@@ -616,7 +614,7 @@ void prodInfoCallback(CALLBACK_ARGS)
     XtManageChild(dialog);
 }
 
-void displayICnt(CTR delta, BOOL *flag)
+static void displayICnt(CTR delta, BOOL *flag)
 {
     char msg[80];
     XmString s;
@@ -750,11 +748,6 @@ void beep(void)
 	XBell(dpy, 0);
 }
 #endif
-
-Widget GetTopLevelWidget(void)
-{
-    return top_level;
-}
 
 #else /* !HAVE_MOTIF */
 
