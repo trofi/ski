@@ -746,10 +746,8 @@ BOOL memWrt1(ADDR adr, BYTE val)
 	WRT_DOFFSET_TR(adr, DOFF_TRC_WRITE, DOFF_TRC_1_BYTE);
     if (!abi && dtlbLookup(adr, 1, MEM_ST_ACCESS, PSR_CPL, PSR_DT, &adr) == -1)
 	return NO;
-#if 0
     if (!abi && xtpAccess(adr))
 	xtpCycle(val);
-#endif
     if ((pb = pmemLookup_b(adr)))
 	*pb = val;
     else if (dbptCheck(adr, 2, 1))
