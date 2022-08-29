@@ -98,7 +98,9 @@ static BOOL cntlC = NO;
 CTR total_insts = 0, total_cycles = 0, total_faults = 0;
 unsigned int mips = 500;
 ExecutionMode executionMode;
+#ifndef __linux__
 static ADDR alarm_rp = ~0ULL;
+#endif
 extern CTR alarm_insts, alarm_interval;
 extern CTR prof_insts;
 extern ADDR sigHdlr;
