@@ -562,9 +562,7 @@ extern int setresgid (gid_t, gid_t, gid_t);
 extern int getresgid (gid_t *, gid_t *, gid_t *);
 extern int getsid (pid_t);
 
-/* FIXME_laurentm: was removed from memory.c */
-BOOL
-memIsMapped(ADDR adr)
+static BOOL memIsMapped(ADDR adr)
 {
     if (!abi && !dtlbMLookup(adr, 0, PSR_CPL, PSR_DT, &adr))
 		return NO;

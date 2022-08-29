@@ -98,7 +98,6 @@ typedef union {
 extern "C" {
 #endif /* defined __cplusplus */
 
-BOOL memIsMapped(ADDR adr);
 BOOL memLPF(ADDR adr, Accesstype atype);
 int memRd1(ADDR adr, Accesstype atype, BYTE *pval);
 int memRd2(ADDR adr, Accesstype atype, HWORD *pval);
