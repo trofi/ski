@@ -576,14 +576,6 @@ getdents (unsigned int fd, struct dirent *dirp, unsigned int count)
 	return syscall (__NR_getdents, fd, dirp, count);
 }
 
-#if 0
-static int
-getdents64 (unsigned int fd, struct dirent64 *dirp, unsigned int count)
-{
-	return syscall (__NR_getdents64, fd, dirp, count);
-}
-#endif
-
 extern BOOL intrsim, extint;
 
 #define DEBUG_SIGNALS	0
@@ -2289,10 +2281,6 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
 
 	case SIOCADDRT:	/* add routing table entry	*/
 	case SIOCDELRT:	/* delete routing table entry	*/
-#if 0
-	  bytes_in = sizeof (struct lia64_rtentry);
-	  break;
-#endif
 
 	case TIOCSERCONFIG:
 	case TIOCSERGWILD:
@@ -4623,9 +4611,6 @@ doSSC (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG *ret)
       if (!addSscReq (arg0, diskXfer))
 	*ret = -1;
       PSR_DT = olddt;
-#if 0
-      pendSscIrpt(SIMSCSI_IRPT);
-#endif
       break;
 
     case SSC_WRITE:
@@ -4663,9 +4648,6 @@ doSSC (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG *ret)
       if (!addSscReq (arg0, diskXfer))
 	*ret = -1;
       PSR_DT = olddt;
-#if 0
-      pendSscIrpt(SIMSCSI_IRPT);
-#endif
       break;
 
     case SSC_CLOSE:
@@ -4972,11 +4954,8 @@ static void doPAL(REG *ret0, REG *ret1, REG *ret2, REG *ret3)
 	*ret3 = 0;	/* control */
     } else if (arg0 == 0x14ULL) { /* PAL_VERSION */
 	*ret1 = 0;	/* min_pal_ver */
-#if 0
-	*ret2 = 0xFFULL<<24;	/* cur_pal_ver (vendor == INTEL) */
-#else
+	// *ret2 = 0xFFULL<<24; /* cur_pal_ver (vendor == INTEL) */
 	*ret2 = 0;	/* cur_pal_ver */
-#endif
     } else if (arg0 == 0x22ULL) { /* PAL_VM_PAGE_SIZE */
 	*ret1 = 15557ULL << 12;
     } else
@@ -5104,9 +5083,6 @@ void saveOpenFiles(FILE *f)
     for (i = 3; i < FDMAX; i++) {
 	if (!fdInfo[i].name)
 	    continue;
-#if 0
-	fsync(fdmap[i]);
-#endif
 	offset = lseek(fdmap[i], 0, SEEK_CUR);
 	fprintf(f, "ski_file %s %o %o %x\n", fdInfo[i].name,
 		fdInfo[i].oflag, fdInfo[i].mode, offset);
