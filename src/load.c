@@ -126,7 +126,7 @@ LMINFO lminfo[MAX_LOAD_MODULES];
 
 static void vminfo(char *s)
 {
-#if 0
+#if DO_DEBUG_LOAD
     struct pst_status pst;
     struct pst_vm_status pstvm;
     int target = (int)getpid();
@@ -179,11 +179,7 @@ static void elf64_symbols(Elf *elfptr, Elf_Scn *scn, Elf64_Word strndx,
 	if ((shndx = syms[i].st_shndx) == SHN_UNDEF)
 	    continue;
 	value = syms[i].st_value;
-#if 0
-	/* XXX - is this right?   No: _end is ABSOL! */
-	if (shndx == SHN_ABS || shndx == SHN_COMMON)
-	    continue;
-#endif
+
 	if (value < low || value > high)
 	    continue;
 	if (reloc_addr) {
@@ -204,18 +200,14 @@ static void elf64_symbols(Elf *elfptr, Elf_Scn *scn, Elf64_Word strndx,
 		ADDPTR(dataStart);
 	}
 	/* XXX - what to do with STB_WEAK symbols? */
-#if 1	/* XXX - hack to avoid inserting $DEBUG_xxx symbols which are
+	/* XXX - hack to avoid inserting $DEBUG_xxx symbols which are
 		 currently of type OBJT */
 	if (strlen(name) > 12 && !strncmp(name, "$DEBUG_", 7))
 	    continue;
-#endif
-#if 0
-	if (bind != STB_GLOBAL)
-	    continue;
-#else
+
 	if (bind != STB_GLOBAL && bind != STB_LOCAL)
 	    continue;
-#endif
+
 	if (type != STT_FUNC && type != STT_OBJECT && type != STT_NOTYPE)
 	    continue;
 	symInsert(name, value, 0);
@@ -274,18 +266,14 @@ static void elf32_symbols(Elf *elfptr, Elf_Scn *scn, Elf32_Word strndx,
 		ADDPTR(dataStart);
 	}
 	/* XXX - what to do with STB_WEAK symbols? */
-#if 1	/* XXX - hack to avoid inserting $DEBUG_xxx symbols which are
+	/* XXX - hack to avoid inserting $DEBUG_xxx symbols which are
 		 currently of type OBJT */
 	if (strlen(name) > 12 && !strncmp(name, "$DEBUG_", 7))
 	    continue;
-#endif
-#if 0
-	if (bind != STB_GLOBAL)
-	    continue;
-#else
+
 	if (bind != STB_GLOBAL && bind != STB_LOCAL)
 	    continue;
-#endif
+
 	if (type != STT_FUNC && type != STT_OBJECT)
 	    continue;
 	symInsert(name, value, 0);
@@ -531,12 +519,7 @@ void mmapSyms(int fd, ADDR start, ADDR len, ADDR offset)
 	    (void)elf_end(elfptr);
 	    return;
 	}
-#if 0
-	if (ehdr->e_type != ET_DYN) {
-	    (void)elf_end(elfptr);
-	    return;
-	}
-#endif
+
 	if (!(phdr = elf64_getphdr(elfptr))) {
 	    (void)elf_end(elfptr);
 	    return;
@@ -574,12 +557,7 @@ void mmapSyms(int fd, ADDR start, ADDR len, ADDR offset)
 	    (void)elf_end(elfptr);
 	    return;
 	}
-#if 0
-	if (ehdr->e_type != ET_DYN) {
-	    (void)elf_end(elfptr);
-	    return;
-	}
-#endif
+
 	if (!(phdr = elf32_getphdr(elfptr))) {
 	    (void)elf_end(elfptr);
 	    return;
@@ -1476,10 +1454,7 @@ e = s + mem_size - 1;
 	(void)r; /* XXX - sym_class is always 2 or 3, add check? */
 	r = read(fd, &num_aux, 1);
 	(void)r; /* XXX - num_aux is always 0, add check? */
-#if 0
-	printf("%08x %d %d %s\n",
-	    sym_value, section_num, sym_class, sym_name);
-#endif
+
 	if (section_num > 0)
 	    symInsert(sym_name, sec_addr[section_num-1]+sym_value, 0);
 	free(sym_name);
