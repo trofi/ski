@@ -74,7 +74,6 @@ void prodInfoCallback(CALLBACK_ARGS);
 
 /*##################### Globals - Exports ##################################*/
 
-BOOL	sigint = NO;	/* interrupted by interrupt signal */
 unsigned nproc = 1, cproc = 0;
 
 /*##################### Local Variables ####################################*/
