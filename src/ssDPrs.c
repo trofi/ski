@@ -82,7 +82,4 @@ void catArgs(unsigned start, unsigned end, char *argv[], char *buf)
 	(void)strcat(buf, " ");
 	(void)strcat(buf, argv[i]);
     }
-#if 0
-    cmdWarn("catArgs: string>>%s<<\n", buf);
-#endif
 }
