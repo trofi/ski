@@ -82,9 +82,6 @@ REG phyGrGet(int cproc, int i);
 /* Returns the physical GR[i].nat for cproc */
 REG phyGrNatGet(int cproc, int i);
 
-/* Returns the double value of virtual FR[i] for cproc */
-double frGet(int cproc, int i);
-
 /* Returns the sign bit of virtual FR[i] for cproc */
 REG frSignGet(int cproc, int i);
 
@@ -214,9 +211,6 @@ BOOL phyGrSet(int cproc, int i, REG val);
 
 /* Sets the physical GR[i].nat for cproc */
 BOOL phyGrNatSet(int cproc, int i, BOOL nat);
-
-/* Set the value of virtual FR[i] for cproc */
-BOOL frSet(int cproc, int i, double val);
 
 /* Sets the sign bit of virtual FR[i] for cproc */
 BOOL frSignSet(int cproc, int i, REG val);

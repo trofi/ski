@@ -171,36 +171,6 @@ REG phyGrNatGet(int proc, int i)
 #endif
 }
 
-double frGet(int cproc, int i)
-{
-    REG mant = frMantGet(cproc, i);
-    REG exp = frExpGet(cproc, i);
-    REG sign = frSignGet(cproc, i);
-
-    int mantBitsLeft = 64;
-    int mantBitsOff = 0;
-    double result = 0.0;
-
-    if (exp != 0ULL && exp != 0x1FFFFULL) {
-        exp -= ( /*bias*/65535 - 1 );
-    }
-
-    while (mantBitsLeft > 0) {
-        unsigned int mantBits = mantBitsLeft <= 32 ? mantBitsLeft : 32;
-        unsigned long mantLong = BitfX(mant, mantBitsOff, mantBits);
-        result += ldexp((double) mantLong, (int) exp - mantBits);
-        exp -= mantBits;
-        mantBitsOff += mantBits;
-        mantBitsLeft -= mantBits;
-    }
-
-    if (sign) {
-        result = -result;
-    }
-
-    return result;
-}
-
 REG frSignGet(int proc, int i)
 {
     FREG fr;
@@ -690,56 +660,6 @@ BOOL phyGrNatSet(int proc, int i, BOOL nat)
     grs[i].nat = nat & 1;
 #endif
     return YES;
-}
-
-BOOL frSet( int cproc, int i, double val )
-{
-    REG sign = 0;
-    REG exp = 0;
-    REG mant = 0;
-    BOOL result;
-
-    if (val == 0.0) { // nothing to do
-    }
-    else if (val != val) { // NaN
-	exp = 0x1FFFFULL;
-	mant = 0x1ULL;
-    }
-    else if (val < 0) { // negative
-	sign = 0x1ULL;
-	val = -val;
-    }
-    else { 
-	int expInt;
-	double mantDouble = frexp( val, &expInt );
-	int mantBitsLeft = 64;
-	int mantBitsOff = 0;
-
-	exp = (REG) expInt + /*bias*/65535 - 1;
-
-	while( mantBitsLeft > 0 ) {
-	    unsigned int mantBits = mantBitsLeft <= 32 ? mantBitsLeft : 32;
-	    unsigned long mantLong;
-
-	    mantDouble *= 4294967296.0;
-	    mantLong = (unsigned long) mantDouble;
-	    mantDouble -= mantLong;
-
-	    if (mantBits < 32) {
-		mantLong >>= 32 - mantBits;
-	    }
-
-	    mant |= ( ( (REG) mantLong & ( ( (REG) 1 << mantBits ) - 1 ) )
-		      << ( 64 - mantBitsOff - mantBits ) );
-	    mantBitsOff += mantBits;
-	    mantBitsLeft -= mantBits;
-	}
-    }
-    result = frMantSet(cproc, i, mant);
-    if (result == YES) result = frSignSet(cproc, i, sign);
-    if (result == YES) result = frExpSet(cproc, i, exp);
-
-    return result;
 }
 
 /* XXX - why isn't 3rd arg of type BYTE or BOOL? */
