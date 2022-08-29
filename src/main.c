@@ -78,7 +78,6 @@ extern char *sim_root;
 extern size_t sim_root_len;
 
 static char *progname;
-char *fileName;
 
 #if defined __linux__
 /* XXX S.Eranian added to capture the command line */
@@ -150,6 +149,7 @@ int main(int argc, char *argv[])
 {
     char *p;
     int ndx;
+    char *fileName = NULL;
 
 
     /*
