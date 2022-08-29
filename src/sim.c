@@ -2437,26 +2437,6 @@ BOOL brTaken(ADDR a, ADDR *next)
     return tkn;
 }
 
-typedef enum { MEMT_NONE, MEMT_LOAD, MEMT_STORE, MEMT_SEMA } MEMTYPE;
-MEMTYPE memType(ADDR a)
-{
-    BundlePtr b;
-    unsigned s;
-    DecodedInstr instr[SLOTS_PER_BUNDLE];
-
-    if (!(b = pxx(BADDR(a))))
-	return MEMT_NONE;
-    s = SLOT(a);
-    (void)bundle_decode(b, instr, 0);
-    if (!(instrs[instr[s].instID].flags & (EM_FLAG_LMEM|EM_FLAG_SMEM)))
-	return MEMT_NONE;
-    if (!(instrs[instr[s].instID].flags & EM_FLAG_LMEM))
-	return MEMT_STORE;
-    if (!(instrs[instr[s].instID].flags & EM_FLAG_SMEM))
-	return MEMT_LOAD;
-    return MEMT_SEMA;
-}
-
 int instrID(ADDR a)
 {
     BundlePtr b;
