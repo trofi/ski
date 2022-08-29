@@ -62,7 +62,7 @@ PrgwMode prgwm = MIXED;
 
 static ADDR dasAddr;
 
-void prgwForwardN(int n)
+static void prgwForwardN(int n)
 {
     prgwPrevTop = prgwTop;
     if (prgwIS) {	/* iA */
@@ -75,7 +75,7 @@ void prgwForwardN(int n)
     prgwDraw();
 }
 
-void prgwForwardScreen(void)
+static void prgwForwardScreen(void)
 {
     prgwPrevTop = prgwTop;
     if (prgwIS)		/* iA */
@@ -103,7 +103,7 @@ BOOL prgwFwd(unsigned argc, char *argv[])
     return YES;
 }
 
-void prgwBackN(int n)
+static void prgwBackN(int n)
 {
     prgwPrevTop = prgwTop;
     if (prgwIS)		/* iA */
@@ -114,7 +114,7 @@ void prgwBackN(int n)
     prgwDraw();
 }
 
-void prgwBackScreen(void)
+static void prgwBackScreen(void)
 {
     prgwPrevTop = prgwTop;
     if (prgwIS) {	/* iA */
@@ -192,17 +192,6 @@ BOOL prgwAsm(unsigned argc, char *argv[])
 BOOL prgwMixed(unsigned argc, char *argv[])
 {
     prgwm = MIXED;
-    prgwDraw();
-    return YES;
-}
-
-/*--------------------------------------------------------------------------
- * programWindow$Source - Set the program window mode to display the
- *  executable in source only.
- *--------------------------------------------------------------------------*/
-BOOL prgwSrc(unsigned argc, char *argv[])
-{
-    prgwm = SRC;
     prgwDraw();
     return YES;
 }

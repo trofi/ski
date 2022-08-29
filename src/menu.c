@@ -149,7 +149,6 @@ BOOL prgwBkwd(unsigned argc, char *argv[]);
 BOOL prgwJump(unsigned argc, char *argv[]);
 BOOL prgwAsm(unsigned argc, char *argv[]);
 BOOL prgwMixed(unsigned argc, char *argv[]);
-BOOL prgwSrc(unsigned argc, char *argv[]);
 BOOL datwExpr(unsigned argc, char *argv[]);
 BOOL datwFwd(unsigned argc, char *argv[]);
 BOOL datwBkwd(unsigned argc, char *argv[]);
@@ -321,10 +320,6 @@ MENU cmdmenu[MENUTBLSIZ] = {
 			"\tpf [ <count> ]"},
     {"pm",	0, 1, "display program window in both source and assembly",
 			prgwMixed, "\tpm"},
-#if 0
-    {"ps",	0, 1, "display program window in source only", prgwSrc,
-			"\tps"},
-#endif
     {"quit",	0, 1, "quit (?!)", cmdExit,
 			"\tquit [ <ret value>"},
 #if 0
