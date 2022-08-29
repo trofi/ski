@@ -35,10 +35,6 @@
 #include "libcore.h"
 #include "libui.h"
 
-#if 0
-#include "libsym.h"
-#endif
-
 #define MAJVER		1
 #define MINVER		1
 #define NDWPERLN	4
