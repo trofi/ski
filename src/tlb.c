@@ -69,8 +69,8 @@ static unsigned itcSMsk = NITCS - 1;
 
 #ifndef NEW_MP
 /* XXX - Non-static for random code generators */
-TlbEntry dtrs[NDTRS], itrs[NITRS];
-TlbEntry dtcs[NDTCS], itcs[NITCS];
+static TlbEntry dtrs[NDTRS], itrs[NITRS];
+static TlbEntry dtcs[NDTCS], itcs[NITCS];
 #endif
 
 static REG pkrKeyMask;
