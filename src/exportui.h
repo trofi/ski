@@ -66,22 +66,6 @@ typedef enum {
     RRBP_SYM			/* rrbp */
 } Symtyp;
 
-void isymIns(const char *sname, void *pval, Symtyp type, BOOL ronly, int len,
-	     int start, REG align, int dbase);
-/*
-    const char *sname	symbol name
-    void *pval		pointer to the symbol data item
-    Symtyp type		symbol type
-    BOOL ronly		is the symbol read-only?
-    int len		symbol bit field size extending to the right of
-			"start" (if 0, symbol is not a subfield)
-    int start		symbol bit-field starting position in little-endian
-			notation (ignored if "len" is 0)
-    REG align		symbol alignment (if 1, no align restriction)
-    int dbase		default base for "=" cmd: 10 or 16
- */
-
-
 /*--------------------------------------------------------------------------
  *  Interface to command registration
  *-------------------------------------------------------------------------*/

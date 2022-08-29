@@ -123,21 +123,8 @@ static void isymChk(const char *sname)
  * internalSymbol$Insert - Place an internal symbol (register name, etc.)
  *  into the internal symbol table.
  *---------------------------------------------------------------------------*/
-void isymIns(const char *sname, void *pval, Symtyp type, BOOL ronly, int len,
-	     int start, REG align, int dbase)
-{
-    isymChk(sname);
-    isymtbl[topisym].pval     = pval;
-    isymtbl[topisym].type     = type;
-    isymtbl[topisym].readonly = ronly;
-    isymtbl[topisym].len      = len;
-    isymtbl[topisym].start    = start;
-    isymtbl[topisym].align    = align;
-    isymtbl[topisym].dbase    = dbase;
-    topisym++;
-}
 
-void isymIns1(const char *sname, PGetFn gf, PSetFn sf, int dbase)
+static void isymIns1(const char *sname, PGetFn gf, PSetFn sf, int dbase)
 {
     isymChk(sname);
     isymtbl[topisym].getFn = gf;
@@ -147,7 +134,7 @@ void isymIns1(const char *sname, PGetFn gf, PSetFn sf, int dbase)
     topisym++;
 }
 
-void isymIns2(const char *sname, PGetFn gf, PSetFn sf, int dbase, int ndx)
+static void isymIns2(const char *sname, PGetFn gf, PSetFn sf, int dbase, int ndx)
 {
     isymChk(sname);
     isymtbl[topisym].getFn = gf;
@@ -167,7 +154,7 @@ void isymIns2(const char *sname, PGetFn gf, PSetFn sf, int dbase, int ndx)
 
 /* len is bit-field length, start is the little-endian bit number of the left
    edge of the field */
-void isymIns3(const char *sname, PGetFn gf, PSetFn sf, int dbase,
+static void isymIns3(const char *sname, PGetFn gf, PSetFn sf, int dbase,
 	      unsigned start, unsigned len)
 {
     isymChk(sname);
@@ -180,7 +167,7 @@ void isymIns3(const char *sname, PGetFn gf, PSetFn sf, int dbase,
     topisym++;
 }
 
-void isymIns4(const char *sname, PGetFn gf, PSetFn sf, int dbase, unsigned ndx,
+static void isymIns4(const char *sname, PGetFn gf, PSetFn sf, int dbase, unsigned ndx,
 	      unsigned start, unsigned len)
 {
     isymChk(sname);
