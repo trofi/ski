@@ -105,7 +105,7 @@ static NodePtr recentSym = NULL;  /* most recent symbol looked up by addr */
 static NodePtr nextSymPtr;
 #endif /* OLD_WAY */
 static NodePtr NIL;		/* ptr to the "NIL" node */
-long randomBits;		/* stash of random bits */
+static long randomBits;		/* stash of random bits */
 static unsigned randomsLeft;	/* pairs of bits left in randomBits */
 SymTablePtr defaultSymTable;	/* the default symbol table */
 #ifdef DEBUG
