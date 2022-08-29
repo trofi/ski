@@ -19,7 +19,9 @@
 ##
 ##
 
-ACLOCAL_AMFLAGS = -I m4 -I macros
+# Use --install to put put thirt-party .m4 files into m4/ instead of
+# globbing all together into aclocal.m4.
+ACLOCAL_AMFLAGS = -I m4 -I macros --install
 
 SUBDIRS=src doc
 
