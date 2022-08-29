@@ -1287,7 +1287,7 @@ void scrnInit(void)
     }
 }
 
-void scrnRedraw(void)
+static void scrnRedraw(void)
 {
     switch (interface) {
 	case X_INTERFACE:
