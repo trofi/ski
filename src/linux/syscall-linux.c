@@ -503,8 +503,6 @@ struct lia64_cmsghdr {
 #define LIA64_CMSG_DATA(c)	((struct lia64_cmsghdr *)		      \
   ((unsigned char *) (c) + LIA64_CMSG_ALIGN (sizeof (struct lia64_cmsghdr))))
 
-unsigned clkTmr = 0; /* for clock interrupts */
-unsigned profTmr = 0; /* for profile interrupts */
 static SscReqNode *sscHead = 0;
 SscReqNode *sscPend = 0;
 
@@ -4800,9 +4798,13 @@ doSSC (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG *ret)
 
     case SSC_SET_PERIODIC_INTERRUPT:
       if (arg0 == CLK_TIMER_IRPT)
-	clkTmr = arg1;
+	/* Not acocunted for: */
+	/* clkTmr = arg1; */
+	;
       else if (arg0 == PROF_TIMER_IRPT)
-	profTmr = arg1;
+	/* Not acocunted for: */
+	/* profTmr = arg1; */
+	;
       else
 	progExit("SSC_SET_PERIODIC: arg0 has an illegal interrupt type\n");
       /* no return value */
