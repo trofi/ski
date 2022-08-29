@@ -89,9 +89,8 @@
 #include "simmem.h"
 
 #define CSTKSZ	50
-#if 0
-#define UNWIND_DEBUG
-#endif
+
+/* #define UNWIND_DEBUG */
 
 #if 0
 /*##################### Globals - Exports ##################################*/
