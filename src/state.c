@@ -81,7 +81,7 @@ ADDR ip, heap;
 ADDR ibBase;
 
 BOOL running = YES, exited = NO;
-BOOL abi, unixABI = NO, lp64, translateData = NO, translateInst = NO;
+BOOL abi, unixABI = NO, lp64;
 ADDR max_sp;
 #endif
 

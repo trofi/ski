@@ -547,9 +547,9 @@ extern ADDR ibBase;
 
 extern BOOL fileLoaded, running, exited;
 #ifdef NEW_MP
-extern BOOL abi, unixABI, translateData, translateInst;
+extern BOOL abi, unixABI;
 #else
-extern BOOL abi, unixABI, lp64, translateData, translateInst;
+extern BOOL abi, unixABI, lp64;
 #endif
 extern ADDR max_sp;
 
