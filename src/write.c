@@ -538,16 +538,6 @@ void cfmWrt(INSTINFO *info)
     GrWrt(r1, DST1, 0, info->pgrtgt ? &grs[info->pgrtgt - 1] : NULL);
 }
 
-#if 0
-void cfmBolWrt(INSTINFO *info)
-{
-    sof  = SOF;
-    soil = SOIL;
-    bol  = info->bol;
-    updateGrMap();
-}
-#endif
-
 void breakWrt(INSTINFO *info)
 {
     GrWrtx(8, SC_RET, 0);
