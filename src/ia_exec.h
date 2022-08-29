@@ -53,11 +53,9 @@ typedef struct {
 
 void setIAmode(void);
 BYTE getIAmode(void);
-void eflagsFromArithFlags(void);
 void arithFlagsFromEflags(void);
 void setEIPfromIP(void);
 void setSegGRsFromARs(void);
-void setSegARsFromGRs(void);
 
 /* IA Execution Function Prototypes */
 

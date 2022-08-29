@@ -51,9 +51,6 @@ BYTE iAmode;	/* IA execution mode - 32- or 16-bit operands/addresses */
 BOOL dosABI = NO;	/* emulate DOS ABI when YES */
 IADWORD EIP;	/* IA instruction pointer */
 
-/* This value is only changed by a call to PAL_PLATFORM_ADDR */
-ADDR ioportBase = 0x0000000100000000ULL;
-
 void setIAmode(void)
 {
     iAmode = 0;
@@ -143,7 +140,7 @@ ArithFlags arithFlags;
  * IA data types and structures
  */
 
-void eflagsFromArithFlags(void)
+static void eflagsFromArithFlags(void)
 {
     EFLAGS.le = (arithFlags.sf ^ arithFlags.of) | arithFlags.zf;
     EFLAGS.be = arithFlags.cf | arithFlags.zf;
@@ -177,7 +174,7 @@ void setSegGRsFromARs(void)
     SSD = SSD_AR;
 }
 
-void setSegARsFromGRs(void)
+static void setSegARsFromGRs(void)
 {
     CSD_AR = CSD;
     SSD_AR = SSD;

@@ -175,14 +175,6 @@ printf("calcInfo = %u\n", calcInfo);
     (void)gettimeofday(&endtime, &tzp);
     if (loadedbpt)
 	bptUnload();
-#if 0
-/* Commenting out this call prevents the eflags from being updated for
- *    purposes of the UI.  Must uncomment and "unhide" eflagsFromArithFlags
- *       in core_hide */
-
-    if (X_PSR_IS(psrval))                       /* iA */
-        eflagsFromArithFlags();
-#endif
 
     if ((interface != BATCH || showIrate) && (msg = getExecMsg()))
 	msgwPrint("%s", msg);

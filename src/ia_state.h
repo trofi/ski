@@ -109,6 +109,5 @@ extern ADDR4 EIP;
 #define JMPE_RP			grs[1].val
 
 extern BOOL dosABI;
-extern ADDR ioportBase;
 
 #endif 	/* _SKI_IA_STATE_H */
