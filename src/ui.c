@@ -146,40 +146,6 @@ static void regwTblInit(void)
 	topregw++;
 }
 
-/*---------------------------------------------------------------------------
- * registerWindow$Insert - Insert a register window to the table.
- *---------------------------------------------------------------------------*/
-BOOL regwIns(const char *tag, const char *title, PLF fcn, const char *size)
-{
-    unsigned i;
-
-    if (topregw == WINTBLSIZ) {
-	cmdWarn("Reg window table overflow.  Reg windows beginning from %s"
-		" are ignored\n", tag);
-	return NO;
-    }
-    if (strlen(tag)  >= EXPRSIZ ||
-	       strlen(title) >= TITLESIZ  ||
-	       strlen(size)  >= EXPRSIZ) {
-	cmdWarn("Reg window name and/or description too long: %s.  Ignored\n",
-		tag);
-	return NO;
-    }
-    for (i = 0; i < topregw; i++)
-	if (!strcmp(tag, regwtbl[i].tag)) {
-	    cmdWarn("Reg window (%s) already in table.  Ignored\n", tag);
-	    return NO;
-	}
-    (void)strcpy(regwtbl[topregw].tag,   tag);
-    (void)strcpy(regwtbl[topregw].title, title);
-    (void)strcpy(regwtbl[topregw].size,  size);
-    regwtbl[topregw].curln = 0;
-    regwtbl[topregw].fcn   = fcn;
-    /* regwtbl[topregw].show set by X init */
-    topregw++;
-    return YES;
-}
-
 static BOOL regwMakeActivew(const char *tag)
 {
     Regw *pregw = regwtbl;
@@ -954,37 +920,6 @@ static void datwTblInit(void)
 }
 
 /*---------------------------------------------------------------------------
- * dataWindow$Insert - Insert a data window entry to the table.
- *---------------------------------------------------------------------------*/
-BOOL datwIns(const char *tag, const char *title, PBF bdfcn)
-{
-    unsigned i;
-
-    if (topdatw == WINTBLSIZ) {
-	cmdWarn("Data window table overflow.  Data windows beginning"
-		" from %s are ignored\n", tag);
-	return NO;
-    }
-    if (strlen(tag)  >= EXPRSIZ || strlen(title) >= TITLESIZ) {
-	cmdWarn("Data window name and/or description too long: %s.  Ignored\n",
-		tag);
-	return NO;
-    }
-    for (i = 0; i < topdatw; i++)
-	if (!strcmp(tag, datwtbl[i].tag)) {
-	    cmdWarn("Data window (%s) already in table.  Ignored\n", tag);
-	    return NO;
-	}
-    (void)strcpy(datwtbl[topdatw].tag,   tag);
-    (void)strcpy(datwtbl[topdatw].title, title);
-    datwtbl[topdatw].size  = 0;
-    datwtbl[topdatw].bdfcn = bdfcn;
-    topdatw++;
-    return YES;
-}
-
-
-/*---------------------------------------------------------------------------
  * dataWindow$Make$ActiveWindow - Make this the active data window.
  *---------------------------------------------------------------------------*/
 BOOL datwMakeActivew(const char *tag)
@@ -1039,34 +974,6 @@ void datwUpdate(void)
 	    break;
     }
 }
-
-void datwDraw(void)
-{
-    ADDR adr;
-
-    if (datExpr[0] && evalExpr(datExpr, HEXEXP, &adr)) {
-	datwLVA = datwCVA;
-	datwCVA = adr;
-    }
-    switch (interface) {
-	case X_INTERFACE:
-#ifdef HAVE_MOTIF
-	    datwDrawX();
-#endif
-	    break;
-	case CURSES_INTERFACE:
-	    datwDrawCur();
-	    break;
-        case GTK_INTERFACE:
-#ifdef HAVE_GTK
-	    datwDrawGtk();
-#endif
-	    break;
-	case BATCH:
-	    break;
-    }
-}
-
 
 /***************************/
 /* Command Window Routines */

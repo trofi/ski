@@ -118,18 +118,6 @@ typedef char *	(*PLF)(unsigned line);
     (retval)		pointer to a buffer containing the line to display
  */
 
-BOOL regwIns(const char *tag, const char *title, PLF fcn, const char *size);
-/*
-    char *tag		registered window name.
-			Ski creates two X resources: "show<tag>" and
-			"regw<tag>" which can be used to control the register
-			window display in X
-    char *title		register window title
-    PLF fcn		function that returns a register window line
-    char *size		expression for the register window size
-    (retval)		call succeeded
- */
-
 /*--------------------------------------------------------------------------
  *  Interface to data window registration and use
  *-------------------------------------------------------------------------*/
@@ -138,17 +126,6 @@ typedef char *	(*PBF)(unsigned datwSz);	/* ptr to buffer display fcn */
 /*
     datwSz		available data window size
     (retval)		pointer to the display buffer
- */
-
-BOOL datwIns(const char *tag, const char *title, PBF bdfcn);
-/*
-    char *tag		registered data window name
-			Ski creates the X resources: "show<tag>" which can
-			be used to control the data window display in X (see
-			the apps-default file)
-    char *title		data window title
-    PBF bdfcn		function that returns a data window buffer
-    (retval)		call succeeded
  */
 
 BOOL datwMakeActivew(const char *tag);

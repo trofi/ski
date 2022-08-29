@@ -401,29 +401,6 @@ FILE *cmdOpenFile(char *name, char *mode)
  *--------------------------------------------------------------------------*/
 BOOL cmdLoad(unsigned argc, char *argv[])
 {
-#if 0
-    char fn[132], temp[256];
-    REG misc;
-    unsigned save = cproc;
-
-    (void)strcpy(fn, "a.out");
-    getStrToken("Load file: ", fn, 132);
-    getNumToken("Misc. info: ", &misc, 16);
-    locsyms = (BOOL)misc;
-    (void)strcpy(temp, dir); (void)strcat(temp, fn);
-    if (cmdLFile(temp, 0, YES)) {
-	(void)strcpy(loadname, fn);
-	regwUpdate();
-	for (cproc = 0; cproc < nproc; cproc++) {
-	    prgwCVA = progStart;
-	    ia = progStart;
-	    datwCVA = dataStart;
-	}
-	cproc = save;
-	prgwDraw();
-	datwDraw();
-    }
-#endif
     if (!elfLoad(argv[0], argc, argv)) {
 	fprintf(stderr, "Could not load ELF file: %s\n", argv[0]);
 	return NO;
