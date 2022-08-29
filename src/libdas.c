@@ -25,16 +25,17 @@
 
 #include <ctype.h>
 #include <string.h>
-#include <EMInst.h>
+
+#include "EMInst.h"
 #include "std.h"
 #include "bits.h"
 #include "types.h"
 #include "das_instr.h"
-#include <decoder.h>
-#include <encoder.h>
+#include "decoder.h"
+#include "encoder.h"
 #include "libdas.h"
 #include "libsym.h"
-#include <ski_elf.h>
+#include "ski_elf.h"
 
 #ifndef R_IA_64_IMM14
 #define R_IA_64_IMM14           R_IA_64_IMM15

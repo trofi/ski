@@ -36,7 +36,6 @@
 #else /* !defined HAVE_LIBELF_LIBELF_H */
 # include <libelf.h>
 #endif /* !defined HAVE_LIBELF_LIBELF_H */
-#include <ski_elf.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <sys/mman.h>	/* NEW for mmap */
@@ -57,6 +56,7 @@
 #include "lm.h"
 #include "sim.h"
 #include "simmem.h"
+#include "ski_elf.h"
 #include "osload.h"
 
 #if defined(__FreeBSD__)

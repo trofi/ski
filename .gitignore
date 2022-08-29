@@ -35,4 +35,3 @@ Makefile
 /src/eparse.c
 /src/eparse.h
 /src/escan.c
-/src/ski_elf.h

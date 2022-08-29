@@ -235,6 +235,7 @@ ski_SOURCES = \
 	state.c \
 	sim.c \
 	simmem.c \
+	ski_elf.h \
 	float.c \
 	interruption.c \
 	tlb.c \
@@ -314,7 +315,6 @@ ski_LDADD = \
 EXTRA_DIST= \
 	exec_hd.c \
 	ia_decoder.c \
-	missing/ski_elf.h \
 	$(COMBFNS_FILES) \
 	$(gski_DATA) \
 	$(noinst_DATA) \

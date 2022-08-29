@@ -189,14 +189,7 @@ AS_IF([test "x$have_bfd" = xyes], [
 AC_SUBST(DWARF_CFLAGS)
 AC_SUBST(DWARF_LIBS)
 
-dnl Check if ski_elf.h is missing
-AC_CHECK_HEADER(ski_elf.h,,ske_elf_h_is_missing=yes)
-AS_IF([test "x$ske_elf_h_is_missing" = xyes], [
-    AC_CONFIG_LINKS([src/ski_elf.h:src/missing/ski_elf.h])
-])
-
 dnl Check for required libs
-
 AC_CHECK_LIB(m, ldexp, [],
     [AC_MSG_ERROR(Required library libm not found.)])
 
