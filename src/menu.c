@@ -42,9 +42,6 @@
 static unsigned topmenu;
 
 static BOOL cmdHelp(unsigned argc, char *argv[]);
-#if 0
-static BOOL dummyCmd(unsigned argc, char *argv[]);
-#endif
 static BOOL cmdSLst(unsigned argc, char *argv[]);
 static BOOL showInstTlb(unsigned argc, char *argv[]);
 static BOOL showDataTlb(unsigned argc, char *argv[]);
@@ -56,17 +53,6 @@ static BOOL cmdEscape(unsigned argc, char *argv[]);
 /*##################### Globals - Imports ##################################*/
 
 extern	int	scrn_lines;
-
-#if 0
-/* io.c */
-BOOL cmdJnl(unsigned argc, char *argv[]);
-#endif
-
-#if 0
-/* ssCch.c */
-BOOL dcchShow(unsigned argc, char *argv[]);
-BOOL icchShow(unsigned argc, char *argv[]);
-#endif
 
 /* ssDBT.c */
 BOOL bptDisplay(unsigned argc, char *argv[]);
@@ -80,18 +66,6 @@ BOOL dbptDelete(unsigned argc, char *argv[]);
 BOOL dbptDAll(unsigned argc, char *argv[]);
 BOOL tbDisplay(unsigned argc, char *argv[]);
 
-#if 0
-/* ssDBrk.c */
-BOOL ainfAssign(unsigned argc, char *argv[]);
-BOOL aoutfAssign(unsigned argc, char *argv[]);
-BOOL aerrfAssign(unsigned argc, char *argv[]);
-
-/* ssDCMP.c */
-BOOL cmdMacDef(unsigned argc, char *argv[]);
-BOOL cmdMDel(unsigned argc, char *argv[]);
-BOOL cmdMLst(unsigned argc, char *argv[]);
-#endif
-
 /* ssDCmd.c */
 BOOL cmdSysEsc(unsigned argc, char *argv[]);
 BOOL cmdComment(unsigned argc, char *argv[]);
@@ -101,17 +75,10 @@ BOOL cmdExit(unsigned argc, char *argv[]);
 BOOL cmdSource(unsigned argc, char *argv[]);
 BOOL cmdGoto(unsigned argc, char *argv[]);
 
-#if 0
-BOOL cmdRedirect(unsigned argc, char *argv[]);
-#endif
 BOOL cmdLoad(unsigned argc, char *argv[]);
 BOOL cmdIALoad(unsigned argc, char *argv[]);
 BOOL cmdROMLoad(unsigned argc, char *argv[]);
 BOOL cmdFWLoad(unsigned argc, char *argv[]);
-#if 0
-BOOL cmdDirSet(unsigned argc, char *argv[]);
-BOOL cmdAdopt(unsigned argc, char *argv[]);
-#endif
 BOOL cmdIf(unsigned argc, char *argv[]);
 
 /* ssDDM.c */
@@ -125,23 +92,6 @@ BOOL instrAssign(unsigned argc, char *argv[]);
 BOOL templAssign(unsigned argc, char *argv[]);
 BOOL dasmDump(unsigned argc, char *argv[]);
 BOOL dataDump(unsigned argc, char *argv[]);
-
-#if 0
-BOOL grClear(unsigned argc, char *argv[]);
-BOOL memDump(unsigned argc, char *argv[]);
-BOOL spcGBds(unsigned argc, char *argv[]);
-BOOL pagGProt(unsigned argc, char *argv[]);
-
-/* ssDPE.c */
-BOOL cmdInit(unsigned argc, char *argv[]);
-BOOL runProg(unsigned argc, char *argv[]);
-BOOL runallProg(unsigned argc, char *argv[]);
-BOOL contProg(unsigned argc, char *argv[]);
-BOOL contallProg(unsigned argc, char *argv[]);
-BOOL stopProg(unsigned argc, char *argv[]);
-BOOL stepallProg(unsigned argc, char *argv[]);
-BOOL pstDump(unsigned argc, char *argv[]);
-#endif
 
 /* ssDSM.c */
 BOOL prgwFwd(unsigned argc, char *argv[]);
@@ -170,26 +120,7 @@ BOOL showIArs(unsigned argc, char *argv[]);
 
 /* ssDSym.c */
 BOOL cmdISymLst(unsigned argc, char *argv[]);
-#if 0
-BOOL cmdSymDef(unsigned argc, char *argv[]);
-#endif
 static BOOL cmdSDel(unsigned argc, char *argv[]);
-
-#if 0
-/* ssIO.c */
-BOOL cmdIOLoadSom(unsigned argc, char *argv[]);
-BOOL cmdIOLoadBinary(unsigned argc, char *argv[]);
-
-/* ssReg.c */
-BOOL cmdRegLst(unsigned argc, char *argv[]);
-
-/* ssVAT.c */
-BOOL dtlbShow(unsigned argc, char *argv[]);
-BOOL itlbShow(unsigned argc, char *argv[]);
-
-/* stack.c */
-BOOL cmdStkTrc(unsigned argc, char *argv[]);
-#endif
 
 BOOL cstkDisplay(unsigned argc, char *argv[]);
 BOOL showLoadModules(unsigned argc, char *argv[]);
@@ -222,13 +153,8 @@ static MENU cmdmenu[MENUTBLSIZ] = {
 			stringAssign, "\t=s <address> <string>"},
     {"=t",	2, MAXARGS, "assign template(s) to bundle location(s)",
 			templAssign, "\t=t <address> {<template>}+"},
-#if 0
-    {"bs",	0, MAXARGS, "set IA-64 breakpoint", bptSet,
-			"\tbs [ <address> [ <count> [ <cmd seq> ] ] ]"},
-#else
     {"bs",	0, 1, "set IA-64 breakpoint", bptSet,
 			"\tbs [ <address> ]"},
-#endif
     {"bD",	0, 0, "delete all breakpoints", bptDAll,
 			"\tbD"},
     {"bd",	1, 1, "delete breakpoint n", bptDelete,
@@ -245,14 +171,8 @@ static MENU cmdmenu[MENUTBLSIZ] = {
 			"\tdb [ <count> ]"},
     {"dbndl",	0, 0, "display data window as instruction bundles", datwBndl,
 			"\tdbndl"},
-#if 0
-    {"dbs",	2, MAXARGS, "set data breakpoint", dbptSet,
-			"\tdbs <address> <length> [ { wo | rw }"
-			" [ <count> [ <cmd seq> ] ] ]"},
-#else
     {"dbs",	2, 3, "set data breakpoint", dbptSet,
 			"\tdbs <address> <length> [ r | w | rw ]"},
-#endif
     {"dbD",	0, 0, "delete all data breakpoints", dbptDAll,
 			"\tdbD"},
     {"dbd",	1, 1, "delete data breakpoint n", dbptDelete,
@@ -276,30 +196,17 @@ static MENU cmdmenu[MENUTBLSIZ] = {
     {"goto",	1, 1, "goto label", cmdGoto, "\tgoto <label>"},
     {"gr",	0, 0, "show GRs in register window", showGrs,
 			"\tgr"},
-#if 0
-    {"grclr",	0, 0, "clear all general registers", dummyCmd, /* grClear, */
-			"\tgrclr"},
-#endif
     {"grmap",	0, 0, "display GR map", showGrMap, /*"\tgrmap"*/""},
     {"help",	0, 1, "display this command menu", cmdHelp,
 			"\thelp [ <cmd> ]"},
     {"iar",	0, 0, "show IA regs in register window", showIArs,
 			"\tiar"},
-#if 0
-    {"iabs",	0, MAXARGS, "set IA-32 breakpoint", iAbptSet,
-			"\tiabs [ <address> [ <count> [ <cmd seq> ] ] ]"},
-#else
     {"iabs",	0, 1, "set IA-32 breakpoint", iAbptSet,
 			"\tiabs [ <address> ]"},
-#endif
     {"iaload",	2, MAXARGS, "load IA executable file", cmdIALoad,
 			"\tiaload <file> <address> [ <mapfile> [ <args> ] ]"},
     {"if",	2, MAXARGS, "conditionally execute rest of line", cmdIf,
 			"\tif <hex exp> true-cmd [: false-cmd]"},
-#if 0
-    {"init",	0, 0, "initialize simulator state", dummyCmd, /* cmdInit, */
-			"\tinit"},
-#endif
     {"isyms",	0, 1, "list internal symbols", cmdISymLst,
 			"\tisyms [ <file> ]"},
     {"itr.d",	4, 4, "", cmdItr_d,
@@ -322,13 +229,8 @@ static MENU cmdmenu[MENUTBLSIZ] = {
 			prgwMixed, "\tpm"},
     {"quit",	0, 1, "quit (?!)", cmdExit,
 			"\tquit [ <ret value>"},
-#if 0
-    {"run",	0, MAXARGS, "run program on current processor", runProg,
-			"\trun [ <arglist> ]"},
-#else
     {"run",	0, 0, "run program", runProg,
 			"\trun"},
-#endif
     {"rb",	0, 1, "move register window backward n lines", regwBkwd,
 			"\trb [ <count> ]"},
     {"rd",	0, 1, "dump register contents", regwDump,
@@ -339,14 +241,9 @@ static MENU cmdmenu[MENUTBLSIZ] = {
 			"\trf [ <count> ]"},
     {"romload",	2, 3, "load ROM image file", cmdROMLoad,
 			"\tromload <file> <address> [ <mapfile> ]"},
-#if 0
-    {"step",	0, MAXARGS, "execute single (or n) instruction(s)", stepProg,
-			"\tstep [ <count> [ <cmd seq> ] ]"},
-#else
     {"step",	0, 2, "execute <count> instruction(s) or until <expr> nonzero",
 			stepProg,
 			"\tstep [ <count> | until <expr> ]"},
-#endif
     {"save",	1, 1, "save simulator state in a file", stateSave,
 			"\tsave <file>"},
     {"sdt",	0, 1, "show data TLB", showDataTlb, "\tsdt [ <file> ]"},
@@ -356,10 +253,6 @@ static MENU cmdmenu[MENUTBLSIZ] = {
 			/*"\tspt [ <file> ]"*/""},
     {"sr",	0, 0, "show System Registers (CRs/RRs/PKRs/DBRs/IBRs/PMCs/PMDs)"
 			" in reg window", showSrs, "\tsr"},
-#if 0
-    {"stop",	0, 0, "stop execution of program", dummyCmd, /* stopProg, */
-			"\tstop"},
-#endif
     {"symlist",	0, 1, "list symbols", cmdSLst,
 			"\tsymlist [ <file> ]"},
     {"symdel",	2, 2, "delete symbols in address range", cmdSDel,
@@ -464,14 +357,6 @@ static BOOL cmdHelp(unsigned argc, char *argv[])
     }
     return YES;
 }
-
-#if 0
-static BOOL dummyCmd(unsigned argc, char *argv[])
-{
-    cmdwPrint("%s: Command not yet implemented\n", argv[0]);
-    return YES;
-}
-#endif
 
 /*--------------------------------------------------------------------------
  * command$Symbol$List - Displays the list of the simulator internal symbols
