@@ -1237,25 +1237,6 @@ void progExit(const char *fmt, ...)
     longjmp(jmpenv, 0);
 }
 
-/* XXX - NOT USED */
-void simCounted(CTR cnt)
-{
-    CTR i;
-    Status st;
-
-    for (i = 0; i < cnt; i++) {
-    if (PSR_IS) {		/* iA */
-	st = iAiCycle();
-	total_cycles++;
-    } else {			/* EM */
-	st = unixABI ? iCycleApp() : iCycleSys();
-	if (st & ST_STOP)
-	    total_cycles++;
-    }
-    total_insts++;
-    }
-}
-
 BOOL stepIt_loop(CTR cnt)
 {
     Status st;
