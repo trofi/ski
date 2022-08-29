@@ -515,7 +515,7 @@ static CTR prof_interval;
 static DWORD prof_mask, prof_maxcnt;
 
 static DWORD pending_signals;
-DWORD masked_signals;
+static DWORD masked_signals;
 static int num_inservice;
 
 static struct lia64_sigaction sig_act[64];
