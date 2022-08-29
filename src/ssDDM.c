@@ -517,7 +517,7 @@ BOOL pagGProt(unsigned argc, char *argv[])
 #endif
 
 
-struct load_module {
+static struct load_module {
     struct load_module *next;
     const char *name;
     ADDR load_base;
