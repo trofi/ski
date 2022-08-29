@@ -111,13 +111,6 @@ typedef struct {
 void dasInit(DasOptions opts, int width);
 void dasBundleSBT(Bundle *bndl, char *i0Str, char *i1Str, char *i2Str,
 		 SB sb[SLOTS_PER_BUNDLE], char *tStr);
-char *hexBundle(Bundle *bndl, char *str);
-char *dasInst(Unit unit, unsigned long long instBits,
-	      unsigned long long extraInstBits, char *iStr);
-char *dasEncodedInst(struct encoded_inst *inst, char *iStr);
-unsigned int bundleTargets(Bundle *bndl, unsigned long long tgtAdr[]);
 unsigned int dasRelocation(unsigned long long addr, DasRelocationPtr reloc);
-void dasSetFrameSize(unsigned int ins, unsigned int locs, unsigned int outs,
-		     unsigned int rots);
 
 #endif	/* _SKI_LIBDAS_H */

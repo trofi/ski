@@ -502,16 +502,7 @@ static void hint_imm(OperandsPtr opnds)
     opnds->u.I18.imm21.type = EM_OPTYPE_HINT_IMM;
 }
 
-static void alloc_imm(OperandsPtr opnds)
-{
-    /* record register stack state */
-    dasSetFrameSize((unsigned int)opnds->u.M34.i.bits,
-		    (unsigned int)opnds->u.M34.l.bits,
-		    (unsigned int)opnds->u.M34.o.bits,
-		    (unsigned int)opnds->u.M34.r.bits);
-}
-
-void dasSetFrameSize(unsigned int i, unsigned int l, unsigned int o,
+static void dasSetFrameSize(unsigned int i, unsigned int l, unsigned int o,
 		     unsigned int r)
 {
     /* set register stack state */
@@ -519,6 +510,15 @@ void dasSetFrameSize(unsigned int i, unsigned int l, unsigned int o,
     locs = l;
     outs = o;
     rots = r;
+}
+
+static void alloc_imm(OperandsPtr opnds)
+{
+    /* record register stack state */
+    dasSetFrameSize((unsigned int)opnds->u.M34.i.bits,
+		    (unsigned int)opnds->u.M34.l.bits,
+		    (unsigned int)opnds->u.M34.o.bits,
+		    (unsigned int)opnds->u.M34.r.bits);
 }
 
 static void iDasm(unsigned slot, InstID instID, OperandsPtr opnds, char *buf,
@@ -1218,17 +1218,6 @@ void dasBundleSBT(Bundle *bndl, char *i0Str, char *i1Str, char *i2Str,
 	templName(t, DasTemplateLC, tStr);
 }
 
-char *hexBundle(Bundle *bndl, char *str)
-{
-    BundleParts parts;
-
-    parts = bundle_parts(bndl);
-    (void)sprintf(str, "%x %d %011llx %011llx %011llx",
-		 parts.templSB >> 1, parts.templSB & 1,
-		 parts.slot[0], parts.slot[1], parts.slot[2]);
-    return str;
-}
-
 void dasInit(DasOptions opts, int width)
 {
     dasOpts = opts;
@@ -1248,77 +1237,4 @@ void dasInit(DasOptions opts, int width)
     formatLen = (dasOpts & DasFormatNumbers) ? 5 : 0;
     sepLen = (formatLen && templLen) ? 1 : 0;
     trailLen = commentLen + templLen + sepLen + formatLen;
-}
-
-char *dasInst(Unit unit, const unsigned long long instBits,
-	      const unsigned long long extraInstBits, char *iStr)
-{
-    InstID instID;
-    Operands opnds;
-
-    if (unit == L_Unit || unit == X_Unit) {
-	instID = instr_decode(L_Unit, extraInstBits, &opnds);
-	instID = instr_decode(X_Unit, instBits, &opnds);
-    } else {
-	if (unit == A_Unit)	/* real unit is M or I - arbitrarily pick I */
-	    unit = I_Unit;
-	instID = instr_decode(unit, instBits, &opnds);
-	if (opnds.flags & EM_FLAG_TWO_SLOT)
-	    instID = EM_ILLEGALOP;
-    }
-
-    /* XXX - what slot should be passed here? */
-    iDasm(0, instID, &opnds, iStr, SB_Cont);
-    return iStr;
-}
-
-char *dasEncodedInst(EncodedInstPtr inst, char *iStr)
-{
-    InstID instID;
-    Operands opnds;
-    Unit unit = inst->unit;
-
-    if (unit == L_Unit || unit == X_Unit) {
-	instID = instr_decode(L_Unit, inst->extra_bits, &opnds);
-	instID = instr_decode(X_Unit, inst->bits, &opnds);
-    } else {
-	if (unit == A_Unit)	/* real unit is M or I - arbitrarily pick I */
-	    unit = I_Unit;
-	instID = instr_decode(unit, inst->bits, &opnds);
-	if (opnds.flags & EM_FLAG_TWO_SLOT)
-	    instID = EM_ILLEGALOP;
-    }
-
-    iDasm(inst->slot, instID, &opnds, iStr, inst->stop);
-    return iStr;
-}
-
-unsigned int bundleTargets(Bundle *bndl, unsigned long long tgtAdr[])
-{
-    unsigned int s, num = 0;
-    unsigned long long addr;
-    short tgtOp, tagOp;
-    TemplateInfoPtr t;
-    DecodedInstr instr[SLOTS_PER_BUNDLE];
-    DasRelocation reloc;
-
-    t = bundle_decode(bndl, instr, 0);
-    for (s = 0; s < SLOTS_PER_BUNDLE; s++) {
-	tgtOp = dasInstrs[instr[s].instID].tgtOp;
-	tagOp = dasInstrs[instr[s].instID].tagOp;
-	if (tgtOp != OPINDEX_NONE || tagOp != OPINDEX_NONE) {
-	    /* XXX - should there be an operand_decode() to avoid re-decoding
-	       the instruction? */
-	    (void)instr_decode(t->slot[s].unit, instr[s].instrBits,
-			       &instr[s].opnds);
-	    addr = dasAddress();
-	    if (tgtOp != OPINDEX_NONE && !dasRelocation(addr | s, &reloc))
-		tgtAdr[num++] = addr + instr[s].opnds.u.op[tgtOp].bits;
-	    if (tagOp != OPINDEX_NONE &&
-		!(instr[s].instID == EM_MOV_B1_R2_TAG13 &&
-		  instr[s].opnds.u.op[tagOp].bits == 0))
-		tgtAdr[num++] = addr + instr[s].opnds.u.op[tagOp].bits;
-	}
-    }
-    return num;
 }
