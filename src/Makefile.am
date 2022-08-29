@@ -20,18 +20,18 @@
 ##
 
 
-SUBDIRS= decoder encoder fake-xterm
+SUBDIRS = fake-xterm
 
 AM_CPPFLAGS= $(X_CFLAGS) $(DWARF_CFLAGS) -I$(srcdir)/decoder \
 			 -I$(srcdir)/encoder -I$(top_builddir)/src/encoder \
 			 -I$(top_builddir)/src/decoder $(GSKI_CFLAGS) \
 			 -DSKI_DATA_DIR=\"$(pkgdatadir)\"
 
-noinst_LTLIBRARIES=libski.la
+noinst_LTLIBRARIES = libdecoder.la libencoder.la libski.la
 
-bin_PROGRAMS= ski
+bin_PROGRAMS = ski
 
-ENCODING_FILES= \
+ENCODING_FILES = \
 	encodings/encoding.decode \
 	encodings/encoding.encode \
 	encodings/encoding.format \
@@ -51,12 +51,17 @@ noinst_SCRIPTS= \
 	iaexec_dec.sed \
 	iadas_dec.sed \
 	ia_types.sed \
-	make_asm.sh
+	make_asm.sh \
+	decoder/instID.awk \
+	decoder/operands.awk \
+	encoder/formats.awk
 
 noinst_DATA= \
 	execTbl \
 	$(ENCODING_FILES) \
-	Copyright
+	Copyright \
+	decoder/operands.h_template \
+	encoder/formats.c_template
 
 COMBFNS_FILES= \
 	exec.c \
@@ -94,6 +99,29 @@ ICNT_DERIVED = \
 	icnt_core.gen.h \
 	icnt_ui.gen.h
 
+DECODER_DERIVED = \
+	decoder/decode_tree.gen.c \
+	decoder/operands.gen.h \
+	decoder/instID.gen.h
+
+libdecoder_la_SOURCES = \
+	decoder/_decoder.h \
+	decoder/decoder.c \
+	decoder/decoder.h \
+	decoder/parts.c \
+	$(DECODER_DERIVED)
+
+ENCODER_DERIVED = \
+	encoder/EMformats.gen.h \
+	encoder/encode_table.gen.c \
+	encoder/formats.gen.c
+
+libencoder_la_SOURCES = \
+	encoder/EMInst.h \
+	encoder/encoder.c \
+	encoder/encoder.h \
+	$(ENCODER_DERIVED)
+
 if WITH_NETDEV
 NETDEV_C=netdev.c
 else
@@ -109,6 +137,8 @@ BUILT_SOURCES = \
 	$(DAS_INSTR_DERIVED) \
 	$(ASM_HASH_DERIVED) \
 	$(ICNT_DERIVED) \
+	$(DECODER_DERIVED) \
+	$(ENCODER_DERIVED) \
 	eparse.h eparse.c \
 	escan.h escan.c \
 	instr.gen.c
@@ -289,8 +319,12 @@ libski_la_LDFLAGS = \
 	-thread-safe -no-undefined \
 	-export-dynamic
 
-libski_la_LIBADD= encoder/libencoder.la decoder/libdecoder.la \
-	$(DWARF_LIBS) $(X_INTERFACE_LIBS) $(GSKI_LIBS)
+libski_la_LIBADD = \
+	libencoder.la \
+	libdecoder.la \
+	$(DWARF_LIBS) \
+	$(X_INTERFACE_LIBS) \
+	$(GSKI_LIBS)
 
 EXTRA_DIST= \
 	exec_hd.c \
@@ -323,37 +357,37 @@ bski $(XSKI) $(GSKI) : ski
 
 ## DERIVED sources rules:
 
-das_instr.gen.c: das.awk $(encdir)/encoding.opcode \
-			 $(encdir)/encoding.unusedop \
+das_instr.gen.c: das.awk $(srcdir)/encodings/encoding.opcode \
+			 $(srcdir)/encodings/encoding.unusedop \
 			 $(srcdir)/libdas.c $(srcdir)/Copyright
 	@rm -f $(DAS_INSTR_DERIVED)
 	$(AWK) -f $(srcdir)/das.awk \
 		-v COPYRIGHT=$(srcdir)/Copyright \
 		-v LIBDAS_C=$(srcdir)/libdas.c \
 		-v CFILE=das_instr.gen.c \
-		$(encdir)/encoding.opcode \
-		unused=1 $(encdir)/encoding.unusedop
+		$(srcdir)/encodings/encoding.opcode \
+		unused=1 $(srcdir)/encodings/encoding.unusedop
 
 icnt_ui.gen.h: icnt_core.gen.h
-icnt_core.gen.h: mkicnt.awk $(encdir)/encoding.opcode \
-				 $(encdir)/encoding.unusedop \
+icnt_core.gen.h: mkicnt.awk $(srcdir)/encodings/encoding.opcode \
+				 $(srcdir)/encodings/encoding.unusedop \
 				 $(srcdir)/Copyright
 	@rm -f $(ICNT_DERIVED)
 	$(AWK) -f $(srcdir)/mkicnt.awk \
 		-v COPYRIGHT=$(srcdir)/Copyright \
 		-v HFILE_UI=icnt_ui.gen.h \
 		-v HFILE_CORE=icnt_core.gen.h \
-		$(encdir)/encoding.opcode \
-		unused=1 $(encdir)/encoding.unusedop
+		$(srcdir)/encodings/encoding.opcode \
+		unused=1 $(srcdir)/encodings/encoding.unusedop
 	touch icnt_ui.gen.h
 
-asm_hash.gen.c: $(encdir)/encoding.opcode \
+asm_hash.gen.c: $(srcdir)/encodings/encoding.opcode \
 			asm.awk make_asm.sh $(srcdir)/Copyright
 	@rm -f $(ASM_HASH_DERIVED)
 	@rm -rf asm_hash.gen
 	sh $(srcdir)/make_asm.sh \
 		-f $(srcdir)/asm.awk \
-		-o $(encdir)/encoding.opcode \
+		-o $(srcdir)/encodings/encoding.opcode \
 		-c asm_hash.gen.c \
 		-e asm_hash.gen.err \
 		-C $(srcdir)/Copyright \
@@ -395,12 +429,12 @@ combfns.gen.c: execTbl $(COMBFNS_FILES) mkfns.awk combfns.awk
 
 predecode.gen.h: predecode.gen.c
 immed.gen.h: predecode.gen.c
-predecode.gen.c: $(encdir)/encoding.format $(encdir)/encoding.imm \
+predecode.gen.c: $(srcdir)/encodings/encoding.format $(srcdir)/encodings/encoding.imm \
 			 fmtimm.awk predecode.awk $(srcdir)/Copyright
 	@rm -rf $(PREDECODE_DERIVED)
 	$(AWK) -f $(srcdir)/fmtimm.awk \
-		-v ENCODING_IMM=$(encdir)/encoding.imm \
-		$(encdir)/encoding.format | \
+		-v ENCODING_IMM=$(srcdir)/encodings/encoding.imm \
+		$(srcdir)/encodings/encoding.format | \
 		$(AWK) -f $(srcdir)/predecode.awk \
 			-v CFILE=predecode.gen.c \
 			-v PHFILE=predecode.gen.h \
@@ -409,16 +443,51 @@ predecode.gen.c: $(encdir)/encoding.format $(encdir)/encoding.imm \
 			-
 	@touch predecode.gen.h immed.gen.h
 
-instr.gen.c: $(encdir)/encoding.opcode \
-		 $(encdir)/encoding.unusedop \
-		 opcode.awk execTbl $(srcdir)/Copyright
+instr.gen.c: $(srcdir)/encodings/encoding.opcode \
+		$(srcdir)/encodings/encoding.unusedop \
+		opcode.awk execTbl $(srcdir)/Copyright
 	@rm -f instr.gen.c
 	$(AWK) -f $(srcdir)/opcode.awk \
 		-v CFILE=instr.gen.c \
 		-v COPYRIGHT=$(srcdir)/Copyright \
 		-v EXECTBL=execTbl \
-		$(encdir)/encoding.opcode \
-		unused=1 $(encdir)/encoding.unusedop
+		$(srcdir)/encodings/encoding.opcode \
+		unused=1 $(srcdir)/encodings/encoding.unusedop
+
+## DERIVED decoder sources rules:
+
+decoder/instID.gen.h: decoder/instID.awk $(srcdir)/encodings/encoding.opcode $(srcdir)/encodings/encoding.unusedop
+	$(AWK) -f $(srcdir)/decoder/instID.awk \
+		-v IDFILE=decoder/instID.gen.h \
+		-v COPYRIGHT=$(srcdir)/Copyright \
+		$(srcdir)/encodings/encoding.opcode \
+		$(srcdir)/encodings/encoding.unusedop
+
+decoder/operands.gen.h: decoder/operands.awk $(srcdir)/encodings/encoding.opcode decoder/operands.h_template
+	$(AWK) -f $(srcdir)/decoder/operands.awk \
+		-v OPFILE=decoder/operands.gen.h \
+		-v TEMPLATE=$(srcdir)/decoder/operands.h_template \
+		$(srcdir)/encodings/encoding.opcode
+
+decoder/decode_tree.gen.c: $(srcdir)/encodings/encoding.decode
+	cp $(srcdir)/encodings/encoding.decode $@
+
+## DERIVED encoder sources rules:
+
+encoder/EMformats.gen.h encoder/formats.gen.c: encoder/formats.awk encoder/formats.c_template \
+					   $(srcdir)/encodings/encoding.format $(srcdir)/Copyright
+	rm -f $@;
+	$(AWK) -f $(srcdir)/encoder/formats.awk \
+		-v HFILE=encoder/EMformats.gen.h \
+		-v CFILE=encoder/formats.gen.c \
+		-v TEMPLATE=$(srcdir)/encoder/formats.c_template \
+		-v COPYRIGHT=$(srcdir)/Copyright \
+		$(srcdir)/encodings/encoding.format
+
+encoder/encode_table.gen.c: $(srcdir)/encodings/encoding.encode
+	cp $(srcdir)/encodings/encoding.encode $@
+
+## DERIVED lexers and parsers
 
 escan.h: escan.c
 eparse.h: eparse.c

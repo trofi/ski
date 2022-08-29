@@ -252,12 +252,9 @@ AC_ARG_ENABLE([werror],
 AS_IF([test "x$enable_werror" = "xyes"],
   [CFLAGS="$CFLAGS -Werror"])
 
-encdir='$(top_srcdir)'/src/encodings
-AC_SUBST(encdir)
-
 dnl Configuration files
 AC_CONFIG_FILES([Makefile])
-AC_CONFIG_FILES([src/Makefile src/decoder/Makefile src/encoder/Makefile])
+AC_CONFIG_FILES([src/Makefile])
 AC_CONFIG_FILES([src/fake-xterm/Makefile])
 AC_CONFIG_FILES([doc/Makefile])
 
