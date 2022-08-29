@@ -83,8 +83,7 @@ static FILE *dump_fd;
  * Bail out with an error message. We cannot really use cmdwPrint()
  * because it may not be initialized before we get an error
  */
-void
-fatal_error (char *msg)
+static void fatal_error (char *msg)
 {
   fprintf (stderr, "simulator-dwarf: %s", msg);
   exit (1);
@@ -96,8 +95,7 @@ fatal_error (char *msg)
  *
  * The last "opaque" argument contains the address we're looking for
  */
-void
-find_in_section (bfd * bfd, asection * sect, void * obj)
+static void find_in_section (bfd * bfd, asection * sect, void * obj)
 {
   struct line_info *info = obj;
   unsigned int last_line = 0, line;
@@ -202,8 +200,7 @@ find_in_section (bfd * bfd, asection * sect, void * obj)
  * Extremely dumb/simple line_load routine. We don't cache anything and rely
  * on fgets() to figure out the \n
  */
-char *
-read_source_lines (struct line_info *info, unsigned *count)
+static char * read_source_lines (struct line_info *info, unsigned *count)
 {
   static char *line = NULL;
   static size_t line_size = 0;
