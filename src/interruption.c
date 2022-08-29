@@ -35,6 +35,8 @@
 #include "libtrace.h"
 #include "trace.h"
 
+/* #define RSE_DEBUG */
+
 #if defined __linux__
 extern void signal_queue_info(int signal, ADDR);
 #endif /* !defined __linux__ */
@@ -97,9 +99,6 @@ extern void gotoAlarm(void);
 /*##################### Functions ##########################################*/
 
 void switchBanks(void);
-#if 0
-#define RSE_DEBUG
-#endif
 
 /* Set the PSR on an interruption */
 static REG interruptionPSR(void)
@@ -945,9 +944,6 @@ void pendIrpt(REG irptData)
 	vector = NMI_IRPT;
     else if (DM(irptData) == IDM_EXTINT)
 	vector = EXTINT_IRPT;
-#if 0
-    fprintf(stderr, "(%llu) Pend interrupt vector %u\n", total_insts, vector);
-#endif
 
     if (vector < 16 && vector != NMI_IRPT && vector != EXTINT_IRPT)
 	return;			/* ignore vectors 1 and 3 - 15 */
