@@ -32,8 +32,6 @@ AM_CPPFLAGS = \
 	$(GSKI_CFLAGS) \
 	-DSKI_DATA_DIR=\"$(pkgdatadir)\"
 
-noinst_LTLIBRARIES = libdecoder.la libencoder.la libski.la
-
 bin_PROGRAMS = ski
 
 ENCODING_FILES = \
@@ -114,29 +112,10 @@ DECODER_DERIVED = \
 	decoder/operands.gen.h \
 	decoder/instID.gen.h
 
-libdecoder_la_SOURCES = \
-	decoder/_decoder.h \
-	decoder/decoder.c \
-	decoder/decoder.h \
-	decoder/parts.c \
-	$(DECODER_DERIVED)
-
 ENCODER_DERIVED = \
 	encoder/EMformats.gen.h \
 	encoder/encode_table.gen.c \
 	encoder/formats.gen.c
-
-libencoder_la_SOURCES = \
-	encoder/EMInst.h \
-	encoder/encoder.c \
-	encoder/encoder.h \
-	$(ENCODER_DERIVED)
-
-if WITH_NETDEV
-NETDEV_C=netdev.c
-else
-NETDEV_C=
-endif
 
 BUILT_SOURCES = \
 	$(COMBFNS_DERIVED) \
@@ -152,17 +131,6 @@ BUILT_SOURCES = \
 	eparse.h eparse.c \
 	escan.h escan.c \
 	instr.gen.c
-
-ski_SOURCES = \
-	main.c
-
-if WITH_GTK_INTERFACE
-# gski exports some callbacks to gski.glade for
-# dynamic discovery.
-ski_LDFLAGS=-export-dynamic
-endif
-
-ski_LDADD= libski.la
 
 noinst_HEADERS= \
 	asm.h \
@@ -257,7 +225,17 @@ else
 freebsd_FILES =
 endif
 
-libski_la_SOURCES= \
+EXTRA_netdev_FILES = netdev.c
+
+if WITH_NETDEV
+NETDEV_C=netdev.c
+else
+NETDEV_C=
+endif
+
+ski_SOURCES = \
+	main.c \
+	\
 	$(COMBFNS_DERIVED) \
 	$(PREDECODE_DERIVED) \
 	$(IAEXEC_DECODER_DERIVED) \
@@ -317,21 +295,26 @@ libski_la_SOURCES= \
 	load.h \
 	platform.c \
 	libdas.c \
-	libsrs.c
+	libsrs.c \
+	\
+	decoder/_decoder.h \
+	decoder/decoder.c \
+	decoder/decoder.h \
+	decoder/parts.c \
+	$(DECODER_DERIVED) \
+	\
+	encoder/EMInst.h \
+	encoder/encoder.c \
+	encoder/encoder.h \
+	$(ENCODER_DERIVED)
 
-EXTRA_libski_la_SOURCES = \
-	$(EXTRA_linux_FILES) \
-	$(EXTRA_hpux_FILES) \
-	$(EXTRA_freebsd_FILES) \
-	netdev.c 
+if WITH_GTK_INTERFACE
+# gski exports some callbacks to gski.glade for
+# dynamic discovery.
+ski_LDFLAGS=-Wl,--export-dynamic
+endif
 
-libski_la_LDFLAGS = \
-	-thread-safe -no-undefined \
-	-export-dynamic
-
-libski_la_LIBADD = \
-	libencoder.la \
-	libdecoder.la \
+ski_LDADD = \
 	$(DWARF_LIBS) \
 	$(X_INTERFACE_LIBS) \
 	$(GSKI_LIBS)
@@ -344,6 +327,12 @@ EXTRA_DIST= \
 	$(gski_DATA) \
 	$(noinst_DATA) \
 	$(noinst_SCRIPTS)
+
+EXTRA_ski_SOURCES = \
+	$(EXTRA_linux_FILES) \
+	$(EXTRA_hpux_FILES) \
+	$(EXTRA_freebsd_FILES) \
+	$(EXTRA_netdev_FILES)
 
 if WITH_X_INTERFACE
 XSKI= xski

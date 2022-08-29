@@ -258,7 +258,6 @@ AC_CONFIG_FILES([src/Makefile])
 AC_CONFIG_FILES([src/fake-xterm/Makefile])
 AC_CONFIG_FILES([doc/Makefile])
 
-LT_INIT
 AC_CONFIG_MACRO_DIRS([m4])
 
 dnl Output the files
