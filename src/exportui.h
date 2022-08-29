@@ -79,19 +79,6 @@ typedef BOOL	(*PFV)(unsigned argc, char **argv);
 
 extern FILE *cmdFile;	/* handle to the "." (command) file */
 
-BOOL menuIns(const char *keywd, int minargs, int maxargs, const char *descrip,
-	     PFV fcn, const char *format);
-/*
-    char *keywd		command name
-    int minargs		command minimum arguments
-    int maxargs		command maximum arguments
-    char *descrip	command description (needed for the help cmd)
-    PFV fcn		command function
-    char *format	command format (needed for the help cmd)
-    (retval)		call succeeded
- */
-
-
 /*--------------------------------------------------------------------------
  *  Interface to register window registration and use
  *-------------------------------------------------------------------------*/

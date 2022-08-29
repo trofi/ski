@@ -199,7 +199,7 @@ static BOOL cmdItr_i(unsigned argc, char *argv[]);
 
 /*##################### Globals - Exports ##################################*/
 
-MENU cmdmenu[MENUTBLSIZ] = {
+static MENU cmdmenu[MENUTBLSIZ] = {
 #if 1
 /* comment out commands not yet implemented */
     {".",	1, 1, "source a file of simulator commands", cmdSource,
@@ -417,40 +417,6 @@ void menuInit(void)
     topmenu = 0;
     for (menu = cmdmenu; strcmp(menu->keywd, ""); menu++)
 	topmenu++;
-}
-
-/*---------------------------------------------------------------------------
- * menu$Insert - Insert a command to the command menu.
- *---------------------------------------------------------------------------*/
-BOOL menuIns(const char *keywd, int minargs, int maxargs, const char *descrip,
-	     PFV fcn, const char *format)
-{
-    unsigned i;
-
-    if (strlen(keywd) >= KEYWDSIZ || strlen(descrip) >= DESCRSIZ  ||
-	strlen(format) >= DESCRSIZ) {
-	cmdWarn("Command name and/or description too long: %s.  Ignored\n",
-		keywd);
-	return NO;
-    }
-    if (topmenu == MENUTBLSIZ) {
-	cmdWarn("Command table overflow.  Commands beginning from %s"
-		" are ignored\n", keywd);
-	return NO;
-    }
-    for (i = 0; i < topmenu; i++)
-	if (!strcmp(keywd, cmdmenu[i].keywd)) {
-	    cmdWarn("Command (%s) already in table.  Ignored\n", keywd);
-	    return NO;
-	}
-    (void)strcpy(cmdmenu[topmenu].keywd,   keywd);
-    (void)strcpy(cmdmenu[topmenu].descrip, descrip);
-    (void)strcpy(cmdmenu[topmenu].format,  format);
-    cmdmenu[topmenu].minargs = minargs;
-    cmdmenu[topmenu].maxargs = maxargs;
-    cmdmenu[topmenu].fcn     = fcn;
-    topmenu++;
-    return YES;
 }
 
 /*--------------------------------------------------------------------------
