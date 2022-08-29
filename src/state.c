@@ -95,7 +95,6 @@ BOOL reservedCR(unsigned cr);
 BOOL reservedCrField(unsigned cr, REG *val);
 BOOL reservedIpsrField(REG val);
 INSTINFO *setIcp(void);
-void switchBanks(void);
 
 /*
  * Routines needed by Save/Restore

@@ -20,7 +20,7 @@
  *
  */
 #ifndef _SKI_SIM_H_
-#define	_SKI_SIM_H_
+#define _SKI_SIM_H_
 
 #include "std.h"
 #include "types.h"
@@ -193,6 +193,8 @@ extern ExecutionMode executionMode;
 extern CTR total_insts, total_cycles, total_faults;
 extern unsigned int mips;
 
+BOOL brCall(ADDR a);
+ICNTS getICnts(unsigned i);
 Status iCycleApp(void);
 Status iCycleSys(void);
 Status iAiCycle(void);
@@ -200,7 +202,7 @@ void progStop(const char *, ...);
 void progExit(const char *, ...);
 void progPause(void);
 void sendIPI(int, int, int);
-
 extern INSTINFO *setIcp(void);
+void switchBanks(void);
 
 #endif /* _SKI_SIM_H_ */

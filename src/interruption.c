@@ -98,8 +98,6 @@ extern void gotoAlarm(void);
 
 /*##################### Functions ##########################################*/
 
-void switchBanks(void);
-
 /* Set the PSR on an interruption */
 static REG interruptionPSR(void)
 {

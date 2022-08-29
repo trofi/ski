@@ -1052,7 +1052,6 @@ CTR getCurPid(void)
 #endif
 
 IAinstInfoPtr addrToIAcacheInfo(ADDR adr);
-Status iAinstFetchDecode(IAinstInfoPtr info);
 
 /* adr is the physical address */
 void clearPdecode(ADDR adr, unsigned size)

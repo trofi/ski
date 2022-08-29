@@ -34,7 +34,7 @@
 #include "types.h"
 #include "fields.h"
 #include "ski.h"
-#include "sim.h"	/* for Interface */
+#include "sim.h"
 #include "ssDCmd.h"
 #include "exportui.h"
 #include "coreui.h"
@@ -91,8 +91,6 @@ static int cntCompare(const void *a, const void *b)
 
     return (aCnt < bCnt) - (aCnt > bCnt);
 }
-
-ICNTS getICnts(unsigned);
 
 static void dumpIcnts(void)
 {
@@ -256,7 +254,6 @@ static void stepUntil_loop(REG val, const char *expr)
     }
 }
 
-BOOL brCall(ADDR a);
 static void stepCall_loop(void)
 {
     REG psrval = psrGet(0);
