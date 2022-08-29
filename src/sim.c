@@ -2145,29 +2145,6 @@ static BundlePtr pxx(ADDR a)
 #include "predecode.gen.h"
 /* XXX - copied from libcore_types.h!! */
 #define BADDR(ip)       ((ip) & ~(ADDR)0xF)
-int ldTgt(ADDR a)
-{
-    BundlePtr b;
-    unsigned s;
-    TemplateInfoPtr t;
-    DecodedInstr instr[SLOTS_PER_BUNDLE];
-    PdecFn pdecFn;
-    INSTINFO info;
-
-    if (!(b = pxx(BADDR(a))))
-	return -1;
-    s = SLOT(a);
-    t = bundle_decode(b, instr, 0);
-    pdecFn = instrs[instr[s].instID].pdecFn;
-    pdecFn(instr[s].instrBits, &info);
-    if (t->slot[s].unit == M_Unit &&
-	(pdecFn == &M1predecode ||
-	 pdecFn == &M2predecode ||
-	 pdecFn == &M3predecode))
-	return info.extrainfo[1];
-    else
-	return -1;
-}
 
 int addrReg(ADDR a)
 {
