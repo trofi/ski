@@ -32,3 +32,7 @@ Makefile
 /src/gski
 /src/ski
 /src/xski
+/src/eparse.c
+/src/eparse.h
+/src/escan.c
+/src/ski_elf.h
