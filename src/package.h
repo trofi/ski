@@ -58,14 +58,4 @@ typedef struct {
     unsigned long long	total_length;	/* Package length in bytes */
 } Package_Header;
 
-#if 0
-/* Package_Header for SKI_PACKAGE_MAGIC_SP */
-typedef struct {
-    unsigned magic_number;	/* Marks as Ski Trace Package */
-    Package_Type type;		/* The type of package */
-    unsigned total_length;	/* Package length in bytes */
-    unsigned reserved;		/* Reserved, should be 0 */
-} Package_Header;
-#endif
-
 #endif	/* _SKI_PACKAGE_H */
