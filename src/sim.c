@@ -2168,30 +2168,6 @@ int addrReg(ADDR a)
 	return -1;
 }
 
-static ADDR nextIp(ADDR a)
-{
-    BundlePtr b;
-    TemplateInfoPtr t;
-    DecodedInstr instr[SLOTS_PER_BUNDLE];
-    unsigned delta = 0;
-
-    if (!(b = pxx(a)))
-	return ~(ADDR)0;
-    t = bundle_decode(b, instr, 0);
-    switch ((int)SLOT(a)) {
-	case 0:
-	    delta = 4;
-	    break;
-	case 1:
-	    delta = t->slot[1].unit == L_Unit ? 12 : 4;
-	    break;
-	case 2:
-	    delta = 8;
-	    break;
-    }
-    return a + delta;
-}
-
 BOOL brCall(ADDR a)
 {
     BundlePtr b;
