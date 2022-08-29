@@ -180,7 +180,7 @@ BOOL regwIns(const char *tag, const char *title, PLF fcn, const char *size)
     return YES;
 }
 
-BOOL regwMakeActivew(const char *tag)
+static BOOL regwMakeActivew(const char *tag)
 {
     Regw *pregw = regwtbl;
 

@@ -130,13 +130,6 @@ BOOL regwIns(const char *tag, const char *title, PLF fcn, const char *size);
     (retval)		call succeeded
  */
 
-BOOL regwMakeActivew(const char *tag);
-/*
-    char *tag		registered window name
-    (retval)		was the register window made active?
- */
-
-
 /*--------------------------------------------------------------------------
  *  Interface to data window registration and use
  *-------------------------------------------------------------------------*/
