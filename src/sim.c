@@ -2457,23 +2457,6 @@ MEMTYPE memType(ADDR a)
     return MEMT_SEMA;
 }
 
-int qpNum(ADDR a)
-{
-    BundlePtr b;
-    unsigned s;
-    DecodedInstr instr[SLOTS_PER_BUNDLE];
-    PdecFn pdecFn;
-    INSTINFO info;
-
-    if (!(b = pxx(BADDR(a))))
-	return -1;
-    s = SLOT(a);
-    (void)bundle_decode(b, instr, 0);
-    pdecFn = instrs[instr[s].instID].pdecFn;
-    pdecFn(instr[s].instrBits, &info);
-    return instrs[instr[s].instID].flags & EM_FLAG_PRED ? info.qpred : -1;
-}
-
 int instrID(ADDR a)
 {
     BundlePtr b;
