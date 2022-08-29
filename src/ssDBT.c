@@ -515,27 +515,7 @@ BOOL dbptDelete(unsigned argc, char *argv[])
 	    cmdWarn("Data breakpoint #%d wasn't set\n", (int)b);
 	else
 	    dbpts[b].inuse = dbpts[b].loaded = NO;
-#if 1
     }
-#else
-/* Disable selective breakpoint delete */
-    } else
-	for (b = 0; b < NBPTS; b++) {
-	    if (!dbpts[b].inuse)
-		continue;
-	    ofs = dbpts[b].start;
-	    (void)sprintf(tmp1, "#%d) ", (int)b);
-	    (void)strcat(tmp2, dbpts[b].realmode ? "P" : "V");
-	    (void)sprintf(tmp1, "%s%"RFT, tmp2, ofs);
-	    (void)strcat(tmp1, tmp2);
-	    (void)sprintf(tmp2, "  Length=0x%x, Type = %s ? ",
-			  dbpts[b].len, dbpts[b].access ? "R/W" : "W/O");
-	    (void)strcat(tmp1, tmp2);
-	    if (getLine(tmp1, tmp2, sizeof tmp2) &&
-		(tmp2[0] == 'y' || tmp2[0] == 'd'))
-		dbpts[b].inuse = dbpts[b].loaded = NO;
-	}
-#endif
     dbptsSet = NO;
     for (b = 0; b < NDBPTS; b++)
 	if (dbpts[b].inuse)
