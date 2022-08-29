@@ -22,10 +22,15 @@
 
 SUBDIRS = fake-xterm
 
-AM_CPPFLAGS= $(X_CFLAGS) $(DWARF_CFLAGS) -I$(srcdir)/decoder \
-			 -I$(srcdir)/encoder -I$(top_builddir)/src/encoder \
-			 -I$(top_builddir)/src/decoder $(GSKI_CFLAGS) \
-			 -DSKI_DATA_DIR=\"$(pkgdatadir)\"
+AM_CPPFLAGS = \
+	$(X_CFLAGS) \
+	$(DWARF_CFLAGS) \
+	-I$(srcdir)/decoder \
+	-I$(srcdir)/encoder \
+	-I$(top_builddir)/src/encoder \
+	-I$(top_builddir)/src/decoder \
+	$(GSKI_CFLAGS) \
+	-DSKI_DATA_DIR=\"$(pkgdatadir)\"
 
 noinst_LTLIBRARIES = libdecoder.la libencoder.la libski.la
 
@@ -39,7 +44,7 @@ ENCODING_FILES = \
 	encodings/encoding.opcode \
 	encodings/encoding.unusedop
 
-noinst_SCRIPTS= \
+noinst_SCRIPTS = \
 	asm.awk \
 	das.awk \
 	mkfns.awk \
@@ -52,18 +57,22 @@ noinst_SCRIPTS= \
 	iadas_dec.sed \
 	ia_types.sed \
 	make_asm.sh \
+	\
 	decoder/instID.awk \
 	decoder/operands.awk \
+	\
 	encoder/formats.awk
 
-noinst_DATA= \
+noinst_DATA = \
 	execTbl \
 	$(ENCODING_FILES) \
 	Copyright \
+	\
 	decoder/operands.h_template \
+	\
 	encoder/formats.c_template
 
-COMBFNS_FILES= \
+COMBFNS_FILES = \
 	exec.c \
 	fp_exec.c \
 	mem_exec.c \
@@ -73,7 +82,8 @@ COMBFNS_FILES= \
 	write.c
 
 COMBFNS_DERIVED = \
-	combfns.gen.h combfns.gen.c
+	combfns.gen.c \
+	combfns.gen.h
 
 PREDECODE_DERIVED = \
 	predecode.gen.c \
