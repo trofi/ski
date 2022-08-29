@@ -50,9 +50,8 @@
 #define TLBSIZE  40
 
 #define MAXCMDLEN 100
-#if 0
-#define CUR_DEBUG
-#endif
+
+/* #define CUR_DEBUG */
 
 static WINDOW *regh, *regw, *prgw, *datw, *cmdh, *cmdw;
 static unsigned regwSize, prgwSize, datwSize;
@@ -224,9 +223,6 @@ void datwUpdateCur(void)
     wclrtobot(datw);
     mvwaddstr(datw, 1, 0, actDatw->bdfcn(datwSize));
     wrefresh(datw);
-#if 0
-    cmdwUpdateCur();
-#endif
 }
 
 void cmdwUpdateCur(void)
@@ -343,13 +339,9 @@ fflush(dbg);
 
     /* command header window */
     cmdh = newwin(1, COLS, regwSize+prgwSize+datwSize+1, 0);
-#if 0
-    cmdwSetStatusCur("");
-#else
     wstandout(cmdh);
     mvwprintw(cmdh, 0, 0, "%s%*s", "Command", (int)(COLS-strlen("Command")), ski_id);
     wstandend(cmdh);
-#endif
 }
 
 /*ARGSUSED*/
@@ -538,20 +530,6 @@ void cmdOutCur(const char *hdr, const char *buf)
     (void)fputs(buf, pd);
     pgst = pclose(pd);
 
-#if 0
-    touchwin(regw);
-    touchwin(prgw);
-    touchwin(datw);
-    touchwin(cmdw);
-#endif
-#if 0
-    werase(regh);
-    werase(regw);
-    werase(prgw);
-    werase(datw);
-    werase(cmdh);
-    werase(cmdw);
-#endif
     clear();
     refresh();
     touchwin(prgw);
