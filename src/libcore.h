@@ -472,20 +472,6 @@ void initAppState(int cproc);
 /* Sets the ABI to App-mode or Sys-mode */
 void setABI(BOOL val);
 
-/* Returns the number of B units in the template for the specified bundle */
-int brCnt(ADDR a);
-
-/* Returns the type of branch instruction if any at the specified address */
-BRTYPE brType(ADDR a);
-
-/* Returns the taken and fallthru addresses for an IP-relative branch at the
-   specified address */
-void brTargets(ADDR a, ADDR *taken, ADDR *fallthru);
-
-/* Returns whether the branch at the specified address will be taken and
-   the address of the next dynamic instruction */
-BOOL brTaken(ADDR a, ADDR *next);
-
 void initSysState(void);
 
 #if defined __cplusplus

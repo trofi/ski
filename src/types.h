@@ -39,9 +39,4 @@ typedef struct meminfo_s {
     struct meminfo_s *next;
 } *Meminfo_p;
 
-typedef enum {
-    BRT_NONE, BRT_IPRELJUMP, BRT_IPRELCALL, BRT_INDJUMP, BRT_INDCALL, BRT_RET,
-    BRT_INVALID
-} BRTYPE;
-
 #endif /* _SKI_TYPES_H_ */
