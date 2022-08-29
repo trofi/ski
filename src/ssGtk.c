@@ -563,11 +563,6 @@ void datwDrawGtk()
 	printf("*** datwDrawGtk()\n");
 }
 
-void scrnRedrawGtk(void)
-{
-	printf("*** scrnRedrawGtk()\n");
-}
-
 void scrnEndGtk(void)
 {
 	printf("*** scrnEndGtk()\n");

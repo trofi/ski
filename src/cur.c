@@ -513,7 +513,7 @@ void cmdwSetStatusCur(const char *msg)
     wrefresh(cmdh);
 }
 
-void scrnRedrawCur(void)
+static void scrnRedrawCur(void)
 {
     regwUpdateCur();
     prgwUpdateCur();

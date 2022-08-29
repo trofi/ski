@@ -1096,10 +1096,6 @@ void scrnEndX(void)
     /* Used by ssDCmd.c(cmdExit), ssDSD.c(ctrlz), ssErr.c(panic) */
 }
 
-void scrnRedrawX(void)
-{
-}
-
 static void listUpd(listWidget *wp, const char *hdr, const char *buf)
 {
     if (wp->hdr) {

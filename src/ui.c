@@ -1194,27 +1194,6 @@ void scrnInit(void)
     }
 }
 
-static void scrnRedraw(void)
-{
-    switch (interface) {
-	case X_INTERFACE:
-#ifdef HAVE_MOTIF
-	    scrnRedrawX();
-#endif
-	    break;
-	case CURSES_INTERFACE:
-	    scrnRedrawCur();
-	    break;
-        case GTK_INTERFACE:
-#ifdef HAVE_GTK
-	    scrnRedrawGtk();
-#endif
-	    break;
-	case BATCH:
-	    break;
-    }
-}
-
 void scrnUpdate(void)
 {
     regwUpdate();
