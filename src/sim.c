@@ -98,7 +98,7 @@ static BOOL cntlC = NO;
 CTR total_insts = 0, total_cycles = 0, total_faults = 0;
 unsigned int mips = 500;
 ExecutionMode executionMode;
-ADDR alarm_rp = ~0ULL;
+static ADDR alarm_rp = ~0ULL;
 extern CTR alarm_insts, alarm_interval;
 extern CTR prof_insts;
 extern ADDR sigHdlr;
@@ -860,17 +860,6 @@ Status iAiCycle(void)
         }
     }
     return st;
-}
-
-IAinstInfoPtr addrToIAcacheInfo(ADDR adr)
-{
-    ADDR pa;
-
-    if (dosABI)
-	pa = adr;
-    else if (!itlbMLookup(adr, PSR_IT, &pa))
-	return 0;
-    return 0;
 }
 
 void initSysState(void)
@@ -1896,9 +1885,9 @@ typedef struct {
     unsigned size  : 5;
 } alatEntry;
 #ifdef FIXED_ALAT
-alatEntry alat[N_ALAT_SETS][N_ALAT_ASSOC] = {0};
+static alatEntry alat[N_ALAT_SETS][N_ALAT_ASSOC] = {0};
 #else
-alatEntry *alat;
+static alatEntry *alat;
 #endif
 #ifdef ALAT_DEBUG
 FILE *alat_fp;

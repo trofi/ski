@@ -46,7 +46,6 @@
 
 static char instPtr(ADDR addr, char *dline);
 static IAinstInfoPtr addrToIAinfo(ADDR adr, BYTE iAmode, unsigned *nbytes);
-IAinstInfoPtr addrToIAcacheInfo(ADDR adr);
 char *getSrcLines(ADDR ofs, unsigned *count);
 ADDR iAinstAddr(ADDR baseAddr, BYTE iAmode, int delta);
 int isbpt(ADDR adr);
