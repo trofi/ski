@@ -2413,16 +2413,3 @@ BOOL brTaken(ADDR a, ADDR *next)
     }
     return tkn;
 }
-
-int instrID(ADDR a)
-{
-    BundlePtr b;
-    unsigned s;
-    DecodedInstr instr[SLOTS_PER_BUNDLE];
-
-    if (!(b = pxx(BADDR(a))))
-	return -1;
-    s = SLOT(a);
-    (void)bundle_decode(b, instr, 0);
-    return instr[s].instID;
-}
