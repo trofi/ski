@@ -31,6 +31,7 @@
 #include "libsym.h"
 #include "libsrs.h"
 #include "libcore.h"	/* for setDerivedState, and get*TlbInfo */
+#include "ski.h"
 #include "tlb.h"
 
 #define MENUTBLSIZ	200
@@ -193,10 +194,6 @@ BOOL itlbShow(unsigned argc, char *argv[]);
 /* stack.c */
 BOOL cmdStkTrc(unsigned argc, char *argv[]);
 #endif
-
-/* ski.c */
-BOOL runProg(unsigned argc, char *argv[]);
-BOOL stepProg(unsigned argc, char *argv[]);
 
 BOOL cstkDisplay(unsigned argc, char *argv[]);
 BOOL showLoadModules(unsigned argc, char *argv[]);

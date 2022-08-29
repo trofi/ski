@@ -31,4 +31,8 @@
 extern BOOL fileLoaded;
 extern BOOL keepXLoopAlive;
 
+void runIt(BOOL showIrate);
+BOOL runProg(unsigned argc, char *argv[]);
+BOOL stepProg(unsigned argc, char *argv[]);
+
 #endif	/* _SKI_SKI_H */

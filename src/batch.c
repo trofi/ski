@@ -25,7 +25,7 @@
 
 #include "std.h"
 #include "types.h"
-#include "ski.h"	/* just for fileLoaded */
+#include "ski.h"
 #include "ssDCmd.h"	/* just for exitSim() */
 #include "libcore.h"
 #define NPROC 1
@@ -33,8 +33,6 @@
 #include "data.h"
 
 BOOL bstats = NO;
-
-void runIt(BOOL);
 
 #ifdef TO_BE_USED
 tlbBatch()
