@@ -1069,8 +1069,7 @@ setStatReturn (REG *ret, REG *status)
     }
 }
 
-void
-cmsg_lia642host (struct lia64_msghdr *lia64_msghdr, struct msghdr *msghdr)
+static void cmsg_lia642host (struct lia64_msghdr *lia64_msghdr, struct msghdr *msghdr)
 {
   size_t nbytes, len = lia64_msghdr->msg_controllen, total = 0;
   struct cmsghdr *cmsghdr = msghdr->msg_control;
@@ -1119,8 +1118,7 @@ cmsg_lia642host (struct lia64_msghdr *lia64_msghdr, struct msghdr *msghdr)
   msghdr->msg_controllen = total;
 }
 
-void
-cmsg_host2lia64 (struct lia64_msghdr *lia64_msghdr, struct msghdr *msghdr)
+static void cmsg_host2lia64 (struct lia64_msghdr *lia64_msghdr, struct msghdr *msghdr)
 {
   size_t nbytes, len = msghdr->msg_controllen, total = 0;
   struct cmsghdr *cmsghdr = msghdr->msg_control;
