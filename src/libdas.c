@@ -205,18 +205,7 @@ static char *grName(char *grstr, unsigned reg)
 
 static char *ipRelStr(char *relstr, ADDR addr, DWORD val)
 {
-#if 0
-    (void)sprintf(relstr, "0x%llx", addr+val);
-#else
-#if 0
-    if ((long long)val < 0)
-	(void)sprintf(relstr, ".-0x%llx", -val);
-    else
-	(void)sprintf(relstr, ".+0x%llx", val);
-#else
     symAddrtoDefFunc(addr + val, relstr, 4, YES, -symLen);
-#endif
-#endif
     return relstr;
 }
 
@@ -330,12 +319,8 @@ static char *relocStr(char *relocstr, DasRelocationPtr reloc)
     case R_PLT:		/* XXX - what should this do? */
 #endif
     default:
-#if 0
-	(void)sprintf(relocstr, "*** unknown reloc 0x%x: %s + 0x%llx ***",
+	(void)sprintf(relocstr, "*** unknown reloc 0x%x: '%s + 0x%llx ***",
 		      reloc->type, name, addend);
-#else
-	(void)sprintf(relocstr, "*ur 0x%x*", reloc->type);
-#endif
 	break;
     }
     return relocstr;
