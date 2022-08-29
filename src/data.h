@@ -59,6 +59,4 @@ extern datStruct datInfo;
 #define datwLVA		(datInfo.perProc[cproc].lastVA)
 #define datOverlap	1
 
-char *datwLine(ADDR ofs);
-
 #endif	/* _SKI_DATA_H */

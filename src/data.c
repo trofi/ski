@@ -46,11 +46,13 @@
 /*##################### Globals - Exports ##################################*/
 
 datStruct datInfo;
-BOOL asciimode = NO, datwInHex = YES;
+static BOOL datwInHex = YES;
 #define BYT_P_WD 4
 #define BYT_P_DW 8
     /* BYT_P_xx is defined in ssDefs.h.  Change this if an equivalent
        define is found elsewhere or if ssDefs.h is included here */
+
+static char *datwLine(ADDR ofs);
 
 /*##################### Functions and Subroutines ##########################*/
 
