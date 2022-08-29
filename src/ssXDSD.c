@@ -73,9 +73,6 @@ typedef struct listWidget {
 
 /*##################### Local Variables ####################################*/
 
-#if 0
-static BOOL oldpswc, oldpswd;
-#endif
 static struct {
     short columns;
     struct {
@@ -89,131 +86,16 @@ static listWidget *listWidgets = NULL;
 
 /*##################### Functions and Subroutines ##########################*/
 
-#if 0
-static void regFmtChange(void);
-static void prgFmtChange(void);
-static void prgGotoChange(void);
-static void prgGoto(unsigned proc);
-static void datGoto(unsigned proc);
-#endif
 static void regwUpd(void);
 
 #define textAdd(w,s)	XmTextInsert(w, XmTextGetLastPosition(w), s)
 #define Mapped(w)	(w && XtIsManaged(w))
 
-#if 0
-
-static short textWidth(Widget w)
-{
-    Arg arg;
-    XmFontList list;
-    XmFontContext context;
-    XmFontListEntry entry;
-    XmFontType type;
-    XFontStruct *font;
-    short width;
-
-    XtSetArg(arg, XmNfontList, &list);
-    XtGetValues(w, &arg, 1);
-    (void)XmFontListInitFontContext(&context, list);
-    entry = XmFontListNextEntry(context);
-    font = XmFontListEntryGetFont(entry, &type);
-    width = font->max_bounds.width;
-    XmFontListFreeFontContext(context);
-    /* Free list? */
-    return width;
-}
-
-static Widget addOption(Widget w, char *name, Boolean state)
-{
-    Widget tb = XmCreateToggleButtonGadget(w, name, NULL, 0);
-
-    /* menuHistory is not initialized correctly? */
-    if (state) {
-	Arg arg;
-
-	XtSetArg(arg, XmNmenuHistory, tb);
-	XtSetValues(w, &arg, 1);
-	XmToggleButtonGadgetSetState(tb, True, False);
-    }
-    XtManageChild(tb);
-    return tb;
-}
-
-static Widget oneOfMany(Widget w, char *labelname, char *choicename)
-{
-    Widget choice = XmCreateRadioBox(w, choicename, NULL, 0);
-
-    XtManageChild(choice);
-    XtManageChild(XmCreateLabel(w, labelname, NULL, 0));
-    return choice;
-}
-
-static void addDialogButton(Widget w, char *name,
-			    XtCallbackProc cb, XtPointer call_data)
-{
-    Widget btn = XmCreatePushButtonGadget(w, name, NULL, 0);
-
-    XtManageChild(btn);
-    XtAddCallback(btn, XmNactivateCallback, cb, call_data);
-}
-
-/*ARGSUSED*/
-static void okCB(Widget w, XtPointer client_data, XtPointer call_data)
-{
-    Widget dialog = (Widget)client_data;
-
-    if (!strcmp(XtName(dialog), "pwConf"))
-	prgFmtChange();
-    else if (!strcmp(XtName(dialog), "pwGoto"))
-	prgGotoChange();
-    else if (!strcmp(XtName(dialog), "rwConf"))
-	regFmtChange();
-    XtUnmanageChild(dialog);
-}
-
-/*ARGSUSED*/
-static void applyCB(Widget w, XtPointer client_data, XtPointer call_data)
-{
-    Widget dialog = (Widget)client_data;
-
-    if (!strcmp(XtName(dialog), "pwConf"))
-	prgFmtChange();
-    else if (!strcmp(XtName(dialog), "pwGoto"))
-	prgGotoChange();
-    else if (!strcmp(XtName(dialog), "rwConf"))
-	regFmtChange();
-}
-#endif
-
 /*ARGSUSED*/
 static void gotoCB(Widget w, XtPointer client_data, XtPointer call_data)
 {
-#if 0
-/* Comment out until 'goto' functionality is implemented */
-    unsigned proc = (unsigned)client_data;
-    Widget text;
-
-    if (!strcmp(XtName(XtParent(w)), "prgwRC")) {
-	text = prgInfo.perProc[proc].text;
-	prgGoto(proc);
-    } else {
-	text = datInfo.perProc[proc].text;
-	datGoto(proc);
-    }
-    (void)XmProcessTraversal(text, XmTRAVERSE_CURRENT);
-#else
     printf("In gotoCB\n");
-#endif
 }
-
-#if 0
-/*ARGSUSED*/
-static void cancelCB(Widget w, XtPointer client_data, XtPointer call_data)
-{
-    XtUnmanageChild((Widget)client_data);
-}
-#endif
 
 /*ARGSUSED*/
 static void datwCloseCB(Widget w, XtPointer client_data, XtPointer call_data)
@@ -240,30 +122,6 @@ static void helpCB(Widget w, XtPointer client_data, XtPointer call_data)
     (void)XmProcessTraversal((Widget)client_data, XmTRAVERSE_CURRENT);
 }
 
-#if 0
-
-static void setLabel(Widget w, char *str)
-{
-    XmString s;
-    Arg arg;
-
-    s = XmStringCreateLocalized(str);
-    XtSetArg(arg, XmNlabelString, s);
-    XtSetValues(w, &arg, 1);
-    XmStringFree(s);
-}
-
-static char *bin8(BYTE b)
-{
-    static char s[9] = "00000000";
-    int i;
-
-    for (i = 0; i < 8; i++)
-	s[i] = '0' + ((b >> (7-i)) & 1);
-    return s;
-}
-#endif
-
 /****************************/
 /* Register Window Routines */
 /****************************/
@@ -277,63 +135,6 @@ void regwInit(void)
     for (proc = 0; proc < nproc; proc++)
 	regInfo.perProc[proc].form = NULL;
 }
-
-#if 0
-
-static void regFmtChange(void)
-{
-/* Note that I commented out the enabling/disabling of 'resizeWidth'
-   from regwUpd.  Maybe I have to enable resizing here to allow the
-   window to change size as part of the format change. */
-    Cardinal numChildren;
-    WidgetList children;
-    Arg args[10];
-    int i, n = 0;
-
-    XtSetArg(args[n], XmNnumChildren, &numChildren);	n++;
-    XtSetArg(args[n], XmNchildren, &children);		n++;
-    XtGetValues(regInfo.toggles, args, n);
-    for (i = 0; i < numChildren; i++) {
-	Boolean state = XmToggleButtonGadgetGetState(children[i]);
-	char *name = XtName(children[i]);
-
-	if (!strcmp(name, "grs"))
-	    regInfo.showGrs = state;
-	else if (!strcmp(name, "crs"))
-	    regInfo.showUrs = state;
-	else if (!strcmp(name, "shrs"))
-	    regInfo.showShrs = state;
-	else if (!strcmp(name, "frs"))
-	    regInfo.showFrs = state;
-    }
-    regwUpdate();
-}
-
-/*ARGSUSED*/
-void regFmtCallback(Widget w, XtPointer client_data, XtPointer call_data)
-{
-    static Widget rwConf = NULL;
-
-    if (!rwConf) {
-	Widget btns, toggles;
-
-	rwConf = XmCreateFormDialog(cmd, "rwConf", NULL, 0);
-	XtManageChild(btns = XmCreateRowColumn(rwConf, "rwConfRC", NULL, 0));
-	XtManageChild(XmCreateSeparatorGadget(rwConf, "rwConfS", NULL, 0));
-	XtManageChild(toggles = XmCreateRowColumn(rwConf, "rwConfT", NULL, 0));
-	(void)addOption(toggles, "urs", regInfo.showUrs);
-	(void)addOption(toggles, "grs", regInfo.showGrs);
-	(void)addOption(toggles, "frs", regInfo.showFrs);
-	(void)addOption(toggles, "srs", regInfo.showSrs);
-	regInfo.toggles = toggles;
-	addDialogButton(btns, "ok", okCB, rwConf);
-	addDialogButton(btns, "apply", applyCB, rwConf);
-	addDialogButton(btns, "cancel", cancelCB, rwConf);
-	addDialogButton(btns, "help", helpCB, rwConf);
-    }
-    XtManageChild(rwConf);
-}
-#endif
 
 /*--------------------------------------------------------------------------
  * registerWindow$Upd - Update the contents of the passed register window.
@@ -400,28 +201,6 @@ void regwDrawX(void)
 	    XtSetArg(args[n], XmNautoShowCursorPosition, False);	n++;
 	    XtSetArg(args[n], XmNcursorPositionVisible, False);		n++;
 	    rwr = XmCreateScrolledText(pane, tmpstr, args, n);
-#if 0
-/* Get current number of rows as set by user/resources, set rows to size,
-   set paneMaximum to current pane size, restore number of rows
- */
-	    {
-	    short rows;
-	    Dimension paneHt;
-
-	    XtSetArg(args[0], XmNrows, &rows);
-	    XtGetValues(rwr, args, 1);
-printf("rows: %d; size: %d\n", (int)rows, (int)size);
-	    XtSetArg(args[0], XmNrows, (short)size);
-	    XtSetValues(rwr, args, 1);
-	    XtSetArg(args[0], XmNheight, &paneHt);
-	    XtGetValues(XtParent(rwr), args, 1);
-printf("max paneHt: %d\n", (int)paneHt);
-	    XtSetArg(args[0], XmNpaneMaximum, paneHt);
-	    XtSetValues(XtParent(rwr), args, 1);
-	    XtSetArg(args[0], XmNrows, rows);
-	    XtSetValues(rwr, args, 1);
-	    }
-#endif
 	    regInfo.perProc[cproc].rw[i] = rwr;
 	}
 	XtManageChild(closeW = XmCreatePushButtonGadget(rc, "close", NULL, 0));
@@ -472,153 +251,6 @@ void prgwInit(void)
     prgInfo.columns = 88;
 }
 
-#if 0
-
-static void prgFmtChange(void)
-{
-    Widget which;
-    short pos, cols = 2;
-    Arg arg;
-    unsigned proc;
-
-    XtSetArg(arg, XmNmenuHistory, &which);
-    XtGetValues(prgInfo.iofsFmt, &arg, 1);
-    XtSetArg(arg, XmNpositionIndex, &pos);
-    XtGetValues(which, &arg, 1);
-#if 0
-    printf("iofs pos = %d\n", (int)pos);
-#endif
-    switch (pos) {
-	case 0:	/* hex */
-	    prgInfo.iofsHex = YES;
-	    prgInfo.iofsSymWidth = 0;
-	    break;
-	case 1:	/* sym */
-	    prgInfo.iofsHex = NO;
-	    prgInfo.iofsSymWidth = 13;
-	    break;
-	case 2:	/* both */
-	    prgInfo.iofsHex = YES;
-	    prgInfo.iofsSymWidth = 13;
-	    break;
-    }
-    XtSetArg(arg, XmNmenuHistory, &which);
-    XtGetValues(prgInfo.instFmt, &arg, 1);
-    XtSetArg(arg, XmNpositionIndex, &pos);
-    XtGetValues(which, &arg, 1);
-#if 0
-    printf("inst pos = %d\n", (int)pos);
-#endif
-    switch (pos) {
-	case 0:	/* hex */
-	    prgInfo.instHex = YES;
-	    prgInfo.instSymWidth = 0;
-	    break;
-	case 1:	/* sym */
-	    prgInfo.instHex = NO;
-	    prgInfo.instSymWidth = 45;
-	    break;
-	case 2:	/* both */
-	    prgInfo.instHex = YES;
-	    prgInfo.instSymWidth = 45;
-	    break;
-    }
-    if (prgInfo.iofsHex)
-	cols += 17;
-    if (prgInfo.iofsSymWidth)
-	cols += prgInfo.iofsSymWidth + 1;
-    if (prgInfo.instHex)
-	cols += 9;
-    if (prgInfo.instSymWidth)
-	cols += prgInfo.instSymWidth + 1;
-    XtSetArg(arg, XmNcolumns, cols);
-    for (proc = 0; proc < nproc; proc++)
-	if (prgInfo.perProc[proc].form)
-	    XtSetValues(prgInfo.perProc[proc].text, &arg, 1);
-    prgwUpdateX();
-}
-
-/*ARGSUSED*/
-void prgFmtCallback(Widget w, XtPointer client_data, XtPointer call_data)
-{
-    static Widget pwConf = NULL;
-
-    if (!pwConf) {
-	Widget btns;
-
-	pwConf = XmCreateFormDialog(cmd, "pwConf", NULL, 0);
-	XtManageChild(btns = XmCreateRowColumn(pwConf, "pwConfRC", NULL, 0));
-	XtManageChild(XmCreateSeparatorGadget(pwConf, "pwConfS", NULL, 0));
-	prgInfo.instFmt = oneOfMany(pwConf, "inst", "instrb");
-	(void)addOption(prgInfo.instFmt, "insthex", False);
-	(void)addOption(prgInfo.instFmt, "instsym", False);
-	(void)addOption(prgInfo.instFmt, "instboth", True);
-	prgInfo.iofsFmt = oneOfMany(pwConf, "iofs", "iofsrb");
-	(void)addOption(prgInfo.iofsFmt, "iofshex", False);
-	(void)addOption(prgInfo.iofsFmt, "iofssym", False);
-	(void)addOption(prgInfo.iofsFmt, "iofsboth", True);
-	addDialogButton(btns, "ok", okCB, pwConf);
-	addDialogButton(btns, "apply", applyCB, pwConf);
-	addDialogButton(btns, "cancel", cancelCB, pwConf);
-	addDialogButton(btns, "help", helpCB, pwConf);
-    }
-    XtManageChild(pwConf);
-}
-
-static void virtToggled(Widget w, XtPointer client_data, XtPointer call_data)
-{
-    unsigned proc = (unsigned)client_data;
-    Boolean state = XmToggleButtonGadgetGetState(w);
-
-    XtSetSensitive(prgInfo.perProc[proc].gotoST, state);
-    XtSetSensitive(prgInfo.perProc[proc].gotoSL, state);
-}
-
-static void prgGoto(unsigned proc)
-{
-    static Widget pwGoto[NPROC] = {NULL};
-
-    if (!pwGoto[proc]) {
-	Widget jump, btns, rb, virt;
-
-	jump = XmCreateFormDialog(cmd, "pwGoto", NULL, 0);
-	XtManageChild(btns = XmCreateRowColumn(jump, "pwGotoRC", NULL, 0));
-	XtManageChild(XmCreateSeparatorGadget(jump, "pwGotoS", NULL, 0));
-	XtManageChild(prgInfo.perProc[cproc].gotoOT =
-		      XmCreateTextField(jump, "pwOffset", NULL, 0));
-	XtManageChild(XmCreateLabelGadget(jump, "pwOffsetL", NULL, 0));
-	XtManageChild(prgInfo.perProc[cproc].gotoST =
-		      XmCreateTextField(jump, "pwSpace", NULL, 0));
-	XtManageChild(prgInfo.perProc[cproc].gotoSL =
-		      XmCreateLabelGadget(jump, "pwSpaceL", NULL, 0));
-	XtManageChild(rb = XmCreateRadioBox(jump, "pwAddr", NULL, 0));
-	(void)addOption(rb, "real", !PswC());
-	virt = addOption(rb, "virtual", PswC());
-	XtAddCallback(virt, XmNvalueChangedCallback,
-		      virtToggled, (XtPointer)cproc);
-	addDialogButton(btns, "ok", okCB, jump);
-	addDialogButton(btns, "apply", applyCB, jump);
-	addDialogButton(btns, "cancel", cancelCB, jump);
-	addDialogButton(btns, "help", helpCB, jump);
-	pwGoto[proc] = jump;
-    }
-    XtManageChild(pwGoto[proc]);
-}
-
-static void prgGotoChange(void)
-{
-    char s[100], *space, *offset;
-
-    offset = XmTextFieldGetString(prgInfo.perProc[0].gotoOT);
-    if (XtIsSensitive(prgInfo.perProc[0].gotoSL) &&
-	(space = XmTextFieldGetString(prgInfo.perProc[0].gotoST))[0]) {
-	(void)sprintf(s, "pj %s.%s\n", space, offset);
-    } else
-	(void)sprintf(s, "pj %s\n", offset);
-    cmdExLin(s);
-}
-#endif
-
 /*ARGSUSED*/
 void pwResize(Widget w, XEvent *event,
 	      String *params, Cardinal *num_params)
@@ -628,9 +260,6 @@ void pwResize(Widget w, XEvent *event,
 
     XtSetArg(arg, XmNrows, &rows);
     XtGetValues(w, &arg, 1);
-#if 0
-    printf("In pwResize, rows = %d\n", (int)rows);
-#endif
     if (prgInfo.perProc[0].rows != rows) {
 	prgInfo.perProc[0].rows = rows;
 	prgwDrawX();
@@ -672,11 +301,6 @@ static void prgwUpd(unsigned proc, ADDR adr)
     /* I thought the Disable call above would have effectively set the
        resizeWidth to False, but it didn't seem to do anything.  Should I
        try to get the current value and restore it? */
-#if 0
-/* XXX - Try to solve the automatic resize problem. */
-    XtSetArg(arg, XmNresizeWidth, False);
-    XtSetValues(pwt, &arg, 1);
-#endif
     XmTextSetString(pwt, "");
     if (prgwIS) {	/* iA */
 	for (prgwTop = adr, i = 0; i < prgRows; i++, adr += nbytes) {
@@ -732,17 +356,6 @@ static void prgwUpd(unsigned proc, ADDR adr)
     XtSetValues(pwh, &arg, 1);
     XmStringFree(s);
     prgCmd = PrgUseTop;
-#if 0
-    for (i = 0; i < prgRows; i++, adr += 32) {
-	textAdd(pwt, prgwLine(adr));
-	textAdd(pwt, "\n");
-    }
-#endif
-#if 0
-/* XXX - Try to solve the automatic resize problem */
-    XtSetArg(arg, XmNresizeWidth, True);
-    XtSetValues(pwt, &arg, 1);
-#endif
     XmTextEnableRedisplay(pwt);
 }
 
@@ -766,10 +379,6 @@ void prgwDrawX(void)
 	XtAddCallback(closeW, XmNactivateCallback, closeCB, pw);
 	XtAddCallback(jump, XmNactivateCallback, gotoCB, (XtPointer)(uintptr_t)cproc);
 	XtAddCallback(helpW, XmNactivateCallback, helpCB, pwt);
-#if 0
-	XtAddEventHandler(pwt, StructureNotifyMask, False,
-			  pwResize, (XtPointer)cproc);
-#endif
 	XtSetArg(arg, XmNinitialFocus, pwt);
 	XtSetValues(pw, &arg, 1);
 
@@ -778,9 +387,6 @@ void prgwDrawX(void)
 	prgRows = rows;
 	XtSetArg(arg, XmNcolumns, prgColumns);
 	XtSetValues(pwt, &arg, 1);
-#if 0
-	printf("PW Text char width = %d\n", (int)textWidth(pwt));
-#endif
 	prgInfo.perProc[cproc].form = pw;
 	prgInfo.perProc[cproc].hdr  = pwh;
 	prgInfo.perProc[cproc].text = pwt;
@@ -826,47 +432,6 @@ void datwInit(void)
     datInfo.expr[0] = '\0';
 }
 
-#if 0
-/*ARGSUSED*/
-void datFmtCallback(Widget w, XtPointer client_data, XtPointer call_data)
-{
-    static Widget dwConf = NULL;
-
-    if (!dwConf) {
-	Widget btns;
-
-	dwConf = XmCreateFormDialog(cmd, "dwConf", NULL, 0);
-	XtManageChild(btns = XmCreateRowColumn(dwConf, "dwConfRC", NULL, 0));
-	XtManageChild(XmCreateSeparatorGadget(dwConf, "dwConfS", NULL, 0));
-#if 0
-	datInfo.instFmt = oneOfMany(dwConf, "inst", "instrb");
-	(void)addOption(datInfo.instFmt, "insthex", False);
-	(void)addOption(datInfo.instFmt, "instsym", False);
-	(void)addOption(datInfo.instFmt, "instboth", True);
-	datInfo.iofsFmt = oneOfMany(dwConf, "iofs", "iofsrb");
-	(void)addOption(datInfo.iofsFmt, "iofshex", False);
-	(void)addOption(datInfo.iofsFmt, "iofssym", False);
-	(void)addOption(datInfo.iofsFmt, "iofsboth", True);
-	addDialogButton(btns, "ok", okCB, dwConf);
-	addDialogButton(btns, "apply", applyCB, 0);
-	addDialogButton(btns, "cancel", cancelCB, dwConf);
-	addDialogButton(btns, "help", helpCB, dwConf);
-#endif
-    }
-    XtManageChild(dwConf);
-}
-
-static void datGoto(unsigned proc)
-{
-    static Widget dwGoto[NPROC] = {NULL};
-
-    if (!dwGoto[proc]) {
-	dwGoto[proc] = XmCreateFormDialog(cmd, "dwGoto", NULL, 0);
-    }
-    XtManageChild(dwGoto[proc]);
-}
-#endif
-
 /*ARGSUSED*/
 void dwResize(Widget w, XEvent *event,
 	      String *params, Cardinal *num_params)
@@ -876,9 +441,6 @@ void dwResize(Widget w, XEvent *event,
 
     XtSetArg(arg, XmNrows, &rows);
     XtGetValues(w, &arg, 1);
-#if 0
-    printf("In dwResize, rows = %d\n", (int)rows);
-#endif
     if (datInfo.perProc[0].rows != rows) {
 	datInfo.perProc[0].rows = rows;
 	/* XXX - which data window was resized? */
@@ -900,30 +462,11 @@ static void datwUpd(unsigned proc, unsigned inx)
     if (!datwtbl[inx].show)
 	return;
 
-#if 0
-/* Assume only real mode is available */
-    if (oldpswd != PswD()) {
-	if (oldpswd = PswD()) {
-	    char temp[32];
-
-	    (void)strcpy(hdr, "Data (Space: ");
-	    (void)sprintf(temp, spaceFmt1, 0);
-	    (void)strcat(hdr, temp);
-	    (void)strcat(hdr, ")\n");
-	} else
-	    (void)strcpy(hdr, "Data (Real mode)              ");
-	s = XmStringCreateLocalized(hdr);
-	XtSetArg(arg, XmNlabelString, s);
-	XtSetValues(dwh, &arg, 1);
-	XmStringFree(s);
-    }
-#else
-	    (void)strcpy(hdr, "Data");
-	s = XmStringCreateLocalized(hdr);
-	XtSetArg(arg, XmNlabelString, s);
-	XtSetValues(dwh, &arg, 1);
-	XmStringFree(s);
-#endif
+    (void)strcpy(hdr, "Data");
+    s = XmStringCreateLocalized(hdr);
+    XtSetArg(arg, XmNlabelString, s);
+    XtSetValues(dwh, &arg, 1);
+    XmStringFree(s);
     XmTextDisableRedisplay(dwt);
     XtSetArg(arg, XmNresizeWidth, False);
     XtSetValues(dwt, &arg, 1);
@@ -977,27 +520,16 @@ void datwDrawX(void)
 	    XtAddCallback(closeW, XmNactivateCallback, datwCloseCB, dw);
 	    XtAddCallback(jump, XmNactivateCallback, gotoCB, (XtPointer)(uintptr_t)cproc);
 	    XtAddCallback(helpW, XmNactivateCallback, helpCB, dwt);
-#if 0
-	    XtAddEventHandler(dwt, StructureNotifyMask, False,
-			  dwResize, (XtPointer)cproc);
-#endif
 	    XtSetArg(arg, XmNinitialFocus, dwt);
 	    XtSetValues(dw, &arg, 1);
 	    XtSetArg(arg, XmNrows, &rows);
 	    XtGetValues(dwt, &arg, 1);
 	    datwtbl[i].size = rows;
-#if 0 /* XXX - not needed? */
-	    datRows = rows;
-#endif
 	    XtSetArg(arg, XmNcolumns, i ? 80 : datColumns);
 	    XtSetValues(dwt, &arg, 1);
 	    datInfo.perProc[cproc].form[i] = dw;
 	    datInfo.perProc[cproc].hdr[i]  = dwh;
 	    datInfo.perProc[cproc].text[i] = dwt;
-#if 0
-/* Assume always in Real Mode */
-	    oldpswd = !PswD();
-#endif
 	}
 	datwUpd(cproc, i);
     }
@@ -1012,9 +544,6 @@ void datwUpdateX(void)
     unsigned proc, i;
 
     for (proc = 0; proc < nproc; proc++)
-#if 0
-	if (Mapped(datInfo.perProc[proc].form))
-#endif
 	for (i = 0; i < topdatw; i++)
 	    datwUpd(proc, i);
 }
@@ -1034,25 +563,6 @@ void cmdwUpdateX(void)
     /* In tty version, sets cproc, implementation, and version info */
     /* Called only by cmdwInit and valAssign (= cproc) */
 }
-
-#if 0
-void cmdwPrintX(const char *s)
-{
-    /* Used for warnings, errors, messages, and command/arg prompts */
-
-    if (noscreen) {
-	(void)fputs(s, stdout);
-	(void)fflush(stdout);
-    } else {
-	XmString xms = XmStringCreateLocalized(s);
-
-	/* Delete trailing \n -- should caller be adding the \n anyway? */
-	s[strlen(s)] = '\0';
-	XmCommandError(cmd, xms);
-	XmStringFree(xms);
-    }
-}
-#endif
 
 void msgwPrintX(const char *s)
 {
