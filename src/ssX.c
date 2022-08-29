@@ -69,7 +69,7 @@ extern BOOL noscreen;
 void prgFmtCallback(CALLBACK_ARGS);
 void datFmtCallback(CALLBACK_ARGS);
 void regFmtCallback(CALLBACK_ARGS);
-void cmdHelpCallback(CALLBACK_ARGS);
+static void cmdHelpCallback(CALLBACK_ARGS);
 static void prodInfoCallback(CALLBACK_ARGS);
 
 /*##################### Globals - Exports ##################################*/
@@ -118,7 +118,8 @@ static XrmOptionDescRec options[FIXED_OPTIONS + 2*2*WINTBLSIZ] = {
 static unsigned topopts = FIXED_OPTIONS;
 
 static Display *dpy;
-/*static*/ Widget cmd, cmdHist, msgs;
+Widget cmd, msgs;
+static Widget cmdHist;
 
 static void addRegwRsrcOpts(void);
 static void addDatwRsrcOpts(void);
