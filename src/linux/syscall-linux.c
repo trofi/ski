@@ -514,7 +514,7 @@ CTR prof_insts = ~0ULL;
 static CTR prof_interval;
 static DWORD prof_mask, prof_maxcnt;
 
-DWORD pending_signals;
+static DWORD pending_signals;
 DWORD masked_signals;
 static int num_inservice;
 
