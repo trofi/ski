@@ -122,7 +122,7 @@ static struct {
 } tracebuf[1024*1024];
 #endif /* TRACE_DAVIDM */
 
-BOOL icntEnb = NO;
+static BOOL icntEnb = NO;
 
 #if !defined __linux__
 static unsigned traceSve;	/* For timer interrupt support */
