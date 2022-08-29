@@ -19,9 +19,9 @@
 ##
 ##
 
-AC_PREREQ(2.70)
+AC_PREREQ([2.70])
 
-AC_INIT([ski],[1.4.0],[slyich@gmail.com], [ski], [https://github.com/trofi/ski])
+AC_INIT([ski],[1.4.0],[slyich@gmail.com],[ski],[https://github.com/trofi/ski])
 AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE([foreign subdir-objects dist-xz dist-lzip no-dist-gzip])
 AM_SILENT_RULES([yes])
