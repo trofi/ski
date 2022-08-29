@@ -45,7 +45,6 @@
 /* Globals */
 
 extern unsigned traceEnb;
-extern unsigned traceMode;
 extern FILE *tracef;
 extern unsigned trc_flags;
 

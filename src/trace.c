@@ -38,8 +38,6 @@
 /*##################### Globals - Exports ##################################*/
 
 unsigned traceEnb = NO;	/* trace output enable/disable flag */
-unsigned traceMode = NO;/* trace mode (trace input) enable/disable flag */
-    /* Changed type from BOOL to unsigned to allow its use in FM.h */
 FILE *tracef = NULL;	/* trace output file pointer */
 
 unsigned trc_flags = 1;	/* indicates which records to write and whether to
