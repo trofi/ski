@@ -27,6 +27,7 @@
 #include "types.h"
 #include "exportui.h"
 #include "platform.h"
+#include "sim.h"
 #include "state.h"
 
 extern BOOL autoAlloc, noConsole;
@@ -80,7 +81,6 @@ static unsigned cursor_state = 0, newpos = 0;
 #endif
 
 extern WORD pciBar[];
-extern void alatInit(void);
 
 static int sbaRead(unsigned offset, REG *data)
 {

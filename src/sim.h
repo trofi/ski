@@ -193,6 +193,7 @@ extern ExecutionMode executionMode;
 extern CTR total_insts, total_cycles, total_faults;
 extern unsigned int mips;
 
+void alatInit(void);
 BOOL brCall(ADDR a);
 ICNTS getICnts(unsigned i);
 Status iCycleApp(void);
