@@ -862,6 +862,17 @@ Status iAiCycle(void)
     return st;
 }
 
+static IAinstInfoPtr addrToIAcacheInfo(ADDR adr)
+{
+    ADDR pa;
+
+    if (dosABI)
+       pa = adr;
+    else if (!itlbMLookup(adr, PSR_IT, &pa))
+       return 0;
+    return 0;
+}
+
 void initSysState(void)
 {
    
