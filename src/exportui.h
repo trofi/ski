@@ -147,9 +147,6 @@ BOOL argIns(char *name, void *var, ARG kind, char *iface, char *descr);
     (retval)		was the cmd line option inserted in the table?
  */
 
-/* return -1 for unrecognized option, 0 for BOOL option, 1 for the rest */
-extern int lookupOption(char *argname, char *argval);
-
 /* return index of first argument after options or -1 on failure */
 extern int parseOptions(int argc, char *argv[]);
 

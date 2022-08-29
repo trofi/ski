@@ -626,7 +626,7 @@ RstStat restoreSimState(FILE *f, char *name)
  *  Command line option processing   *
  *************************************/
 
-unsigned topargs;
+static unsigned topargs;
 
 typedef struct {
     char name[NAMLEN];
@@ -636,7 +636,7 @@ typedef struct {
     char descr[TITLESIZ];
 } Args;
 
-Args args[ARGSIZ];
+static Args args[ARGSIZ];
 
 BOOL argIns(char *name, void *var, ARG kind, char *iface, char *descr)
 {
@@ -675,7 +675,7 @@ BOOL argIns(char *name, void *var, ARG kind, char *iface, char *descr)
 }
 
 /* return -1 for unrecognized option, 0 for BOOL option, 1 for the rest */
-int lookupOption(char *argname, char *argval)
+static int lookupOption(char *argname, char *argval)
 {
     char ch;
     unsigned i;
