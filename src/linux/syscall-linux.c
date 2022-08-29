@@ -523,7 +523,7 @@ static ADDR fault_ip[64];
 static unsigned irptTop = 0;
 static int fdmap[FDMAX];
 static int backmap[FDMAX];	/* valid during select only!! */
-struct {
+static struct {
     char *name;
     int oflag;
     mode_t mode;

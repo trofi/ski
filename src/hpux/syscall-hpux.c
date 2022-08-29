@@ -276,7 +276,7 @@ static struct {
 #else
 static int fdmap[FDMAX] = {0, 1, 2};
 #endif
-struct {
+static struct {
     char *name;
     int oflag;
     mode_t mode;
