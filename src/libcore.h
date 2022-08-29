@@ -415,9 +415,6 @@ void traceDisc(void);
 /* Sets the virtual cycle counter for tracing (only if tracing enabled) */
 void traceVcyEnb(void);
 
-/* Currently unused */
-void setUserMode(BOOL user_mode);
-
 /* Gets the execution message */
 char *getExecMsg(void);
 

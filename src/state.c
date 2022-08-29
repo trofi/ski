@@ -1143,17 +1143,6 @@ void heapSet(int proc, ADDR adr)
 #endif
 }
 
-void setUserMode(BOOL user_mode)
-{
-    if (user_mode) {
-	/* insert user-mode-specific symbols: $heap$, etc. */
-	;
-    } else {
-	/* insert system-mode-specific symbols: CRs, etc. */
-	;
-    }
-}
-
 void getGrMapInfo(char buf[])
 {
     int i;
