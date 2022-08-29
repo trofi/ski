@@ -62,11 +62,6 @@ unsigned key_len = 24;	/* Merced: 21 */
 
 /*##################### Local Variables ####################################*/
 
-#if 0
-static unsigned dtcSMsk = NDTCS - 1;
-static unsigned itcSMsk = NITCS - 1;
-#endif
-
 #ifndef NEW_MP
 /* XXX - Non-static for random code generators */
 static TlbEntry dtrs[NDTRS], itrs[NITRS];
