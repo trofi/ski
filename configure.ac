@@ -74,8 +74,7 @@ AM_MAINTAINER_MODE
 dnl See if we build X11
 AC_ARG_WITH([x11],
   AS_HELP_STRING([--with-x11],
-    [Enable the Motif based X11 interface default=no]),
-    [with_x11=$withval])
+    [Enable the Motif based X11 interface default=no]))
 
 AS_IF([test "x$with_x11" = "xyes"],[AC_WITH_MOTIF])
 
@@ -86,9 +85,7 @@ AC_SUBST(X_INTERFACE_LIBS)
 dnl See if we build GTK
 AC_ARG_WITH([gtk],
   AS_HELP_STRING([--with-gtk],
-    [Enable building the GTK Ski interface default=no]),
-    [with_gtk=$withval]
-)
+    [Enable building the GTK Ski interface default=no]))
 
 AS_IF([test "x$with_gtk" = "xyes"], [
  PKG_CHECK_MODULES([GSKI], [libglade-2.0 libgnomeui-2.0 >= 1.110.0])
