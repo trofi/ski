@@ -58,12 +58,7 @@
 
 /*##################### Globals - Imports ##################################*/
 
-#if 0
-extern	BOOL	statsOnly, noscreen;
-extern	ADDR	progStart, dataStart;
-#else
 extern	ADDR	dataStart;
-#endif
 extern	BOOL	userint;
 
 /*##################### Globals - Exports ##################################*/

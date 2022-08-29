@@ -58,19 +58,12 @@
 
 extern Widget	cmd, msgs;
 
-extern ADDR	progStart, dataStart;
+extern ADDR	dataStart;
 ADDR iAinstAddr(ADDR baseAddr, BYTE iAmode, int delta);
-
-#if 0
-/*##################### Globals - Exports ##################################*/
-
-int scrn_lines;		/* Used by menu.c, ssCch.c, ssVAT.c */
-int scrn_columns;	/* Used by ssVAT.c */
-#endif
 
 BOOL noscreen = YES;
 
-ADDR progStart = 0;
+static ADDR progStart = 0;
 
 typedef struct listWidget {
     char name[40];
