@@ -33,6 +33,7 @@
 #include "libcore.h"	/* for setDerivedState, and get*TlbInfo */
 #include "ski.h"
 #include "tlb.h"
+#include "traceui.h"
 
 #define MENUTBLSIZ	200
 
@@ -174,10 +175,6 @@ BOOL cmdISymLst(unsigned argc, char *argv[]);
 BOOL cmdSymDef(unsigned argc, char *argv[]);
 #endif
 static BOOL cmdSDel(unsigned argc, char *argv[]);
-
-/* trace.c */
-BOOL traceFile(unsigned argc, char *argv[]);
-BOOL traceGen(unsigned argc, char *argv[]);
 
 #if 0
 /* ssIO.c */

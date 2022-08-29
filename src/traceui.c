@@ -24,6 +24,9 @@
 /*##################### Header and Constant Definitions ####################*/
 
 #include <fcntl.h>	/* for fcntl */
+
+#include "traceui.h"
+
 #include "std.h"
 #include "types.h"
 #ifndef NEW_MP

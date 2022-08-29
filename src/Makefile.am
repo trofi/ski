@@ -258,6 +258,7 @@ libski_la_SOURCES= \
 	ssDSym.c \
 	ssDPrs.c \
 	traceui.c \
+	traceui.h \
 	ia_das.c \
 	ui.c \
 	batch.c \
