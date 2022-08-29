@@ -53,9 +53,6 @@ char *src_root;		/* hold the prefix for all filenames */
 
 extern PrgwMode prgwm;
 
-ADDR text_base, unwind_base;
-
-
 struct line_info
   {
     bfd_vma address;
