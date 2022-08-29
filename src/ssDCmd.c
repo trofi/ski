@@ -49,13 +49,6 @@
 #define MAXFILEDEPTH	16
 #define MAXCMDLEN	4000
 
-#if 0
-#include "ssDefs.h"
-#include "mp.h"
-#include "ssReg.h"
-#include "program.h"
-#endif
-
 /*##################### Globals - Imports ##################################*/
 
 extern	ADDR	dataStart;
@@ -63,19 +56,11 @@ extern	BOOL	userint;
 
 /*##################### Globals - Exports ##################################*/
 
-#if 0
-char	loadname[132] = "";	/* name of load module */
-#endif
-
 FILE *cmdFile = NULL;
 static IAWORD pspSeg = 0;		/* segment address of PSP */
 
 /*##################### Local Variables   ##################################*/
 
-#if 0
-static char	dir[132] = "";	/* directory name for file redirection */
-static BOOL	locsyms = NO;	/* local symbols in load file?? */
-#endif
 static	BOOL	dosABI;
 
 /*##################### Functions and Subroutines ##########################*/
@@ -156,12 +141,6 @@ static BOOL cmdEx(char *cmd)
 	    cmdErr("%s: Illegal number of arguments < %d >\n", cmdnam, argc);
 	    return NO;
 	}
-#if 0
-/* debugging code */
-	printf("  cmdnam: >>%s<<    argc: %d\n", cmdnam, argc);
-	for (i = 0; i < argc; i++)
-	    printf("    arg[%d]: >>%s<<\n", i, argv[i]);
-#endif
 	return menu->fcn(argc, argv);
     } else {
 	msgwPrint("%s: No such command\n", cmdnam);
