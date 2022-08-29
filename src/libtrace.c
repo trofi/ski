@@ -260,24 +260,14 @@ int traceWrite(FILE *fp, void *trcrec)
     unsigned trclen = out_treclen[*(unsigned char *)trcrec];
     unsigned cursz = outbufp - out_trcbuf;
     int status = 0;
-#if 1
-    unsigned i;
-    char *p = (char *)trcrec;
-#endif
 
     if ((cursz + trclen) > MAXTRCBUF) {
 	if (fwrite(out_trcbuf, 1, cursz, fp) < cursz)
 	    status = -1;
 	outbufp = out_trcbuf;
     }
-#if 1
-/* Which implementation has better performance? */
-    for (i = 0; i < trclen; i++)
-	*outbufp++ = *p++;
-#else
     (void)memcpy(outbufp, trcrec, trclen);
     outbufp += trclen;
-#endif
 
     return status;
 }
