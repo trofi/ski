@@ -1643,15 +1643,6 @@ static Status iCycleSysLoopLite(unsigned long count)
 	INSTINFO *info = icp;
 	ADDR curr_ip = ip;
 
-	/* prefetch the next instruction info struct */
-#if defined(__GNUC__)
-# if 0 && defined(__i686__)
-	asm volatile ("prefetcht1 (%0)" :: "r"(icp->next));
-# elif 0 && defined(__ia64__)
-	asm volatile ("lfetch [%0]" :: "r"(icp->next));
-# endif /* defined(__ia64__) */
-#endif /* defined(__GNUC__) */
-
 	st = info->combFn(info);
 
 	if (st & ST_IP_INC) {
