@@ -505,7 +505,7 @@ struct lia64_cmsghdr {
 
 unsigned clkTmr = 0; /* for clock interrupts */
 unsigned profTmr = 0; /* for profile interrupts */
-SscReqNode *sscHead = 0;
+static SscReqNode *sscHead = 0;
 SscReqNode *sscPend = 0;
 
 ADDR sigHdlr = ~0ULL;

@@ -62,7 +62,7 @@ extern REG os_boot_rendez_ip;
 extern REG os_boot_rendez_gp;
 #endif
 
-SscReqNode *sscHead = NULL;
+static SscReqNode *sscHead = NULL;
 SscReqNode *sscPend = NULL;
 
 static struct {
