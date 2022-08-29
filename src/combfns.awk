@@ -17,7 +17,7 @@ BEGIN {
     }
     close(COPYRIGHT)
     print "#include \"trace.h\"" > CFILE
-    print "#include \"exec_hd.c\"" > CFILE
+    print "#include \"exec.incl.c\"" > CFILE
 
     print "#include \"sim.h\"" > HFILE
     print "" > HFILE

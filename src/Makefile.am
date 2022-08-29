@@ -312,8 +312,8 @@ ski_LDADD = \
 	$(X_INTERFACE_LIBS) \
 	$(GSKI_LIBS)
 
-EXTRA_DIST= \
-	exec_hd.c \
+EXTRA_DIST = \
+	exec.incl.c \
 	ia_decoder.c \
 	$(COMBFNS_FILES) \
 	$(gski_DATA) \
