@@ -123,7 +123,6 @@ extern unsigned topdatw;
 char *dmembuf(unsigned datwSz);
 void datwDrawCur(void);
 void datwDrawX(void);
-void datwDrawGtk(void);
 void datwUpdate(void);
 void datwUpdateCur(void);
 void datwUpdateX(void);

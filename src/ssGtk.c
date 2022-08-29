@@ -112,7 +112,7 @@ void runIt_setupGtk(void)
 	gtk_widget_show_all(glade_xml_get_widget(xml, "running_window"));
 }
 
-CTR tostep;
+static CTR tostep;
 
 static int stepItGtk(void *data)
 {
@@ -556,11 +556,6 @@ void datwUpdateGtk(void)
 
 	gtk_text_buffer_set_text(datw_buffer, output, -1);
 	fixed_font_buffer(datw_buffer);
-}
-
-void datwDrawGtk()
-{
-	printf("*** datwDrawGtk()\n");
 }
 
 void scrnEndGtk(void)
