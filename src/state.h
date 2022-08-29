@@ -326,9 +326,6 @@ extern INSTINFO *icp;
 #define PmdRd(reg)		pmds[reg]
 #define PmdWrt(reg, val)	pmds[reg] = val
 
-#define MsrRd(reg)		msrs[reg]
-#define MsrWrt(reg, val)	msrs[reg] = val
-
 #define CpuidRd(reg)		cpuids[reg]
 
 /* GRs */
@@ -527,7 +524,6 @@ extern REG dbrs[];
 extern REG ibrs[];
 extern REG pmcs[];
 extern REG pmds[];
-extern REG msrs[];
 extern const REG cpuids[];
 #endif
 
