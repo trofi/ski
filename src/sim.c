@@ -2189,7 +2189,7 @@ int addrReg(ADDR a)
 	return -1;
 }
 
-ADDR nextIp(ADDR a)
+static ADDR nextIp(ADDR a)
 {
     BundlePtr b;
     TemplateInfoPtr t;

@@ -472,9 +472,6 @@ void initAppState(int cproc);
 /* Sets the ABI to App-mode or Sys-mode */
 void setABI(BOOL val);
 
-/* Returns the next static ip after the specified address */
-ADDR nextIp(ADDR a);
-
 /* Returns the number of B units in the template for the specified bundle */
 int brCnt(ADDR a);
 
