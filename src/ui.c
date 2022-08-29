@@ -860,7 +860,7 @@ void prgwUpdate(void)
 void prgwPCRedraw(void)
 {
     REG psrval;
-#if 0
+#if 0 /* MP support? */
     unsigned save = cproc;
 
     for (cproc = 0; cproc < nproc; cproc++) {
@@ -1066,16 +1066,6 @@ void cmdErr(const char *fmt, ...)
     va_list ap;
     char s[100];
 
-#if 0
-    if (statsOnly)
-	(void)fputs(s, stdout);
-    else {
-	(void)putchar(BEL);
-	cmdwPrint(s);
-	if (!noscreen)
-	    nlWait(0);  /* flush further input */
-    }
-#endif
     va_start(ap, fmt);
     vsprintf(s, fmt, ap);
     va_end(ap);
@@ -1109,14 +1099,6 @@ void cmdWarn(const char *fmt, ...)
     va_list ap;
     char s[100];
 
-#if 0
-    if (statsOnly)
-	if (megTrcFormat)
-	    (void)fputs(s, stderr);
-	else
-	    (void)fputs(s, stdout);
-    else
-#endif
     va_start(ap, fmt);
     vsprintf(s, fmt, ap);
     va_end(ap);
