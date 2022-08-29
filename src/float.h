@@ -57,7 +57,6 @@ unsigned fcmpLe(const FREG *f1, const FREG *f2, BOOL qual, BOOL *res1,
 		BOOL *res2, BYTE traps);
 unsigned fcmpUnord(const FREG *f1, const FREG *f2, BOOL qual, BOOL *res1,
 		   BOOL *res2, BYTE traps);
-FREG xmpyl(const FREG *f1, const FREG *f2);
 DWORD xmah(DWORD m1, DWORD m2, DWORD m3);
 DWORD xmahu(DWORD m1, DWORD m2, DWORD m3);
 void xmpy(FREG *f1, FREG *f2, WORD pos, int sign, FREG *ft);

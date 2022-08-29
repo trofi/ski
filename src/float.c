@@ -814,62 +814,6 @@ DWORD xmahu(DWORD m1, DWORD m2, DWORD m3)
     return resHi;
 }
 
-FREG xmpyl(const FREG *f1, const FREG *f2)
-{
-    FREG f;
-    DWORD m1, m2, resHi, resLo;
-
-    f.sign = 0;
-    f.special = NO;
-    if (ZERO(f1) || ZERO(f2)) {
-	f.exp   = INTEGER_EXP;
-	f.unorm = 64;
-	return f;
-    }
-    m1 = f1->mant >> f1->unorm;
-    m2 = f2->mant >> f2->unorm;
-    mult(m1, m2, &resHi, &resLo);
-    if (resLo) {
-	int exp;
-	DWORD mant = resLo;
-
-    exp = 63;
-    if (!(mant >> 32)) {
-	mant <<= 32;
-	exp -= 32;
-    }
-    if (!(mant >> 48)) {
-	mant <<= 16;
-	exp -= 16;
-    }
-    if (!(mant >> 56)) {
-	mant <<= 8;
-	exp -= 8;
-    }
-    if (!(mant >> 60)) {
-	mant <<= 4;
-	exp -= 4;
-    }
-    if (!(mant >> 62)) {
-	mant <<= 2;
-	exp -= 2;
-    }
-    if (!(mant >> 63)) {
-	mant <<= 1;
-	exp -= 1;
-    }
-	f.unorm  = exp;
-	f.exp  = INTEGER_EXP - exp;
-	f.mant = mant;
-	f.class = CLASS_NONE;
-    } else {
-	f.unorm = 64;
-	f.exp  = INTEGER_EXP;
-    }
-    return f;
-}
-
-
 /*************************************/
 /* Reciprocal Approximation Routines */
 /*************************************/
