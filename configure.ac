@@ -137,11 +137,8 @@ AS_IF([test "$HOST_OS" = linux], [
     AS_HELP_STRING([--disable-netdev], [disable netdev support]))
   AS_IF([test "x$enable_netdev" != xno], [
     AC_DEFINE(SKINET_ENABLE, 1, [define if you want netdev support])
-    with_netdev=yes
   ])
 ])
-
-AM_CONDITIONAL(WITH_NETDEV, test "x$with_netdev" = xyes)
 
 AS_IF([test "$HOST_OS" = freebsd], [
     LDFLAGS="$LDFLAGS -lutil"

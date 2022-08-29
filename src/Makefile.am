@@ -225,14 +225,6 @@ else
 freebsd_FILES =
 endif
 
-EXTRA_netdev_FILES = netdev.c
-
-if WITH_NETDEV
-NETDEV_C=netdev.c
-else
-NETDEV_C=
-endif
-
 ski_SOURCES = \
 	main.c \
 	\
@@ -257,7 +249,7 @@ ski_SOURCES = \
 	impl.h \
 	os_support.c \
 	instr.gen.c \
-	$(NETDEV_C) \
+	netdev.c \
 	$(linux_FILES) \
 	$(hpux_FILES) \
 	$(freebsd_FILES) \
@@ -331,8 +323,7 @@ EXTRA_DIST= \
 EXTRA_ski_SOURCES = \
 	$(EXTRA_linux_FILES) \
 	$(EXTRA_hpux_FILES) \
-	$(EXTRA_freebsd_FILES) \
-	$(EXTRA_netdev_FILES)
+	$(EXTRA_freebsd_FILES)
 
 if WITH_X_INTERFACE
 XSKI= xski

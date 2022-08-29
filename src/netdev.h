@@ -20,6 +20,10 @@
 #ifndef _SKI_NETDEV_H
 #define _SKI_NETDEV_H
 
+#include "std.h"
+
+#ifdef SKINET_ENABLE
+
 extern int isnetio (void);
 extern int netdev_open (char *name, unsigned char *macaddr);
 extern int netdev_attach (int fd, unsigned int ipaddr);
@@ -28,5 +32,7 @@ extern void netdev_cleanup (void);
 
 long netdev_recv (int fd, char *fbuf, int len);
 long netdev_send (int fd, char *fbuf, int len);
+
+#endif /* SKINET_ENABLE */
 
 #endif /* _SKI_NETDEV_H */

@@ -18,6 +18,9 @@
  *
  */
 
+#include "std.h"
+
+#ifdef SKINET_ENABLE
 
 #include <sys/types.h>
 #include <asm/types.h>
@@ -36,6 +39,7 @@
 #include <unistd.h>
 #include <errno.h>
 
+#include "netdev.h"
 
 #include "std.h"
 #include "bits.h"
@@ -46,9 +50,7 @@
 #include "sim.h"
 #include "exportui.h"
 #include "coreui.h"
-#include "netdev.h"
 
-#ifdef SKINET_ENABLE
 
 #define MAX_FRAME_SIZE	1536	/* should be more than enough for ethernet */
 
