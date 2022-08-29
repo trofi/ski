@@ -424,36 +424,6 @@ void isymInit(void)
     isymIns2("pmd%u", pmdGet, pmdSet, HEXEXP, -NPMS);
     isymIns2("cpuid%u", cpuidGet, NULL, HEXEXP, -/*NCPUIDS*/5);
 
-#if 0
-    isymIns2("itr%u.ed", itrGet, itrSet, HEXEXP, -/*NITRS*/16);
-    isymInsTlb("itr%u.ed",  TLB_ITR, tlbGrGet, tlbGrSet, HEXEXP,
-							-nitrsGet(0), 52,  1);
-    isymInsTlb("itr%u.ppn", TLB_ITR, tlbGrGet, tlbGrSet, HEXEXP,
-							-nitrsGet(0), 49, 38);
-    isymInsTlb("itr%u.ar",  TLB_ITR, tlbGrGet, tlbGrSet, HEXEXP,
-							-nitrsGet(0), 11,  3);
-    isymInsTlb("itr%u.pl",  TLB_ITR, tlbGrGet, tlbGrSet, HEXEXP,
-							-nitrsGet(0),  8,  2);
-    isymInsTlb("itr%u.d",   TLB_ITR, tlbGrGet, tlbGrSet, HEXEXP,
-							-nitrsGet(0),  6,  1);
-    isymInsTlb("itr%u.a",   TLB_ITR, tlbGrGet, tlbGrSet, HEXEXP,
-							-nitrsGet(0),  5,  1);
-    isymInsTlb("itr%u.ma",  TLB_ITR, tlbGrGet, tlbGrSet, HEXEXP,
-							-nitrsGet(0),  4,  3);
-    isymInsTlb("itr%u.p",   TLB_ITR, tlbGrGet, tlbGrSet, HEXEXP,
-							-nitrsGet(0),  0,  1);
-    isymInsTlb("itr%u.key", TLB_ITR, tlbItirGet, tlbItirSet, HEXEXP,
-							-nitrsGet(0), 31, 24);
-    isymInsTlb("itr%u.ps",  TLB_ITR, tlbItirGet, tlbItirSet, HEXEXP,
-							-nitrsGet(0),  7,  6);
-    isymInsTlb("itr%u.vpn", TLB_ITR, tlbIfaGet, tlbIfaSet, HEXEXP,
-							-nitrsGet(0), 63, 52);
-    isymInsTlb("itr%u.v",   TLB_ITR, tlbIfaGet, tlbIfaSet, HEXEXP,
-							-nitrsGet(0),  0,  1);
-    isymInsTlb("itr%u.rid", TLB_ITR, tlbRrGet, tlbRrSet, HEXEXP,
-							-nitrsGet(0), 31, 24);
-#endif
-
     /* iA Registers */
     isymIns4("eax", grGet, grSet, HEXEXP, EAX_ID, 31, 32);
     isymIns4("ebx", grGet, grSet, HEXEXP, EBX_ID, 31, 32);
