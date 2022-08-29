@@ -222,19 +222,7 @@ netdev_open (char *name, unsigned char *macaddr)
     progExit ("netdev_open: get can't HW addr\n");
 
   memcpy (macaddr, (char *) ifr.ifr_hwaddr.sa_data, IFHWADDRLEN);
-#if 0
-  {
-    char buf[80];
-    sprintf (buf, "%2.2x:%2.2x:%2.2x:%2.2x:%2.2x:%2.2x",
-	     macaddr[0],
-	     macaddr[1],
-	     macaddr[2],
-	     macaddr[3],
-	     macaddr[4],
-	     macaddr[5]);
-    progExit ("netdev_open: hw=%s\n", buf);
-  }
-#endif
+
   /*
    * The device is still not in promiscuous mode
    */
