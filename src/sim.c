@@ -1529,14 +1529,14 @@ static void iCycleSysLoop(void)
 	info = icp;
 	if (icntEnb && info->combFn != instFetchDecodeFP)
 	    incrInstCnts(info);
-#if 1
+
 	if (traceEnb && info->combFn != instFetchDecodeFP) {
 	    WRT_CAPSULE_TR();
 	    WRT_BUNDLE_TR();
 WRT_IOFFSET = 1;
 	    WRT_IOFFSET_TR();
 	}
-#endif
+
 	ss = PSR_SS;		/* save "pre-execution" SS bit */
 	slot = SLOT(ip);	/* save "pre-execution" slot */
 
@@ -1572,7 +1572,7 @@ WRT_IOFFSET = 1;
 		total_cycles++;
 	    } else
 		icp = NULL, total_cycles++;
-#if 1
+
 	    /* XXX - Use a status of StTrap tp cover both "if"s? */
 	    if (st == StTakenBr && PSR_TB) {
 		takenBranchTrap(slot);
@@ -1584,7 +1584,6 @@ WRT_IOFFSET = 1;
 	    }
 	    if (traceEnb && (st == StTakenBr || st == StRFI))
 		WRT_TKNBR_TR();
-#endif
 	} else
 	    icp = NULL, total_cycles++;
 lbl:
