@@ -185,9 +185,6 @@ printf("calcInfo = %u\n", calcInfo);
 			getTotalInsts()-start_insts,
 			getTotalCycles()-start_cycles,
 			tf == ~(CTR)0 ? tf : tf-start_faults));
-#if 0
-	msgwPrint("RSE loads: %llu.  RSE stores: %llu\n", rselds, rsests);
-#endif
     }
     dumpIcnts();
     traceVcyEnb();
@@ -343,14 +340,7 @@ static void stepCall(void)
     cmdwSetStatus("Running...");
     switch (interface) {
 	case X_INTERFACE:
-#if 0
-	    if (!cmdFile) {
-		stepUntil_setupX(expr);
-		break;
-	    }
-#else
             break;
-#endif
 	case CURSES_INTERFACE:
 	case BATCH:
 	    stepCall_loop();
