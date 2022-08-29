@@ -1373,10 +1373,10 @@ static BOOL memMWrt1(ADDR adr, BYTE val)
 
     if (!abi && !dtlbMLookup(adr, 2, PSR_CPL, PSR_DT, &adr))
 	return NO;
-#if 0
+
     if (!abi && xtpAccess(adr))
 	xtpCycle(val);
-#endif
+
     if ((pb = pmemMLookup_b(adr))) {
 	*pb = val;
 	clearPdecode(adr, 1);
@@ -2661,11 +2661,7 @@ size_t pageTableDisplaySize(void)
 
     for (i = 0; i < PMEMHSHSZ; i++)
 	for (p = pmemHshTbl[i]; p; p = p->next)
-#if 0
-	    size += 17;
-#else
 	    size += 40;
-#endif
     return size;
 }
 
@@ -2677,9 +2673,5 @@ void getPageTableInfo(char buf[])
 
     for (i = 0; i < PMEMHSHSZ; i++)
 	for (p = pmemHshTbl[i]; p; p = p->next)
-#if 0
-	    s += sprintf(s, "%016llx\n", p->padr);
-#else
 	    s += sprintf(s, "%016llx %p\n", p->padr, (void *)p->pmem);
-#endif
 }
