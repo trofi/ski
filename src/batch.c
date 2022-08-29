@@ -23,6 +23,8 @@
 
 /*##################### Header and Constant Definitions ####################*/
 
+#include "batch.h"
+
 #include "std.h"
 #include "types.h"
 #include "ski.h"

@@ -261,6 +261,7 @@ libski_la_SOURCES= \
 	ia_das.c \
 	ui.c \
 	batch.c \
+	batch.h \
 	cur.c \
 	ssX.c \
 	ssXDSD.c \

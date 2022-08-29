@@ -29,6 +29,7 @@
 #include <unistd.h>
 
 #include "std.h"
+#include "batch.h"
 #include "bits.h"
 #include "types.h"
 #include "fields.h"

@@ -162,7 +162,6 @@ void cmdwSetStatusCur(const char *);
 void cmdwSetStatusX(const char *);
 void cmdwSetStatusGtk(const char *);
 void cmdwPrint(const char *, ...);
-void cmdwPrintBatch(const char *);
 void cmdwPrintCur(const char *);
 void cmdwPrintX(const char *);
 void cmdwPrintGtk(const char *);
@@ -189,7 +188,6 @@ void runIt_setupGtk(void);
 void uiInit(void);
 
 void scrnInit(void);
-void scrnInitBatch(void);
 void scrnInitCur(void);
 void scrnInitX(void);
 void scrnInitGtk(void);
@@ -202,12 +200,10 @@ void scrnEndCur(void);
 void scrnEndX(void);
 void scrnEndGtk(void);
 
-void cmdOutBatch(const char *hdr, const char *buf);
 void cmdOutCur(const char *hdr, const char *buf);
 void cmdOutX(const char *name, const char *hdr, const char *buf);
 void cmdOutGtk(const char *name, const char *hdr, const char *buf);
 void cmdLoop(void);
-void cmdLoopBatch(void);
 void cmdLoopCur(void);
 void cmdLoopX(void);
 void cmdLoopGtk(void);
