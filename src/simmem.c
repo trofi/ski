@@ -1528,23 +1528,6 @@ BOOL memMWrt(ADDR adr, unsigned size, DWORD val)
     }
 }
 
-
-/* Other routines */
-
-BOOL memIRd(ADDR adr, DWORD *pval)
-{
-    DWORD *pd;
-
-    if (!abi && !itlbLookup(adr, PSR_IT, &adr))
-	return NO;
-    if ((pd = pmemMLookup_q(adr))) {
-	pval[0] = pd[0];
-	pval[1] = pd[1];
-    } else
-	return NO;	/* XXX - call unallocPageEx? */
-    return YES;
-}
-
 /* Called by "pd" command, prgwLine, datwLine, ibptLoad, ibptUnload */
 /* XXX - Should be named Bundle Read (memMBRd) */
 /* Also called by the write bundle trace macros */

@@ -153,6 +153,9 @@ Status memIARd(BYTE seg, WORD ofs, BYTE size, Accesstype acc, ADDR *padr,
 	       ADDR *padr2, IADWORD *pval);
 void memIAWrt(BYTE size, ADDR adr, ADDR adr2, WORD val);
 
+void memFree(ADDR adr);
+void memFreeAll(void);
+
 #if !BYTE_ORDER || !BIG_ENDIAN || !LITTLE_ENDIAN
 # error "Endianness is unknown!"
 #endif

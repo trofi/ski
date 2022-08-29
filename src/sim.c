@@ -324,7 +324,6 @@ static BOOL instDecode(ADDR adr)
     pa = adr & ~(ADDR)0xF;
 
     i = BitfX(pa,52,10);
-    /* XXX - Do we need to lookup the whole page? Call memIRd instead? */
     /* XXX - What if page is not mapped? */
     if (!(pagebuf = pmemLookup_p(pa & CTTAGMASK))) {
 	return NO;

@@ -61,7 +61,6 @@
 #define	fbsd_trunc_page(x)	((ADDR)(x) & ~FBSD_PAGEMASK)
 #define	fbsd_round_page(x)	fbsd_trunc_page((x) + FBSD_PAGEMASK)
 
-void memFree(ADDR adr);
 BOOL pmemMap(ADDR adr, void *hostadr);
 
 extern int fdlimit;

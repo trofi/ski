@@ -553,7 +553,6 @@ static char *slave;
 # define MASTER_ID	13
 #endif
 
-extern void memFree (ADDR);
 #include <sys/syscall.h>
 #define uselib(libname) syscall(__NR_uselib, libname)
 

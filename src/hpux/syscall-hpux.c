@@ -121,8 +121,6 @@ void clearPdecode(ADDR adr, unsigned size);
 BOOL acceptIrpt(void);
 void memMPMap(ADDR, char *, size_t);
 
-extern void memFree (ADDR);
-extern void memFreeAll(void);
 extern void resetState(int);
 
 extern int getdents (unsigned int, void*, unsigned int);
