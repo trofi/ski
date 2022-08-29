@@ -102,7 +102,7 @@ void prgwUpdate(void);
 
 /*##################### Globals - Exports ##################################*/
 
-BOOL	dbptsSet = NO;	/* Are any data breakpoints currently set? */
+static BOOL	dbptsSet = NO;	/* Are any data breakpoints currently set? */
 
 #ifdef TAKEN_BRANCH
 BOOL	takbrTrap = NO;	/* enable branch tabling */
@@ -425,57 +425,6 @@ static void ibptUnload(void)
     X_PSR_IT(psrval) = psrit_sve;
     (void)psrSet(0, psrval);
 }
-
-/*--------------------------------------------------------------------------
- * breakpoint$Check - Find the breakpoint with the passed address.  If none,
- *  or if the associated counter is zero or decrements to zero, return 0,
- *  else return the actual value stored at the address where the break
- *  was set.
- *--------------------------------------------------------------------------*/
-WORD bptCheck(ADDR ofs)
-{
-#if 0
-/* Not included in ski.  11/17 release does not support commands nor
-   counts in breakpoints */
-    struct bpt *p;
-
-    ofs &= ~(ADDR)0xf;
-    for (p = bpts; p < &bpts[NBPTS]; p++)
-	if (p->inuse && p->ptva == ofs) {
-	    if (!p->count || !--p->count) {
-		p->cmd[0] = '\0';
-		return 0;
-	    }
-	    if (p->cmd[0])
-		cmdExLin(p->cmd);
-	    if (PswE())
-		return swapw(p->val);
-	    else
-		return p->val;
-	}
-    /* Don't give up yet... might be in real mode */
-    if (!PswC())
-	for (p = bpts; p < &bpts[NBPTS]; p++) {
-	    if (!p->inuse)
-		continue;
-	    if ((p->realmode && p->ptva == ofs) ||
-		vadriTranslate(p->ptva) == ofs) {
-		if (!p->count || !--p->count) {
-		    p->cmd[0] = '\0';
-		    return 0;
-		}
-		if (p->cmd[0])
-		    cmdExLin(p->cmd);
-		if (PswE())
-		    return swapw(p->val);
-		else
-		    return p->val;
-	    }
-	}
-#endif
-    return 0;
-}
-
 
 /****************************/
 /* Data Breakpoint Routines */
