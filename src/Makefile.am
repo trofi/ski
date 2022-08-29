@@ -71,13 +71,13 @@ noinst_DATA = \
 	encoder/formats.c_template
 
 COMBFNS_FILES = \
-	exec.c \
-	fp_exec.c \
-	mem_exec.c \
-	mm_exec.c \
-	read.c \
-	sys_exec.c \
-	write.c
+	exec.tmpl.c \
+	fp_exec.tmpl.c \
+	mem_exec.tmpl.c \
+	mm_exec.tmpl.c \
+	read.tmpl.c \
+	sys_exec.tmpl.c \
+	write.tmpl.c
 
 COMBFNS_DERIVED = \
 	combfns.gen.c \
@@ -402,13 +402,13 @@ combfns.gen.c: execTbl $(COMBFNS_FILES) mkfns.awk combfns.awk
 	@rm -f $(COMBFNS_DERIVED)
 	$(AWK) -f $(srcdir)/mkfns.awk \
 		-v TEMP=combfns.gen \
-		$(srcdir)/exec.c \
-		$(srcdir)/fp_exec.c \
-		$(srcdir)/mem_exec.c \
-		$(srcdir)/mm_exec.c \
-		$(srcdir)/read.c \
-		$(srcdir)/sys_exec.c \
-		$(srcdir)/write.c
+		$(srcdir)/exec.tmpl.c \
+		$(srcdir)/fp_exec.tmpl.c \
+		$(srcdir)/mem_exec.tmpl.c \
+		$(srcdir)/mm_exec.tmpl.c \
+		$(srcdir)/read.tmpl.c \
+		$(srcdir)/sys_exec.tmpl.c \
+		$(srcdir)/write.tmpl.c
 	$(AWK) -f $(srcdir)/combfns.awk \
 		-v TEMP=combfns.gen \
 		-v CFILE=combfns.gen.c \
