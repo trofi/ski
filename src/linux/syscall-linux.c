@@ -537,7 +537,7 @@ static int malargbufsize2 = -1;
 static BYTE *malargbuf3;
 static int malargbufsize3 = -1;
 
-pid_t cons_pid = -1;
+static pid_t cons_pid = -1;
 static int cfd = -1;
 BOOL trace_syscalls;
 char *consLog = NULL;
