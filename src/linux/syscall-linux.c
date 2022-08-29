@@ -4916,22 +4916,6 @@ doSSC (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG *ret)
     }
 }
 
-REG
-sys_get_cycle_count (void)
-{
-  if (!unixABI)
-    return ITC;
-  else
-    {
-#     define CYCLES_PER_SEC	700
-      struct timeval now;
-
-      gettimeofday (&now, 0);
-
-      return (1000000 * (REG) now.tv_sec + now.tv_usec) * CYCLES_PER_SEC;
-    }
-}
-
 static void doEFI_GetTime(REG arg0, REG *ret0)
 {
     *ret0 = 0;
