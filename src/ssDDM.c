@@ -88,12 +88,6 @@
 #include "state.h"
 #include "simmem.h"
 
-#if 0
-#include "ssDefs.h"
-#include "mp.h"
-#include "ssReg.h"
-#endif
-
 #define CSTKSZ	50
 #if 0
 #define UNWIND_DEBUG
@@ -424,98 +418,6 @@ BOOL templAssign(unsigned argc, char *argv[])
     datwUpdate();
     return ret;
 }
-
-#if 0
-
-/*--------------------------------------------------------------------------
- *  generalRegister$Clear - Clear all general registers.
- *--------------------------------------------------------------------------*/
-BOOL grClear(unsigned argc, char *argv[])
-{
-    int i;
-
-    for (i = 0; i < NGRS; i++)
-	grMWrt(i,0);
-    grwUpdate();
-}
-
-
-/*************************************/
-/* Main Memory Modification Routines */
-/*************************************/
-#endif
-
-#if 0
-
-/*******************************/
-/* Space Manipulation Routines */
-/*******************************/
-
-/*--------------------------------------------------------------------------
- * space$GetBoundaries - Prompt for a space id, and required boundaries
- *  for pages to be allocated automatically in the space. The boundaries
- *  default to 1 for the lower bounds and 0 for the upper bounds.
- *--------------------------------------------------------------------------*/
-BOOL spcGBds(unsigned argc, char *argv[])
-{
-    PGID lbd = 0, ubd = MAXPGID;
-    REG accr = ~0, accid = ~0;
-
-    if (Proclvl == level0) {
-	cmdErr("No spaces in Level 0 systems\n");
-	return;
-    }
-
-    if (getNum("Space ID: ", &sid, 16)) {
-	getNumToken("Access rights: ", &accr, 16);
-	getNumToken("Access ID: ", &accid, 16);
-	getNumToken("Lower bound (page id #): ", &lbd, 16);
-	getNumToken("Upper bound (page id #): ", &ubd, 16);
-	if (!spcRestrict(sid, lbd, ubd, accr, accid))
-	    cmdwPrint("Space created with given protection\n");
-	else
-	    cmdwPrint("Space protection boundaries changed\n");
-    }
-}
-
-
-/*********************/
-/* Page Manipulation */
-/*********************/
-
-/*--------------------------------------------------------------------------
- * page$GetProtectionFlags - Prompt for address and access flags, then change
- *  the protection on the page containing the specified address to
- *  the specified access(es), creating the page if necessary.
- *--------------------------------------------------------------------------*/
-BOOL pagGProt(unsigned argc, char *argv[])
-{
-    ADDR adr;
-    REG accr = ~0, accid = ~0;
-    BOOL ok;
-
-    if (Proclvl == level0) {
-	cmdErr("No page protection in Level 0 systems\n");
-	return;
-    }
-
-    if (getVA(&sid, &adr) > 0) {
-	getNumToken("Access rights: ", &accr, 16);
-	getNumToken("Access ID: ", &accid, 16);
-	if ((ok = pdeCreate(sid, adr, accr, accid)) == -1)
-	    cmdErr("Can't create page -- out of memory\n");
-	else if (!ok)
-	    cmdwPrint("Page created with specified protection\n");
-	else {
-	    dtlbPurge(sid, adr);
-	    itlbPurge(sid, adr);
-	    cmdwPrint("Access protection changed\n");
-	}
-    }
-}
-
-#endif
-
 
 static struct load_module {
     struct load_module *next;
@@ -1012,14 +914,10 @@ void addLM2(ADDR adr, size_t len)
     if (!getLp64(0))
 	ADDPTR(lminfo[numLms].text_base);
     lminfo[numLms].text_end = lminfo[numLms].text_base + lmd.text_size - 1;
-#if 0
-    lminfo[numLms].unwind_base = lmd.unwind_base;
-#else
     if (lmd.unwind_base)
 	lminfo[numLms].unwind_base = lmd.unwind_base;
     else
 	lminfo[numLms].unwind_base = lmd.text_base+0x1f88;
-#endif
     if (!getLp64(0))
 	ADDPTR(lminfo[numLms].unwind_base);
     lminfo[numLms].name = "<unknown>";
@@ -1071,13 +969,8 @@ BOOL cstkDisplay(unsigned argc, char *argv[])
 
     /* XXX - should call this only once? */
 #ifdef UNWIND_DEBUG
-#if 0
-    uc = _Unwind_ctor3(UNWIND_FLAG_TRACE_CALLS|UNWIND_FLAG_DUMP_CONTEXT,
-		read_tgt_mem, 0, load_map_from_ip);
-#else
     uc = _Unwind_ctor3(pmdGet(0, 0),
 		read_tgt_mem, 0, load_map_from_ip);
-#endif
 #else
     uc = _Unwind_ctor3(0, read_tgt_mem, 0, load_map_from_ip);
 #endif
