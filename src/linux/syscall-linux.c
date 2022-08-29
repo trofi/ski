@@ -595,8 +595,7 @@ int signal_pending(void)
 	return (pending_signals & ~masked_signals) ? 1 : 0;
 }
 
-void
-signal_queue (int signal)
+static void signal_queue (int signal)
 {
 #if DEBUG_SIGNALS
   fprintf(stderr, "signal_queue(sig=%d)\n", signal);
