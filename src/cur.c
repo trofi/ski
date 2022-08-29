@@ -479,11 +479,6 @@ void prgwDrawCur(void)
     prgwUpdateCur();
 }
 
-void datwDrawCur(void)
-{
-    datwUpdateCur();
-}
-
 void cmdwPrintCur(const char *s)
 {
     static char news[200], *np;

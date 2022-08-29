@@ -121,7 +121,6 @@ extern Datw datwtbl[], *actDatw;
 extern unsigned topdatw;
 
 char *dmembuf(unsigned datwSz);
-void datwDrawCur(void);
 void datwDrawX(void);
 void datwUpdate(void);
 void datwUpdateCur(void);
