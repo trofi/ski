@@ -98,14 +98,9 @@ static void argsInit(void)
       "-i <file>    Process initialization file at startup");
     argIns("-icnt",      &icntfile,  ARG_STRING, "b",
       "-icnt <file> Store instruction counts in <file>");
-#if 0
-    argIns("-nat",       &alwaysNat, ARG_BOOL,   "bcx",
-      "-nat         Force speculative loads to load a NaT");
-#else
     argIns("-nat",       &alwaysNat, ARG_BOOL,   "bcx",	"");
     argIns("-natcount",  &maxNats,   ARG_INT4,   "bcx",	"");
     argIns("-natstats",  &natStats,  ARG_BOOL,   "bcx",	"");
-#endif
     argIns("-r",         &rcnt,      ARG_INT8,   "c",	"");
     argIns("-rest",      &restfile,  ARG_STRING, "bcx",
       "-rest <file> Restore simulation state from <file>");
