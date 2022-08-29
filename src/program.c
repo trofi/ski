@@ -233,9 +233,6 @@ char *prgwLine(ADDR ofs, unsigned *srcrows, unsigned *asmrows)
     symAddrtoName(ofs, buf, 4, NO, 16);
     bpn = ((i = isbpt(ofs)) >= 0) ? (i + '0') : ' ';
     if (memMIRd(ofs, (DWORD *)&bndl)) {
-#if 0
-	char *p = line, i0Str[80], i1Str[80], i2Str[80];
-#else
 	char *p = line, *i0Str, *i1Str, *i2Str;
 	/* XXX - memory leak, these are never freed */
 	i0Str = malloc(prgColumns - 19);	/* + 1 for NUL */
@@ -243,7 +240,6 @@ char *prgwLine(ADDR ofs, unsigned *srcrows, unsigned *asmrows)
 	i2Str = malloc(prgColumns - 19);
 	if (!i0Str || !i1Str || !i2Str)
 	    goto xxx;
-#endif
 
 	line[0] = '\0';
 	srcp = getSrcLines(ofs, srcrows);
