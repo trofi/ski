@@ -48,7 +48,6 @@ unsigned trc_flags = 1;	/* indicates which records to write and whether to
    to 0 */
 
 Capsule_Trec		capsule_trec	= { CAPSULE_TREC };
-Context_Switch_Trec	cswitch_trec	= { CONTEXT_SWITCH_TREC };
 Interruption_Trec	irpt_trec	= { INTERRUPTION_TREC };
 Discontinuity_Trec	disc_trec	= { DISCONTINUITY_TREC };
 Virt_Cycle_Trec		vcycle_trec	= { VIRT_CYCLE_TREC };
@@ -61,7 +60,6 @@ Branch_Trec		branch_trec	= { BRANCH_TREC,
 Doffset_Trec		doffset_trec	= { DOFFSET_TREC,
 					    DOFF_TRC_TY_UNKNOWN,
 					    DOFF_TRC_SZ_UNKNOWN };
-Region_Chng_Trec	region_trec	= { REGION_CHNG_TREC };
 Prev_Pfs_Trec		prev_pfs_trec	= { PREV_PFS_TREC };
 Br_Pred_Trec		br_pred_trec	= { BRPRED_TREC };
 Ar_Tgt_Trec		ar_tgt_trec	= { ARTGT_TREC };

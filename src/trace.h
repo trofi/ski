@@ -49,7 +49,6 @@ extern FILE *tracef;
 extern unsigned trc_flags;
 
 extern Capsule_Trec		capsule_trec;
-extern Context_Switch_Trec	cswitch_trec;
 extern Interruption_Trec	irpt_trec;
 extern Discontinuity_Trec	disc_trec;
 extern Virt_Cycle_Trec		vcycle_trec;
@@ -57,7 +56,6 @@ extern Ioffset_Trec		ioffset_trec;
 extern Bundle_Trec		bundle_trec;
 extern Branch_Trec		branch_trec;
 extern Doffset_Trec		doffset_trec;
-extern Region_Chng_Trec		region_trec;
 extern Prev_Pfs_Trec		prev_pfs_trec;
 extern Br_Pred_Trec		br_pred_trec;
 
