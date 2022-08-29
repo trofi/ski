@@ -307,19 +307,6 @@ static NodePtr nodeAddrSearchGT(SymTablePtr t, ADDR adr,
 }
 
 /*---------------------------------------------------------------------------
- * symAddrSearch - Find and return a pointer to the symbol with the address
- * equal to the passed address and for which the cmpFn (if not 0) returns
- * nonzero, or NULL if there are none.
- *---------------------------------------------------------------------------*/
-SymbolPtr symAddrSearch(SymTablePtr t, unsigned long long addr, PSCF cmpFn,
-			const void *cmpArg)
-{
-    NodePtr p = nodeAddrSearch(t, addr, cmpFn, cmpArg);
-
-    return p && p->sym.addr == addr ? &p->sym : NULL;
-}
-
-/*---------------------------------------------------------------------------
  * symAddrtoAddrX - Find and return the address of the symbol with the
  * largest address less than or equal to (dist < 0) or greater than (dist
  * >= 0) the passed address and within "dist" of that address (unless dist
@@ -403,7 +390,7 @@ SymbolPtr symInsertX(SymTablePtr t, const char *name, ADDR addr, void *extra)
     return &q->sym;
 }
 
-void symName(SymbolPtr s, unsigned long long addr, char sname[],
+static void symName(SymbolPtr s, unsigned long long addr, char sname[],
 	     int rmdr, int add0x, int width)
 {
     BOOL exact = NO;
@@ -466,7 +453,7 @@ void symName(SymbolPtr s, unsigned long long addr, char sname[],
  * if add0x is YES).  width < 0 means that the resultant string should not
  * be padded.
  *---------------------------------------------------------------------------*/
-void symAddrtoNameX(SymTablePtr t, ADDR adr, char sname[], int rmdr,
+static void symAddrtoNameX(SymTablePtr t, ADDR adr, char sname[], int rmdr,
 		    int add0x, int width, PSCF cmpFn, const void *cmpArg)
 {
     NodePtr p = nodeAddrSearch(t, adr, cmpFn, cmpArg);
@@ -594,30 +581,4 @@ void symDeleteAddrX(SymTablePtr t, unsigned long long saddr,
     while (t->header->nextval[m] == NIL && m > 0)
 	m--;
     t->level = m;
-}
-
-/*---------------------------------------------------------------------------
- * symFreeTable - Delete the symbol table t and free the space used by it.
- *---------------------------------------------------------------------------*/
-void symFreeTable(SymTablePtr t)
-{
-    register NodePtr p, q;
-
-    p = t->header;
-    do {
-	q = p->nextval[0];
-	free(p);
-	p = q;
-    } while (p != NIL);
-    free(t);
-}
-
-/*---------------------------------------------------------------------------
- * symlDelete - Compatibility stub.  Existing code expects to be able to
- * reuse the default symbol table immediatedly after deleting it!
- *---------------------------------------------------------------------------*/
-void symlDelete(void)
-{
-    symFreeTable(defaultSymTable);
-    defaultSymTable = symNewTable();
 }

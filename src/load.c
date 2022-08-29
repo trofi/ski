@@ -929,9 +929,7 @@ BOOL elfSymLoad(const char *file_name)
 	    elfClose(elfptr, fd);
 	    return NO;
 	}
-#if 0
-	symlDelete();
-#endif
+
 	for (i = 0; i < ehdr->e_phnum; i++)
 	    if (phdr[i].p_type == PT_IA_64_UNWIND)
 		unwind_base = phdr[i].p_vaddr;
@@ -959,9 +957,7 @@ BOOL elfSymLoad(const char *file_name)
 	    elfClose(elfptr, fd);
 	    return NO;
 	}
-#if 0
-	symlDelete();
-#endif
+
 	for (i = 0; i < ehdr->e_phnum; i++)
 	    if (phdr[i].p_type == PT_IA_64_UNWIND)
 		unwind_base = phdr[i].p_vaddr;
