@@ -59,8 +59,6 @@ TemplateInfoPtr bundle_decode(const BundlePtr bundle,
 			      const unsigned int include_opnds);
 BundleParts bundle_parts(const BundlePtr bundle);
 Bundle bundle_from_parts(const BundlePartsPtr parts);
-InstID instr_decode(const Unit unit, const unsigned long long slot,
-		    OperandsPtr opnds);
 TemplateInfoPtr template_info(const unsigned char templSB);
 unsigned char templSB_from_info(const TemplateInfoPtr t);
 #ifdef DECODERIP

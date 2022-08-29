@@ -26,6 +26,9 @@
 
 #define sign_ext(i, n)	((((long long)(i) << (64 - (n)))) >> (64 - (n)))
 
+static InstID instr_decode(const Unit unit, const unsigned long long slot,
+		    OperandsPtr opnds);
+
 TemplateInfoPtr bundle_decode(const BundlePtr bundle,
 			      DecodedInstr instrs[SLOTS_PER_BUNDLE],
 			      const unsigned int include_opnds)
