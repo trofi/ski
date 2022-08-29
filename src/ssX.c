@@ -70,7 +70,7 @@ void prgFmtCallback(CALLBACK_ARGS);
 void datFmtCallback(CALLBACK_ARGS);
 void regFmtCallback(CALLBACK_ARGS);
 void cmdHelpCallback(CALLBACK_ARGS);
-void prodInfoCallback(CALLBACK_ARGS);
+static void prodInfoCallback(CALLBACK_ARGS);
 
 /*##################### Globals - Exports ##################################*/
 
