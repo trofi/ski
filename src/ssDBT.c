@@ -40,14 +40,6 @@
 #include "simmem.h"
 #include "tlb.h"
 
-#if 0
-#include "ssDefs.h"
-#include "mp.h"
-#include "ssReg.h"
-#include "ssErrs.h"
-#include "data.h"
-#endif
-
 #define NDBPTS		10
 #define NBPTS		10
 #define TBTBLSZ		20	/* taken branch table size */
@@ -279,9 +271,6 @@ BOOL bptDelete(unsigned argc, char *argv[])
 {
     REG b;
     char tmp1[256];
-#if 0
-    char tmp2[140];
-#endif
 
     if (!bptsSet) {
 	cmdWarn("No breakpoints set\n");
@@ -309,25 +298,6 @@ BOOL bptDelete(unsigned argc, char *argv[])
 	}
     }
     return YES;
-#if 0
-/* Disable selective breakpoint delete */
-    for (b = 0; b < NBPTS; b++) {
-	if (!bpts[b].inuse)
-	    continue;
-	ofs = bpts[b].ptva;
-	symAddrtoName(bpts[b].ptva, tmp1, 4, NO, 16);
-	(void)sprintf(tmp2, "#%d) %s ? ", (int)b, tmp1);
-	if (getLine(tmp2, tmp1, sizeof tmp1) &&
-	    (tmp1[0] == 'y' || tmp1[0] == 'd'))
-	    bpts[b].inuse = NO;
-    }
-    bptsSet = NO;
-    for (b = 0; b < NBPTS; b++)
-	if (bpts[b].inuse)
-	    bptsSet = YES;
-    prgwUpdate();
-    return YES;
-#endif
 }
 
 /*--------------------------------------------------------------------------
@@ -484,10 +454,6 @@ BOOL dbptSet(unsigned argc, char *argv[])
 {
     REG psrval = psrGet(0);
     int b;
-#if 0
-    BOOL otherinfo = NO;
-    char buf[140];
-#endif
 
     if ((b = dbptGNA()) == -1) {
 	cmdErr("All data breakpoints in use\n");
@@ -519,10 +485,6 @@ BOOL dbptSet(unsigned argc, char *argv[])
 	dbpts[b].access = 3;
     dbpts[b].realmode = !X_PSR_DT(psrval);
     dbpts[b].loaded = NO;
-#if 0
-    if (otherinfo && buf[0])
-	(void)strcpy(dbpts[b].cmd, buf);
-#endif
     dbptsSet = YES;
     return YES;
 
@@ -539,10 +501,6 @@ BOOL dbptSet(unsigned argc, char *argv[])
 BOOL dbptDelete(unsigned argc, char *argv[])
 {
     REG b;
-#if 0
-    ADDR ofs;
-    char tmp1[256], tmp2[140], *symbuf;
-#endif
 
     if (!dbptsSet) {
 	cmdWarn("No data breakpoints set\n");
@@ -660,59 +618,11 @@ BOOL dbptCheck(ADDR adr, unsigned acctyp, unsigned dlen)
 	    if (end < adrstart || start > adrend)
 		continue;
 	    /* found it */
-#if 0
-	    if (!p->count || !--p->count) {
-		p->cmd[0] = '\0';
-		dtrap(DBREAK);
-		return YES;
-	    }
-	    if (p->cmd[0])
-		cmdExLin(p->cmd);
-	    return NO;
-#else
 	    return YES;
-#endif
 	}
     }
     return NO;
 }
-
-
-#if 0
-/*************************/
-/* Save/Restore routines */
-/*************************/
-
-void ptSave(void)
-{
-    int i;
-
-    for (i = 0; i < NBPTS; i++) {
-	if (bpts[i].inuse) {
-	    strSave("PB"); intSave(i);
-	    intSave(bpts[i].ptva);
-	    nlSave();
-	}
-    }
-}
-
-BOOL ptRestore(void)
-{
-    int i;
-
-    /* XXX - this code needs to check validity of data, e.g., SLOT(adr) < 2 */
-    switch (chrRestore()) {
-	case 'B':
-	    i = intRestore();
-	    bpts[i].ptva = intRestore();
-	    break;
-	default:
-	    return NO;
-    }
-    return YES;
-}
-#endif
-
 
 #ifdef TAKEN_BRANCH
 /*************************/
