@@ -2148,26 +2148,6 @@ static BundlePtr pxx(ADDR a)
 /* XXX - copied from libcore_types.h!! */
 #define BADDR(ip)       ((ip) & ~(ADDR)0xF)
 
-int addrReg(ADDR a)
-{
-    BundlePtr b;
-    unsigned s;
-    DecodedInstr instr[SLOTS_PER_BUNDLE];
-    PdecFn pdecFn;
-    INSTINFO info;
-
-    if (!(b = pxx(BADDR(a))))
-	return -1;
-    s = SLOT(a);
-    (void)bundle_decode(b, instr, 0);
-    pdecFn = instrs[instr[s].instID].pdecFn;
-    pdecFn(instr[s].instrBits, &info);
-    if (instrs[instr[s].instID].flags & (EM_FLAG_LMEM|EM_FLAG_SMEM))
-	return info.extrainfo[3];
-    else
-	return -1;
-}
-
 BOOL brCall(ADDR a)
 {
     BundlePtr b;
