@@ -23,6 +23,8 @@
 
 /*##################### Header and Constant Definitions ####################*/
 
+#include "ia_write.h"
+
 #include "std.h"
 #include "bits.h"
 #include "types.h"
@@ -33,7 +35,6 @@
 #include "ia_types.h"
 #include "ia_state.h"
 #include "ia_exec.h"
-
 
 static void r8IAWr(BYTE reg, IADWORD val)
 {
