@@ -24,6 +24,7 @@
 /*##################### Header and Constant Definitions ####################*/
 
 #include <ctype.h>
+#include <math.h>
 #include <string.h>
 #include <stdarg.h>
 #include <unistd.h>
@@ -46,10 +47,6 @@
 #include "libsym.h"
 #include "libcore.h"
 #include "iadas_types.gen.h"	/* for ADDR4 */
-
-#ifdef __linux__
-extern double ldexp (double x, int exp);
-#endif
 
 BYTE getIAmode(void);
 #undef EIPfromIP
