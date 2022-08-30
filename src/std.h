@@ -39,18 +39,6 @@ typedef enum {NO, YES}	BOOL;
 
 #define BEL		'\a'
 
-/* Do we have strtoull or __strtoull? */
-#if HAVE_STRTOULL
-extern unsigned long long strtoull(const char *, char **, int);
-#else /* ! HAVE_STRTOULL */
-# if HAVE___STRTOULL
-extern unsigned long long __strtoull(const char *, char **, int);
-#   define strtoull __strtoull
-# else /* ! HAVE___STRTOULL */
-#   error "You do not have strtoull!"
-# endif /* ! HAVE___STRTOULL */
-#endif /* ! HAVE_STRTOULL */
-
 /* What is the host endiannes? */
 #if defined ENDIANESS_IN_SYS_PARAM_H
 # include <sys/types.h>

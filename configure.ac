@@ -118,8 +118,6 @@ dnl Check for variables & functions
 
 AC_FUNC_ALLOCA
 
-AC_CHECK_FUNCS([strtoull __strtoull])
-
 dnl Find libelf.h
 AC_CHECK_HEADER(libelf.h,,
     [AC_CHECK_HEADER(libelf/libelf.h, have_libelf_libelf_h=yes,
