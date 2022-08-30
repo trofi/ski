@@ -317,7 +317,7 @@ ski_LDADD = \
 
 EXTRA_DIST = \
 	exec.incl.c \
-	ia_decoder.c \
+	ia_decoder.tmpl.c \
 	$(COMBFNS_FILES) \
 	$(gski_DATA) \
 	$(noinst_DATA) \
@@ -386,13 +386,13 @@ asm_hash.gen.c: $(srcdir)/encodings/encoding.opcode \
 		-C $(srcdir)/Copyright \
 		-T asm_hash.gen
 
-iaexec_decoder.gen.c: $(srcdir)/ia_decoder.c $(srcdir)/iaexec_dec.sed
+iaexec_decoder.gen.c: $(srcdir)/ia_decoder.tmpl.c $(srcdir)/iaexec_dec.sed
 	@rm -f $(IAEXEC_DECODER_DERIVED)
-	sed -f $(srcdir)/iaexec_dec.sed $(srcdir)/ia_decoder.c > iaexec_decoder.gen.c
+	sed -f $(srcdir)/iaexec_dec.sed $(srcdir)/ia_decoder.tmpl.c > iaexec_decoder.gen.c
 
-iadas_decoder.gen.c: $(srcdir)/ia_decoder.c $(srcdir)/iadas_dec.sed
+iadas_decoder.gen.c: $(srcdir)/ia_decoder.tmpl.c $(srcdir)/iadas_dec.sed
 	@rm -f $(IADAS_DECODER_DERIVED)
-	sed -f $(srcdir)/iadas_dec.sed $(srcdir)/ia_decoder.c > iadas_decoder.gen.c
+	sed -f $(srcdir)/iadas_dec.sed $(srcdir)/ia_decoder.tmpl.c > iadas_decoder.gen.c
 
 iadas_types.gen.h: $(srcdir)/ia_types.h $(srcdir)/ia_types.sed
 	@rm -f $(IADAS_TYPES_DERIVED)
