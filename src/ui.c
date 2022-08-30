@@ -61,8 +61,6 @@ static char *frLine(unsigned i);
 static char *srLine(unsigned i);
 static char *iarLine(unsigned i);
 
-extern char version[];
-
 Regw regwtbl[WINTBLSIZ] = {
     { "Urs",  "User Registers",           urLine,  0, "18", YES },
     { "Grs",  "General Registers",        grLine,  0, "((32+sof+3)/4)", YES },
@@ -1249,7 +1247,7 @@ char *skiID(void)
 {
     static char buf[80];
 
-    (void)sprintf(buf, "%s (%s)", version, getImplStr());
+    (void)sprintf(buf, "Version %s (%s)", VERSION, getImplStr());
     return buf;
 }
 

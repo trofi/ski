@@ -285,7 +285,6 @@ ski_SOURCES = \
 	ssGtk.h \
 	syscall_api.h \
 	asm.c \
-	version.c \
 	eparse.y \
 	escan.l \
 	load.c \
