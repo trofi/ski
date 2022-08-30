@@ -19,10 +19,17 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  */
+#include "ssGtk.h"
 
 #include "std.h"
 
 #ifdef HAVE_GTK
+
+#include <gtk/gtk.h>
+#include <glade/glade.h>
+
+#include <string.h>
+#include <assert.h>
 
 #include "types.h"
 #include "exportui.h"
@@ -33,14 +40,7 @@
 #include "program.h"
 #include "data.h"
 #include "load.h"
-
-#include <gtk/gtk.h>
-#include <glade/glade.h>
-
-#include <string.h>
-#include <assert.h>
-
-#include "ssGtk.h"
+#include "ssDPrs.h"
 
 /* cycles to do in one background loop */
 #define GTK_REFRESH_RATE 100000

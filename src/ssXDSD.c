@@ -54,6 +54,7 @@
 #define XSIM
 #include "program.h"
 #include "data.h"
+#include "ssDPrs.h"
 
 /*##################### Globals - Imports ##################################*/
 

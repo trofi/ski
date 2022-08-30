@@ -45,6 +45,7 @@
 #include "load.h"
 #include "dos.h"
 #include "libtrace.h"
+#include "ssDPrs.h"
 
 #define MAXFILEDEPTH	16
 #define MAXCMDLEN	4000

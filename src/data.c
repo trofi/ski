@@ -40,6 +40,7 @@
 #include "fields.h"
 #include "state.h"
 #include "simmem.h"
+#include "ssDPrs.h"
 
 #define PRCH(c)		(isprint(c) ? (c) : '.')
 

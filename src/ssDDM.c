@@ -89,6 +89,7 @@
 #include "lm.h"
 #include "state.h"
 #include "simmem.h"
+#include "ssDPrs.h"
 
 #define CSTKSZ	50
 

@@ -26,19 +26,6 @@
 #include "types.h"
 
 /*--------------------------------------------------------------------------
- *  Interface to expression evaluation
- *-------------------------------------------------------------------------*/
-
-BOOL evalExpr(const char *expr, unsigned base, REG *retval);
-/*
-    char *expr		Expression.  Must not have embedded spaces.
-    unsigned base	Default base for constants: 10 or 16.
-    REG *retval		Evaluated expression.
-    (retval)		Did the expression evaluation succeed?
- */
-
-
-/*--------------------------------------------------------------------------
  *  Interface to internal symbol registration
  *-------------------------------------------------------------------------*/
 

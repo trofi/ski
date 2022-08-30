@@ -271,6 +271,7 @@ ski_SOURCES = \
 	ssDSym.c \
 	ssDSym.h \
 	ssDPrs.c \
+	ssDPrs.h \
 	traceui.c \
 	traceui.h \
 	ia_das.c \

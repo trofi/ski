@@ -42,6 +42,7 @@
 #include "libcore.h"
 #include "load.h"
 #include "ui.h"
+#include "ssDPrs.h"
 
 #define MIN_LINES 24
 #define MIN_COLS 80

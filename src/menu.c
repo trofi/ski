@@ -41,6 +41,7 @@
 #include "traceui.h"
 #include "types.h"
 #include "ui.h"
+#include "ssDPrs.h"
 
 #define MENUTBLSIZ	200
 

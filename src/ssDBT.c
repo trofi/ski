@@ -41,6 +41,7 @@
 #include "libsym.h"
 #include "memui.h"
 #include "simmem.h"
+#include "ssDPrs.h"
 #include "tlb.h"
 
 #define NDBPTS		10

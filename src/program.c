@@ -44,6 +44,7 @@
 #include "state.h"
 #include "simmem.h"
 #include "ssDBT.h"
+#include "ssDPrs.h"
 #include "syscall_api.h"
 
 static char instPtr(ADDR addr, char *dline);

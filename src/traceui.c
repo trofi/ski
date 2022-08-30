@@ -35,6 +35,7 @@
 #include "exportui.h"
 #include "coreui.h"
 #include "libcore.h"
+#include "ssDPrs.h"
 #include "ui.h"
 
 /*##################### Functions and Subroutines ##########################*/

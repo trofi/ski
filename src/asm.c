@@ -32,8 +32,7 @@
 #include "fields.h"
 #include "state.h"
 #include "ssDCmd.h"
-
-BOOL evalExpr(const char *expr, unsigned base, REG *retval);
+#include "ssDPrs.h"
 
 typedef enum { AsmStart, AsmPred, AsmMnem, AsmOperands, AsmAssign } AsmState;
 

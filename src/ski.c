@@ -43,6 +43,7 @@
 #include "icnt_ui.gen.h"
 #include "ssDBT.h"
 #include "syscall_api.h"
+#include "ssDPrs.h"
 
 #define NELEM(arr)	(sizeof arr/sizeof arr[0])
 
