@@ -206,7 +206,6 @@ void cmdLoopGtk(void);
  *  DWARF stuff
  *-------------------------------------------------------------------------*/
 
-void initDwUnitTbl(int fd);
 char *getSrcName(ADDR ofs);
 
 /* Product Information Message */

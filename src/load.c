@@ -58,6 +58,7 @@
 #include "ski_elf.h"
 #include "osload.h"
 #include "ssDDM.h"
+#include "syscall_api.h"
 
 #if defined(__FreeBSD__)
 /*
@@ -74,8 +75,6 @@
 #define BSP64_ADDR	0x9FFFFFFF7F600000ULL
 
 #define ADDPTR(addr)    (addr = (BitfX(addr,32,32) | BitfX(addr,32,2) << 61))
-
-void initDwUnitTbl(int fd);
 
 BOOL force_user = NO;
 BOOL force_system = NO;

@@ -17,6 +17,8 @@ int signal_pending(void);
 void signal_queue_info(int signal, ADDR ip);
 void signal_return (void);
 
+void initDwUnitTbl (int fd);
+
 void profCnt (void);
 
 void doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
