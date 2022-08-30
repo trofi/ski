@@ -10,6 +10,8 @@
 
 #include "types.h"
 
+char *getSrcLines(ADDR ofs, unsigned *count);;
+
 void signal_invoke_handler (int in_syscall);
 int signal_pending(void);
 void signal_queue_info(int signal, ADDR ip);

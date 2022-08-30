@@ -44,10 +44,10 @@
 #include "state.h"
 #include "simmem.h"
 #include "ssDBT.h"
+#include "syscall_api.h"
 
 static char instPtr(ADDR addr, char *dline);
 static IAinstInfoPtr addrToIAinfo(ADDR adr, BYTE iAmode, unsigned *nbytes);
-char *getSrcLines(ADDR ofs, unsigned *count);
 
 extern BOOL iadas_decode(ADDR4, IAinstInfoPtr);
 

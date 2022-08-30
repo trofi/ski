@@ -207,7 +207,6 @@ void cmdLoopGtk(void);
  *-------------------------------------------------------------------------*/
 
 void initDwUnitTbl(int fd);
-char *getSrcLines(ADDR ofs, unsigned *count);
 char *getSrcName(ADDR ofs);
 
 /* Product Information Message */
