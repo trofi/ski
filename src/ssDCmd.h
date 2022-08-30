@@ -65,4 +65,18 @@ void catArgs(unsigned start, unsigned cnt, char *argv[], char *buf);
 /* menu.c */
 BOOL stateRest(unsigned argc, char *argv[]);
 
+BOOL cmdSysEsc(unsigned argc, char *argv[]);
+BOOL cmdComment(unsigned argc, char *argv[]);
+BOOL cmdEval(unsigned argc, char *argv[]);
+
+BOOL cmdExit(unsigned argc, char *argv[]);
+BOOL cmdSource(unsigned argc, char *argv[]);
+BOOL cmdGoto(unsigned argc, char *argv[]);
+
+BOOL cmdLoad(unsigned argc, char *argv[]);
+BOOL cmdIALoad(unsigned argc, char *argv[]);
+BOOL cmdROMLoad(unsigned argc, char *argv[]);
+BOOL cmdFWLoad(unsigned argc, char *argv[]);
+BOOL cmdIf(unsigned argc, char *argv[]);
+
 #endif	/* _SKI_SSDCMD_H */

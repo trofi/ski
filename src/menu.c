@@ -23,18 +23,19 @@
 /*##################### Header and Constant Definitions ####################*/
 
 #include <string.h>
+
 #include "std.h"
-#include "types.h"
-#include "ssDCmd.h"
-#include "exportui.h"
 #include "coreui.h"
+#include "exportui.h"
 #include "libsym.h"
 #include "libsrs.h"
 #include "libcore.h"
 #include "ski.h"
 #include "ssDBT.h"
+#include "ssDCmd.h"
 #include "tlb.h"
 #include "traceui.h"
+#include "types.h"
 #include "ui.h"
 
 #define MENUTBLSIZ	200
@@ -55,21 +56,6 @@ static BOOL cmdEscape(unsigned argc, char *argv[]);
 /*##################### Globals - Imports ##################################*/
 
 extern	int	scrn_lines;
-
-/* ssDCmd.c */
-BOOL cmdSysEsc(unsigned argc, char *argv[]);
-BOOL cmdComment(unsigned argc, char *argv[]);
-BOOL cmdEval(unsigned argc, char *argv[]);
-
-BOOL cmdExit(unsigned argc, char *argv[]);
-BOOL cmdSource(unsigned argc, char *argv[]);
-BOOL cmdGoto(unsigned argc, char *argv[]);
-
-BOOL cmdLoad(unsigned argc, char *argv[]);
-BOOL cmdIALoad(unsigned argc, char *argv[]);
-BOOL cmdROMLoad(unsigned argc, char *argv[]);
-BOOL cmdFWLoad(unsigned argc, char *argv[]);
-BOOL cmdIf(unsigned argc, char *argv[]);
 
 /* ssDDM.c */
 BOOL valAssign(unsigned argc, char *argv[]);
