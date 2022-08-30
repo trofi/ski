@@ -25,13 +25,12 @@
 
 #include "std.h"
 #include "bits.h"
+#include "exec.h"
 #include "types.h"
 #include "fields.h"	/* for SIGN() */
 #include "state.h"	/* for FREG */
 #include "float.h"
 #include "sim.h"	/* for ONES() */
-
-FREG fill2freg(BYTE sign, WORD exp, DWORD mant);
 
 /*
  * The flags/ISR settings as a result of an FP operation is indicated in
