@@ -30,8 +30,9 @@
 #include "coreui.h"
 #include "libsym.h"
 #include "libsrs.h"
-#include "libcore.h"	/* for setDerivedState, and get*TlbInfo */
+#include "libcore.h"
 #include "ski.h"
+#include "ssDBT.h"
 #include "tlb.h"
 #include "traceui.h"
 
@@ -53,18 +54,6 @@ static BOOL cmdEscape(unsigned argc, char *argv[]);
 /*##################### Globals - Imports ##################################*/
 
 extern	int	scrn_lines;
-
-/* ssDBT.c */
-BOOL bptDisplay(unsigned argc, char *argv[]);
-BOOL bptSet(unsigned argc, char *argv[]);
-BOOL bptDelete(unsigned argc, char *argv[]);
-BOOL bptDAll(unsigned argc, char *argv[]);
-BOOL iAbptSet(unsigned argc, char *argv[]);
-BOOL dbptDisplay(unsigned argc, char *argv[]);
-BOOL dbptSet(unsigned argc, char *argv[]);
-BOOL dbptDelete(unsigned argc, char *argv[]);
-BOOL dbptDAll(unsigned argc, char *argv[]);
-BOOL tbDisplay(unsigned argc, char *argv[]);
 
 /* ssDCmd.c */
 BOOL cmdSysEsc(unsigned argc, char *argv[]);

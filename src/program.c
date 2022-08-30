@@ -43,12 +43,12 @@
 #include "ia_exec.h"
 #include "state.h"
 #include "simmem.h"
+#include "ssDBT.h"
 
 static char instPtr(ADDR addr, char *dline);
 static IAinstInfoPtr addrToIAinfo(ADDR adr, BYTE iAmode, unsigned *nbytes);
 char *getSrcLines(ADDR ofs, unsigned *count);
 ADDR iAinstAddr(ADDR baseAddr, BYTE iAmode, int delta);
-int isbpt(ADDR adr);
 
 extern BOOL iadas_decode(ADDR4, IAinstInfoPtr);
 

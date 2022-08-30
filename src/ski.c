@@ -41,6 +41,7 @@
 #include "libsrs.h"
 #include "libcore.h"
 #include "icnt_ui.gen.h"
+#include "ssDBT.h"
 
 #define NELEM(arr)	(sizeof arr/sizeof arr[0])
 
@@ -68,9 +69,6 @@ extern unsigned calcInfo;
 #ifndef CORE_STATE
 extern BOOL dosABI, unixABI;
 #endif
-
-void bptLoad(void);
-void bptUnload(void);
 
 extern void saveOpenFiles(FILE *);
 extern void restoreOpenFile(char *, unsigned, unsigned, unsigned);

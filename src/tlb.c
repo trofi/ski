@@ -33,6 +33,7 @@
 #include "simmem.h"
 #include "tlb.h"
 #include "interruption.h"
+#include "ssDBT.h"
 
 #define PKR_KEY_MASK	(ONES(key_len) << 8 | 1)
 #define TPA_MASK	0x0003FFFFFFFFF000ULL
@@ -160,7 +161,6 @@ static void setQuickChk(TlbEntry *e)
 
 static void tlbInsert(TlbEntry *e, ADDR tva, ADDR tpa, ADDR tar)
 {
-    extern void bptLoad (void);
     extern int numBptsToLoad;
     int num_bpts = numBptsToLoad;
     e->ed  = TPA_ED(tpa);

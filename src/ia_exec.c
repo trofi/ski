@@ -38,12 +38,11 @@
 #include "ia_read.h"
 #include "ia_write.h"
 #include "ia_exec.h"
+#include "ssDBT.h"
 
 /* IA-32 Trap Code for INT and INTO instructions (from Seemless Spec) */
 #define INT_TRAP_CODE		(PSR_CPL << 15 | SSD.d << 14 | PSR_SS << 3)
 	/* XXX - need to include real/protected/VM86 in bits 11, 12, & 13 */
-
-int isbpt(ADDR adr);
 
 /* Internal IA Simulator State - not mapped onto EM State */
 

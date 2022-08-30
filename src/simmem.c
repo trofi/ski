@@ -43,6 +43,8 @@
 #include "ia_types.h"
 #include "ia_state.h"
 #include "ia_exec.h"
+#include "ssDBT.h"
+
 extern BOOL use_alat;
 void alat_inval_multiple_entries(ADDR pa, unsigned size);
 
@@ -78,12 +80,10 @@ void alat_inval_multiple_entries(ADDR pa, unsigned size);
 #define intaAccess(adr)	((adr) == ibBase + INTA_OFS)
 
 extern int numBptsToLoad;
-extern void bptLoad (void);
 
 /*##################### Globals - Imports ##################################*/
 
 void clearPdecode(ADDR adr, unsigned size);
-BOOL dbptCheck(ADDR, unsigned, unsigned);
 
 /*##################### Globals - Exports ##################################*/
 

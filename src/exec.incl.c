@@ -477,7 +477,6 @@ void arithFlagsFromEflags(void);
 void setIAmode(void);
 void clearPdecode(ADDR adr, unsigned size);
 void addLM2(ADDR adr, size_t len);
-int isbpt(ADDR adr);
 
 void alat_inval_single_entry(BOOL fpreg, int rega);
 void alat_write(BOOL fpreg, int rega, ADDR pa, unsigned size);

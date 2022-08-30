@@ -26,6 +26,9 @@
 
 #include <string.h>
 #include "std.h"
+
+#include "ssDBT.h"
+
 #include "bits.h"
 #include "types.h"
 #include "fields.h"

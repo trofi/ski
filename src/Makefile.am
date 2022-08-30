@@ -262,6 +262,7 @@ ski_SOURCES = \
 	ski.c \
 	menu.c \
 	ssDBT.c \
+	ssDBT.h \
 	ssDDM.c \
 	ssDCmd.c \
 	program.c \
