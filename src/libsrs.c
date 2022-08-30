@@ -33,6 +33,7 @@
 #include "simmem.h"
 #include "libsrs.h"
 #include "libcore.h"
+#include "ssDSym.h"
 #include "ui.h"
 
 #define MAJVER		1
@@ -49,15 +50,6 @@ typedef struct {
     PPSF	psvefn;
     PPRF	prstfn;
 } PSveRstRec;
-
-/*##################### Globals - Exports ##################################*/
-
-
-/*##################### Globals - Imports ##################################*/
-
-void symGetInit(void);			/* point to the top of symbol table */
-BOOL symGet(char **symnam, ADDR *adr);
-void symSet(char *symnam, ADDR adr);
 
 /*##################### Local Variables   ##################################*/
 
