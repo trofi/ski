@@ -35,7 +35,9 @@
 #include "encoder.h"
 #include "libdas.h"
 #include "libsym.h"
+#include "program.h"
 #include "ski_elf.h"
+#include "ssDSym.h"
 
 #ifndef R_IA_64_IMM14
 #define R_IA_64_IMM14           R_IA_64_IMM15
@@ -44,8 +46,6 @@
 #define MAX_DAS_DECIMAL		 255
 #define MIN_DAS_DECIMAL		-256
 
-ADDR dasAddress();
-void symAddrtoDefFunc(ADDR, char[], int, int, int);
 /* default disassembly parameters - can be changed by dasInit() */
 static DasOptions dasOpts = DasTemplate | DasTemplateCommas | DasPseudoOps
 				| DasRegNames;
