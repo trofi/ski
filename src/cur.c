@@ -63,7 +63,6 @@ BOOL userint = NO;
 
 extern ADDR dataStart;
 
-ADDR iAinstAddr(ADDR baseAddr, BYTE iAmode, int delta);
 #if !defined __linux__
 static void sigwinchHandler(int sig);
 static void (*stdSigwinchHandler)(int sig);

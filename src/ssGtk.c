@@ -84,7 +84,6 @@ static CTR execcnt;
 
 /* externals */
 extern ADDR dataStart;
-ADDR iAinstAddr(ADDR baseAddr, BYTE iAmode, int delta);
 
 static GtkLabel* instcount_label;
 /* sits in a background loop */

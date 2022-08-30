@@ -84,6 +84,8 @@ extern prgStruct prgInfo;
 ADDR dasAddress(void);
 BOOL dasmDump(unsigned argc, char *argv[]);
 
+ADDR iAinstAddr(ADDR baseAddr, BYTE iAmode, int delta);
+
 void setPrgwIP(ADDR);
 char *prgwLine(ADDR ofs, unsigned *srcrows, unsigned *asmrows);
 char *prgwLineIA(ADDR adr, BYTE iAmode, BOOL bp_ip, unsigned *nbytes);

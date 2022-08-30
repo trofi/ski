@@ -48,7 +48,6 @@
 static char instPtr(ADDR addr, char *dline);
 static IAinstInfoPtr addrToIAinfo(ADDR adr, BYTE iAmode, unsigned *nbytes);
 char *getSrcLines(ADDR ofs, unsigned *count);
-ADDR iAinstAddr(ADDR baseAddr, BYTE iAmode, int delta);
 
 extern BOOL iadas_decode(ADDR4, IAinstInfoPtr);
 

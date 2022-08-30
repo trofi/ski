@@ -59,7 +59,6 @@
 extern Widget	cmd, msgs;
 
 extern ADDR	dataStart;
-ADDR iAinstAddr(ADDR baseAddr, BYTE iAmode, int delta);
 
 BOOL noscreen = YES;
 
