@@ -269,24 +269,6 @@ BOOL regwBkwdCur(unsigned argc, char *argv[])
     return YES;
 }
 
-#ifdef TO_BE_USED
-tlbCur()
-{
-    WINDOW *tlbh, *tlbd;
-    int i;
-
-    tlbh = newwin(2, COLS, 0, 0);
-    tlbd = newpad(TLBSIZE, COLS);
-
-    mvwprintw(tlbh, 0, 0, "%-*s", COLS, "TLB Header Line 1");
-    mvwprintw(tlbh, 1, 0, "%-*s", COLS, "TLB Header Line 2");
-    for (i = 0; i < TLBSIZE; i++)
-	mvwprintw(tlbd, i, 0, "TLB Data Line %2d", i);
-    wrefresh(tlbh);
-    prefresh(tlbd, 7, 0, 2, 0, LINES-1, COLS-1);
-}
-#endif
-
 #ifdef CUR_DEBUG
 static FILE *dbg;
 #endif

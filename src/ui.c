@@ -118,13 +118,6 @@ void cmdOut(const char *name, const char *hdr, const char *buf, FILE *f)
     /* free(buf); */
 }
 
-#ifdef TO_BE_USED
-tlb()
-{
-}
-#endif
-
-
 /****************************/
 /* Register Window Routines */
 /****************************/

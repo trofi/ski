@@ -35,12 +35,6 @@
 
 BOOL bstats = NO;
 
-#ifdef TO_BE_USED
-tlbBatch()
-{
-}
-#endif
-
 void scrnInitBatch(void)
 {
     datInfo.numDataWds = 4;
