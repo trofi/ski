@@ -25,6 +25,7 @@
 
 #include "std.h"
 #include "bits.h"
+#include "exec.h"
 #include "types.h"
 #include "fields.h"
 #include "state.h"
@@ -86,15 +87,6 @@ ADDR max_sp;
 #endif
 
 const FREG ZERO_FREG = {NO, 0, 64, 0, 0, 0};
-
-/* XXX - Should these be in a header file? */
-FREG fill2freg(BYTE sign, WORD exp, DWORD mant);
-void freg2spill(FREG fr, BYTE *sign, WORD *exp, DWORD *mant);
-BOOL reservedAR(unsigned ar);
-BOOL reservedCR(unsigned cr);
-BOOL reservedCrField(unsigned cr, REG *val);
-BOOL reservedIpsrField(REG val);
-INSTINFO *setIcp(void);
 
 /*
  * Routines needed by Save/Restore

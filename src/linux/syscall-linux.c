@@ -76,6 +76,7 @@
 
 #include "std.h"
 #include "bits.h"
+#include "exec.h"
 #include "types.h"
 #include "fields.h"
 #include "state.h"

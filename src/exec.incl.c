@@ -25,6 +25,7 @@
 
 #include "std.h"
 #include "bits.h"
+#include "exec.h"
 #include "types.h"
 #include "fields.h"
 #include "state.h"
@@ -484,12 +485,7 @@ void alat_inval_all_entries(void);
 /* Forward declarations */
 int rse_load(void);
 int rse_store(void);
-FREG fill2freg(BYTE, WORD, DWORD);
 FREG qword2freg(QWORD);
-BOOL reservedIpsrField(REG);
-BOOL reservedCrField(unsigned, REG*);
-BOOL reservedCR(unsigned);
-BOOL reservedAR(unsigned);
 Status swizzleComb(INSTINFO*);
 
 /* RSE Auxiliary Functions */

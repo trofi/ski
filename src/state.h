@@ -557,6 +557,4 @@ extern ADDR max_sp;
 				  grmap[i] = i + bol; \
 			}
 
-extern void freg2spill(FREG fr, BYTE *sign, WORD *exp, DWORD *mant);
-
 #endif /* _SKI_STATE_H_ */

@@ -267,6 +267,7 @@ ski_SOURCES = \
 	ssDCmd.c \
 	program.c \
 	data.c \
+	exec.h \
 	ssDSym.c \
 	ssDSym.h \
 	ssDPrs.c \
