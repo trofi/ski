@@ -25,6 +25,8 @@
 
 #include "config.h"
 
+#include "ssDDM.h"
+
 #ifdef HAVE_LIBUNWIND_IA64
 # define HAVE_UNWIND_SUPPORT
 #endif

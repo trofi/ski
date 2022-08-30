@@ -263,6 +263,7 @@ ski_SOURCES = \
 	ssDBT.c \
 	ssDBT.h \
 	ssDDM.c \
+	ssDDM.h \
 	ssDCmd.c \
 	program.c \
 	data.c \

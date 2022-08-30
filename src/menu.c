@@ -33,6 +33,7 @@
 #include "ski.h"
 #include "ssDBT.h"
 #include "ssDCmd.h"
+#include "ssDDM.h"
 #include "tlb.h"
 #include "traceui.h"
 #include "types.h"
@@ -57,18 +58,6 @@ static BOOL cmdEscape(unsigned argc, char *argv[]);
 
 extern	int	scrn_lines;
 
-/* ssDDM.c */
-BOOL valAssign(unsigned argc, char *argv[]);
-BOOL byteAssign(unsigned argc, char *argv[]);
-BOOL hwAssign(unsigned argc, char *argv[]);
-BOOL wordAssign(unsigned argc, char *argv[]);
-BOOL dwordAssign(unsigned argc, char *argv[]);
-BOOL stringAssign(unsigned argc, char *argv[]);
-BOOL instrAssign(unsigned argc, char *argv[]);
-BOOL templAssign(unsigned argc, char *argv[]);
-BOOL dasmDump(unsigned argc, char *argv[]);
-BOOL dataDump(unsigned argc, char *argv[]);
-
 /* ssDSM.c */
 BOOL prgwFwd(unsigned argc, char *argv[]);
 BOOL prgwBkwd(unsigned argc, char *argv[]);
@@ -87,9 +76,6 @@ BOOL datwAT(unsigned argc, char *argv[]);
 /* ssDSym.c */
 BOOL cmdISymLst(unsigned argc, char *argv[]);
 static BOOL cmdSDel(unsigned argc, char *argv[]);
-
-BOOL cstkDisplay(unsigned argc, char *argv[]);
-BOOL showLoadModules(unsigned argc, char *argv[]);
 
 static BOOL cmdItr_d(unsigned argc, char *argv[]);
 static BOOL cmdItr_i(unsigned argc, char *argv[]);

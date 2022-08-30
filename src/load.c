@@ -58,6 +58,7 @@
 #include "simmem.h"
 #include "ski_elf.h"
 #include "osload.h"
+#include "ssDDM.h"
 
 #if defined(__FreeBSD__)
 /*
@@ -100,8 +101,6 @@ static REG psrval = 0;
 #else
 #    define DEBUG(...) do { } while (0)
 #endif
-
-extern void addLM5 (const char*, Elf64_Phdr*, int, ADDR, int);
 
 char *sim_root = NULL;
 size_t sim_root_len = 0;

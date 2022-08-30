@@ -17,6 +17,7 @@ BEGIN {
     }
     close(COPYRIGHT)
     print "#include \"ssDBT.h\"" > CFILE
+    print "#include \"ssDDM.h\"" > CFILE
     print "#include \"trace.h\"" > CFILE
     print "#include \"exec.incl.c\"" > CFILE
 
