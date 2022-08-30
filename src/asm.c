@@ -22,10 +22,10 @@
 
 #include <string.h>
 #include <ctype.h>
-#include <asm.h>
-#include <decoder.h>
-#include <encoder.h>
 
+#include "asm.h"
+#include "decoder.h"
+#include "encoder.h"
 #include "std.h"
 #include "libsym.h"
 #include "types.h"
