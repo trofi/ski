@@ -30,6 +30,7 @@
 #include "libsym.h"
 #include "libsrs.h"
 #include "libcore.h"
+#include "program.h"
 #include "ski.h"
 #include "ssDBT.h"
 #include "ssDCmd.h"
@@ -58,12 +59,6 @@ static BOOL cmdEscape(unsigned argc, char *argv[]);
 
 extern	int	scrn_lines;
 
-/* ssDSM.c */
-BOOL prgwFwd(unsigned argc, char *argv[]);
-BOOL prgwBkwd(unsigned argc, char *argv[]);
-BOOL prgwJump(unsigned argc, char *argv[]);
-BOOL prgwAsm(unsigned argc, char *argv[]);
-BOOL prgwMixed(unsigned argc, char *argv[]);
 BOOL datwExpr(unsigned argc, char *argv[]);
 BOOL datwFwd(unsigned argc, char *argv[]);
 BOOL datwBkwd(unsigned argc, char *argv[]);

@@ -78,7 +78,7 @@ static struct {
     struct {
 	Widget form;
 	Widget rw[WINTBLSIZ];
-    } perProc[NPROC];
+    } perProc[SKI_NPROC];
     Widget toggles;
 } regInfo;
 

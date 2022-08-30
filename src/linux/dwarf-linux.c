@@ -24,7 +24,6 @@
 #include "types.h"
 #include "fields.h"
 #include "ski.h"
-#define NPROC 1
 #include "program.h"
 #include "libsym.h"
 #include "libsrs.h"

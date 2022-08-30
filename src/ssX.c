@@ -51,6 +51,8 @@
 #include "libcore.h"
 #include "ssXDSD.h"
 
+#define SKI_NPROC 1 /* TODO: use program.h definition */
+
 #define FIXED_RSRCS	4
 #define FIXED_OPTIONS	6
 #define REFRESH_RATE	100000		/* ~1 sec wait */
@@ -228,7 +230,7 @@ void scrnInitX(void)
 
     /* Control window processor option menu */
     if (nproc > 1) {
-	Widget procMenu, proc[NPROC];
+	Widget procMenu, proc[SKI_NPROC];
 
 	n = 0;
 	XtSetArg(args[n], XmNtopAttachment, XmATTACH_WIDGET);	n++;

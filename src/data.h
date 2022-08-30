@@ -24,6 +24,7 @@
 
 #include "std.h"
 #include "types.h"
+#include "program.h"
 
 #ifndef XSIM
 #ifndef WIDGET_TYPEDEF
@@ -47,7 +48,7 @@ typedef struct {
 	unsigned rows;
 	/* XXX - will not work when NPROC > 1 !!! */
 	Widget form[WINTBLSIZ], hdr[WINTBLSIZ], text[WINTBLSIZ];
-    } perProc[NPROC];
+    } perProc[SKI_NPROC];
 } datStruct;
 
 extern datStruct datInfo;

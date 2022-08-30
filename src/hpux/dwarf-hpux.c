@@ -29,7 +29,6 @@
 #include "types.h"
 #include "exportui.h"
 #include "coreui.h"
-#define NPROC 1
 #include "program.h"
 
 #define FNAME_LEN	54

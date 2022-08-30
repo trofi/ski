@@ -30,7 +30,6 @@
 #include "ski.h"
 #include "ssDCmd.h"	/* just for exitSim() */
 #include "libcore.h"
-#define NPROC 1
 #define cproc 0
 #include "data.h"
 

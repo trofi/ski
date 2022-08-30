@@ -47,7 +47,6 @@
 #include "types.h"
 #include "fields.h"
 #include "state.h"
-#define NPROC 1
 #include "program.h"
 #include "libsym.h"
 #include "libcore.h"

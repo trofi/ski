@@ -40,8 +40,6 @@ extern unsigned viewPid;
 
 /* XXX - the following declarations probably belong in state.h */
 
-#define NPROC   1               /* maximum number of processors */
-
 extern unsigned cproc;              /* current processor number */
 extern unsigned nproc;              /* user-specified number of processors */
 

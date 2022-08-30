@@ -35,8 +35,7 @@
 #include "iadas_types.gen.h"
 #include "ia_decoder.h"
 #include "ia_das.h"
-
-ADDR dasAddress(void);
+#include "program.h"
 
 #define MNE	"%-12s"		/* field width for assembly mnemonic */
 #define HEX	16		/* force hex display of immediates */

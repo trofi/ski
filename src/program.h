@@ -32,6 +32,8 @@ typedef int Widget;
 
 typedef enum { PrgUseCVA, PrgUseTop, PrgUseBot } PrgCmd;
 
+#define SKI_NPROC   1
+
 typedef struct {
     BOOL iofsHex;
     unsigned iofsSymWidth;
@@ -55,7 +57,7 @@ typedef struct {
 	BOOL is;	/* which instruction set */
 	BYTE iAmode;	/* which iA execution mode */
 	Widget form, hdr, text, gotoST, gotoSL, gotoOT;
-    } perProc[NPROC];
+    } perProc[SKI_NPROC];
     Widget iofsFmt, instFmt;
 } prgStruct;
 
@@ -79,8 +81,17 @@ extern prgStruct prgInfo;
 
 #define prgOverlap	1
 
+ADDR dasAddress(void);
+BOOL dasmDump(unsigned argc, char *argv[]);
+
 void setPrgwIP(ADDR);
 char *prgwLine(ADDR ofs, unsigned *srcrows, unsigned *asmrows);
 char *prgwLineIA(ADDR adr, BYTE iAmode, BOOL bp_ip, unsigned *nbytes);
+
+BOOL prgwFwd(unsigned argc, char *argv[]);
+BOOL prgwBkwd(unsigned argc, char *argv[]);
+BOOL prgwJump(unsigned argc, char *argv[]);
+BOOL prgwAsm(unsigned argc, char *argv[]);
+BOOL prgwMixed(unsigned argc, char *argv[]);
 
 #endif 	/* _SKI_PROGRAM_H */
