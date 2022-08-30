@@ -29,23 +29,15 @@
 
 #include "std.h"
 #include "types.h"
-#ifndef NEW_MP
 #include "state.h"
-#endif
 #include "ssDCmd.h"
-#ifdef NEW_MP
-BOOL traceOutInit(char *trfile, char *mode, double virtcycle, char *toolname);
-#else
-#include "libtrace.h"	/* Just for traceOutInit? */
-#endif
+#include "libtrace.h"
 #include "exportui.h"
 #include "coreui.h"
 #include "libcore.h"
 #include "ui.h"
 
 /*##################### Functions and Subroutines ##########################*/
-
-BOOL archTraceInit(FILE *trcf, char errmsg[]);
 
 /*--------------------------------------------------------------------------
  * trace$Generate - Enable/disable trace generation depending on the
@@ -89,4 +81,3 @@ BOOL traceFile(unsigned argc, char *argv[])
     initTraceFlags();
     return YES;
 }
-
