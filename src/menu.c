@@ -36,6 +36,7 @@
 #include "ssDBT.h"
 #include "ssDCmd.h"
 #include "ssDDM.h"
+#include "ssDSym.h"
 #include "tlb.h"
 #include "traceui.h"
 #include "types.h"
@@ -60,8 +61,6 @@ static BOOL cmdEscape(unsigned argc, char *argv[]);
 
 extern	int	scrn_lines;
 
-/* ssDSym.c */
-BOOL cmdISymLst(unsigned argc, char *argv[]);
 static BOOL cmdSDel(unsigned argc, char *argv[]);
 
 static BOOL cmdItr_d(unsigned argc, char *argv[]);

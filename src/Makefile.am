@@ -268,6 +268,7 @@ ski_SOURCES = \
 	program.c \
 	data.c \
 	ssDSym.c \
+	ssDSym.h \
 	ssDPrs.c \
 	traceui.c \
 	traceui.h \

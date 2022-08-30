@@ -33,6 +33,7 @@
 #include "coreui.h"
 #include "libsym.h"	/* for symGet, symSet, symAddrtoDefFunc */
 #include "libcore.h"
+#include "ssDSym.h"
 #include "state.h"
 
 #define ISYMTBLSIZ	2500	/* max number of entries in internal */
