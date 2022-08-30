@@ -203,6 +203,7 @@ Status iAiCycle(void);
 void progStop(const char *, ...);
 void progExit(const char *, ...);
 void progPause(void);
+void resetState(int proc);
 void sendIPI(int, int, int);
 extern INSTINFO *setIcp(void);
 void switchBanks(void);

@@ -120,8 +120,6 @@ extern BOOL intrsim, extint, kybdint;
 BOOL acceptIrpt(void);
 void memMPMap(ADDR, char *, size_t);
 
-extern void resetState(int);
-
 extern int getdents (unsigned int, void*, unsigned int);
 extern int getdomainname(char *, int);
 
