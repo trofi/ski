@@ -60,4 +60,15 @@ extern datStruct datInfo;
 #define datwLVA		(datInfo.perProc[cproc].lastVA)
 #define datOverlap	1
 
+BOOL dataDump(unsigned argc, char *argv[]);
+
+BOOL datwExpr(unsigned argc, char *argv[]);
+BOOL datwFwd(unsigned argc, char *argv[]);
+BOOL datwBkwd(unsigned argc, char *argv[]);
+BOOL datwJump(unsigned argc, char *argv[]);
+BOOL datwHex(unsigned argc, char *argv[]);
+BOOL datwBndl(unsigned argc, char *argv[]);
+BOOL datwST(unsigned argc, char *argv[]);
+BOOL datwAT(unsigned argc, char *argv[]);
+
 #endif	/* _SKI_DATA_H */

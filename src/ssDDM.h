@@ -20,7 +20,6 @@ BOOL dwordAssign(unsigned argc, char *argv[]);
 BOOL stringAssign(unsigned argc, char *argv[]);
 BOOL instrAssign(unsigned argc, char *argv[]);
 BOOL templAssign(unsigned argc, char *argv[]);
-BOOL dataDump(unsigned argc, char *argv[]);
 
 void addLM2(ADDR adr, size_t len);
 void addLM5 (const char *name, Elf64_Phdr *phdr, int phnum,

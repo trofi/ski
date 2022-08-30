@@ -26,6 +26,7 @@
 
 #include "std.h"
 #include "coreui.h"
+#include "data.h"
 #include "exportui.h"
 #include "libsym.h"
 #include "libsrs.h"
@@ -58,15 +59,6 @@ static BOOL cmdEscape(unsigned argc, char *argv[]);
 /*##################### Globals - Imports ##################################*/
 
 extern	int	scrn_lines;
-
-BOOL datwExpr(unsigned argc, char *argv[]);
-BOOL datwFwd(unsigned argc, char *argv[]);
-BOOL datwBkwd(unsigned argc, char *argv[]);
-BOOL datwJump(unsigned argc, char *argv[]);
-BOOL datwHex(unsigned argc, char *argv[]);
-BOOL datwBndl(unsigned argc, char *argv[]);
-BOOL datwST(unsigned argc, char *argv[]);
-BOOL datwAT(unsigned argc, char *argv[]);
 
 /* ssDSym.c */
 BOOL cmdISymLst(unsigned argc, char *argv[]);
