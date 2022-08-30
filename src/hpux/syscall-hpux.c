@@ -72,6 +72,7 @@
 #include "simmem.h"
 #include "lp64struct.h"
 #include "load.h"
+#include "syscall_api.h"
 #include "ui.h"
 
 /* Prototypes for *64 functions */

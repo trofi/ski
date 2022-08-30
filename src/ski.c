@@ -42,6 +42,7 @@
 #include "libcore.h"
 #include "icnt_ui.gen.h"
 #include "ssDBT.h"
+#include "syscall_api.h"
 
 #define NELEM(arr)	(sizeof arr/sizeof arr[0])
 
@@ -69,9 +70,6 @@ extern unsigned calcInfo;
 #ifndef CORE_STATE
 extern BOOL dosABI, unixABI;
 #endif
-
-extern void saveOpenFiles(FILE *);
-extern void restoreOpenFile(char *, unsigned, unsigned, unsigned);
 
 /*##################### Local Variables ####################################*/
 

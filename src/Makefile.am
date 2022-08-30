@@ -283,6 +283,7 @@ ski_SOURCES = \
 	ssXDSD.h \
 	ssGtk.c \
 	ssGtk.h \
+	syscall_api.h \
 	asm.c \
 	version.c \
 	eparse.y \

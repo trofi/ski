@@ -29,6 +29,7 @@
 #include "state.h"
 
 #include "freebsd/machdep.h"
+#include "syscall_api.h"
 
 int _close(int);
 int _open(const char *, int, int);

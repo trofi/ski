@@ -95,6 +95,7 @@
 #include "interruption.h"
 #include "netdev.h"
 #include "os_support.h"
+#include "syscall_api.h"
 #include "ui.h"
 
 #if defined NEW_MP
