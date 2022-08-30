@@ -37,8 +37,6 @@
 
 typedef enum {NO, YES}	BOOL;
 
-#define BEL		'\a'
-
 /* What is the host endiannes? */
 #if defined ENDIANESS_IN_SYS_PARAM_H
 # include <sys/types.h>

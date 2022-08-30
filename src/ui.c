@@ -1076,7 +1076,7 @@ void cmdErr(const char *fmt, ...)
 	    break;
 	case CURSES_INTERFACE:
 	    cmdwPrintCur(s);
-	    (void)putchar(BEL);
+	    (void)putchar('\a');
 	    break;
     }
 }
