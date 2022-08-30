@@ -30,6 +30,7 @@
 #include "libcore.h"
 #include "exportui.h"
 #include "coreui.h"
+#include "syscall_api.h"
 
 #include <fcntl.h>
 #include <stdio.h>
