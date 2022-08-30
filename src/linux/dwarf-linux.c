@@ -18,6 +18,12 @@
  *
  */
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include <fcntl.h>
+#include <unistd.h>
 
 #include "std.h"
 #include "bits.h"
@@ -32,10 +38,6 @@
 #include "coreui.h"
 #include "syscall_api.h"
 
-#include <fcntl.h>
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
 
 char *src_root;		/* hold the prefix for all filenames */
 

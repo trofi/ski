@@ -22,6 +22,7 @@
 
 /*##################### Header and Constant Definitions ####################*/
 
+#include <stdlib.h>
 #include <string.h>
 
 #include "std.h"

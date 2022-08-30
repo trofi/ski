@@ -24,6 +24,8 @@
 /*##################### Header and Constant Definitions ####################*/
 
 #include <errno.h>
+#include <stdlib.h>
+
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #if !defined(__FreeBSD__)

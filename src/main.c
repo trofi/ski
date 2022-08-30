@@ -22,10 +22,13 @@
 
 /*##################### Header and Constant Definitions ####################*/
 
+#include <stdlib.h>
+#include <string.h>
+
 #include <fcntl.h>
 #include <pwd.h>
-#include <string.h>
 #include <unistd.h>
+
 #include "std.h"
 #if defined HAVE_ALLOCA_H
 #include <alloca.h>

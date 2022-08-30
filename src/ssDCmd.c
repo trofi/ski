@@ -22,12 +22,14 @@
 
 /*##################### Header and Constant Definitions ####################*/
 
-#include <unistd.h>
 #include <errno.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include <unistd.h>
 #include <pwd.h>
 #include <sys/stat.h>
 #include <sys/param.h>	/* for MIN */
-#include <string.h>
 #include <signal.h>
 
 #include "ssDCmd.h"

@@ -23,8 +23,10 @@
 
 /*##################### Header and Constant Definitions ####################*/
 
-#include <string.h>
 #include <ctype.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "std.h"
 #include "bits.h"
 #include "types.h"

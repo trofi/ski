@@ -22,6 +22,8 @@
  */
 
 #include <string.h>
+#include <stdlib.h>
+
 #include "std.h"
 #include "bits.h"
 #include "types.h"

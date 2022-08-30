@@ -25,6 +25,7 @@
 
 #include "std.h"
 #include <stddef.h>
+#include <stdlib.h>
 #if defined __linux
 #include <stdint.h>
 #endif

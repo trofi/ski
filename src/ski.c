@@ -23,6 +23,8 @@
 
 /*##################### Header and Constant Definitions ####################*/
 
+#include <stdlib.h>
+
 #if defined __linux__
 # include <sys/time.h>
 #else /* !defined __linux__ */

@@ -25,6 +25,8 @@
 
 #include "config.h"
 
+#include <stdlib.h>
+
 #include "ssDDM.h"
 
 #ifdef HAVE_LIBUNWIND_IA64

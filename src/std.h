@@ -28,9 +28,6 @@
 # include "config.h"
 #endif /* defined HAVE_CONFIG_H */
 
-#include <stdlib.h>	/* used for *alloc, free, exit, atoi, atof, atol,
-			     strtod, strtol, strtoul, getenv */
-
 typedef enum {NO, YES}	BOOL;
 
 /* What is the host endiannes? */
