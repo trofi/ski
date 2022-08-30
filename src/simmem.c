@@ -24,7 +24,9 @@
 /*##################### Header and Constant Definitions ####################*/
 
 #include <assert.h>
+#include <stdio.h>
 #include <string.h>
+
 #include <unistd.h>
 #include <sys/mman.h>
 #include "std.h"

@@ -28,12 +28,8 @@
 # include "config.h"
 #endif /* defined HAVE_CONFIG_H */
 
-/* Are these 2 really necessary for all files? */
 #include <stdlib.h>	/* used for *alloc, free, exit, atoi, atof, atol,
 			     strtod, strtol, strtoul, getenv */
-#include <stdio.h>	/* used for *printf, *scanf, fopen, fclose, fflush,
-			     setbuf, fget*, fput*, get*, put*, unget*, fread,
-			     fwrite, perror */
 
 typedef enum {NO, YES}	BOOL;
 

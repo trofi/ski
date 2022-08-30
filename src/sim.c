@@ -25,6 +25,7 @@
 #include <errno.h>
 #include <setjmp.h>
 #include <stdarg.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 /* XXX should list systems that need the header */

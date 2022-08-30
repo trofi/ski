@@ -23,6 +23,9 @@
 
 /*##################### Header and Constant Definitions ####################*/
 
+#include <math.h>
+#include <stdio.h>
+
 #include "std.h"
 #include "bits.h"
 #include "exec.h"
@@ -30,8 +33,6 @@
 #include "fields.h"
 #include "state.h"
 #include "libcore.h"
-
-#include <math.h>
 
 #ifdef NEW_MP
 mpstate mpState[4], zeroState = {0};

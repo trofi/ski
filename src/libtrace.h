@@ -25,6 +25,8 @@
 #ifndef _SKI_LIBTRACE_H
 #define _SKI_LIBTRACE_H
 
+#include <stdio.h>
+
 #include "std.h"
 
 /* XXX - should this library have any dependence on types such as BOOL

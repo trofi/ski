@@ -24,8 +24,10 @@
 /*##################### Header and Constant Definitions ####################*/
 
 #include <stdarg.h>
+#include <stdio.h>
 #include <string.h>
 #include <time.h>
+
 #include "std.h"
 #include "types.h"
 #include "state.h"

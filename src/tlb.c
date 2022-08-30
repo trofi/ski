@@ -23,6 +23,7 @@
 
 /*##################### Header and Constant Definitions ####################*/
 
+#include <stdio.h>
 #include <string.h>
 #include "std.h"
 #include "bits.h"

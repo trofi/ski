@@ -24,6 +24,7 @@
 /*##################### Header and Constant Definitions ####################*/
 
 #include <ctype.h>
+#include <stdio.h>
 #include <string.h>
 
 #include "EMInst.h"

@@ -22,6 +22,8 @@
 #ifndef _SKI_EXPORTUI_H
 #define _SKI_EXPORTUI_H
 
+#include <stdio.h>
+
 #include "std.h"
 #include "types.h"
 

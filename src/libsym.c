@@ -57,8 +57,10 @@
 
 /*##################### Header and Constant Definitions ####################*/
 
+#include <stdio.h>
 #include <string.h>
 #include <time.h>
+
 #include "std.h"
 #include "types.h"
 #include "libsym.h"
