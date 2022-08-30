@@ -50,6 +50,7 @@
 #include "exportui.h"
 #include "coreui.h"
 #include "libcore.h"	/* Just for ipGet */
+#include "load.h"
 #define XSIM
 #include "program.h"
 #include "data.h"
@@ -57,8 +58,6 @@
 /*##################### Globals - Imports ##################################*/
 
 extern Widget	cmd, msgs;
-
-extern ADDR	dataStart;
 
 BOOL noscreen = YES;
 

@@ -51,7 +51,6 @@
 
 /*##################### Globals - Imports ##################################*/
 
-extern	ADDR	dataStart;
 extern	BOOL	userint;
 
 /*##################### Globals - Exports ##################################*/

@@ -32,6 +32,7 @@
 #include "state.h"
 #include "program.h"
 #include "data.h"
+#include "load.h"
 
 #include <gtk/gtk.h>
 #include <glade/glade.h>
@@ -81,9 +82,6 @@ static guint status_bar_context;
 /* for running */
 static BOOL stopPressed;
 static CTR execcnt;
-
-/* externals */
-extern ADDR dataStart;
 
 static GtkLabel* instcount_label;
 /* sits in a background loop */

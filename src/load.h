@@ -4,6 +4,8 @@
 #include "std.h" /* BOOL */
 #include "types.h" /* ADDR */
 
+extern ADDR dataStart; /* used to set initial location of data window */
+
 void dynBlock(ADDR start, ADDR len);
 BOOL elfLoad(const char *file_name, int s_argc, char *s_argv[]);
 BOOL elfSymLoad(const char *file_name);

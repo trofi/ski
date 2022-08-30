@@ -40,6 +40,7 @@
 #include "program.h"
 #include "data.h"
 #include "libcore.h"
+#include "load.h"
 #include "ui.h"
 
 #define MIN_LINES 24
@@ -60,8 +61,6 @@ static char erasech, killch;
 
 
 BOOL userint = NO;
-
-extern ADDR dataStart;
 
 #if !defined __linux__
 static void sigwinchHandler(int sig);
