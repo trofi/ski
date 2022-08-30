@@ -83,7 +83,6 @@
 #include "sim.h"
 #include "simmem.h"
 #include "syscall-print.h"
-#include "libui.h"
 #include "float.h"
 #include "hpux/syscall-hpux.h"
 #include "syscall-linux.h"

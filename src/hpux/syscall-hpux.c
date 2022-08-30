@@ -71,8 +71,8 @@
 #include "os_support.h"
 #include "simmem.h"
 #include "lp64struct.h"
-#include "libui.h"
 #include "load.h"
+#include "ui.h"
 
 /* Prototypes for *64 functions */
 off64_t lseek64(int, off64_t, int);

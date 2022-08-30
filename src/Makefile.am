@@ -167,7 +167,6 @@ noinst_HEADERS= \
 	package.h \
 	libsrs.h \
 	lp64struct.h \
-	libui.h \
 	memui.h \
 	ia_das.h \
 	das_instr.h \

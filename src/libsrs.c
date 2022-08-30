@@ -33,7 +33,6 @@
 #include "simmem.h"
 #include "libsrs.h"
 #include "libcore.h"
-#include "libui.h"
 #include "ui.h"
 
 #define MAJVER		1
