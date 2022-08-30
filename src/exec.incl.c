@@ -473,13 +473,6 @@
 
 extern BOOL use_alat;
 
-void arithFlagsFromEflags(void);
-void setIAmode(void);
-
-/* Forward declarations */
-FREG qword2freg(QWORD);
-Status swizzleComb(INSTINFO*);
-
 /* RSE Auxiliary Functions */
 
 static int wrap(int reg_num)

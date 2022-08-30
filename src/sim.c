@@ -275,9 +275,6 @@ static int fdCnt = 0;
 #include "combfns.gen.h"
 
 #ifdef USE_PSEUDOS
-/* XXX - add this prototype to combfns.h via combfns.awk */
-Status swizzleComb(INSTINFO *);
-
 static void chkPseudo(InstID id, INSTINFO *info)
 {
     if (info->combFn == &adds_r1_imm14_r3Comb && r3 == 0)
