@@ -34,6 +34,7 @@
 #include "libsrs.h"
 #include "libcore.h"
 #include "libui.h"
+#include "ui.h"
 
 #define MAJVER		1
 #define MINVER		1

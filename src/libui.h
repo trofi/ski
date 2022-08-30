@@ -24,7 +24,4 @@
 
 #include <unistd.h>	/* for ssize_t */
 
-ssize_t sysWrite(int fd, void *buf, size_t len);
-char *getSimID(void);
-
 #endif	/* _SKI_LIBUI_H */

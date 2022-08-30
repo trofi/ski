@@ -28,6 +28,8 @@
 #include <stdarg.h>
 #include <unistd.h>
 
+#include "ui.h"
+
 #include "std.h"
 #include "batch.h"
 #include "bits.h"

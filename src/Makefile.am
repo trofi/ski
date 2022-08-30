@@ -273,6 +273,7 @@ ski_SOURCES = \
 	traceui.h \
 	ia_das.c \
 	ui.c \
+	ui.h \
 	batch.c \
 	batch.h \
 	cur.c \

@@ -66,6 +66,7 @@ extern int localtime_r(const __time_t *, __struct_tm *);
 #include "ia_state.h"
 #include "ia_exec.h"
 #include "libui.h"
+#include "ui.h"
 
 extern ArithFlags arithFlags;
 IAWORD pspSeg;

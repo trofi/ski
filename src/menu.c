@@ -35,6 +35,7 @@
 #include "ssDBT.h"
 #include "tlb.h"
 #include "traceui.h"
+#include "ui.h"
 
 #define MENUTBLSIZ	200
 
@@ -96,16 +97,6 @@ BOOL datwHex(unsigned argc, char *argv[]);
 BOOL datwBndl(unsigned argc, char *argv[]);
 BOOL datwST(unsigned argc, char *argv[]);
 BOOL datwAT(unsigned argc, char *argv[]);
-
-/* ui.c */
-BOOL regwFwd(unsigned argc, char *argv[]);
-BOOL regwBkwd(unsigned argc, char *argv[]);
-BOOL regwDump(unsigned argc, char *argv[]);
-BOOL showUrs(unsigned argc, char *argv[]);
-BOOL showSrs(unsigned argc, char *argv[]);
-BOOL showGrs(unsigned argc, char *argv[]);
-BOOL showFrs(unsigned argc, char *argv[]);
-BOOL showIArs(unsigned argc, char *argv[]);
 
 /* ssDSym.c */
 BOOL cmdISymLst(unsigned argc, char *argv[]);

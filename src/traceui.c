@@ -38,10 +38,10 @@ BOOL traceOutInit(char *trfile, char *mode, double virtcycle, char *toolname);
 #else
 #include "libtrace.h"	/* Just for traceOutInit? */
 #endif
-#include "libui.h"	/* Just for getSimID */
 #include "exportui.h"
 #include "coreui.h"
 #include "libcore.h"
+#include "ui.h"
 
 /*##################### Functions and Subroutines ##########################*/
 

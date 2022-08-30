@@ -40,6 +40,7 @@
 #include "program.h"
 #include "data.h"
 #include "libcore.h"
+#include "ui.h"
 
 #define MIN_LINES 24
 #define MIN_COLS 80
@@ -63,7 +64,6 @@ BOOL userint = NO;
 extern ADDR dataStart;
 
 ADDR iAinstAddr(ADDR baseAddr, BYTE iAmode, int delta);
-char *skiID(void);
 #if !defined __linux__
 static void sigwinchHandler(int sig);
 static void (*stdSigwinchHandler)(int sig);
