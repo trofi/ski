@@ -202,6 +202,7 @@ void alat_write(BOOL fpreg, int rega, ADDR pa, unsigned size);
 BOOL brCall(ADDR a);
 void clearPdecode(ADDR adr, unsigned size);
 ICNTS getICnts(unsigned i);
+void gotoAlarm(void);
 Status iCycleApp(void);
 Status iCycleSys(void);
 Status iAiCycle(void);
