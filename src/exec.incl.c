@@ -476,15 +476,7 @@ extern BOOL use_alat;
 void arithFlagsFromEflags(void);
 void setIAmode(void);
 
-void alat_inval_single_entry(BOOL fpreg, int rega);
-void alat_write(BOOL fpreg, int rega, ADDR pa, unsigned size);
-int alat_cmp(BOOL fpreg, int rega, BOOL clearit);
-void alat_inval_multiple_entries(ADDR pa, unsigned size);
-void alat_inval_all_entries(void);
-
 /* Forward declarations */
-int rse_load(void);
-int rse_store(void);
 FREG qword2freg(QWORD);
 Status swizzleComb(INSTINFO*);
 

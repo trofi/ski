@@ -47,7 +47,6 @@
 #include "syscall_api.h"
 
 extern BOOL use_alat;
-void alat_inval_multiple_entries(ADDR pa, unsigned size);
 
 /*
  * FreeBSD uses the traditional MAP_ANON and does not have MAP_ANONYMOUS.

@@ -35,6 +35,7 @@
 #include "decoder.h"
 #include "encoder.h"
 #endif
+#include "exec.h"
 #include "std.h"
 #include "bits.h"
 #include "types.h"
@@ -133,13 +134,6 @@ static unsigned traceSve;	/* For timer interrupt support */
 extern PCF instFetchDecodeFP;
 extern PCF illCombFP, illQpCombFP;
 
-extern void alat_inval_single_entry(BOOL fpreg, int rega);
-extern void alat_write(BOOL fpreg, int rega, ADDR pa, unsigned size);
-extern int alat_cmp(BOOL fpreg, int rega, BOOL clearit);
-extern void alat_inval_multiple_entries(ADDR pa, unsigned size);
-extern void alat_inval_all_entries(void);
-
-
 static void iCycleAppLoop(INSTINFO* icp);
 static void iCycleSysLoop(void);
 
@@ -165,9 +159,6 @@ INSTINFO* icp = NULL;
 #endif
 extern BYTE iAmode;
 extern IAWORD pspSeg;
-
-int rse_store(void);
-int rse_load(void);
 
 /*#####################  Macros  ###########################################*/
 

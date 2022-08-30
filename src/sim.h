@@ -194,6 +194,11 @@ extern CTR total_insts, total_cycles, total_faults;
 extern unsigned int mips;
 
 void alatInit(void);
+int alat_cmp(BOOL fpreg, int rega, BOOL clearit);
+void alat_inval_all_entries(void);
+void alat_inval_multiple_entries(ADDR pa, unsigned size);
+void alat_inval_single_entry(BOOL fpreg, int rega);
+void alat_write(BOOL fpreg, int rega, ADDR pa, unsigned size);
 BOOL brCall(ADDR a);
 void clearPdecode(ADDR adr, unsigned size);
 ICNTS getICnts(unsigned i);
@@ -204,6 +209,7 @@ void progStop(const char *, ...);
 void progExit(const char *, ...);
 void progPause(void);
 void resetState(int proc);
+
 void sendIPI(int, int, int);
 extern INSTINFO *setIcp(void);
 void switchBanks(void);
