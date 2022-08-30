@@ -63,9 +63,6 @@
 
 extern BOOL noscreen;
 
-void prgFmtCallback(CALLBACK_ARGS);
-void datFmtCallback(CALLBACK_ARGS);
-void regFmtCallback(CALLBACK_ARGS);
 static void cmdHelpCallback(CALLBACK_ARGS);
 static void prodInfoCallback(CALLBACK_ARGS);
 
