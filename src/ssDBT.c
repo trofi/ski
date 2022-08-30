@@ -91,10 +91,6 @@ struct tb {
 };
 #endif
 
-/*##################### Globals - Imports ##################################*/
-
-void prgwUpdate(void);
-
 /*##################### Globals - Exports ##################################*/
 
 static BOOL	dbptsSet = NO;	/* Are any data breakpoints currently set? */
