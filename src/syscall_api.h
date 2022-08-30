@@ -6,7 +6,21 @@
  * Usually in src/<OS>/syscall-<OS>.c files.
  */
 
-extern void saveOpenFiles(FILE *);
-extern void restoreOpenFile(char *, unsigned, unsigned, unsigned);
+#include <stdio.h>
+
+#include "types.h"
+
+void signal_invoke_handler (int in_syscall);
+int signal_pending(void);
+void signal_queue_info(int signal, ADDR ip);
+void signal_return (void);
+
+void profCnt (void);
+
+void doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
+		REG arg5, REG arg6, REG arg7, REG *ret, REG *status);
+
+void saveOpenFiles(FILE *f);
+void restoreOpenFile(char *name, unsigned oflag, unsigned mode, unsigned offset);
 
 #endif /* _SKI_SYSCALL_API_H */

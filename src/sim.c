@@ -61,14 +61,9 @@
 #include "instinfo.h"
 #include "icnt_core.gen.h"
 #include "os_support.h"
+#include "syscall_api.h"
 
 #define ALARM
-
-#ifdef __linux__
-extern void signal_invoke_handler(int in_syscall);
-extern void signal_return(void);
-extern int  signal_pending(void);
-#endif
 
 /* eclipse - added emulation bridge flag */
 BOOL emul_bridge_signaled = NO;
@@ -137,8 +132,6 @@ static unsigned traceSve;	/* For timer interrupt support */
 
 extern PCF instFetchDecodeFP;
 extern PCF illCombFP, illQpCombFP;
-
-extern void profCnt (void);
 
 extern void alat_inval_single_entry(BOOL fpreg, int rega);
 extern void alat_write(BOOL fpreg, int rega, ADDR pa, unsigned size);

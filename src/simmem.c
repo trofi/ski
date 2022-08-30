@@ -44,6 +44,7 @@
 #include "ia_state.h"
 #include "ia_exec.h"
 #include "ssDBT.h"
+#include "syscall_api.h"
 
 extern BOOL use_alat;
 void alat_inval_multiple_entries(ADDR pa, unsigned size);
@@ -332,7 +333,6 @@ segfault (ADDR addr)
 {
 #ifdef __linux__
     if (unixABI) {
-	extern void signal_queue_info (int signal, ADDR fault_ip);
 	signal_queue_info (11, ip);
     } else
 #endif

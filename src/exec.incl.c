@@ -41,6 +41,7 @@
 #include "ia_state.h"
 #include "ia_exec.h"
 #include "ssc.h"
+#include "syscall_api.h"
 
 #define HYPERLAZY		/* To support non-hyperlazy RSE, Ski must
 				   implement a RNAT array instead of a single
@@ -471,8 +472,6 @@
 
 extern BOOL use_alat;
 
-void doSyscall(HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
-	       REG arg5, REG arg6, REG arg7, REG *ret, REG *stat);
 void arithFlagsFromEflags(void);
 void setIAmode(void);
 

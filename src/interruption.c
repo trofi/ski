@@ -33,13 +33,10 @@
 #include "tlb.h"
 #include "interruption.h"
 #include "libtrace.h"
+#include "syscall_api.h"
 #include "trace.h"
 
 /* #define RSE_DEBUG */
-
-#if defined __linux__
-extern void signal_queue_info(int signal, ADDR);
-#endif /* !defined __linux__ */
 
 #define ILLEGAL_OP_CODE			0x0
 #define PRIV_OP_CODE			0x10
