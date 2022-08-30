@@ -66,7 +66,7 @@
 #include "fields.h"
 #include "state.h"
 #include "ssc.h"
-#include "sim.h"	/* For Status used in simmem.h & progExit; preInst */
+#include "sim.h"
 #include "libcore.h"
 #include "os_support.h"
 #include "simmem.h"
@@ -117,7 +117,6 @@ static struct {
 /* XXX - move these (and following prototypes) to .h file? */
 extern BOOL intrsim, extint, kybdint;
 
-void clearPdecode(ADDR adr, unsigned size);
 BOOL acceptIrpt(void);
 void memMPMap(ADDR, char *, size_t);
 

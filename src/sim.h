@@ -195,6 +195,7 @@ extern unsigned int mips;
 
 void alatInit(void);
 BOOL brCall(ADDR a);
+void clearPdecode(ADDR adr, unsigned size);
 ICNTS getICnts(unsigned i);
 Status iCycleApp(void);
 Status iCycleSys(void);

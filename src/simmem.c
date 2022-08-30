@@ -81,12 +81,6 @@ void alat_inval_multiple_entries(ADDR pa, unsigned size);
 
 extern int numBptsToLoad;
 
-/*##################### Globals - Imports ##################################*/
-
-void clearPdecode(ADDR adr, unsigned size);
-
-/*##################### Globals - Exports ##################################*/
-
 unsigned long page_size;
 unsigned int log2_page_size;
 DWORD page_mask;		/* Why DWORD? Why not u_long? */

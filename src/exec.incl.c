@@ -475,7 +475,6 @@ void doSyscall(HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
 	       REG arg5, REG arg6, REG arg7, REG *ret, REG *stat);
 void arithFlagsFromEflags(void);
 void setIAmode(void);
-void clearPdecode(ADDR adr, unsigned size);
 
 void alat_inval_single_entry(BOOL fpreg, int rega);
 void alat_write(BOOL fpreg, int rega, ADDR pa, unsigned size);
