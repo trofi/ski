@@ -31,6 +31,27 @@
 extern BOOL fileLoaded;
 extern BOOL keepXLoopAlive;
 
+#define IFACELEN 4
+#define ARGSIZ 30
+
+typedef enum {
+    ARG_BOOL, ARG_INT4, ARG_INT8, ARG_STRING
+} ARG;
+
+BOOL argIns(char *name, void *var, ARG kind, char *iface, char *descr);
+/*
+    char *name		argument (cmd line option) name.  Must include "-"
+    void *var		pointer to variable controlling the arg functionality
+    ARG kind		variable type
+    char *iface		interface for which the argument is valid: "bcx" makes
+			an option valid for batch, curses, and X interfaces
+    char *descr		argument description
+    (retval)		was the cmd line option inserted in the table?
+ */
+
+void displayOptions(void);
+int parseOptions(int argc, char *argv[]);
+
 void runIt(BOOL showIrate);
 BOOL runProg(unsigned argc, char *argv[]);
 BOOL stepProg(unsigned argc, char *argv[]);

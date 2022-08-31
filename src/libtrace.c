@@ -40,7 +40,6 @@
 #include "package.h"
 #include "types.h"
 #include "state.h"
-#include "exportui.h"
 #include "coreui.h"
 
 #define HEADER_VERSION		0x10001

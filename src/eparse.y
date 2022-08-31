@@ -23,7 +23,6 @@
 #include "std.h"
 #include "types.h"
 #include "memui.h"
-#include "exportui.h"
 #include "coreui.h"
 
 REG  expval;

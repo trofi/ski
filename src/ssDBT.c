@@ -36,7 +36,6 @@
 #include "libcore.h"
 #include "sim.h"
 #include "ssDCmd.h"
-#include "exportui.h"
 #include "coreui.h"
 #include "libsym.h"
 #include "memui.h"

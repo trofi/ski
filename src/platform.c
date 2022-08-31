@@ -22,14 +22,15 @@
  */
 
 #include <string.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "std.h"
 #include "bits.h"
 #include "types.h"
-#include "exportui.h"
 #include "platform.h"
 #include "sim.h"
+#include "ski.h"
 #include "state.h"
 
 extern BOOL autoAlloc, noConsole;

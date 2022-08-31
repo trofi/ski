@@ -45,11 +45,11 @@
 #include "icon.h"
 #endif
 #include "types.h"
-#include "exportui.h"
 #include "coreui.h"
 #include "ssDCmd.h"
 #include "libcore.h"
 #include "ssXDSD.h"
+#include "ui.h"
 
 #define SKI_NPROC 1 /* TODO: use program.h definition */
 

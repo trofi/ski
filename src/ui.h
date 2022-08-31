@@ -5,6 +5,18 @@
 
 #include "std.h"
 
+BOOL datwMakeActivew(const char *tag);
+/*
+    char *tag		registered data window name
+    (retval)		was the data window made active?
+ */
+
+unsigned datwSz(const char *tag);
+/*
+    char *tag		registered data window name
+    (retval)		data window size
+ */
+
 BOOL regwFwd(unsigned argc, char *argv[]);
 BOOL regwBkwd(unsigned argc, char *argv[]);
 BOOL regwDump(unsigned argc, char *argv[]);

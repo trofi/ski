@@ -31,7 +31,6 @@
 #include "types.h"
 #include "fields.h"
 #include "ssDCmd.h"
-#include "exportui.h"
 #include "coreui.h"
 #include "libsym.h"	/* for symGet, symSet, symAddrtoDefFunc */
 #include "libcore.h"

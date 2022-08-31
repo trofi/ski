@@ -23,7 +23,7 @@
 #define _SKI_COREUI_H
 
 #include "std.h"
-#include "exportui.h"
+#include "types.h"
 
 #define EXPRSIZ		20
 #define TITLESIZ	80
@@ -42,6 +42,30 @@ typedef enum { BATCH = 0, X_INTERFACE, CURSES_INTERFACE, GTK_INTERFACE } Interfa
 
 typedef REG (*PGetFn)(/* TODO: add prototype here */);
 typedef BOOL (*PSetFn)(/* TODO: add prototype here */);
+
+typedef enum {
+    SINGLE_SYM,
+    REGSET_SYM,
+    BITF_SYM,
+    RS_BITF_SYM,
+    REG_SYM,			/* generic 64-bit data items */
+    BYTE_SYM,			/* generic 8-bit data items */
+    BOOL_SYM,			/* boolean data items */
+    STR_SYM,			/* string data items */
+    IP_SYM,			/* IP */
+    PSR_SYM,			/* PSR */
+    GR_SYM,			/* GRs */
+    GRNAT_SYM,			/* GR Nats */
+    PR_SYM,			/* PRs */
+#if 0
+    FR_SYM,			/* FRs */
+#endif
+    FRMANT_SYM,			/* FR mantissas */
+    FREXP_SYM,			/* FR exponents */
+    FRSGN_SYM,			/* FR signs */
+    RRBGF_SYM,			/* rrbg and rrbf */
+    RRBP_SYM			/* rrbp */
+} Symtyp;
 
 struct isym {
     char name[NAMLEN];          /* internal symbol name */
@@ -68,6 +92,13 @@ struct isym *isymVLkp(const char *sname);
 #define KEYWDSIZ	20
 #define DESCRSIZ	200
 
+typedef BOOL	(*PFV)(unsigned argc, char **argv);
+/*
+    argc		command argument count
+    argv		command arguments
+    (retval)		error detected when running the command?
+ */
+
 typedef struct {
     char keywd[KEYWDSIZ];	/* menu lookup keyword */
     unsigned minargs, maxargs;	/* min and max number of arguments */
@@ -83,6 +114,12 @@ MENU *menuLkp(char *s);
 /*--------------------------------------------------------------------------
  *  Register window interface
  *-------------------------------------------------------------------------*/
+
+typedef char *	(*PLF)(unsigned line);
+/*
+    line		register window line to display
+    (retval)		pointer to a buffer containing the line to display
+ */
 
 typedef struct {
     char tag[EXPRSIZ];		/* register window tag */
@@ -108,6 +145,16 @@ void regwUpdateGtk(void);
 /*--------------------------------------------------------------------------
  *  Data window interface
  *-------------------------------------------------------------------------*/
+
+/*--------------------------------------------------------------------------
+ *  Interface to data window registration and use
+ *-------------------------------------------------------------------------*/
+
+typedef char *	(*PBF)(unsigned datwSz);	/* ptr to buffer display fcn */
+/*
+    datwSz		available data window size
+    (retval)		pointer to the display buffer
+ */
 
 typedef struct {
     char tag[EXPRSIZ];		/* data window tag */

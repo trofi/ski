@@ -39,7 +39,6 @@
 #include "ski.h"
 #include "ssDCmd.h"
 #include "asm.h"
-#include "exportui.h"
 #include "coreui.h"
 #include "libsym.h"
 #include "libcore.h"	/* for initAppState,initState,initSysState */

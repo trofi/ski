@@ -43,6 +43,8 @@ extern unsigned viewPid;
 extern unsigned cproc;              /* current processor number */
 extern unsigned nproc;              /* user-specified number of processors */
 
+extern FILE *cmdFile;        /* handle to the "." (command) file */
+
 /***/
 
 /*

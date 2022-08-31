@@ -33,7 +33,6 @@
 /*typedef struct instr *InstrPtr;*/
 #include "decoder/decoder.h"
 #include "ssDCmd.h"
-#include "exportui.h"
 #include "coreui.h"
 #include "data.h"
 #include "libsym.h"
@@ -43,6 +42,7 @@
 #include "state.h"
 #include "simmem.h"
 #include "ssDPrs.h"
+#include "ui.h"
 
 #define PRCH(c)		(isprint(c) ? (c) : '.')
 

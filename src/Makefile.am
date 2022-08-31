@@ -136,7 +136,6 @@ noinst_HEADERS= \
 	asm.h \
 	bits.h \
 	coreui.h \
-	exportui.h \
 	fields.h \
 	libcore.h \
 	libsym.h \

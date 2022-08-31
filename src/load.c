@@ -51,7 +51,6 @@
 #include "program.h"
 #include "libsym.h"
 #include "libcore.h"
-#include "exportui.h"
 #include "coreui.h"
 #include "lm.h"
 #include "sim.h"
