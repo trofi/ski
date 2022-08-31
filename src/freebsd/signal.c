@@ -25,7 +25,6 @@
 
 #include "std.h"
 #include "types.h"
-#include "coreui.h"
 #include "sim.h"
 #include "libsrs.h"
 #include "libcore.h"

@@ -33,7 +33,6 @@
 /*typedef struct instr *InstrPtr;*/
 #include "decoder/decoder.h"
 #include "ssDCmd.h"
-#include "coreui.h"
 #include "data.h"
 #include "libsym.h"
 #include "libcore.h"

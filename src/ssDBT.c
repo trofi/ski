@@ -36,12 +36,12 @@
 #include "libcore.h"
 #include "sim.h"
 #include "ssDCmd.h"
-#include "coreui.h"
 #include "libsym.h"
 #include "memui.h"
 #include "simmem.h"
 #include "ssDPrs.h"
 #include "tlb.h"
+#include "ui.h"
 
 #define NDBPTS		10
 #define NBPTS		10

@@ -3,8 +3,8 @@
 
 #include "syscall-print.h"
 
-#include "coreui.h"
 #include "syscall-linux.h"
+#include "ui.h"
 
 const char * syscallName (HWORD num)
 {

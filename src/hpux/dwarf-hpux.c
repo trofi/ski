@@ -27,7 +27,6 @@
 
 #include "std.h"
 #include "types.h"
-#include "coreui.h"
 #include "program.h"
 
 #define FNAME_LEN	54

@@ -40,7 +40,6 @@
 #include "std.h"
 #include "types.h"
 #include "bits.h"
-#include "coreui.h"
 #include "fields.h"
 #include "load.h"
 #include "sim.h"

@@ -23,6 +23,8 @@
 
 /*##################### Header and Constant Definitions ####################*/
 
+#include "cur.h"
+
 #include "std.h"
 
 #include <curses.h>
@@ -36,13 +38,13 @@
 #include "types.h"
 #include "ski.h"
 #include "ssDCmd.h"
-#include "coreui.h"
 #include "program.h"
 #include "data.h"
 #include "libcore.h"
 #include "load.h"
 #include "ui.h"
 #include "ssDPrs.h"
+#include "syscall_api.h"
 
 #define MIN_LINES 24
 #define MIN_COLS 80

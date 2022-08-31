@@ -49,13 +49,15 @@
 
 #include "types.h"
 #include "ssDCmd.h"
-#include "coreui.h"
 #include "libcore.h"	/* Just for ipGet */
 #include "load.h"
 #define XSIM
 #include "program.h"
 #include "data.h"
 #include "ssDPrs.h"
+#include "ssX.h"
+#include "syscall_api.h"
+#include "ui.h"
 
 /*##################### Globals - Imports ##################################*/
 

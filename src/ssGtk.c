@@ -32,7 +32,6 @@
 #include <assert.h>
 
 #include "types.h"
-#include "coreui.h"
 #include "ssDCmd.h"
 #include "libcore.h"
 #include "state.h"
@@ -40,6 +39,8 @@
 #include "data.h"
 #include "load.h"
 #include "ssDPrs.h"
+#include "syscall_api.h"
+#include "ui.h"
 
 /* cycles to do in one background loop */
 #define GTK_REFRESH_RATE 100000

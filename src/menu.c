@@ -26,7 +26,6 @@
 #include <string.h>
 
 #include "std.h"
-#include "coreui.h"
 #include "data.h"
 #include "libsym.h"
 #include "libsrs.h"

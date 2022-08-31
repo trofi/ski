@@ -23,7 +23,7 @@
 #include "std.h"
 #include "types.h"
 #include "memui.h"
-#include "coreui.h"
+#include "ui.h"
 
 REG  expval;
 ADDR thash(ADDR);

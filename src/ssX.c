@@ -26,6 +26,9 @@
 #include "std.h"
 
 #ifdef HAVE_MOTIF
+
+#include "ssX.h"
+
 #include <stdint.h>
 #include <Xm/Xm.h>
 #include <Xm/CascadeB.h>
@@ -45,9 +48,9 @@
 #include "icon.h"
 #endif
 #include "types.h"
-#include "coreui.h"
 #include "ssDCmd.h"
 #include "libcore.h"
+#include "ski.h"
 #include "ssXDSD.h"
 #include "ui.h"
 
@@ -653,7 +656,7 @@ static void SimCmd(Widget w, XEvent *event,
     (void)cmdExLin(s);
 }
 
-BOOL keepXLoopAlive = NO;                                                      
+BOOL keepXLoopAlive = NO;
 
 void cmdLoopX(void)
 {

@@ -39,7 +39,6 @@
 #include "types.h"
 #include "fields.h"
 #include "ski.h"
-#include "coreui.h"
 #include "data.h"
 #include "libsym.h"
 #include "libcore.h"
@@ -47,6 +46,7 @@
 #include "dos.h"
 #include "libtrace.h"
 #include "ssDPrs.h"
+#include "ui.h"
 
 #define MAXFILEDEPTH	16
 #define MAXCMDLEN	4000

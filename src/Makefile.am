@@ -135,7 +135,6 @@ BUILT_SOURCES = \
 noinst_HEADERS= \
 	asm.h \
 	bits.h \
-	coreui.h \
 	fields.h \
 	libcore.h \
 	libsym.h \
@@ -279,7 +278,9 @@ ski_SOURCES = \
 	batch.c \
 	batch.h \
 	cur.c \
+	cur.h \
 	ssX.c \
+	ssX.h \
 	ssXDSD.c \
 	ssXDSD.h \
 	ssGtk.c \
@@ -485,6 +486,9 @@ encoder/encode_table.gen.c: $(srcdir)/encodings/encoding.encode
 
 escan.h: escan.c
 eparse.h: eparse.c
+
+escan.c: escan.l
+eparse.c: eparse.y
 
 distclean-local:
 	-rm -f $(XSKI) $(GSKI) bski $(BUILT_SOURCES)

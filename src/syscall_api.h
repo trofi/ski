@@ -18,6 +18,7 @@ void signal_queue_info(int signal, ADDR ip);
 void signal_return (void);
 
 void initDwUnitTbl (int fd);
+char * getSrcName (ADDR ofs);
 
 void profCnt (void);
 

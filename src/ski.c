@@ -38,13 +38,16 @@
 #include "ski.h"
 #include "sim.h"
 #include "ssDCmd.h"
-#include "coreui.h"
 #include "libsrs.h"
 #include "libcore.h"
 #include "icnt_ui.gen.h"
 #include "ssDBT.h"
 #include "syscall_api.h"
 #include "ssDPrs.h"
+#include "ssGtk.h"
+#include "ssX.h"
+#include "ui.h"
+
 
 #define NELEM(arr)	(sizeof arr/sizeof arr[0])
 

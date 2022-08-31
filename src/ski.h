@@ -56,4 +56,6 @@ void runIt(BOOL showIrate);
 BOOL runProg(unsigned argc, char *argv[]);
 BOOL stepProg(unsigned argc, char *argv[]);
 
+BOOL stepUntil_loopX(CTR delay, REG val, const char *expr);
+
 #endif	/* _SKI_SKI_H */

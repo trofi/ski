@@ -32,7 +32,6 @@
 #include "state.h"
 #include "ssDCmd.h"
 #include "libtrace.h"
-#include "coreui.h"
 #include "libcore.h"
 #include "ssDPrs.h"
 #include "ui.h"

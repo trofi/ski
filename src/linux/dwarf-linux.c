@@ -34,8 +34,8 @@
 #include "libsym.h"
 #include "libsrs.h"
 #include "libcore.h"
-#include "coreui.h"
 #include "syscall_api.h"
+#include "ui.h"
 
 
 char *src_root;		/* hold the prefix for all filenames */

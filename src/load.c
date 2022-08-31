@@ -51,7 +51,6 @@
 #include "program.h"
 #include "libsym.h"
 #include "libcore.h"
-#include "coreui.h"
 #include "lm.h"
 #include "sim.h"
 #include "simmem.h"
@@ -59,6 +58,7 @@
 #include "osload.h"
 #include "ssDDM.h"
 #include "syscall_api.h"
+#include "ui.h"
 
 #if defined(__FreeBSD__)
 /*

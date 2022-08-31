@@ -23,8 +23,8 @@
 #include "std.h"
 #include "types.h"
 #include "libsym.h"
-#include "coreui.h"
 #include "eparse.h"
+#include "ui.h"
 
 char *expptr;
 

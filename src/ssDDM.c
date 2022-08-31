@@ -81,7 +81,6 @@
 #include "ssDCmd.h"
 #include "ski.h"
 #include "sim.h"
-#include "coreui.h"
 #include "libsym.h"
 #include "decoder.h"
 #include "libcore.h"
@@ -91,6 +90,7 @@
 #include "state.h"
 #include "simmem.h"
 #include "ssDPrs.h"
+#include "ui.h"
 
 #define CSTKSZ	50
 

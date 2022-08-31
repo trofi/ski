@@ -39,11 +39,11 @@
 #include "ski.h"
 #include "ssDCmd.h"
 #include "asm.h"
-#include "coreui.h"
 #include "libsym.h"
 #include "libcore.h"	/* for initAppState,initState,initSysState */
 #include "load.h"
 #include "platform.h"
+#include "ui.h"
 
 extern Interface interface;
 

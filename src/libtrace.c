@@ -40,7 +40,7 @@
 #include "package.h"
 #include "types.h"
 #include "state.h"
-#include "coreui.h"
+#include "ui.h"
 
 #define HEADER_VERSION		0x10001
 #define TRACE_VERSION		0x10000

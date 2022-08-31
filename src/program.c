@@ -33,7 +33,6 @@
 #include "fields.h"
 #include "sim.h"
 #include "ssDCmd.h"
-#include "coreui.h"
 #include "program.h"
 #include "decoder/decoder.h"
 #include "libcore.h"
@@ -47,6 +46,7 @@
 #include "ssDBT.h"
 #include "ssDPrs.h"
 #include "syscall_api.h"
+#include "ui.h"
 
 static char instPtr(ADDR addr, char *dline);
 static IAinstInfoPtr addrToIAinfo(ADDR adr, BYTE iAmode, unsigned *nbytes);

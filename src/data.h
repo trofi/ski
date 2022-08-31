@@ -25,6 +25,7 @@
 #include "std.h"
 #include "types.h"
 #include "program.h"
+#include "ui.h"
 
 #ifndef XSIM
 #ifndef WIDGET_TYPEDEF

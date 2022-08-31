@@ -35,19 +35,21 @@
 #include "std.h"
 #include "batch.h"
 #include "bits.h"
+#include "cur.h"
 #include "types.h"
 #include "fields.h"
 #include "impl.h"
 #include "ski.h"
 #include "sim.h"
 #include "ssDCmd.h"
-#include "coreui.h"
 #include "program.h"
 #include "data.h"
 #include "libsym.h"
 #include "libcore.h"
 #include "iadas_types.gen.h"	/* for ADDR4 */
+#include "ssGtk.h"
 #include "ssDPrs.h"
+#include "ssX.h"
 
 BYTE getIAmode(void);
 #undef EIPfromIP

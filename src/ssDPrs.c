@@ -25,10 +25,11 @@
 
 #include <stdarg.h>
 #include <string.h>
+
 #include "std.h"
 #include "types.h"
-#include "coreui.h"
 #include "ssDCmd.h"
+#include "ui.h"
 
 #define ARGLEN 4000
 
