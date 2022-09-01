@@ -48,7 +48,7 @@ static void yyerror(char *);
 	}
 
 %left   <str> ','
-%right  <str> '='
+%token  <str> '='
 %left   <str> LOR
 %left   <str> LAND
 %left   <str> '|'
@@ -59,7 +59,7 @@ static void yyerror(char *);
 %left   <str> SHL  SHR
 %left   <str> '+'  '-'
 %left   <str> '*'  '/'  '%'
-%left   <str> UNARY
+%precedence  <str> UNARY
 
 %token  <val> ISYM
 %token  <val> SYM
