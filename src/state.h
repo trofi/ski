@@ -38,7 +38,6 @@
 #define NDBRS	 16
 #define NIBRS	 16
 #define NPMS	 64
-#define NMSRS	4096
 #define NCPUIDS	  5
 
 #define BGR_BASE	16
@@ -94,7 +93,6 @@ typedef struct {
     REG ibrs_[NIBRS];
     REG pmcs_[NPMS];
     REG pmds_[NPMS];
-    REG msrs_[NMSRS];
     REG cpuids_[NCPUIDS];
     BYTE sof_, soil_, sor_;
     BYTE rrbg_, rrbf_, rrbp_;
@@ -135,7 +133,6 @@ extern mpstate mpState[];
 #define ibrs	mpState[curPid].ibrs_
 #define pmcs	mpState[curPid].pmcs_
 #define pmds	mpState[curPid].pmds_
-#define msrs	mpState[curPid].msrs_
 #define cpuids	mpState[curPid].cpuids_
 #define sof	mpState[curPid].sof_
 #define soil	mpState[curPid].soil_

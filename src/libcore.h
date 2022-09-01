@@ -42,7 +42,6 @@
 #define NDBRS	 16
 #define NIBRS	 16
 #define NPMS	 64
-#define NMSRS	4096
 #define NCPUIDS	  5
 
 #define BGR_BASE	16

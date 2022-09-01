@@ -62,7 +62,6 @@ REG dbrs[NDBRS]; /* Data Breakpoint Register */
 REG ibrs[NIBRS]; /* Instruction Breakpoint Register */
 REG pmcs[NPMS];  /* Performance Monitor Configuration */
 REG pmds[NPMS];  /* Performance Monitor Data */
-static REG msrs[NMSRS]; /* Model Specific Register */
 #if 0
 const REG cpuids[NCPUIDS] = { 0x2d7474656c776548ULL, 0x006472616b636150ULL,
 #else
