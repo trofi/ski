@@ -23,7 +23,7 @@
 #include "std.h"
 #include "types.h"
 #include "libsym.h"
-#include "eparse.h"
+#include "eparse.gen.h"
 #include "ui.h"
 
 char *expptr;

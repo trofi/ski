@@ -14,7 +14,6 @@ Makefile
 /config.h
 /config.log
 /config.status
-/libtool
 .deps/
 /stamp-h1
 
@@ -22,16 +21,10 @@ Makefile
 *.gen/
 *.gen.*
 *.o
-*.la
-*.lo
 .dirstamp
-.libs/
 /XSki
 /src/bski
 /src/fake-xterm/ski-fake-xterm
 /src/gski
 /src/ski
 /src/xski
-/src/eparse.c
-/src/eparse.h
-/src/escan.c

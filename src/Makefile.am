@@ -117,6 +117,12 @@ ENCODER_DERIVED = \
 	encoder/encode_table.gen.c \
 	encoder/formats.gen.c
 
+EXPR_SCANNER_DERIVED = \
+	escan.gen.h escan.gen.c
+
+EXPR_PARSER_DERIVED = \
+	eparse.gen.h eparse.gen.c
+
 BUILT_SOURCES = \
 	$(COMBFNS_DERIVED) \
 	$(PREDECODE_DERIVED) \
@@ -128,8 +134,8 @@ BUILT_SOURCES = \
 	$(ICNT_DERIVED) \
 	$(DECODER_DERIVED) \
 	$(ENCODER_DERIVED) \
-	eparse.h eparse.c \
-	escan.h escan.c \
+	$(EXPR_SCANNER_DERIVED) \
+	$(EXPR_PARSER_DERIVED)
 	instr.gen.c
 
 noinst_HEADERS= \
@@ -173,7 +179,6 @@ noinst_HEADERS= \
 	data.h \
 	dos.h \
 	program.h \
-	eparse.h \
 	libdas.h \
 	netdev.h \
 	osload.h
@@ -287,8 +292,8 @@ ski_SOURCES = \
 	ssGtk.h \
 	syscall_api.h \
 	asm.c \
-	eparse.y \
-	escan.l \
+	$(EXPR_SCANNER_DERIVED) \
+	$(EXPR_PARSER_DERIVED) \
 	load.c \
 	load.h \
 	platform.c \
@@ -484,11 +489,18 @@ encoder/encode_table.gen.c: $(srcdir)/encodings/encoding.encode
 
 ## DERIVED lexers and parsers
 
-escan.h: escan.c
-eparse.h: eparse.c
+escan.gen.h: escan.gen.c
 
-escan.c: escan.l
-eparse.c: eparse.y
+escan.gen.c escan.gen.h: $(srcdir)/escan.l
+	$(FLEX) $(LFLAGS) --outfile=escan.gen.c --header-file=escan.gen.h $(srcdir)/escan.l
+	touch escan.gen.h
+
+eparse.gen.h: eparse.gen.c
+
+eparse.gen.c eparse.gen.h: eparse.y
+	$(BISON) --warnings $(YFLAGS) --output=eparse.gen.c --header=eparse.gen.h $(srcdir)/eparse.y
+	touch eparse.gen.h
+
 
 distclean-local:
 	-rm -f $(XSKI) $(GSKI) bski $(BUILT_SOURCES)

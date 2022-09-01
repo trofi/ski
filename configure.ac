@@ -49,24 +49,19 @@ AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_AWK
 AC_PROG_SED
-AC_PROG_YACC
-AC_PROG_LEX([noyywrap])
 PKG_PROG_PKG_CONFIG
 
 AC_C_INLINE
 AC_C_CONST
 
 dnl Check for required build tools
-AC_CHECK_PROG(GPERF, gperf, gperf)
-test -z "$GPERF" && GPERF='$(top_srcdir)/missing gperf'
+AC_CHECK_PROGS([GPERF], [gperf], [$MISSING gperf])
+AC_CHECK_PROGS([FLEX], [flex], [$MISSING flex])
+AC_CHECK_PROGS([BISON], [bison], [$MISSING bison])
 
 dnl Check for the pager program
-AC_CHECK_PROGS(PAGER, [less])
+AC_CHECK_PROGS([PAGER], [less])
 AC_DEFINE_UNQUOTED([PAGER], ["$PAGER"], [Define to the pager program.])
-
-dnl Set yacc flags
-YFLAGS=-d
-AC_SUBST(YFLAGS)
 
 dnl Initialize maintainer mode
 AM_MAINTAINER_MODE
