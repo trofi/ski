@@ -117,8 +117,12 @@ ENCODER_DERIVED = \
 	encoder/encode_table.gen.c \
 	encoder/formats.gen.c
 
+EXPR_SCANNER_FILES = escan.l
+
 EXPR_SCANNER_DERIVED = \
 	escan.gen.h escan.gen.c
+
+EXPR_PARSER_FILES = eparse.y
 
 EXPR_PARSER_DERIVED = \
 	eparse.gen.h eparse.gen.c
@@ -328,7 +332,9 @@ EXTRA_DIST = \
 	$(COMBFNS_FILES) \
 	$(gski_DATA) \
 	$(noinst_DATA) \
-	$(noinst_SCRIPTS)
+	$(noinst_SCRIPTS) \
+	$(EXPR_SCANNER_FILES) \
+	$(EXPR_PARSER_FILES)
 
 EXTRA_ski_SOURCES = \
 	$(EXTRA_linux_FILES) \
