@@ -1,3 +1,39 @@
+Prerequisites
+=============
+
+If you are instaling from a release tarball you only need:
+
+  * C compiler (like gcc or clang)
+  * make tool (like GNU make)
+  * curses library (like ncurses)
+  * libelf library (like elfutils or libelf)
+  * pkg-config
+  * awk
+  * sed
+
+Some optional features require extra depepdencies:
+
+  * DWARF support:
+    * libbfd library (from binutils)
+    * unwind library (like libunwind)
+  * GTK support:
+    * libglade
+    * libgnomeui
+  * Motif support
+    * motif
+    * libX11
+    * libXt
+    * libXext
+
+To develop Ski you will need a few more dependencies on top:
+
+  * autoconf
+  * autoconf-archive
+  * automake
+  * bison
+  * flex
+  * gperf
+
 Simple install procedure
 ========================
 
