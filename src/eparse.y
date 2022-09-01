@@ -61,15 +61,15 @@ static void yyerror(char *);
 %left   <str> '*'  '/'  '%'
 %left   <str> UNARY
 
-%token	<val> ISYM
-%token	<val> SYM
+%token  <val> ISYM
+%token  <val> SYM
 %token  <str> NOBASE
 %token  <str> NPFXHEX
 %token  <str> BIN
 %token  <str> OCT
 %token  <str> DEC
 %token  <str> HEX
-%token	UKNWN
+%token  UKNWN
 
 %type   <val> cntexp
 %type   <val> numexp
