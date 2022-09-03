@@ -545,14 +545,14 @@ Status popcntEx(INSTINFO *info)
 
 Status psad1Ex(INSTINFO *info)
 {
-    DST1    = ABS((long long)(B0(SRC1) - B0(SRC2)));
-    DST1   += ABS((long long)(B1(SRC1) - B1(SRC2)));
-    DST1   += ABS((long long)(B2(SRC1) - B2(SRC2)));
-    DST1   += ABS((long long)(B3(SRC1) - B3(SRC2)));
-    DST1   += ABS((long long)(B4(SRC1) - B4(SRC2)));
-    DST1   += ABS((long long)(B5(SRC1) - B5(SRC2)));
-    DST1   += ABS((long long)(B6(SRC1) - B6(SRC2)));
-    DST1   += ABS((long long)(B7(SRC1) - B7(SRC2)));
+    DST1    = SIM_ABS((long long)(B0(SRC1) - B0(SRC2)));
+    DST1   += SIM_ABS((long long)(B1(SRC1) - B1(SRC2)));
+    DST1   += SIM_ABS((long long)(B2(SRC1) - B2(SRC2)));
+    DST1   += SIM_ABS((long long)(B3(SRC1) - B3(SRC2)));
+    DST1   += SIM_ABS((long long)(B4(SRC1) - B4(SRC2)));
+    DST1   += SIM_ABS((long long)(B5(SRC1) - B5(SRC2)));
+    DST1   += SIM_ABS((long long)(B6(SRC1) - B6(SRC2)));
+    DST1   += SIM_ABS((long long)(B7(SRC1) - B7(SRC2)));
     DSTNAT1 = SRCNAT1 | SRCNAT2;
     return 0;
 }

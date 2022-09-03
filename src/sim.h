@@ -64,7 +64,7 @@ extern unsigned preInst;
 /* Generate "n" 1s for 1 <= n <= 64 */
 #define ONES(n)		(~0ULL >> (64-(n)))
 
-#define ABS(n)		((n) >= 0 ? (n) : -(n))
+#define SIM_ABS(n)	((n) >= 0 ? (n) : -(n))
 
 #if !defined MIN
 # define MIN(n,m)	((n) <= (m) ? (n) : (m))
