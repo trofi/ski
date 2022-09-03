@@ -1,12 +1,8 @@
 %option warn
-%option noyywrap
+%option noyywrap noinput nounput
 %option nodefault
 %option reentrant
 %option bison-bridge
-
-%{
-//#include "parse.expr.h"
-%}
 
 %{
 /*
