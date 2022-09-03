@@ -439,14 +439,18 @@ static void regwDrawGtk(void)
 		assert(tb);
 
 		/* size is lines, lines shouldn't be longer than this */
-		char *buf = malloc(size * 100);
+		size_t b_left = size * 100;
+		char *buf = malloc(b_left);
 		assert(buf);
 
 		int j,len=0;
 		for (j = 0; j < size; j++) {
-			len += sprintf(buf+len, "%s\n", regwtbl[i].fcn(j));
+			int r = snprintf(buf+len, b_left, "%s\n", regwtbl[i].fcn(j));
+			if (r >= b_left)
+			    break;
+			len += r;
+			b_left -= r;
 		}
-		buf[len+1] = '\0';
 		gtk_text_buffer_set_text(tb, buf, -1);
 		free(buf);
 		/* only need to set this tag first time around */
