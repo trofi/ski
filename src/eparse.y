@@ -1,3 +1,11 @@
+%define api.pure full
+%param {yyscan_t scanner}
+%parse-param {REG * expval}
+
+%code requires {
+    typedef void * yyscan_t;
+}
+
 %{
 /*
  * Simulator Expression Parser
@@ -20,21 +28,20 @@
  *
  */
 
+#include "eparse.gen.h"
+#include "escan.gen.h"
+
 #include "std.h"
 #include "types.h"
 #include "memui.h"
 #include "ui.h"
 
-REG  expval;
 ADDR thash(ADDR);
 
-extern	char *yytext;
-extern	int  yylineno;
-extern int yylex (void );
 static REG convert(char);
 static REG rd8(REG);
 static REG strtonum(char *, int);
-static void yyerror(char *);
+static void yyerror(yyscan_t scanner, REG * expval, char *);
 
 %}
 
@@ -42,10 +49,10 @@ static void yyerror(char *);
 #include "types.h" /* REG used in tokens */
 }
 
-%union	{
-	    char *str;
-	    REG val;
-	}
+%union {
+    char *str;
+    REG val;
+}
 
 %left   <str> ','
 %token  <str> '='
@@ -78,8 +85,8 @@ static void yyerror(char *);
 %type   <val> based
 
 %%
-expr	: '!' cntexp		{ expval = $2; }
-	| '#' numexp		{ expval = $2; }
+expr	: '!' cntexp		{ *expval = $2; }
+	| '#' numexp		{ *expval = $2; }
 
 cntexp  : count                 { $$ = $1; }
 	| ISYM			{ $$ = $1; }
@@ -94,14 +101,14 @@ cntexp  : count                 { $$ = $1; }
         | cntexp '/' cntexp     { if ($3)
 				      $$ = $1 / $3;
 				  else {
-				      yyerror("division by zero");
+				      yyerror(scanner, expval, "division by zero");
 				      YYABORT;
 				  }
 				}
         | cntexp '%' cntexp     { if ($3)
 				      $$ = $1 % $3;
 				  else {
-				      yyerror("division by zero");
+				      yyerror(scanner, expval, "division by zero");
 				      YYABORT;
 				  }
 				}
@@ -137,14 +144,14 @@ numexp  : number                { $$ = $1; }
         | numexp '/' numexp     { if ($3)
 				      $$ = $1 / $3;
 				  else {
-				      yyerror("division by zero");
+				      yyerror(scanner, expval, "division by zero");
 				      YYABORT;
 				  }
 				}
         | numexp '%' numexp     { if ($3)
 				      $$ = $1 % $3;
 				  else {
-				      yyerror("division by zero");
+				      yyerror(scanner, expval, "division by zero");
 				      YYABORT;
 				  }
 				}
@@ -211,7 +218,8 @@ static REG strtonum(char *str, int base)
     return num;
 }
 
-static void yyerror(char *s)
+static void yyerror(yyscan_t scanner, REG * expval, char *s)
 {
+    (void)expval;
     cmdErr("%s\n", s);
 }

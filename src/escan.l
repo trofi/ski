@@ -1,3 +1,13 @@
+%option warn
+%option noyywrap
+%option nodefault
+%option reentrant
+%option bison-bridge
+
+%{
+//#include "parse.expr.h"
+%}
+
 %{
 /*
  * Simulator Expression Scanner
@@ -26,26 +36,6 @@
 #include "eparse.gen.h"
 #include "ui.h"
 
-char *expptr;
-
-#if defined FLEX_SCANNER
-
-#undef YY_INPUT
-#define YY_INPUT(buf,result,max_size) { \
-    int c = *expptr++; \
-    result = ( c == 0 ) ? YY_NULL : ( buf[ 0 ] = c, 1 ); \
-}
-#define YY_NO_UNPUT
-
-#else /* !FLEX_SCANNER */
-
-#undef input
-#undef unput
-#define input() (*expptr++)
-#define unput(c) (*--expptr = c)
-
-#endif /* !FLEX_SCANNER */
-
 static struct isym *symptr;
 static ADDR ofs;
 
@@ -59,59 +49,59 @@ static REG getVal(struct isym *psym);
 }
 
 (0b|0B)[01]+ {
-    yylval.str = &yytext[2];
+    yylval->str = &yytext[2];
     return BIN;
 }
 
 (0o|0O)[0-7]+ {
-    yylval.str = &yytext[2];
+    yylval->str = &yytext[2];
     return OCT;
 }
 
 (0d|0D)[0-9]+ {
-    yylval.str = &yytext[2];
+    yylval->str = &yytext[2];
     return DEC;
 }
 
 (0x|0X)[0-9a-fA-F]+ {
-    yylval.str = &yytext[2];
+    yylval->str = &yytext[2];
     return HEX;
 }
 
 [0-9]+ {
-    yylval.str = yytext;
+    yylval->str = yytext;
     return NOBASE;
 }
 
 [a-fA-F][0-9a-fA-F]* {
     if ((symptr = isymVLkp((char *)yytext)) != NULL) {
-	yylval.val = getVal(symptr);
+	yylval->val = getVal(symptr);
 	return ISYM;
     } else if (symNametoAddr((char *)yytext, &ofs)) {
-	yylval.val = ofs;
+	yylval->val = ofs;
 	return SYM;
     } else {
-	yylval.str = yytext;
+	yylval->str = yytext;
 	return NPFXHEX;
     }
 }
 
 [a-zA-Z$_?.][a-zA-Z$_0-9?.@]* {
     if ((symptr = isymVLkp((char *)yytext)) != NULL) {
-	yylval.val = getVal(symptr);
+	yylval->val = getVal(symptr);
 	return ISYM;
     } else if (symNametoAddr((char *)yytext, &ofs)) {
-	yylval.val = ofs;
+	yylval->val = ofs;
 	return SYM;
     } else {
-	yylval.str = yytext;
+	yylval->str = yytext;
 	cmdErr("Unrecognized symbol name: %s\n", yytext);
 	return UKNWN;
     }
 }
 
 [0-9a-fA-F]+ {
-    yylval.str = yytext;
+    yylval->str = yytext;
     return NPFXHEX;
 }
 
@@ -156,8 +146,6 @@ static REG getVal(struct isym *psym);
 }
 
 %%
-
-int yywrap() { return 1; }
 
 /* XXX - copied from ssDCmd.h */
 #ifdef NEW_MP

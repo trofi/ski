@@ -26,16 +26,17 @@
 #include <stdarg.h>
 #include <string.h>
 
+#include "ssDPrs.h"
+
+#include "eparse.gen.h"
+#include "escan.gen.h"
+
 #include "std.h"
 #include "types.h"
 #include "ssDCmd.h"
 #include "ui.h"
 
 #define ARGLEN 4000
-
-extern char *expptr;
-extern REG expval;
-int yyparse(void);
 
 /*--------------------------------------------------------------------------
  * evaluate$Expression - Evaluate the arithmetic expression pointed at by
@@ -46,6 +47,7 @@ int yyparse(void);
 BOOL evalExpr(const char *expr, unsigned base, REG *retval)
 {
     char expstr[ARGLEN+2];
+    BOOL result;
 
     if (strlen(expr) >= ARGLEN) {
 	cmdErr("More than %d characters in expression: %.10s...\n",
@@ -56,16 +58,24 @@ BOOL evalExpr(const char *expr, unsigned base, REG *retval)
 	(void)sprintf(expstr, "! %s", expr);
     else
 	(void)sprintf(expstr, "# %s", expr);
-    expptr = expstr;
-    if (!yyparse()) {
-	*retval = expval;
-	return YES;
+
+    yyscan_t scanner;
+    YY_BUFFER_STATE buf;
+    yylex_init (&scanner);
+    buf = yy_scan_string (expstr, scanner);
+
+    if (yyparse(scanner, retval) == 0) {
+	result = YES;
     } else {
+	result = NO;
 	/* XXX - this will fail for long expressions since the cmdErr string
 		 can only be 100 total chars */
-	cmdErr("Illegal expression: %s\n", expr);
-	return NO;
+	cmdErr("Illegal expression: '%s' ('%s')\n", expr, expstr);
     }
+
+    yy_delete_buffer(buf, scanner);
+    yylex_destroy (scanner);
+    return result;
 }
 
 /*--------------------------------------------------------------------------
