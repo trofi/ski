@@ -86,7 +86,6 @@ unsigned preInst;
 static BOOL cntlC = NO;
 
 #if 0
-#define SKIP_NOPS
 #define USE_PSEUDOS
 #define COUNT_GR_ACCESSES
 #endif
@@ -291,14 +290,6 @@ static BOOL instDecode(ADDR adr)
     TemplateInfoPtr t;
     DecodedInstr instr[SLOTS_PER_BUNDLE];
     INSTINFO *info0, *info1, *info2;
-#ifdef SKIP_NOPS
-    static InstID nopInsts[No_Unit] = {
-	EM_NOP_I_IMM21,
-	EM_NOP_M_IMM21,
-	EM_NOP_F_IMM21,
-	EM_NOP_B_IMM21
-    };
-#endif
 
     pa = adr & ~(ADDR)0xF;
 
@@ -371,13 +362,6 @@ static BOOL instDecode(ADDR adr)
 #endif
 	info1->delta = 1;
 	info1->next = &iCp[2];
-#ifdef SKIP_NOPS
-	if (instr[1].instID == nopInsts[t->slot[1].unit])
-{
-	    info0->delta = 2;
-	info0->next = &iCp[2];
-}
-#endif
     }
     instrs[instr[2].instID].pdecFn(instr[2].instrBits, info2);
     COPY_TO_INFO(2, 2);
@@ -394,17 +378,6 @@ static BOOL instDecode(ADDR adr)
     info2->delta = 2;
     info2->next = i == 1020 ? NULL : &iCp[4];
 
-#ifdef SKIP_NOPS
-    if (instr[2].instID == nopInsts[t->slot[2].unit]) {
-	if (info0->delta == 2)
-{
-	    info0->delta = (i == 1020 ? 3 : 4);
-	    info0->next = i == 1020 ? &iCp[3] : &iCp[4];
-}
-	info1->delta = (i == 1020 ? 2 : 3);
-	info1->next = i == 1020 ? &iCp[3] : &iCp[4];
-    }
-#endif
     return YES;
 }
 
@@ -759,7 +732,6 @@ Status iCycleSys(void)
 	    takenBranchTrap(slot);
 	    st = StTrap;
 	} else if (st != StTrap && st != StRFI && ss) {
-	    /* XXX - doublecheck if SKIP_NOPS defined */
 	    singleStepTrap(info->delta == 3 ? 2 : slot);
 	    st = StTrap;
 	}
@@ -1549,7 +1521,6 @@ WRT_IOFFSET = 1;
 		takenBranchTrap(slot);
 		st = StTrap;
 	    } else if (st != StTrap && st != StRFI && ss) {
-		/* XXX - doublecheck if SKIP_NOPS defined */
 		singleStepTrap(info->delta == 3 ? 2 : slot);
 		st = StTrap;
 	    }
