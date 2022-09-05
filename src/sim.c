@@ -88,7 +88,6 @@ static BOOL cntlC = NO;
 #if 0
 #define SKIP_NOPS
 #define USE_PSEUDOS
-#define FD_CNT
 #define COUNT_GR_ACCESSES
 #endif
 
@@ -269,10 +268,6 @@ void switchBanks(void)
     }
 }
 
-#ifdef FD_CNT
-static int fdCnt = 0;
-#endif
-
 #include "combfns.gen.h"
 
 #ifdef USE_PSEUDOS
@@ -433,11 +428,6 @@ ICNTS getICnts(unsigned i)
 
 Status instFetchDecode(INSTINFO *info)
 {
-#ifdef FD_CNT
-    fdCnt++;
-    fprintf(stderr, "instFetchDecode call #%-5d (%-7llu): %016llx\n",
-	    fdCnt, total_insts, imm64);
-#endif
     if (!instDecode(info->ct->tag + imm64)) {
 	return StFault;
     }
