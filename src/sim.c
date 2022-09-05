@@ -85,10 +85,6 @@ unsigned preInst;
 
 static BOOL cntlC = NO;
 
-#if 0
-#define USE_PSEUDOS
-#endif
-
 CTR total_insts = 0, total_cycles = 0, total_faults = 0;
 unsigned int mips = 500;
 ExecutionMode executionMode;
@@ -263,20 +259,6 @@ void switchBanks(void)
     }
 }
 
-#include "combfns.gen.h"
-
-#ifdef USE_PSEUDOS
-static void chkPseudo(InstID id, INSTINFO *info)
-{
-    if (info->combFn == &adds_r1_imm14_r3Comb && r3 == 0)
-	info->combFn = movl_r1_imm64Comb;
-    else if (info->combFn == &adds_r1_imm14_r3Comb && !imm64)
-	info->combFn = movGrComb;
-    else if (id == EM_ADDP4_R1_IMM14_R3 && !imm64)
-	info->combFn = swizzleComb;
-}
-#endif
-
 static BOOL instDecode(ADDR adr)
 {
     ADDR pa;
@@ -317,9 +299,6 @@ static BOOL instDecode(ADDR adr)
 	else
 	    info0->combFn = illQpCombFP;
     }
-#ifdef USE_PSEUDOS
-    chkPseudo(instr[0].instID, info0);
-#endif
     info0->delta = 1;
     info0->next = &iCp[1];
 
@@ -353,9 +332,6 @@ static BOOL instDecode(ADDR adr)
 	    else
 		info1->combFn = illQpCombFP;
     }
-#ifdef USE_PSEUDOS
-	chkPseudo(instr[1].instID, info1);
-#endif
 	info1->delta = 1;
 	info1->next = &iCp[2];
     }
@@ -368,9 +344,6 @@ static BOOL instDecode(ADDR adr)
 	else
 	    info2->combFn = illQpCombFP;
     }
-#ifdef USE_PSEUDOS
-    chkPseudo(instr[2].instID, info2);
-#endif
     info2->delta = 2;
     info2->next = i == 1020 ? NULL : &iCp[4];
 

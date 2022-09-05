@@ -29,7 +29,6 @@ BEGIN {
     print "Status instFetchDecode(INSTINFO *info);" > HFILE
     print "Status lastInstComb(INSTINFO *info);" > HFILE
     print "Status ignComb(INSTINFO *info);" > HFILE
-    print "Status movGrComb(INSTINFO *info);" > HFILE
 }
 
 /^#/ {

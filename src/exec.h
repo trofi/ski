@@ -18,6 +18,4 @@ int rse_load(void);
 
 FREG qword2freg(QWORD val);
 
-Status swizzleComb(INSTINFO *info);
-
 #endif /* _SKI_EXEC_H */
