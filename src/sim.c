@@ -87,7 +87,6 @@ static BOOL cntlC = NO;
 
 #if 0
 #define USE_PSEUDOS
-#define COUNT_GR_ACCESSES
 #endif
 
 CTR total_insts = 0, total_cycles = 0, total_faults = 0;
@@ -106,9 +105,6 @@ BOOL natStats;
 
 #ifdef CALCINFO
 unsigned calcInfo = 0;
-#endif
-#ifdef COUNT_GR_ACCESSES
-CTR numgrrds[NGRS] = {0}, numgrwrts[NGRS] = {0};
 #endif
 
 #ifdef TRACE_DAVIDM
@@ -1331,9 +1327,6 @@ again:
 	icp = setIcp();
 	goto again;
     }
-#ifdef COUNT_GR_ACCESSES
-    print_gr_accesses();
-#endif
 }
 #endif
 
@@ -1724,64 +1717,6 @@ static void iCycleSysLoop(void)
 }
 
 #endif
-
-#ifdef COUNT_GR_ACCESSES
-static FILE *grstats;
-
-static void print_stat(char *s, CTR rd, CTR trd, CTR wrt, CTR twrt)
-{
-    fprintf(grstats, "%-10s %9llu (%5.2f)   %9llu (%5.2f)\n",
-	    s, rd, 100.0*rd/trd, wrt, 100.0*wrt/twrt);
-}
-
-static void print_gr_accesses(void)
-{
-    CTR scratchrd = numgrrds[2] + numgrrds[3];
-    CTR scratchwrt = numgrwrts[2] + numgrwrts[3];
-    CTR preservedrd = 0;
-    CTR preservedwrt = 0;
-    CTR stackedrd = 0;
-    CTR stackedwrt = 0;
-    CTR totalrd = 0;
-    CTR totalwrt = 0;
-    int i;
-
-    if (!(grstats = fopen("grstats", "w"))) {
-	fprintf(stderr, "can't open grstats\n");
-	return;
-    }
-    for (i = 0; i <= 127; i++) {
-	totalrd += numgrrds[i];
-	totalwrt += numgrwrts[i];
-    }
-    print_stat("r0:", numgrrds[0],  totalrd, numgrwrts[0],  totalwrt);
-    print_stat("gp:", numgrrds[1],  totalrd, numgrwrts[1],  totalwrt);
-    print_stat("sp:", numgrrds[12], totalrd, numgrwrts[12], totalwrt);
-    print_stat("tp:", numgrrds[13], totalrd, numgrwrts[13], totalwrt);
-    for (i = 4; i <= 7; i++) {
-	preservedrd += numgrrds[i];
-	preservedwrt += numgrwrts[i];
-    }
-    print_stat("preserved:", preservedrd, totalrd, preservedwrt, totalwrt);
-    for (i = 8; i <= 11; i++) {
-	scratchrd += numgrrds[i];
-	scratchwrt += numgrwrts[i];
-    }
-    for (i = 14; i <= 31; i++) {
-	scratchrd += numgrrds[i];
-	scratchwrt += numgrwrts[i];
-    }
-    print_stat("scratch:", scratchrd, totalrd, scratchwrt, totalwrt);
-    for (i = 32; i <= 127; i++) {
-	stackedrd += numgrrds[i];
-	stackedwrt += numgrwrts[i];
-    }
-    print_stat("stacked:", stackedrd, totalrd, stackedwrt, totalwrt);
-    fprintf(grstats, "total:     %9llu           %9llu\n", totalrd, totalwrt);
-    fclose(grstats);
-}
-#endif
-
 
 void setIcntEnb(void)
 {
