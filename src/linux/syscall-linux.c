@@ -4856,7 +4856,7 @@ doSSC (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG *ret)
         *ret = (long)netdev_open ((char *)buf, ether);
 
 	/* copy back the link level addr */
-		memBBWrt (arg1, (BYTE *)ether, sizeof (ether));
+	memBBWrt (arg1, (BYTE *)ether, sizeof (ether));
 
 	PSR_DT = olddt;
       }
