@@ -25,9 +25,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <getopt.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 
 int main(int argc, char *argv[])
 {
