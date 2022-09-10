@@ -1348,8 +1348,7 @@ initConsole (int raw)
   return sfd;
 }
 
-static void
-readConsole (char *buf)
+void readConsole (char *buf)
 {
   /*
    * we always use the raw system call to avoid
@@ -4358,8 +4357,7 @@ iskbdio (void)
   return nb > 0 ? 1 : 0;
 }
 
-static void
-writeConsole (char *buf, size_t len)
+void writeConsole (char *buf, size_t len)
 {
     ssize_t r;
     /*

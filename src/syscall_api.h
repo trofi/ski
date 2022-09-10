@@ -28,4 +28,7 @@ void doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
 void saveOpenFiles(FILE *f);
 void restoreOpenFile(char *name, unsigned oflag, unsigned mode, unsigned offset);
 
+void readConsole(char *buf);
+void writeConsole(char *buf, size_t len);
+
 #endif /* _SKI_SYSCALL_API_H */

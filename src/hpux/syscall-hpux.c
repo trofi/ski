@@ -2479,7 +2479,7 @@ static void asynckb(int sig)
     intrsim = kybdint = YES;
 }
 
-static void readConsole(char *buf)
+void readConsole(char *buf)
 {
     if (noConsole)
 	buf[0] = getchar();
@@ -2487,7 +2487,7 @@ static void readConsole(char *buf)
 	buf[0] = '\0';
 }
 
-static void writeConsole(char *buf)
+void writeConsole(char *buf, size_t len)
 {
 #if 1
     if (cons_pid == -1) {
@@ -2500,7 +2500,7 @@ static void writeConsole(char *buf)
     if (noConsole)
 	(void)fprintf(stdout, "%s", buf);
     else
-	(void)write(cfd, buf, strlen(buf));
+	(void)write(cfd, buf, len);
 }
 
 static BOOL completeXfer(unsigned fd, WORD *count)
@@ -2711,7 +2711,7 @@ progStop("Kybd interrupt connected to bit %d\n", (int)arg1);
 	case SSC_PUTCHAR:
 	    buf[0] = arg0;
 	    buf[1] = '\0';
-	    writeConsole((char *)buf);
+	    writeConsole((char *)buf, 1);
 	    /* no return value */
 	    break;
 	case SSC_READ:
