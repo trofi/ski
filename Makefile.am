@@ -23,7 +23,7 @@
 # globbing all together into aclocal.m4.
 ACLOCAL_AMFLAGS = -I m4 -I macros --install
 
-SUBDIRS=src doc
+SUBDIRS = src doc
 
 if WITH_X_INTERFACE
 appdefaultsdir=/etc/X11/app-defaults
@@ -40,8 +40,30 @@ endif
 
 BUILT_SOURCES=$(BUILD_XSKI)
 
-EXTRA_DIST=XSki.freebsd XSki.hpux XSki.linux \
-	misc/bskinc misc/ia64fmt ChangeLog.2007
+SKI_BOOTLOADER_FILES = \
+	ski-bootloader/include/ia64/setup.h \
+	ski-bootloader/include/ia64/pal.h \
+	ski-bootloader/include/ia64/sal.h \
+	ski-bootloader/include/efi.h \
+	ski-bootloader/include/elf.h \
+	ski-bootloader/include/types.h \
+	ski-bootloader/Makefile \
+	ski-bootloader/README.md \
+	ski-bootloader/boot_head.S \
+	ski-bootloader/bootloader.c \
+	ski-bootloader/bootloader.h \
+	ski-bootloader/bootloader.lds \
+	ski-bootloader/fw-emu.c \
+	ski-bootloader/ssc.h
+
+EXTRA_DIST = \
+	XSki.freebsd \
+	XSki.hpux \
+	XSki.linux \
+	misc/bskinc \
+	misc/ia64fmt \
+	ChangeLog.2007 \
+	$(SKI_BOOTLOADER_FILES)
 
 distclean-hook:
 	rm -f XSki
