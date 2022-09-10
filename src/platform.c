@@ -32,6 +32,7 @@
 #include "sim.h"
 #include "ski.h"
 #include "state.h"
+#include "syscall_api.h"
 
 extern BOOL autoAlloc, noConsole;
 extern char *consLog;
@@ -219,6 +220,82 @@ static int pciWrite(unsigned offset, REG data)
     return 0;
 }
 
+/*
+ * Good overview of an UART8250 chip:
+ *   https://en.wikibooks.org/wiki/Serial_Programming/8250_UART_Programming
+ * Ski implements minimal byte-at-a-time I/O to make serial port work.
+ */
+
+/* 1-byte UART registers */
+#define UART8250_RBR 0x00         /* R:   data rx; DLAB == 0 */
+#define UART8250_THR UART8250_RBR /* W:   data tx; DLAB == 0 */
+#define UART8250_IER 0x01         /* W:   interrupt enable; DLAB == 0 */
+#define UART8250_IRR UART8250_IER /* R:   interrupt identification; DLAB == 0 */
+#define UART8250_FCR 0x02         /* W:   FIFO control */
+#define UART8250_LCR 0x03         /* R/W: Line control */
+#define UART8250_MCR 0x04         /* R/W: Modem control */
+#define UART8250_LSR 0x05         /* R:   Line status */
+#define UART8250_MSR 0x06         /* R:   Modem status */
+#define UART8250_SR  0x07         /* R/W: Scratch status */
+
+/*
+ * IIR bits
+ * [ 7 6 5 4 3 2 1 0 ]
+ * - 7-6: 00 - no, FIFO
+ *        01 - Reserved
+ *        10 - FIF enabled, not functioning
+ *        11 - FIFO enabled
+ * - 5: 64-bit FIFO enabled
+ * - 4: Reserved
+ * - 3-1: 000 - Modem status interrupt, to reset: read MSR
+ *        001 - THR empty, to reset: read IIR or write THR
+ *        010 - Received data available, to reset: read RBR
+ *        011 - Received line status interrupt, to reset: read LSR
+ *        100 - reserved
+ *        101 - reserved
+ *        110 - Time-out Interrupt pending, to reset: read RBR
+ *        111 - reserved
+ * - 0: Interrupt pending: '0' - yes, '1' - no (surprisingly).
+ */
+
+/* LSR bits */
+#define UART_LSR_BIT_TEMT  0x40 /* Transmitter empty */
+#define UART_LSR_BIT_THRE  0x20 /* Transmit-hold-register empty */
+
+static void uartRead(int uartno, int regno, char * pc) {
+    switch (regno) {
+	case UART8250_RBR:
+	    readConsole(pc);
+	    break;
+	case UART8250_IRR:
+	    *pc = 1; /* no pending interrupts, no support for anything */
+	    break;
+	case UART8250_LSR:
+	    /* always ready */
+	    *pc = UART_LSR_BIT_TEMT | UART_LSR_BIT_THRE;
+	    break;
+	default:
+	    fprintf(stderr, "WARNING: unknown read regno=%u val=%#02X\n", regno, 0);
+	    break;
+    }
+}
+
+static void uartWrite(int uartno, int regno, char c) {
+    switch (regno) {
+	case UART8250_THR:
+	    writeConsole(&c, 1);
+	    break;
+	case UART8250_IER:
+	    if (c != 1) { /* not just interrupts enabled? */
+		fprintf(stderr, "WARNING: unknown IER value regno=%u val=%#02X\n", regno, (unsigned)c);
+	    }
+	    break;
+	default:
+	    fprintf(stderr, "WARNING: unknown write regno=%u val=%#02X\n", regno, (unsigned)c);
+	    break;
+    }
+}
+
 /* 1-byte SCSI registers */
 #define DSTAT  0x0C
 #define ISTAT  0x14
@@ -271,6 +348,31 @@ int ioLoad(IS_t *argIn)
 	return sbaRead(argIn->addr - SBA_ADDR, &argIn->data);
     if (argIn->addr >= PCI_ADDR && argIn->addr <= PCI_END)
 	return pciRead(argIn->addr - PCI_ADDR, &argIn->data);
+
+    /* UART devices: */
+    if (argIn->addr >= UART1_ADDR && argIn->addr <= UART1_END) {
+	unsigned int offset = argIn->addr - UART1_ADDR;
+	if (argIn->size != 1) {
+		fprintf(stderr, "WARNING: UART1: non-byte read: offset=%u val=%llx size=%u\n",
+			offset, argIn->data, argIn->size);
+	}
+	unsigned char c = '\0';
+	uartRead(1, offset, &c);
+	argIn->data = c;
+	return 2;
+    }
+    if (argIn->addr >= UART2_ADDR && argIn->addr <= UART2_END) {
+	unsigned int offset = argIn->addr - UART2_ADDR;
+	if (argIn->size != 1) {
+		fprintf(stderr, "WARNING: UART2: non-byte read: offset=%u val=%llx size=%u\n",
+			offset, argIn->data, argIn->size);
+	}
+	unsigned char c = '\0';
+	uartRead(2, offset, &c);
+	argIn->data = c;
+	return 2;
+    }
+
     if (argIn->addr >= IOBLK_PORT_ADDR) {
 	argIn->data = 0;
 	return 2;
@@ -341,10 +443,27 @@ int ioStore(IS_t *argIn)
 	return sbaWrite(argIn->addr - SBA_ADDR, argIn->data);
     if (argIn->addr >= PCI_ADDR && argIn->addr <= PCI_END)
 	return pciWrite(argIn->addr - PCI_ADDR, argIn->data);
-    if (argIn->addr >= UART1_ADDR && argIn->addr <= UART1_END)
+
+    /* UART devices */
+    if (argIn->addr >= UART1_ADDR && argIn->addr <= UART1_END) {
+	unsigned int offset = argIn->addr - UART1_ADDR;
+	if (argIn->size != 1) {
+		fprintf(stderr, "WARNING: UART1: non-byte write: offset=%u val=%llx size=%u\n",
+			offset, argIn->data, argIn->size);
+	}
+	uartWrite(1, offset, argIn->data);
 	return 2;
-    if (argIn->addr >= UART2_ADDR && argIn->addr <= UART2_END)
+    }
+    if (argIn->addr >= UART2_ADDR && argIn->addr <= UART2_END) {
+	unsigned int offset = argIn->addr - UART2_ADDR;
+	if (argIn->size != 1) {
+		fprintf(stderr, "WARNING: UART2: non-byte write: offset=%u val=%llx size=%u\n",
+			offset, argIn->data, argIn->size);
+	}
+	uartWrite(2, offset, argIn->data);
 	return 2;
+    }
+
     if (argIn->addr >= IOBLK_PORT_ADDR) {
 #ifdef CONS_HPTERM
 	unsigned offset = argIn->addr - IOBLK_PORT_ADDR;

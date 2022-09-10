@@ -102,6 +102,21 @@ systems. This include but is not limited to:
 - updating dynamic translator code to work on
   modern linux
 
+New additions:
+- Experimental minimal UART8250 console output. Can be used with the
+  following setup:
+    * kernel .config:
+      CONFIG_SERIAL_EARLYCON=y
+      CONFIG_SERIAL_8250=y
+      CONFIG_SERIAL_8250_CONSOLE=y
+    * kernel parameters:
+      earlycon=uart8250,mmio,0xff5e0000
+  TODOs:
+    * port bootloader over to earlycon to get visible output for
+      CONFIG_HP_SIMSERIAL_CONSOLE=n kernels.
+    * export UART1/UART2 via some interface (hcdp?) to make it usable
+      as a promary console after early boot as well.
+
 TODOs
 =====
 
