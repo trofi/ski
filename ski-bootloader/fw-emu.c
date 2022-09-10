@@ -339,6 +339,7 @@ sys_fw_init (const char *args, int arglen)
 #if SIMPLE_MEMMAP
 	/* simulate free memory at physical address zero */
 	MAKE_MD(EFI_BOOT_SERVICES_DATA,		EFI_MEMORY_WB,    0*MB,    1*MB);
+	/* bootloader.lds targets this space */
 	MAKE_MD(EFI_PAL_CODE,			EFI_MEMORY_WB,    1*MB,    2*MB);
 	MAKE_MD(EFI_CONVENTIONAL_MEMORY,	EFI_MEMORY_WB,    2*MB,  130*MB);
 	MAKE_MD(EFI_CONVENTIONAL_MEMORY,	EFI_MEMORY_WB, 4096*MB, 6144*MB);
