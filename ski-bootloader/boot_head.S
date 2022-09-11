@@ -25,11 +25,6 @@ stack_mem:
 
 	.text
 
-/* This needs to be defined because lib/string.c:strlcat() calls it in case of error... */
-GLOBAL_ENTRY(printk)
-	break 0
-END(printk)
-
 GLOBAL_ENTRY(_start)
 	.prologue
 	.save rp, r0
