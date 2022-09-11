@@ -29,15 +29,21 @@ extern void jmp_to_kernel (unsigned long bp, unsigned long e_entry);
 extern struct ia64_boot_param *sys_fw_init (const char *args, int arglen);
 
 static void
-cons_write (const char *buf)
+ssc_cons_write (const char *buf)
 {
 	unsigned long ch;
 
 	while ((ch = *buf++) != '\0') {
 		ssc(ch, 0, 0, 0, SSC_PUTCHAR);
 		if (ch == '\n')
-		  ssc('\r', 0, 0, 0, SSC_PUTCHAR);
+			ssc('\r', 0, 0, 0, SSC_PUTCHAR);
 	}
+}
+
+static void
+cons_write (const char *buf)
+{
+	ssc_cons_write(buf);
 }
 
 #define MAX_ARGS 32
