@@ -286,7 +286,7 @@ static void uartWrite(int uartno, int regno, char c) {
 	    writeConsole(&c, 1);
 	    break;
 	case UART8250_IER:
-	    if (c != 1) { /* not just interrupts enabled? */
+	    if (c != UART8250_IER) { /* not just interrupts enabled? */
 		fprintf(stderr, "WARNING: unknown IER value regno=%u val=%#02X\n", regno, (unsigned)c);
 	    }
 	    break;
