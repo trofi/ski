@@ -2,9 +2,6 @@ TODO:
 
 -- Glue the test suite back together
 
--- aclocal-1.10 is called out explicitly in autogen.sh, but automake 1.9
-   is used elswhere???
-
 -- Are all of the bugs cleaned up?
 
 -- The X version seems to have suffered from major bit-rot, likely
