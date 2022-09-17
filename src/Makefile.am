@@ -491,7 +491,7 @@ escan.gen.c escan.gen.h: $(srcdir)/escan.l
 eparse.gen.h: eparse.gen.c
 
 eparse.gen.c eparse.gen.h: eparse.y
-	$(BISON) --warnings $(YFLAGS) --output=eparse.gen.c --header=eparse.gen.h $(srcdir)/eparse.y
+	$(BISON) --warnings $(YFLAGS) --output=eparse.gen.c --defines=eparse.gen.h $(srcdir)/eparse.y
 	touch eparse.gen.h
 
 
