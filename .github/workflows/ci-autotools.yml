@@ -43,11 +43,11 @@ jobs:
             Linux*)
               sudo apt update
               # basic build depends:
-              sudo apt install binutils-dev libiberty-dev libncurses-dev
+              sudo apt install binutils-dev libelf-dev libiberty-dev libncurses-dev
               # dev-only depends:
               sudo apt install autoconf autoconf-archive automake flex bison gperf pkg-config
               # dist depends:
-              sudo apt install lzip
+              sudo apt install lzip xz-utils
               ;;
           esac
 
