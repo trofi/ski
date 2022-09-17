@@ -19,7 +19,7 @@
 ##
 ##
 
-AC_PREREQ([2.70])
+AC_PREREQ([2.29])
 
 AC_INIT([ski],[1.4.0],[slyich@gmail.com],[ski],[https://github.com/trofi/ski])
 AC_CONFIG_AUX_DIR([build-aux])
