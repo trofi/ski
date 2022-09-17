@@ -1,0 +1,70 @@
+name: CI autotools
+
+on:
+  push:
+  pull_request:
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build-and-test:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      # When set to true, GitHub cancels
+      # all in-progress jobs if any matrix job fails.
+      fail-fast: false
+
+      matrix:
+
+        include:
+          - name: linux-gcc
+            os: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Setup apt cache
+        uses: actions/cache@v2
+        with:
+          path: /var/cache/apt
+          key: ${{ runner.os }}-apt-cache-${{ matrix.os }}-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-apt-cache-${{ matrix.os }}-
+            ${{ runner.os }}-apt-cache-
+
+      - name: Setup Common Prerequisites
+        run: |
+          case ${{ runner.os }} in
+            Linux*)
+              sudo apt update
+              # basic build depends:
+              sudo apt install binutils-dev libiberty-dev libncurses-dev
+              # dev-only depends:
+              sudo apt install autoconf autoconf-archive automake flex bison gperf pkg-config
+              # dist depends:
+              sudo apt install lzip xz
+              ;;
+          esac
+
+      - name: Generate ./configure
+        run: ./autogen.sh
+
+      - name: Configure
+        run: ./configure --prefix=$PWD/install
+
+      - name: Build
+        run: make -j$(nproc)
+
+      - name: Install
+        run: make -j$(nproc) install
+
+      - name: Distcheck
+        run: make -j$(nproc) distcheck
+
+      - name: Clean
+        run: make -j$(nproc) distclean
