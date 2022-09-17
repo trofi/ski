@@ -198,9 +198,6 @@ int main(int argc, char *argv[])
 	case 's':
 	    interface = CURSES_INTERFACE;
  	    break;
-	case 'x':
-	    interface = X_INTERFACE;
-	    break;
 	default:
 	    interface = BATCH;
 	    break;

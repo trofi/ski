@@ -66,17 +66,6 @@ AC_DEFINE_UNQUOTED([PAGER], ["$PAGER"], [Define to the pager program.])
 dnl Initialize maintainer mode
 AM_MAINTAINER_MODE
 
-dnl See if we build X11
-AC_ARG_WITH([x11],
-  AS_HELP_STRING([--with-x11],
-    [Enable the Motif based X11 interface default=no]))
-
-AS_IF([test "x$with_x11" = "xyes"],[AC_WITH_MOTIF])
-
-# either way we need to set these
-AM_CONDITIONAL(WITH_X_INTERFACE, test "x$with_x11" = "xyes")
-AC_SUBST(X_INTERFACE_LIBS)
-
 dnl See if we build GTK
 AC_ARG_WITH([gtk],
   AS_HELP_STRING([--with-gtk],

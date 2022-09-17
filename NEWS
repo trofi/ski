@@ -28,6 +28,9 @@ implementation detail of Ski.
 ** Ski source code now bundles ski-bootloader, a trimmed down boot
 loader from linux-4.19.
 
+** Broken xski X11 GUI was completely demoved from tree along with
+configure options that support it.
+
 * What's New with Ski 1.1.0
 
 ... some release entries are skipped ...

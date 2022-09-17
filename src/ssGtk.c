@@ -51,14 +51,8 @@
 /* file globals */
 static GladeXML *xml;
 
-/* both these from ssX.c, can't define again if we build it in */
-#if HAVE_MOTIF
-extern unsigned nproc;
-extern unsigned cproc;
-#else
 unsigned nproc;
 unsigned cproc;
-#endif
 
 /* program window */
 static GtkTextView *prgw_view;

@@ -49,7 +49,6 @@
 #include "iadas_types.gen.h"	/* for ADDR4 */
 #include "ssGtk.h"
 #include "ssDPrs.h"
-#include "ssX.h"
 
 BYTE getIAmode(void);
 #undef EIPfromIP
@@ -104,11 +103,6 @@ void cmdOut(const char *name, const char *hdr, const char *buf, FILE *f)
 	    case BATCH:
 		cmdOutBatch(hdr, buf);
 		break;
-	    case X_INTERFACE:
-#ifdef HAVE_MOTIF
-		cmdOutX(name, hdr, buf);
-#endif
-		break;
 	    case CURSES_INTERFACE:
 		cmdOutCur(hdr, buf);
 		break;
@@ -157,11 +151,6 @@ static BOOL regwMakeActivew(const char *tag)
 void regwUpdate(void)
 {
     switch (interface) {
-	case X_INTERFACE:
-#ifdef HAVE_MOTIF
-	    regwUpdateX();
-#endif
-	    break;
 	case CURSES_INTERFACE:
 	    regwUpdateCur();
 	    break;
@@ -179,8 +168,6 @@ BOOL regwFwd(unsigned argc, char *argv[])
 {
     switch (interface) {
 	case BATCH:
-	case X_INTERFACE:
-	    return YES;		/* rf command is a NOP */
 	case CURSES_INTERFACE:
 	    return regwFwdCur(argc, argv);
     }
@@ -192,8 +179,6 @@ BOOL regwBkwd(unsigned argc, char *argv[])
 {
     switch (interface) {
 	case BATCH:
-	case X_INTERFACE:
-	    return YES;		/* rb command is a NOP */
 	case CURSES_INTERFACE:
 	    return regwBkwdCur(argc, argv);
     }
@@ -832,11 +817,6 @@ static char *iarLine(unsigned i)
 void prgwUpdate(void)
 {
     switch (interface) {
-	case X_INTERFACE:
-#ifdef HAVE_MOTIF
-	    prgwUpdateX();
-#endif
-	    break;
 	case CURSES_INTERFACE:
 	    prgwUpdateCur();
 	    break;
@@ -875,11 +855,6 @@ void prgwPCRedraw(void)
 void prgwDraw(void)
 {
     switch (interface) {
-	case X_INTERFACE:
-#ifdef HAVE_MOTIF
-	    prgwDrawX();
-#endif
-	    break;
 	case CURSES_INTERFACE:
 	    prgwDrawCur();
 	    break;
@@ -950,11 +925,6 @@ void datwUpdate(void)
 	datwCVA = adr;
     }
     switch (interface) {
-	case X_INTERFACE:
-#ifdef HAVE_MOTIF
-	    datwUpdateX();
-#endif
-	    break;
 	case CURSES_INTERFACE:
 	    datwUpdateCur();
 	    break;
@@ -984,11 +954,6 @@ void cmdwPrint(const char *fmt, ...)
 	case BATCH:
 	    cmdwPrintBatch(s);
 	    break;
-	case X_INTERFACE:
-#ifdef HAVE_MOTIF
-	    cmdwPrintX(s);
-#endif
-	    break;
         case GTK_INTERFACE:
 #ifdef HAVE_GTK
 	    cmdwPrintGtk(s);
@@ -1013,11 +978,6 @@ void msgwPrint(const char *fmt, ...)
 	case BATCH:
 	    cmdwPrintBatch(s);
 	    break;
-	case X_INTERFACE:
-#ifdef HAVE_MOTIF
-	    msgwPrintX(s);
-#endif
-	    break;
         case GTK_INTERFACE:
 #ifdef HAVE_GTK
 	    msgwPrintGtk(s);
@@ -1032,11 +992,6 @@ void msgwPrint(const char *fmt, ...)
 void cmdwSetStatus(const char *msg)
 {
     switch (interface) {
-	case X_INTERFACE:
-#ifdef HAVE_MOTIF
-	    cmdwSetStatusX(msg);
-#endif
-	    break;
 	case CURSES_INTERFACE:
 	    cmdwSetStatusCur(msg);
 	    break;
@@ -1066,11 +1021,6 @@ void cmdErr(const char *fmt, ...)
 	case BATCH:
 	    cmdwPrintBatch(s);
 	    break;
-	case X_INTERFACE:
-#ifdef HAVE_MOTIF
-	    msgwPrintX(s);
-#endif
-	    break;
         case GTK_INTERFACE:
 #ifdef HAVE_GTK
 	    msgwPrintGtk(s);
@@ -1099,11 +1049,6 @@ void cmdWarn(const char *fmt, ...)
 	case BATCH:
 	    cmdwPrintBatch(s);
 	    break;
-	case X_INTERFACE:
-#ifdef HAVE_MOTIF
-	    msgwPrintX(s);
-#endif
-	    break;
         case GTK_INTERFACE:
 #ifdef HAVE_GTK
 	    msgwPrintGtk(s);
@@ -1118,11 +1063,6 @@ void cmdWarn(const char *fmt, ...)
 static void cmdwUpdate(void)
 {
     switch (interface) {
-	case X_INTERFACE:
-#ifdef HAVE_MOTIF
-	    cmdwUpdateX();
-#endif
-	    break;
 	case CURSES_INTERFACE:
 	    cmdwUpdateCur();
 	    break;
@@ -1145,14 +1085,6 @@ void scrnInit(void)
     switch (interface) {
 	case BATCH:
 	    scrnInitBatch();
-	    break;
-	case X_INTERFACE:
-#ifdef HAVE_MOTIF
-	    scrnInitX();
-#else
-	    fprintf (stderr, "Error: program was built without X support\n");
-	    exit (EXIT_FAILURE);
-#endif
 	    break;
 	case CURSES_INTERFACE:
 	    scrnInitCur();
@@ -1180,11 +1112,6 @@ void scrnUpdate(void)
 void scrnEnd(void)
 {
     switch (interface) {
-	case X_INTERFACE:
-#ifdef HAVE_MOTIF
-	    scrnEndX();
-#endif
-	    break;
 	case CURSES_INTERFACE:
 	    scrnEndCur();
 	    break;
@@ -1217,12 +1144,6 @@ void cmdLoop(void)
     switch (interface) {
 	case BATCH:
 	    cmdLoopBatch();
-	    break;
-	case X_INTERFACE:
-#ifdef HAVE_MOTIF
-	    keepXLoopAlive = YES;
-	    cmdLoopX();
-#endif
 	    break;
         case GTK_INTERFACE:
 #ifdef HAVE_GTK

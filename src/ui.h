@@ -14,7 +14,10 @@
 #define RFT "016llx"
 
 typedef enum { ASM, MIXED, SRC } PrgwMode;
-typedef enum { BATCH = 0, X_INTERFACE, CURSES_INTERFACE, GTK_INTERFACE } Interface;
+typedef enum {
+    BATCH = 0,
+    CURSES_INTERFACE,
+    GTK_INTERFACE } Interface;
 
 
 /*--------------------------------------------------------------------------

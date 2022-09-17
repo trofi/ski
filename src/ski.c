@@ -45,7 +45,6 @@
 #include "syscall_api.h"
 #include "ssDPrs.h"
 #include "ssGtk.h"
-#include "ssX.h"
 #include "ui.h"
 
 
@@ -291,17 +290,6 @@ static void stepUntil(char *expr)
     }
     cmdwSetStatus("Running...");
     switch (interface) {
-	case X_INTERFACE:
-#ifdef HAVE_MOTIF
-	    if (!cmdFile) {
-		stepUntil_setupX(expr);
-		break;
-	    }
-#else
-	    fprintf (stderr,
-		     "Sorry, MOTIF support has not been compiled in.\n");
-	    exit (-1);
-#endif
 	case CURSES_INTERFACE:
 	case BATCH:
 	    stepUntil_loop(val, expr);
@@ -337,8 +325,6 @@ static void stepCall(void)
     }
     cmdwSetStatus("Running...");
     switch (interface) {
-	case X_INTERFACE:
-            break;
 	case CURSES_INTERFACE:
 	case BATCH:
 	    stepCall_loop();
@@ -357,17 +343,6 @@ static void stepIt(CTR cnt)
     }
     cmdwSetStatus("Running...");
     switch (interface) {
-	case X_INTERFACE:
-#ifdef HAVE_MOTIF
-	    if (!cmdFile) {
-		stepIt_setupX(cnt);
-		break;
-	    }
-#else
-	    fprintf (stderr,
-		     "Sorry, MOTIF support has not been compiled in.\n");
-	    exit (-1);
-#endif
         case GTK_INTERFACE:
 #ifdef HAVE_GTK
 	    stepIt_setupGtk(cnt);
@@ -435,17 +410,6 @@ void runIt(BOOL showIrate)
     }
     cmdwSetStatus("Running...");
     switch (interface) {
-	case X_INTERFACE:
-#ifdef HAVE_MOTIF
-	    if (!cmdFile) {
-		runIt_setupX();
-		break;
-	    }
-#else
-	    fprintf (stderr,
-		     "Sorry, MOTIF support has not been compiled in.\n");
-	    exit (-1);
-#endif
         case GTK_INTERFACE:
 #ifdef HAVE_GTK
 	    runIt_setupGtk();
@@ -667,9 +631,6 @@ static int lookupOption(char *argname, char *argval)
 	case CURSES_INTERFACE:
 	    ch = 'c';
 	    break;
-	case X_INTERFACE:
-	    ch = 'x';
-	    break;
     }
     for (i = 0; i < topargs; i++)
 	if (!strcmp(argname, args[i].name)) {
@@ -730,9 +691,6 @@ void displayOptions(void)
 	    break;
 	case CURSES_INTERFACE:
 	    ch = 'c';
-	    break;
-	case X_INTERFACE:
-	    ch = 'x';
 	    break;
     }
     (void)fprintf(stderr, "Options:\n");

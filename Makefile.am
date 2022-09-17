@@ -25,21 +25,6 @@ ACLOCAL_AMFLAGS = -I m4 -I macros --install
 
 SUBDIRS = src doc
 
-if WITH_X_INTERFACE
-appdefaultsdir=/etc/X11/app-defaults
-appdefaults_DATA=XSki
-# This is a bit of a hack.  appdefaults_DATA doesn't create a target
-# for each argument, hence this doesn't get built.  We therefore add it
-# to BUILT_SOURCES conditionally -ianw
-BUILD_XSKI=XSki
-XSki:
-	@$(LN_S) $(srcdir)/XSki.$(HOST_OS) $@
-else
-BUILD_XSKI=
-endif
-
-BUILT_SOURCES=$(BUILD_XSKI)
-
 SKI_BOOTLOADER_FILES = \
 	ski-bootloader/include/ia64/setup.h \
 	ski-bootloader/include/ia64/pal.h \
@@ -57,26 +42,16 @@ SKI_BOOTLOADER_FILES = \
 	ski-bootloader/ssc.h
 
 EXTRA_DIST = \
-	XSki.freebsd \
-	XSki.hpux \
-	XSki.linux \
 	misc/bskinc \
 	misc/ia64fmt \
 	ChangeLog.2007 \
 	$(SKI_BOOTLOADER_FILES)
-
-distclean-hook:
-	rm -f XSki
 
 install-exec-hook:
 	$(LN_S) -f ski $(DESTDIR)/$(bindir)/bski;
 	$(LN_S) -f ski.1 $(DESTDIR)/$(mandir)/man1/bski.1;
 	$(LN_S) -f ski $(DESTDIR)/$(bindir)/bskinc;
 	$(LN_S) -f ski.1 $(DESTDIR)/$(mandir)/man1/bskinc.1;
-if WITH_X_INTERFACE
-	$(LN_S) -f ski $(DESTDIR)/$(bindir)/xski;
-	$(LN_S) -f ski.1 $(DESTDIR)/$(mandir)/man1/xski.1;
-endif
 if WITH_GTK_INTERFACE
 	$(LN_S) -f ski $(DESTDIR)/$(bindir)/gski
 	$(LN_S) -f ski.1 $(DESTDIR)/$(mandir)/man1/gski.1

@@ -4,15 +4,6 @@ TODO:
 
 -- Are all of the bugs cleaned up?
 
--- The X version seems to have suffered from major bit-rot, likely
-   related to using Motif, instead of something out of this century.
-   All votes seem to be for just removing the X version completely --
-   which has been done in such a way it can be turned back on later:
-      -- the build no longer requires X11 to build -- xski is no longer
-         created by default.
-      -- see configure.ac for notes on how to re-enable xski when someone
-         is ready to port it to something other than Motif.
-
 -- check BitfR usage (replace everything w/ BitfX and fix the errors...)
 
 -- think about making the trcread program available

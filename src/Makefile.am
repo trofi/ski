@@ -23,7 +23,6 @@
 SUBDIRS = fake-xterm
 
 AM_CPPFLAGS = \
-	$(X_CFLAGS) \
 	$(DWARF_CFLAGS) \
 	-I$(srcdir)/decoder \
 	-I$(srcdir)/encoder \
@@ -288,10 +287,6 @@ ski_SOURCES = \
 	batch.h \
 	cur.c \
 	cur.h \
-	ssX.c \
-	ssX.h \
-	ssXDSD.c \
-	ssXDSD.h \
 	ssGtk.c \
 	ssGtk.h \
 	syscall_api.h \
@@ -323,7 +318,6 @@ endif
 
 ski_LDADD = \
 	$(DWARF_LIBS) \
-	$(X_INTERFACE_LIBS) \
 	$(GSKI_LIBS)
 
 EXTRA_DIST = \
@@ -341,12 +335,6 @@ EXTRA_ski_SOURCES = \
 	$(EXTRA_hpux_FILES) \
 	$(EXTRA_freebsd_FILES)
 
-if WITH_X_INTERFACE
-XSKI= xski
-else
-XSKI=
-endif
-
 if WITH_GTK_INTERFACE
 gskidir= $(datadir)/ski
 gski_DATA= \
@@ -356,9 +344,9 @@ else
 GSKI=
 endif
 
-all-local: bski $(XSKI) $(GSKI)
+all-local: bski $(GSKI)
 
-bski $(XSKI) $(GSKI) : ski
+bski $(GSKI) : ski
 	@rm -f $@; ln ski $@
 
 ## DERIVED sources rules:
@@ -509,4 +497,4 @@ eparse.gen.c eparse.gen.h: eparse.y
 
 
 distclean-local:
-	-rm -f $(XSKI) $(GSKI) bski $(BUILT_SOURCES)
+	-rm -f $(GSKI) bski $(BUILT_SOURCES)

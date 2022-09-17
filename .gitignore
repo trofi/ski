@@ -22,10 +22,8 @@ Makefile
 *.gen.*
 *.o
 .dirstamp
-/XSki
 /src/bski
 /src/fake-xterm/ski-fake-xterm
 /src/gski
 /src/ski
-/src/xski
 /ski-bootloader/ski-bootloader

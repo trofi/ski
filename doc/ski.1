@@ -1,17 +1,11 @@
 .TH SKI 1 "Development Tools" "Hewlett-Packard Company" \" -*- nroff -*-
 .SH NAME
-ski, xski, bskinc \- An IA-64 Instruction Set Simulator
+ski, bskinc \- An IA-64 Instruction Set Simulator
 .SH SYNOPSIS
 .BI "ski
 .I [\-help] [\-i file] [\-rest file] [\-nonet]
 .I "    [\-srcroot dir] [\-forceuser]  [\-forcesystem] [\-strace]
 .I "    [\-palen n] [\-valen n] [\-ridlen n] [\-keylen n] [\-grfile n]
-.br
-
-.BI "xski
-.I [\-help] [\-i file] [\-rest file] [\-noconsole] [\-nonet]
-.I "     [\-srcroot dir] [\-forceuser] [\-forcesystem] [\-strace]
-.I "     [\-palen n] [\-valen n] [\-ridlen n] [\-keylen n] [\-grfile n]
 .br
 
 .BI "bskinc
@@ -55,13 +49,7 @@ is called
 ski
 .
 .PP
-Finally there is a graphical version called
-.BR
-xski
-which gives you several windows where you can look at the code, inspect
-register contents, etc.
-.PP
-All three modes provides the same core simulation, only the interface
+All these modes provides the same core simulation, only the interface
 is different.
 .PP
 .SS OPTIONS
@@ -183,7 +171,7 @@ do at the LILO boot prompt for instance.
 
 .SH Getting help inside ski
 
-When you run ski in interactive mode via ski or xski, you can get help
+When you run ski in interactive mode via ski you can get help
 on commands by typing help.
 
 When running in curses mode, you must make sure that you have the
@@ -192,11 +180,6 @@ environment variable set to whatever is your preferred pager command. It is
 usually set to more(1) or less(1). If the variable does not exist ski will
 default to using less(1).  Note that less(1) usually behaves the best when
 interacting with ski.
-
-.SH Using Xski
-In this version (1.1.0) of ski, the X11 interface has not been built.  If
-you would like such a GUI, please feel free to contribute patches to convert
-the current Motif version to something more modern.
 
 .SH ENVIRONMENT VARIABLES
 .TP
