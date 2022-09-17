@@ -271,8 +271,6 @@ static void datwInit(void)
     for (cproc = 0; cproc < nproc; cproc++) {
         datwCVA = dataStart;
         datwLVA = 0;
-        for (i = 0; i < WINTBLSIZ; i++)
-            datInfo.perProc[cproc].form[i] = 0;
     }
 
     cproc = save;
@@ -296,7 +294,6 @@ static void prgwInit(void)
 		prgwIS = 0;
 		prgwPrevTop = 0;
 		prgCmd = PrgUseTop;
-		prgInfo.perProc[cproc].form = 0;
 	}
 	prgInfo.iofsHex = YES;
 	prgInfo.iofsSymWidth = 13;

@@ -25,11 +25,6 @@
 #include "std.h"
 #include "types.h"
 
-#ifndef XSIM
-typedef int Widget;
-#define WIDGET_TYPEDEF
-#endif
-
 typedef enum { PrgUseCVA, PrgUseTop, PrgUseBot } PrgCmd;
 
 #define SKI_NPROC   1
@@ -56,9 +51,7 @@ typedef struct {
 	unsigned rows;
 	BOOL is;	/* which instruction set */
 	BYTE iAmode;	/* which iA execution mode */
-	Widget form, hdr, text, gotoST, gotoSL, gotoOT;
     } perProc[SKI_NPROC];
-    Widget iofsFmt, instFmt;
 } prgStruct;
 
 extern prgStruct prgInfo;

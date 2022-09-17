@@ -28,13 +28,6 @@
 #include "program.h"
 #include "ui.h"
 
-#ifndef XSIM
-#ifndef WIDGET_TYPEDEF
-typedef int Widget;
-#endif
-#define WINTBLSIZ 20	/* XXX - copied from coreui.h */
-#endif
-
 typedef struct {
     BOOL cache;
     BOOL useDbit;
@@ -48,8 +41,6 @@ typedef struct {
     struct {
 	ADDR currVA, lastVA;
 	unsigned rows;
-	/* XXX - will not work when NPROC > 1 !!! */
-	Widget form[WINTBLSIZ], hdr[WINTBLSIZ], text[WINTBLSIZ];
     } perProc[SKI_NPROC];
 } datStruct;
 
