@@ -34,6 +34,9 @@
 #include "state.h"
 #include "libcore.h"
 
+unsigned nproc = 1;
+unsigned cproc = 0;
+
 #ifdef NEW_MP
 mpstate mpState[4], zeroState = {0};
 

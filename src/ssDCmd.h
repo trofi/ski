@@ -40,9 +40,6 @@ extern unsigned viewPid;
 
 /* XXX - the following declarations probably belong in state.h */
 
-extern unsigned cproc;              /* current processor number */
-extern unsigned nproc;              /* user-specified number of processors */
-
 extern FILE *cmdFile;        /* handle to the "." (command) file */
 
 /***/

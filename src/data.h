@@ -22,6 +22,7 @@
 #ifndef _SKI_DATA_H
 #define _SKI_DATA_H
 
+#include "state.h"
 #include "std.h"
 #include "types.h"
 #include "program.h"

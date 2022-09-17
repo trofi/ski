@@ -72,6 +72,9 @@ extern const FREG ZERO_FREG;
 
 typedef struct IC *ICPtr;
 
+extern unsigned nproc; /* User-specific CPU count */
+extern unsigned cproc; /* Active CPU? */
+
 #ifdef NEW_MP
 /* XXX - split into common, app-mode only, and sys-mode only state? */
 /* XXX - when these become malloc'ed, can avoid unneeded storage */

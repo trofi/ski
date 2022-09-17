@@ -51,9 +51,6 @@
 /* file globals */
 static GladeXML *xml;
 
-unsigned nproc;
-unsigned cproc;
-
 /* program window */
 static GtkTextView *prgw_view;
 static GtkTextBuffer *prgw_buffer;

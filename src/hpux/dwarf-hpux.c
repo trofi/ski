@@ -66,7 +66,6 @@ typedef struct {
 /*##################### Globals - Imports ##################################*/
 
 extern PrgwMode prgwm;
-extern unsigned cproc;
 
 /*##################### Globals - Exports ##################################*/
 
