@@ -32,15 +32,3 @@ TODO:
 -- integrate into qemu somehow?
 
 -- graft ski and gdb together?
-
-
-DONE:
-
--- Update the debian packaging so it works properly. (Peter)
-
--- Is the gperf package _really_ needed?  Yes, it is.  (Peter)
-
--- Start up ski, type 'help'.  Paging is completely busticated and
-   completely unreadable. (seems to work -- Al)
-
-
