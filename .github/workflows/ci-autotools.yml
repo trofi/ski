@@ -47,7 +47,7 @@ jobs:
               # dev-only depends:
               sudo apt install autoconf autoconf-archive automake flex bison gperf pkg-config
               # dist depends:
-              sudo apt install lzip xz
+              sudo apt install lzip
               ;;
           esac
 
