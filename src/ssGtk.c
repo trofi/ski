@@ -265,7 +265,7 @@ void msgwPrintGtk(const char *s)
 
 static void datwInit(void)
 {
-    unsigned i, save = cproc;
+    unsigned save = cproc;
 
     for (cproc = 0; cproc < nproc; cproc++) {
         datwCVA = dataStart;
