@@ -519,8 +519,6 @@ void isymInit(void)
 
     for (cproc = 0; cproc < nproc; cproc++) {
 	isymIns("cproc", &cproc, NO);	/* symbol for cproc */
-#endif
-#if 0
 	for (i = 0; i < NURS; i++) {
 	    (void)sprintf(s, "$t%d", i);
 	    isymIns(s, &urs[i], YES);
