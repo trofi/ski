@@ -39,6 +39,7 @@
 #include "exec.h"
 #include "std.h"
 #include "bits.h"
+#include "combfns.gen.h"
 #include "types.h"
 #include "fields.h"
 #include "state.h"
