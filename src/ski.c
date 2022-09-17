@@ -39,12 +39,13 @@
 #include "sim.h"
 #include "ssDCmd.h"
 #include "libsrs.h"
-#include "libcore.h"
 #include "icnt_ui.gen.h"
 #include "ssDBT.h"
 #include "syscall_api.h"
 #include "ssDPrs.h"
 #include "ssGtk.h"
+#include "state.h"
+#include "trace.h"
 #include "ui.h"
 
 

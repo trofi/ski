@@ -35,7 +35,6 @@
 #include "ssDCmd.h"
 #include "program.h"
 #include "decoder/decoder.h"
-#include "libcore.h"
 #include "libdas.h"
 #include "libsym.h"
 #include "iadas_types.gen.h"	/* for IAinstInfo/IAinstInfoPtr */
@@ -45,6 +44,7 @@
 #include "simmem.h"
 #include "ssDBT.h"
 #include "ssDPrs.h"
+#include "state.h"
 #include "syscall_api.h"
 #include "ui.h"
 

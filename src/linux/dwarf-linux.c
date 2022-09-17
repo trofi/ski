@@ -33,7 +33,6 @@
 #include "program.h"
 #include "libsym.h"
 #include "libsrs.h"
-#include "libcore.h"
 #include "syscall_api.h"
 #include "ui.h"
 

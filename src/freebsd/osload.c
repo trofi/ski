@@ -28,7 +28,6 @@
 #include "osload.h"
 #include "state.h"
 #include "fields.h"
-#include "libcore.h"
 #include "sim.h"
 #include "simmem.h"
 

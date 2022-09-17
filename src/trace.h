@@ -65,6 +65,17 @@ void traceArTgt(REG ar);
 void traceBrPred(REG br);
 void tracePrevPFS(REG prevPfs);
 
+/* Enable/Disable tracing */
+BOOL setTraceEnb(BOOL enb);
+/* Initialize the virtual cycle counter for tracing */
+void initTraceVcy(void);
+/* Initialize trace flags */
+void initTraceFlags(void);
+/* Generate a trace discontinuity */
+void traceDisc(void);
+/* Sets the virtual cycle counter for tracing (only if tracing enabled) */
+void traceVcyEnb(void);
+
 /* Macros */
 
 /* Used in sim.c */

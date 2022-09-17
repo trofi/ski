@@ -31,4 +31,7 @@ void restoreOpenFile(char *name, unsigned oflag, unsigned mode, unsigned offset)
 void readConsole(char *buf);
 void writeConsole(char *buf, size_t len);
 
+/* Sets up a file descriptor mapping from fd1 to fd2 */
+void setFdmap(int fd1, int fd2);
+
 #endif /* _SKI_SYSCALL_API_H */

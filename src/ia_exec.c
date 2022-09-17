@@ -29,7 +29,6 @@
 #include "sign_ext.h"
 #include "state.h"
 #include "sim.h"
-#include "libcore.h"
 #include "simmem.h"
 #include "libsym.h"
 #include "interruption.h"

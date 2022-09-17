@@ -557,4 +557,278 @@ extern ADDR max_sp;
 				  grmap[i] = i + bol; \
 			}
 
+/* Sets AR[i] for cproc */
+BOOL arSet(int cproc, int i, REG val);
+
+/* Sets BR[i] for cproc */
+BOOL brSet(int cproc, int i, REG val);
+
+/* Sets the CFM for cproc */
+void cfmSet(int cproc, REG val);
+
+/* Sets the sign bit of virtual FR[i] for cproc */
+BOOL frSignSet(int cproc, int i, REG val);
+
+/* Sets the exponent field of virtual FR[i] for cproc */
+BOOL frExpSet(int cproc, int i, WORD exp);
+
+/* Sets the mantissa field of virtual FR[i] for cproc */
+BOOL frMantSet(int cproc, int i, DWORD mant);
+
+/* Sets the ip for cproc */
+BOOL ipSet(int cproc, REG val);
+
+/* Sets the virtual GR[i].nat for cproc */
+BOOL grNatSet(int cproc, int i, BOOL nat);
+
+/* Sets the virtual GR[i] for cproc */
+BOOL grSet(int cproc, int i, REG val);
+
+/* Sets the sign bit of physical FR[i] for cproc */
+BOOL phyFrSignSet(int cproc, int i, BYTE sign);
+
+/* Sets the exponent field of physical FR[i] for cproc */
+BOOL phyFrExpSet(int cproc, int i, WORD exp);
+
+/* Sets the mantissa field of physical FR[i] for cproc */
+BOOL phyFrMantSet(int cproc, int i, DWORD mant);
+
+/* Sets the physical GR[i].nat for cproc */
+BOOL phyGrNatSet(int cproc, int i, BOOL nat);
+
+/* Sets the physical GR[i] for cproc */
+BOOL phyGrSet(int cproc, int i, REG val);
+
+/* Sets the physical PR[i] for cproc */
+BOOL phyPrSet(int cproc, int i, BOOL val);
+
+/* Sets the virtual PR[i] for cproc */
+BOOL prSet(int cproc, int i, BOOL val);
+
+/* Sets the psr for cproc */
+BOOL psrSet(int cproc, REG val);
+
+
+/* Sets the RRB.gr for cproc */
+BOOL rrbgSet(int cproc, REG val);
+
+/* Sets the RRB.fr for cproc */
+BOOL rrbfSet(int cproc, REG val);
+
+/* Sets the RRB.pr for cproc */
+BOOL rrbpSet(int cproc, REG val);
+
+/* Sets the BOL for cproc */
+void bolSet(int cproc, unsigned val);
+
+/* Sets the number of dirty registers for cproc */
+void dirtySet(int cproc, int val);
+
+/* Sets the number of dirty NaT registers for cproc */
+void dirtyNatSet(int cproc, int val);
+
+/* Sets the number of clean registers for cproc */
+void cleanSet(int cproc, int val);
+
+/* Sets the number of clean NaT registers for cproc */
+void cleanNatSet(int cproc, int val);
+
+/* Sets the number of invalid registers for cproc */
+void invalidSet(int cproc, int val);
+
+/* Sets the current frame load enable for cproc */
+void cfleSet(int cproc, BOOL val);
+
+/* Sets CR[i] for cproc */
+BOOL crSet(int cproc, int i, REG val);
+
+/* Sets the banked GR[i] for cproc */
+BOOL bkrSet(int cproc, int i, REG val);
+
+/* Sets the banked GR[i].nat for cproc */
+BOOL bkrNatSet(int cproc, int i, BOOL val);
+
+/* Sets RR[i] for cproc */
+BOOL rrSet(int cproc, int i, REG val);
+
+/* Sets RR[i] for cproc */
+BOOL pkrSet(int cproc, int i, REG val);
+
+/* Sets DBR[i] for cproc */
+BOOL dbrSet(int cproc, int i, REG val);
+
+/* Sets IBR[i] for cproc */
+BOOL ibrSet(int cproc, int i, REG val);
+
+/* Sets PMC[i] for cproc */
+BOOL pmcSet(int cproc, int i, REG val);
+
+/* Sets PMD[i] for cproc */
+BOOL pmdSet(int cproc, int i, REG val);
+
+/* Sets 8 bytes of memory for cproc starting at adr */
+void memSet(ADDR adr, REG val);
+
+/* Sets a page of memory for cproc to all zeroes */
+void memZerosPageSet(ADDR adr);
+
+/* Returns the heap address for cproc */
+ADDR heapGet(int cproc);
+
+/* Sets the heap address for cproc */
+void heapSet(int cproc, ADDR val);
+
+/* Returns the virtual GR[i] for cproc */
+REG grGet(int cproc, int i);
+
+/* Returns the exited flag */
+REG getExited(void);
+
+/* Sets the exited flag */
+void setExited(BOOL val);
+
+/* Returns the lp64 flag for cproc (indicating the executable's data model) */
+BOOL getLp64(int cproc);
+
+/* Sets the lp64 flag for cproc */
+void setLp64(int cproc, BOOL val);
+
+/* Returns the psr for cproc */
+REG psrGet(int cproc);
+
+/* Returns the ip for cproc */
+REG ipGet(int cproc);
+
+/* Displays the GR map */
+void getGrMapInfo(char buf[]);
+
+/* Returns AR[i] for cproc */
+REG arGet(int cproc, int i);
+
+/* Returns the virtual PR[i] for cproc */
+REG prGet(int cproc, int i);
+
+/* Returns CPUID[i] for cproc */
+REG cpuidGet(int cproc, int i);
+
+/* Returns BR[i] for cproc */
+REG brGet(int cproc, int i);
+
+/* Returns AR[i] for cproc */
+REG arGet(int cproc, int i);
+
+/* Returns the CFM for cproc */
+REG cfmGet(int cproc);
+
+/* Returns the SOF for cproc */
+REG sofGet(int cproc);
+
+/* Returns the SOL for cproc */
+REG solGet(int cproc);
+
+/* Returns the SOR for cproc */
+REG sorGet(int cproc);
+
+/* Returns the RRB.gr for cproc */
+REG rrbgGet(int cproc);
+
+/* Returns the RRB.fr for cproc */
+REG rrbfGet(int cproc);
+
+/* Returns the RRB.pr for cproc */
+REG rrbpGet(int cproc);
+
+/* Returns the BOL for cproc */
+REG bolGet(int cproc);
+
+/* Returns the number of dirty registers for cproc */
+REG dirtyGet(int cproc);
+
+/* Returns the number of dirty NaT registers for cproc */
+REG dirtyNatGet(int cproc);
+
+/* Returns the number of clean registers for cproc */
+REG cleanGet(int cproc);
+
+/* Returns the number of clean NaT registers for cproc */
+REG cleanNatGet(int cproc);
+
+/* Returns the number of invalid registers for cproc */
+REG invalidGet(int cproc);
+
+/* Returns the current frame load enable for cproc */
+BOOL cfleGet(int cproc);
+
+/* Returns CR[i] for cproc */
+REG crGet(int cproc, int i);
+
+/* Returns the banked GR[i] for cproc */
+REG bkrGet(int cproc, int i);
+
+/* Returns the banked GR[i].nat for cproc */
+REG bkrNatGet(int cproc, int i);
+
+/* Returns RR[i] for cproc */
+REG rrGet(int cproc, int i);
+
+/* Returns PKR[i] for cproc */
+REG pkrGet(int cproc, int i);
+
+/* Returns DBR[i] for cproc */
+REG dbrGet(int cproc, int i);
+
+/* Returns IBR[i] for cproc */
+REG ibrGet(int cproc, int i);
+
+/* Returns PMC[i] for cproc */
+REG pmcGet(int cproc, int i);
+
+/* Returns PMD[i] for cproc */
+REG pmdGet(int cproc, int i);
+
+/* Returns CPUID[i] for cproc */
+REG cpuidGet(int cproc, int i);
+
+/* Returns the ip for cproc */
+REG ipGet(int cproc);
+
+/* Returns the psr for cproc */
+REG psrGet(int cproc);
+
+/* Returns the virtual GR[i] for cproc */
+REG grGet(int cproc, int i);
+
+/* Returns the virtual GR[i].nat for cproc */
+REG grNatGet(int cproc, int i);
+
+/* Returns the physical GR[i] for cproc */
+REG phyGrGet(int cproc, int i);
+
+/* Returns the physical GR[i].nat for cproc */
+REG phyGrNatGet(int cproc, int i);
+
+/* Returns the sign bit of virtual FR[i] for cproc */
+REG frSignGet(int cproc, int i);
+
+/* Returns the exponent field of virtual FR[i] for cproc */
+REG frExpGet(int cproc, int i);
+
+/* Returns the mantissa field of virtual FR[i] for cproc */
+REG frMantGet(int cproc, int i);
+
+/* Returns the sign bit of physical FR[i] for cproc */
+REG phyFrSignGet(int cproc, int i);
+
+/* Returns the exponent field of physical FR[i] for cproc */
+REG phyFrExpGet(int cproc, int i);
+
+/* Returns the mantissa field of physical FR[i] for cproc */
+REG phyFrMantGet(int cproc, int i);
+
+/* Returns the virtual PR[i] for cproc */
+REG prGet(int cproc, int i);
+
+/* Returns the physical PR[i] for cproc */
+BOOL phyPrGet(int cproc, int i);
+
 #endif /* _SKI_STATE_H_ */

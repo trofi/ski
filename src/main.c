@@ -36,11 +36,11 @@
 #include "bits.h"
 #include "types.h"
 #include "fields.h"
+#include "simmem.h"
 #include "ski.h"
 #include "ssDCmd.h"
 #include "asm.h"
 #include "libsym.h"
-#include "libcore.h"	/* for initAppState,initState,initSysState */
 #include "load.h"
 #include "platform.h"
 #include "ui.h"

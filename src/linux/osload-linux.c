@@ -22,14 +22,14 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "std.h"
-#include "types.h"
+#include "fields.h"
 #include "osload.h"
 #include "state.h"
-#include "libcore.h"
 #include "sim.h"
 #include "simmem.h"
-#include "fields.h"
+#include "state.h"
+#include "std.h"
+#include "types.h"
 
 /* #define DO_DEBUG_OSLOAD_LINUX 1 */
 #ifdef DO_DEBUG_OSLOAD_LINUX

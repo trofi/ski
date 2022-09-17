@@ -25,6 +25,14 @@
 #include "types.h"
 #include "sim.h"
 
+extern unsigned long page_size;
+extern unsigned int log2_page_size;
+extern DWORD page_mask;
+
+#define page_base(addr)		((addr) & page_mask)
+#define page_align(addr)	(((addr) + ~page_mask) & page_mask)
+#define page_offset(addr)	((addr) & ~page_mask)
+
 /* Access Types */
 
 typedef enum {
@@ -154,6 +162,35 @@ void memIAWrt(BYTE size, ADDR adr, ADDR adr2, WORD val);
 
 void memFree(ADDR adr);
 void memFreeAll(void);
+
+/* Sets the ABI to App-mode or Sys-mode */
+void setABI(BOOL val);
+
+/* Displays the Page Table */
+size_t pageTableDisplaySize(void);
+void getPageTableInfo(char buf[]);
+
+/* Writes a bundle to memory for cproc */
+BOOL memMIWrt(ADDR adr, DWORD *pval);
+
+/* Writes up to a page of memory for cproc (data) */
+void memMPWrt(ADDR adr, const BYTE *src, unsigned size);
+
+/* Writes up to a page of memory for cproc (instruction) */
+void memMPIWrt(ADDR adr, const BYTE *src, unsigned size);
+
+/* Set/clear the data breakpoint bit corresponding to the address for cproc */
+void memSetDbptBit(ADDR adr);
+void memClrDbptBit(ADDR adr);
+
+/* Reads nbytes of IA memory */
+BOOL memMIAIRd(WORD eip, BYTE *pval, unsigned nbytes);
+
+/* Writes nbytes of IA memory */
+BOOL memMIAIWrt(ADDR adr, BYTE *pval, unsigned nbytes);
+
+/* Returns the memory contents for cproc in the Meminfo linked list */
+BOOL memGet(Meminfo_p *list);
 
 #if !BYTE_ORDER || !BIG_ENDIAN || !LITTLE_ENDIAN
 # error "Endianness is unknown!"

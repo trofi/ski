@@ -88,7 +88,6 @@
 #include "hpux/syscall-hpux.h"
 #include "syscall-linux.h"
 #include "libsrs.h"
-#include "libcore.h"
 #include "load.h"
 #include "combfns.gen.h"
 #include "interruption.h"

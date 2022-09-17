@@ -35,7 +35,6 @@
 #include "ssDCmd.h"
 #include "data.h"
 #include "libsym.h"
-#include "libcore.h"
 #include "sim.h"
 #include "fields.h"
 #include "state.h"

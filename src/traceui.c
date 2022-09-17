@@ -32,8 +32,8 @@
 #include "state.h"
 #include "ssDCmd.h"
 #include "libtrace.h"
-#include "libcore.h"
 #include "ssDPrs.h"
+#include "trace.h"
 #include "ui.h"
 
 /*##################### Functions and Subroutines ##########################*/

@@ -54,7 +54,6 @@
 #include "decoder.h"
 #include "encoder.h"
 #endif
-#include "libcore.h"
 #include "ssc.h"
 #include "ia_types.h"
 #include "ia_state.h"

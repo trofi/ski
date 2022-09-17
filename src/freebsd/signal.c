@@ -27,7 +27,6 @@
 #include "types.h"
 #include "sim.h"
 #include "libsrs.h"
-#include "libcore.h"
 #include "state.h"
 
 #include "freebsd/signal.h"

@@ -41,7 +41,6 @@
 #include "ski.h"
 #include "data.h"
 #include "libsym.h"
-#include "libcore.h"
 #include "load.h"
 #include "dos.h"
 #include "libtrace.h"

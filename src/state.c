@@ -32,7 +32,6 @@
 #include "types.h"
 #include "fields.h"
 #include "state.h"
-#include "libcore.h"
 
 unsigned nproc = 1;
 unsigned cproc = 0;

@@ -33,7 +33,6 @@
 
 #include "types.h"
 #include "ssDCmd.h"
-#include "libcore.h"
 #include "state.h"
 #include "program.h"
 #include "data.h"

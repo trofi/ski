@@ -35,7 +35,6 @@
 #include "sim.h"
 #include "simmem.h"
 #include "libsrs.h"
-#include "libcore.h"
 #include "ssDSym.h"
 #include "ui.h"
 

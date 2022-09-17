@@ -31,7 +31,6 @@
 #include "types.h"
 #include "state.h"
 #include "sim.h"
-#include "libcore.h"
 #include "libtrace.h"
 #include "trace.h"
 

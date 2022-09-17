@@ -26,7 +26,6 @@
 #include "osload.h"
 #include "state.h"
 #include "sim.h"
-#include "libcore.h"
 #include "fields.h"
 
 extern char **environ;

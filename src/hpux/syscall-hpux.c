@@ -67,7 +67,6 @@
 #include "state.h"
 #include "ssc.h"
 #include "sim.h"
-#include "libcore.h"
 #include "os_support.h"
 #include "simmem.h"
 #include "lp64struct.h"

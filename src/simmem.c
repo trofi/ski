@@ -38,7 +38,6 @@
 #include "sim.h"
 #include "simmem.h"
 #include "tlb.h"
-#include "libcore.h"
 #include "libtrace.h"
 #include "trace.h"
 #include "interruption.h"

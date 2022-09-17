@@ -145,7 +145,6 @@ noinst_HEADERS= \
 	asm.h \
 	bits.h \
 	fields.h \
-	libcore.h \
 	libsym.h \
 	simmem.h \
 	os_support.h \

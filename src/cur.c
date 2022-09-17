@@ -40,7 +40,6 @@
 #include "ssDCmd.h"
 #include "program.h"
 #include "data.h"
-#include "libcore.h"
 #include "load.h"
 #include "ui.h"
 #include "ssDPrs.h"

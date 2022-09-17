@@ -50,7 +50,6 @@
 #include "state.h"
 #include "program.h"
 #include "libsym.h"
-#include "libcore.h"
 #include "lm.h"
 #include "sim.h"
 #include "simmem.h"

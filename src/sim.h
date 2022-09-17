@@ -22,6 +22,7 @@
 #ifndef _SKI_SIM_H_
 #define _SKI_SIM_H_
 
+#include "libdas.h"
 #include "std.h"
 #include "types.h"
 
@@ -193,6 +194,14 @@ extern ExecutionMode executionMode;
 extern CTR total_insts, total_cycles, total_faults;
 extern unsigned int mips;
 
+/* Enables the instruction bucket counting */
+void setIcntEnb(void);
+/* Initializes basic machine state for cproc */
+void initState(int cproc);
+/* Initializes application-specific state for cproc */
+void initAppState(int cproc);
+void initSysState(void);
+
 void alatInit(void);
 int alat_cmp(BOOL fpreg, int rega, BOOL clearit);
 void alat_inval_all_entries(void);
@@ -214,5 +223,71 @@ void resetState(int proc);
 void sendIPI(int, int, int);
 extern INSTINFO *setIcp(void);
 void switchBanks(void);
+
+/* Flush the RSE prior to stack unwinding */
+void unwindFlush(void);
+
+/* Returns the total number of instructions simulated so far */
+CTR getTotalInsts(void);
+
+/* Sets the total number of instructions simulated so far */
+void setTotalInsts(CTR val);
+
+/* Returns the total number of faults simulated so far */
+CTR getTotalFaults(void);
+
+/* Sets the total number of faults simulated so far */
+void setTotalFaults(CTR val);
+
+/* Returns the total number of virtual cycles simulated so far */
+CTR getTotalCycles(void);
+
+/* Sets the total number of virtual cycles simulated so far */
+void setTotalCycles(CTR val);
+
+/* Returns the maximum SP value */
+REG getMaxSP(void);
+
+/* Sets the maximum SP value */
+void setMaxSP(REG val);
+
+/* Sets the intrsim flag */
+void setIntrsim(BOOL val);
+
+/* Simulate for up to cnt instructions */
+BOOL stepIt_loop(CTR cnt);
+BOOL runIt_loopX(CTR cnt);
+
+/* Simulate until stopped */
+void runIt_loop(void);
+
+/* Gets the execution message */
+char *getExecMsg(void);
+
+/* Sets internal state that is derived from other architected state */
+void setDerivedState(BOOL setEIP);
+
+/* Replaces an instruction with a BREAK instruction, returning the original */
+void bptReplace(Bundle *bptr, ADDR *adrptr, DWORD *orig);
+
+/* Restores the original instruction */
+void bptRestore(Bundle *bptr, ADDR adr, DWORD orig);
+
+/* Replaces an IA instruction with a int 3 instruction */
+void iabptReplace(ADDR adr);
+
+/* Restores an IA instruction */
+void iabptRestore(ADDR adr);
+
+/* Splits a bundle into 3 instructions and the template/SB field */
+void bparts(Bundle *bptr, BYTE *templSB, DWORD slot[]);
+
+/* Replaces an instruction with a new value */
+struct encoded_inst;
+BOOL instrReplace(Bundle *bptr, ADDR badr, unsigned slot,
+		  struct encoded_inst *inst);
+
+/* Replaces a bundle's template with a new value */
+void templReplace(Bundle *bptr, ADDR adr, BYTE _new);
 
 #endif /* _SKI_SIM_H_ */

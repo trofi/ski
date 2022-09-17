@@ -29,7 +29,6 @@
 #include "types.h"
 #include "ski.h"
 #include "ssDCmd.h"	/* just for exitSim() */
-#include "libcore.h"
 #include "data.h"
 
 BOOL bstats = NO;

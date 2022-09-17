@@ -32,12 +32,11 @@
 #include "fields.h"
 #include "sim.h"
 #include "libsym.h"
-#include "libcore.h"	/* XXX - Just for grGet used by IPfromEIP which is
-			 * only used in a call to symAddrtoName -- redesign? */
 #include "iadas_types.gen.h"
 #include "ia_decoder.h"
 #include "ia_das.h"
 #include "program.h"
+#include "state.h"
 
 #define MNE	"%-12s"		/* field width for assembly mnemonic */
 #define HEX	16		/* force hex display of immediates */

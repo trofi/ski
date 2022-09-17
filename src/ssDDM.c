@@ -83,7 +83,6 @@
 #include "sim.h"
 #include "libsym.h"
 #include "decoder.h"
-#include "libcore.h"
 #include "libdas.h"
 #include "asm.h"
 #include "lm.h"

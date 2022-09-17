@@ -45,7 +45,6 @@
 #include "program.h"
 #include "data.h"
 #include "libsym.h"
-#include "libcore.h"
 #include "iadas_types.gen.h"	/* for ADDR4 */
 #include "ssGtk.h"
 #include "ssDPrs.h"
