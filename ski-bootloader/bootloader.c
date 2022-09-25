@@ -13,6 +13,7 @@
 
 #include "bootloader.h"
 
+#include "memstr.h"
 #include "ssc.h"
 
 struct disk_req {
@@ -108,7 +109,7 @@ start_bootloader (void)
 	ssc((long) &stat, 0, 0, 0, SSC_WAIT_COMPLETION);
 
 	elf = (struct elf64_hdr *) mem;
-	if (elf->e_ident[0] == 0x7f && !(elf->e_ident[1] == 'E' && elf->e_ident[2] == 'L' && elf->e_ident[3] == 'F')) {
+	if (strncmp(elf->e_ident, "\177ELF", 4) != 0) {
 		cons_write("not an ELF file\n");
 		return;
 	}
