@@ -2,6 +2,8 @@
 #ifndef __IA64_SETUP_H
 #define __IA64_SETUP_H
 
+#include <types.h>
+
 extern struct ia64_boot_param {
 	u64 command_line;		/* physical address of command line arguments */
 	u64 efi_systab;		/* physical address of EFI system table */
