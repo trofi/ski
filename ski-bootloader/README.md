@@ -12,6 +12,13 @@ Currently kernel loading and console output relies on `Ski`-specifc
 `ski-bootloader` still relies on `Ski`-specific "syscalls" and can boot
 kernel up to `linux-4.19`.
 
+# Supported options
+
+`ski-bootloader` understands some of the parameters passed to `ski`:
+
+- first argument is interpreted as a kernel file name. `vmlinux` is
+  used if no parameters are present.
+
 # How to build
 
 The build requires you to have **ia64-unknown-linux-gnu** toolchain:

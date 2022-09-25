@@ -71,7 +71,7 @@ start_bootloader (void)
 	 *
 	 * The expected format is as follows:
          *
-	 *	kernelname args...
+	 *     kernelname args...
 	 *
 	 * Both are optional but you can't have the second one without the first.
 	 */
