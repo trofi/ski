@@ -54,6 +54,7 @@
 #define SSC_GET_ARGS			75
 
 #define SSC_CTL_TRACE			76
+#define SSC_GET_INITRAMFS		77
 
 #define SSC_DUMP_CMD_SETUP		86
 #define SSC_DUMP			87
@@ -113,5 +114,7 @@ extern SscReqNode *sscPend;
 void pendSscIrpt(unsigned type);
 void doSSC(HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG *ret);
 REG doFW(REG imm, REG arg0, REG arg1, REG arg2, REG arg3);
+
+extern char *initramfsFile;
 
 #endif	/* _SKI_SSC_H */

@@ -49,6 +49,7 @@ extern Interface interface;
 
 static char *initfile = NULL;
 static char *restfile = NULL;
+char *initramfsFile = NULL;
 extern BOOL bstats, alwaysNat, natStats;
 extern WORD maxNats;
 static BOOL dispargs = NO;
@@ -131,6 +132,9 @@ static void argsInit(void)
 
     argIns("-strace",    &trace_syscalls, ARG_BOOL, "bcx",
       "-strace      Trace system call execution");
+
+    argIns("-initramfs", &initramfsFile, ARG_STRING,  "bcx",
+      "-initramfs   Initramfs file for linux kernel");
 #endif
 
     argIns("-simroot", &sim_root, ARG_STRING, "bcx",

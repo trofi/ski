@@ -64,6 +64,8 @@ start_bootloader (void)
 	struct ia64_boot_param *bp;
 	char *kpath, *args;
 	long arglen = 0;
+	const char * initramfs_path = 0;
+	unsigned long initramfs_start = 0, initramfs_size = 0;
 
 	ssc(0, 0, 0, 0, SSC_CONSOLE_INIT);
 
@@ -82,6 +84,7 @@ start_bootloader (void)
 	args = buffer;
 	if (arglen > 0) {
 		kpath = buffer;
+		/* Advance args pointer to skip kernel and whitespace after. */
 		while (*args != ' ' && *args != '\0')
 			++args, --arglen;
 		if (*args == ' ')
@@ -147,6 +150,13 @@ start_bootloader (void)
 		if (elf_phdr->p_type != PT_LOAD)
 			continue;
 
+		/* Attempt to load initramfs right after kernel.
+		 * As we might get into a memory gap we probably want
+		 * something smarter here.
+		 */
+		if (initramfs_start < __pa(elf_phdr->p_paddr) + elf_phdr->p_memsz)
+			initramfs_start = __pa(elf_phdr->p_paddr) + elf_phdr->p_memsz;
+
 		req.len = elf_phdr->p_filesz;
 		req.addr = __pa(elf_phdr->p_paddr);
 		ssc(fd, 1, (long) &req, elf_phdr->p_offset, SSC_READ);
@@ -156,12 +166,21 @@ start_bootloader (void)
 	}
 	ssc(fd, 0, 0, 0, SSC_CLOSE);
 
+	cons_write("probing initramfs ...\n");
+	initramfs_size = ssc(initramfs_start, 0, 0, 0, SSC_GET_INITRAMFS);
+	/* Loading initramfs failed. */
+	if (initramfs_size == 0) {
+		initramfs_start = 0;
+		cons_write("initramfs not passed\n");
+	} else
+		cons_write("initramfs loaded\n");
+
 	cons_write("starting kernel...\n");
 
 	/* fake an I/O base address. */
 	asm volatile ("mov ar0=%0" : : "r"(0xffffc000000ULL) : "memory");
 
-	bp = sys_fw_init(args, arglen);
+	bp = sys_fw_init(args, arglen, initramfs_start, initramfs_size);
 
 	ssc(0, (long) kpath, 0, 0, SSC_LOAD_SYMBOLS);
 

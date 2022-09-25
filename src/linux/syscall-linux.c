@@ -4555,6 +4555,34 @@ doSSC (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG *ret)
         break;
       }
 
+    case SSC_GET_INITRAMFS:
+      {
+	FILE * f = NULL;
+	REG addr = arg0;
+
+	olddt = PSR_DT;
+	PSR_DT = 0;
+
+	if (initramfsFile)
+	    f = fopen(initramfsFile, "rb");
+
+	if (f) {
+	    char buffer[4096];
+	    for (;;) {
+		size_t r = fread(buffer, 1, sizeof (buffer), f);
+		if (r == 0) break;
+		memBBWrt(addr, buffer, r);
+		addr += r;
+	    }
+	    fclose(f);
+	}
+
+	*ret = addr - arg0; /* Total len. */
+
+	PSR_DT = olddt;
+	break;
+      }
+
     case SSC_OPEN:
       olddt = PSR_DT;
       PSR_DT = 0;

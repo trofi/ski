@@ -215,8 +215,7 @@ sal_emulator (long index, unsigned long in1, unsigned long in2,
 	return ((struct sal_ret_values) {status, r9, r10, r11});
 }
 
-struct ia64_boot_param *
-sys_fw_init (const char *args, int arglen)
+struct ia64_boot_param * sys_fw_init (const char *args, int arglen, u64 initramfs_start, u64 initramfs_size)
 {
 	efi_system_table_t *efi_systab;
 	efi_runtime_services_t *efi_runtime;
@@ -349,6 +348,8 @@ sys_fw_init (const char *args, int arglen)
 	bp->console_info.orig_x = 0;
 	bp->console_info.orig_y = 24;
 	bp->fpswa = 0;
+	bp->initrd_start = initramfs_start;
+	bp->initrd_size = initramfs_size;
 
 	return bp;
 }

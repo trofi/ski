@@ -25,8 +25,8 @@
 #define SSC_EXIT			66
 #define SSC_LOAD_SYMBOLS		69
 #define SSC_GET_TOD			74
-
 #define SSC_GET_ARGS			75
+#define SSC_GET_INITRAMFS		77
 
 /*
  * Simulator system call.
