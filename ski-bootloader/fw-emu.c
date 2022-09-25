@@ -8,6 +8,7 @@
 
 #include "bootloader.h"
 
+#include "memstr.h"
 #include "ssc.h"
 
 #define MB	(1024*1024UL)
@@ -211,32 +212,6 @@ sal_emulator (long index, unsigned long in1, unsigned long in2,
 		status = -1;
 	}
 	return ((struct sal_ret_values) {status, r9, r10, r11});
-}
-
-void * memcpy(void * dst, const void * src, unsigned long len) {
-	char * cd = dst;
-	const char * cs = src;
-
-	while (len--) {
-		*cd++ = *cs++;
-	}
-	return cd;
-}
-
-void *memset (void * dst, int c, unsigned long len) {
-	char * cd = dst;
-	while (len--) {
-		*cd++ = c;
-	}
-	return cd;
-}
-
-char *strcpy(char *dst, const char *src) {
-	char * r = dst;
-	while (*src) {
-		*dst++ = *src++;
-	}
-	return r;
 }
 
 struct ia64_boot_param *

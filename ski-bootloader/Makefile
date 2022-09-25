@@ -1,5 +1,11 @@
-ski-bootloader: boot_head.o bootloader.o fw-emu.o bootloader.lds
-	$(LD) boot_head.o bootloader.o fw-emu.o -o $@ -static -T bootloader.lds
+SKI_BOOTLOADER_OBJS = \
+	boot_head.o \
+	bootloader.o \
+	fw-emu.o \
+	memstr.o
+
+ski-bootloader: $(SKI_BOOTLOADER_OBJS) bootloader.lds
+	$(LD) $(SKI_BOOTLOADER_OBJS) -o $@ -static -T bootloader.lds
 
 CROSS_COMPILE = ia64-unknown-linux-gnu-
 CC = $(CROSS_COMPILE)gcc

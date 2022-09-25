@@ -16,7 +16,3 @@ typedef union ia64_va {
  * as we did not enable virtual addressing yet.
  */
 #define __pa(x)		({ia64_va _v; _v.l = (long) (x); _v.f.reg = 0; _v.l;})
-
-void * memcpy(void * dst, const void * src, unsigned long len);
-void *memset (void * dst, int c, unsigned long len);
-char *strcpy(char *dst, const char *src);

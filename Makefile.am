@@ -39,6 +39,8 @@ SKI_BOOTLOADER_FILES = \
 	ski-bootloader/bootloader.h \
 	ski-bootloader/bootloader.lds \
 	ski-bootloader/fw-emu.c \
+	ski-bootloader/memstr.c \
+	ski-bootloader/memstr.h \
 	ski-bootloader/ssc.h
 
 EXTRA_DIST = \
