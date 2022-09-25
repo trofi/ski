@@ -13,6 +13,7 @@
 
 #include "bootloader.h"
 
+#include "fw-emu.h"
 #include "memstr.h"
 #include "ssc.h"
 
@@ -27,7 +28,6 @@ struct disk_stat {
 };
 
 extern void jmp_to_kernel (unsigned long bp, unsigned long e_entry);
-extern struct ia64_boot_param *sys_fw_init (const char *args, int arglen);
 
 static void
 ssc_cons_write (const char *buf)

@@ -39,6 +39,7 @@ SKI_BOOTLOADER_FILES = \
 	ski-bootloader/bootloader.h \
 	ski-bootloader/bootloader.lds \
 	ski-bootloader/fw-emu.c \
+	ski-bootloader/fw-emu.h \
 	ski-bootloader/memstr.c \
 	ski-bootloader/memstr.h \
 	ski-bootloader/ssc.h

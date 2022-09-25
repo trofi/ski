@@ -6,8 +6,9 @@
  *	David Mosberger-Tang <davidm@hpl.hp.com>
  */
 
-#include "bootloader.h"
+#include "fw-emu.h"
 
+#include "bootloader.h"
 #include "memstr.h"
 #include "ssc.h"
 
