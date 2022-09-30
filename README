@@ -114,8 +114,8 @@ New additions:
   TODOs:
     * port bootloader over to earlycon to get visible output for
       CONFIG_HP_SIMSERIAL_CONSOLE=n kernels.
-    * export UART1/UART2 via some interface (hcdp?) to make it usable
-      as a promary console after early boot as well.
+    * export UART1/UART2 via some interface (hcdp? SPCR?) to make it
+      usable as a promary console after early boot as well.
 
 TODOs
 =====
