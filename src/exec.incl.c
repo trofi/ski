@@ -28,6 +28,7 @@
 #include "exec.h"
 #include "types.h"
 #include "fields.h"
+#include "firmware.h"
 #include "state.h"
 #include "float.h"
 #include "sim.h"

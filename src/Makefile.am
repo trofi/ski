@@ -214,7 +214,6 @@ endif
 EXTRA_freebsd_FILES = \
 	freebsd/convert.c \
 	freebsd/dwarf.c \
-	freebsd/firmware.c \
 	freebsd/machdep.h \
 	freebsd/misc.c \
 	freebsd/osload.c \
@@ -286,6 +285,8 @@ ski_SOURCES = \
 	batch.h \
 	cur.c \
 	cur.h \
+	firmware.c \
+	firmware.h \
 	ssGtk.c \
 	ssGtk.h \
 	syscall_api.h \

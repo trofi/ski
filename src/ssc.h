@@ -113,7 +113,6 @@ extern SscReqNode *sscPend;
 
 void pendSscIrpt(unsigned type);
 void doSSC(HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG *ret);
-REG doFW(REG imm, REG arg0, REG arg1, REG arg2, REG arg3);
 
 extern char *initramfsFile;
 
