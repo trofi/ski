@@ -31,8 +31,6 @@
 
 #include "freebsd/machdep.h"
 
-WORD pciBar[6] = {0xFFFFE001, 0xFFFFE000, 0xFFFFE000};
-
 REG doFW(REG imm, REG arg0, REG arg1, REG arg2, REG arg3)
 {
 

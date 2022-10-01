@@ -28,6 +28,7 @@
 #include "std.h"
 #include "bits.h"
 #include "types.h"
+#include "pci.h"
 #include "platform.h"
 #include "sim.h"
 #include "ski.h"
@@ -83,8 +84,6 @@ static unsigned pci_io_reg_addr = 0;
 #ifdef CONS_HPTERM
 static unsigned cursor_state = 0, newpos = 0;
 #endif
-
-extern WORD pciBar[];
 
 static int sbaRead(unsigned offset, REG *data)
 {

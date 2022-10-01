@@ -294,6 +294,8 @@ ski_SOURCES = \
 	$(EXPR_PARSER_DERIVED) \
 	load.c \
 	load.h \
+	pci.c \
+	pci.h \
 	platform.c \
 	libdas.c \
 	libsrs.c \
