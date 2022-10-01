@@ -8,79 +8,79 @@ WORD pciBar[6] = {0xFFFFE001, 0xFFFFE000, 0xFFFFE000};
 static HWORD pciCmd;
 static BYTE pciCacheLineSz, pciLatTmr;
 
-REG pciConfigRd(REG arg1, REG arg2)
+REG pciConfigRd(REG pci_address, REG size)
 {
     BYTE segno, busno, devno, fnno, regno;
 
-    segno = BitfR(arg1,32,8);
-    busno = BitfR(arg1,40,8);
-    devno = BitfR(arg1,48,5);
-    fnno  = BitfR(arg1,53,3);
-    regno = BitfR(arg1,56,8);
-    if (arg1 == 0x7800)	/* Azusa platform */
-	return arg2 == 2 ? 0x1000 : 0x000c1000;
-    if (arg1 == 0x7804 && arg2 == 2)	/* command */
+    segno = BitfR(pci_address,32,8);
+    busno = BitfR(pci_address,40,8);
+    devno = BitfR(pci_address,48,5);
+    fnno  = BitfR(pci_address,53,3);
+    regno = BitfR(pci_address,56,8);
+    if (pci_address == 0x7800)	/* Azusa platform */
+	return size == 2 ? 0x1000 : 0x000c1000;
+    if (pci_address == 0x7804 && size == 2)	/* command */
 	return pciCmd;
-    if (arg1 == 0x7804 && arg2 == 4)	/* command/status */
+    if (pci_address == 0x7804 && size == 4)	/* command/status */
 	return pciCmd;
-    if (arg1 == 0x7806 && arg2 == 2)	/* status */
+    if (pci_address == 0x7806 && size == 2)	/* status */
 	return 0x0000;
-    if (arg1 == 0x7808 && arg2 == 4)	/* revision ID and class code */
+    if (pci_address == 0x7808 && size == 4)	/* revision ID and class code */
 	return 0x0100000A;
-    if (arg1 == 0x780A && arg2 == 2)	/* class */
+    if (pci_address == 0x780A && size == 2)	/* class */
 	return 0x0100;	/* SCSI bus controller */
-    if (arg1 == 0x780C && arg2 == 2)	/* cache line size & latency timer */
+    if (pci_address == 0x780C && size == 2)	/* cache line size & latency timer */
 	return (HWORD)pciLatTmr << 8 | pciCacheLineSz;
-    if (arg1 == 0x780E && arg2 == 1)	/* header type */
+    if (pci_address == 0x780E && size == 1)	/* header type */
 	return 0x00;
-    if (arg1 >= 0x7810 && arg1 <= 0x7824 && arg2 == 4)	/* BARs */
-	return pciBar[(arg1-0x7810)>>2];
-    if (arg1 == 0x7830 && arg2 == 4)	/* Expansion ROM */
+    if (pci_address >= 0x7810 && pci_address <= 0x7824 && size == 4)	/* BARs */
+	return pciBar[(pci_address-0x7810)>>2];
+    if (pci_address == 0x7830 && size == 4)	/* Expansion ROM */
 	return 0x00000000;
-    if (arg1 == 0x783D && arg2 == 1)	/* Interrupt Pin */
+    if (pci_address == 0x783D && size == 1)	/* Interrupt Pin */
 	return 0x01;
-    if (!segno && !busno && !fnno && !regno && arg2 == 4)
+    if (!segno && !busno && !fnno && !regno && size == 4)
 	return 0xFFFFFFFF;
     progStop("bad FW call\n");
     return 0;
 }
 
-void pciConfigWr(REG arg1, REG arg2, REG arg3)
+void pciConfigWr(REG pci_address, REG size, REG value)
 {
     BYTE segno, busno, devno, fnno, regno;
 
-    segno = BitfR(arg1,32,8);
-    busno = BitfR(arg1,40,8);
-    devno = BitfR(arg1,48,5);
-    fnno  = BitfR(arg1,53,3);
-    regno = BitfR(arg1,56,8);
-    if (arg1 == 0x7804 && arg2 == 2) {	/* command */
-	pciCmd = arg3;
+    segno = BitfR(pci_address,32,8);
+    busno = BitfR(pci_address,40,8);
+    devno = BitfR(pci_address,48,5);
+    fnno  = BitfR(pci_address,53,3);
+    regno = BitfR(pci_address,56,8);
+    if (pci_address == 0x7804 && size == 2) {	/* command */
+	pciCmd = value;
 	return;
     }
 /* XXX - this case seems to only be currently used in a situation that
 	 probably should never occur, so perhaps move this to the end?
  */
-    if (arg1 == 0x780C && arg2 == 1) {	/* cache line size */
-	pciCacheLineSz = BitfR(arg3,56,8);
+    if (pci_address == 0x780C && size == 1) {	/* cache line size */
+	pciCacheLineSz = BitfR(value,56,8);
 	return;
     }
-    if (arg1 == 0x780C && arg2 == 2) {	/* cache line size & latency timer */
-	pciCacheLineSz = BitfR(arg3,56,8);
-	pciLatTmr = BitfR(arg3,48,8);
+    if (pci_address == 0x780C && size == 2) {	/* cache line size & latency timer */
+	pciCacheLineSz = BitfR(value,56,8);
+	pciLatTmr = BitfR(value,48,8);
 	return;
     }
-    if (arg1 == 0x7810 && arg2 == 4) {	/* I/O BAR */
-	pciBar[(arg1-0x7810)>>2] = (arg3 & ~0x1FFFULL) | 1;
+    if (pci_address == 0x7810 && size == 4) {	/* I/O BAR */
+	pciBar[(pci_address-0x7810)>>2] = (value & ~0x1FFFULL) | 1;
 	return;
     }
-    if (arg1 >= 0x7814 && arg1 <= 0x7818 && arg2 == 4) { /* Memory BARs */
-	pciBar[(arg1-0x7810)>>2] = arg3 & ~0x1FFFULL;
+    if (pci_address >= 0x7814 && pci_address <= 0x7818 && size == 4) { /* Memory BARs */
+	pciBar[(pci_address-0x7810)>>2] = value & ~0x1FFFULL;
 	return;
     }
-    if (arg1 >= 0x781C && arg1 <= 0x7824 && arg2 == 4)	/* unimpl. BARs */
+    if (pci_address >= 0x781C && pci_address <= 0x7824 && size == 4)	/* unimpl. BARs */
 	return;
-    if (arg1 == 0x7830 && arg2 == 4)	/* Expansion ROM */
+    if (pci_address == 0x7830 && size == 4)	/* Expansion ROM */
 	return;
     progStop("bad FW call\n");
 }

@@ -8,7 +8,7 @@
 
 extern WORD pciBar[6];
 
-REG pciConfigRd(REG arg1, REG arg2);
-void pciConfigWr(REG arg1, REG arg2, REG arg3);
+REG pciConfigRd(REG pci_address, REG size);
+void pciConfigWr(REG pci_address, REG size, REG value);
 
 #endif /* _SKI_PCI_H */
