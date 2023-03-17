@@ -45,7 +45,6 @@
 #include <linux/posix_types.h>
 #include <linux/personality.h>
 #include <linux/sockios.h>
-#include <sys/io.h>
 
 #include <sys/file.h>
 #include <sys/fsuid.h>
