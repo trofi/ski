@@ -16,11 +16,6 @@ Some optional features require extra depepdencies:
   * DWARF support:
     * libbfd library (from binutils)
     * unwind library (like libunwind)
-  * Motif support
-    * motif
-    * libX11
-    * libXt
-    * libXext
 
 To develop Ski you will need a few more dependencies on top:
 
