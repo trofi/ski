@@ -43,7 +43,6 @@
 #include "ssDBT.h"
 #include "syscall_api.h"
 #include "ssDPrs.h"
-#include "ssGtk.h"
 #include "state.h"
 #include "trace.h"
 #include "ui.h"
@@ -344,14 +343,6 @@ static void stepIt(CTR cnt)
     }
     cmdwSetStatus("Running...");
     switch (interface) {
-        case GTK_INTERFACE:
-#ifdef HAVE_GTK
-	    stepIt_setupGtk(cnt);
-#else
-	    fprintf (stderr,
-		     "Sorry, GTK support has not been compiled in.\n");
-#endif
-	    break;
 	case CURSES_INTERFACE:
 	case BATCH:
 	    (void)stepIt_loop(cnt);
@@ -411,15 +402,6 @@ void runIt(BOOL showIrate)
     }
     cmdwSetStatus("Running...");
     switch (interface) {
-        case GTK_INTERFACE:
-#ifdef HAVE_GTK
-	    runIt_setupGtk();
-	    break;
-#else
-	    fprintf (stderr,
-		     "Sorry, GTK support has not been compiled in.\n");
-	    exit(-1);
-#endif
 	case CURSES_INTERFACE:
 	case BATCH:
 	    (void)runIt_loop();

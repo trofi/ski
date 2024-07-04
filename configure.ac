@@ -66,19 +66,6 @@ AC_DEFINE_UNQUOTED([PAGER], ["$PAGER"], [Define to the pager program.])
 dnl Initialize maintainer mode
 AM_MAINTAINER_MODE
 
-dnl See if we build GTK
-AC_ARG_WITH([gtk],
-  AS_HELP_STRING([--with-gtk],
-    [Enable building the GTK Ski interface default=no]))
-
-AS_IF([test "x$with_gtk" = "xyes"], [
- PKG_CHECK_MODULES([GSKI], [libglade-2.0 libgnomeui-2.0 >= 1.110.0])
- AC_DEFINE(HAVE_GTK, 1, [define if you have GTK support])
-])
-AC_SUBST(GSKI_CFLAGS)
-AC_SUBST(GSKI_LIBS)
-AM_CONDITIONAL(WITH_GTK_INTERFACE, test "x$with_gtk" = "xyes")
-
 dnl Check for host endianness
 AC_CACHE_CHECK([whether host byte ordering is defined in sys/param.h],
 ski_cv_c_bigendian_compile,

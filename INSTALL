@@ -16,9 +16,6 @@ Some optional features require extra depepdencies:
   * DWARF support:
     * libbfd library (from binutils)
     * unwind library (like libunwind)
-  * GTK support:
-    * libglade
-    * libgnomeui
   * Motif support
     * motif
     * libX11

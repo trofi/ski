@@ -55,7 +55,3 @@ install-exec-hook:
 	$(LN_S) -f ski.1 $(DESTDIR)/$(mandir)/man1/bski.1;
 	$(LN_S) -f ski $(DESTDIR)/$(bindir)/bskinc;
 	$(LN_S) -f ski.1 $(DESTDIR)/$(mandir)/man1/bskinc.1;
-if WITH_GTK_INTERFACE
-	$(LN_S) -f ski $(DESTDIR)/$(bindir)/gski
-	$(LN_S) -f ski.1 $(DESTDIR)/$(mandir)/man1/gski.1
-endif

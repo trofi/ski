@@ -46,7 +46,6 @@
 #include "data.h"
 #include "libsym.h"
 #include "iadas_types.gen.h"	/* for ADDR4 */
-#include "ssGtk.h"
 #include "ssDPrs.h"
 
 BYTE getIAmode(void);
@@ -105,11 +104,6 @@ void cmdOut(const char *name, const char *hdr, const char *buf, FILE *f)
 	    case CURSES_INTERFACE:
 		cmdOutCur(hdr, buf);
 		break;
-            case GTK_INTERFACE:
-#ifdef HAVE_GTK
-		cmdOutGtk(name, hdr, buf);
-#endif
-		break;
 	}
     /* free(buf); */
 }
@@ -152,11 +146,6 @@ void regwUpdate(void)
     switch (interface) {
 	case CURSES_INTERFACE:
 	    regwUpdateCur();
-	    break;
-        case GTK_INTERFACE:
-#ifdef HAVE_GTK
-	    regwUpdateGtk();
-#endif
 	    break;
 	case BATCH:
 	    break;
@@ -819,11 +808,6 @@ void prgwUpdate(void)
 	case CURSES_INTERFACE:
 	    prgwUpdateCur();
 	    break;
-        case GTK_INTERFACE:
-#ifdef HAVE_GTK
-	    prgwUpdateGtk();
-#endif
-	    break;
 	case BATCH:
 	    break;
     }
@@ -856,11 +840,6 @@ void prgwDraw(void)
     switch (interface) {
 	case CURSES_INTERFACE:
 	    prgwDrawCur();
-	    break;
-        case GTK_INTERFACE:
-#ifdef HAVE_GTK
-	    prgwDrawGtk();
-#endif
 	    break;
 	case BATCH:
 	    break;
@@ -927,11 +906,6 @@ void datwUpdate(void)
 	case CURSES_INTERFACE:
 	    datwUpdateCur();
 	    break;
-        case GTK_INTERFACE:
-#ifdef HAVE_GTK
-	    datwUpdateGtk();
-#endif
-	    break;
 	case BATCH:
 	    break;
     }
@@ -953,11 +927,6 @@ void cmdwPrint(const char *fmt, ...)
 	case BATCH:
 	    cmdwPrintBatch(s);
 	    break;
-        case GTK_INTERFACE:
-#ifdef HAVE_GTK
-	    cmdwPrintGtk(s);
-#endif
-	    break;
 	case CURSES_INTERFACE:
 	    cmdwPrintCur(s);
 	    break;
@@ -977,11 +946,6 @@ void msgwPrint(const char *fmt, ...)
 	case BATCH:
 	    cmdwPrintBatch(s);
 	    break;
-        case GTK_INTERFACE:
-#ifdef HAVE_GTK
-	    msgwPrintGtk(s);
-#endif
-	    break;
 	case CURSES_INTERFACE:
 	    cmdwPrintCur(s);
 	    break;
@@ -993,11 +957,6 @@ void cmdwSetStatus(const char *msg)
     switch (interface) {
 	case CURSES_INTERFACE:
 	    cmdwSetStatusCur(msg);
-	    break;
-        case GTK_INTERFACE:
-#ifdef HAVE_GTK
-	    cmdwSetStatusGtk(msg);
-#endif
 	    break;
 	case BATCH:
 	    break;
@@ -1019,11 +978,6 @@ void cmdErr(const char *fmt, ...)
     switch (interface) {
 	case BATCH:
 	    cmdwPrintBatch(s);
-	    break;
-        case GTK_INTERFACE:
-#ifdef HAVE_GTK
-	    msgwPrintGtk(s);
-#endif
 	    break;
 	case CURSES_INTERFACE:
 	    cmdwPrintCur(s);
@@ -1048,11 +1002,6 @@ void cmdWarn(const char *fmt, ...)
 	case BATCH:
 	    cmdwPrintBatch(s);
 	    break;
-        case GTK_INTERFACE:
-#ifdef HAVE_GTK
-	    msgwPrintGtk(s);
-#endif
-	    break;
 	case CURSES_INTERFACE:
 	    cmdwPrintCur(s);
 	    break;
@@ -1064,11 +1013,6 @@ static void cmdwUpdate(void)
     switch (interface) {
 	case CURSES_INTERFACE:
 	    cmdwUpdateCur();
-	    break;
-        case GTK_INTERFACE:
-#ifdef HAVE_GTK
-	    cmdwUpdateGtk();
-#endif
 	    break;
 	case BATCH:
 	    break;
@@ -1088,14 +1032,6 @@ void scrnInit(void)
 	case CURSES_INTERFACE:
 	    scrnInitCur();
 	    break;
-        case GTK_INTERFACE:
-#ifdef HAVE_GTK
-	    scrnInitGtk();
-#else
-	    fprintf (stderr, "Error: program was build without GTK support\n");
-	    exit(EXIT_FAILURE);
-#endif
-	    break;
 
     }
 }
@@ -1113,11 +1049,6 @@ void scrnEnd(void)
     switch (interface) {
 	case CURSES_INTERFACE:
 	    scrnEndCur();
-	    break;
-        case GTK_INTERFACE:
-#ifdef HAVE_GTK
-	    scrnEndGtk();
-#endif
 	    break;
 	case BATCH:
 	    break;
@@ -1143,11 +1074,6 @@ void cmdLoop(void)
     switch (interface) {
 	case BATCH:
 	    cmdLoopBatch();
-	    break;
-        case GTK_INTERFACE:
-#ifdef HAVE_GTK
-	    cmdLoopGtk();
-#endif
 	    break;
 	case CURSES_INTERFACE:
 	    cmdLoopCur();

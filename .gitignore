@@ -24,6 +24,5 @@ Makefile
 .dirstamp
 /src/bski
 /src/fake-xterm/ski-fake-xterm
-/src/gski
 /src/ski
 /ski-bootloader/ski-bootloader

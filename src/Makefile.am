@@ -28,7 +28,6 @@ AM_CPPFLAGS = \
 	-I$(srcdir)/encoder \
 	-I$(top_builddir)/src/encoder \
 	-I$(top_builddir)/src/decoder \
-	$(GSKI_CFLAGS) \
 	-DSKI_DATA_DIR=\"$(pkgdatadir)\"
 
 bin_PROGRAMS = ski
@@ -287,8 +286,6 @@ ski_SOURCES = \
 	cur.h \
 	firmware.c \
 	firmware.h \
-	ssGtk.c \
-	ssGtk.h \
 	syscall_api.h \
 	asm.c \
 	$(EXPR_SCANNER_DERIVED) \
@@ -312,21 +309,13 @@ ski_SOURCES = \
 	encoder/encoder.h \
 	$(ENCODER_DERIVED)
 
-if WITH_GTK_INTERFACE
-# gski exports some callbacks to gski.glade for
-# dynamic discovery.
-ski_LDFLAGS=-Wl,--export-dynamic
-endif
-
 ski_LDADD = \
-	$(DWARF_LIBS) \
-	$(GSKI_LIBS)
+	$(DWARF_LIBS)
 
 EXTRA_DIST = \
 	exec.incl.c \
 	ia_decoder.tmpl.c \
 	$(COMBFNS_FILES) \
-	$(gski_DATA) \
 	$(noinst_DATA) \
 	$(noinst_SCRIPTS) \
 	$(EXPR_SCANNER_FILES) \
@@ -337,18 +326,9 @@ EXTRA_ski_SOURCES = \
 	$(EXTRA_hpux_FILES) \
 	$(EXTRA_freebsd_FILES)
 
-if WITH_GTK_INTERFACE
-gskidir= $(datadir)/ski
-gski_DATA= \
-	gski.glade
-GSKI= gski
-else
-GSKI=
-endif
+all-local: bski
 
-all-local: bski $(GSKI)
-
-bski $(GSKI) : ski
+bski: ski
 	@rm -f $@; ln ski $@
 
 ## DERIVED sources rules:
@@ -499,4 +479,4 @@ eparse.gen.c eparse.gen.h: eparse.y
 
 
 distclean-local:
-	-rm -f $(GSKI) bski $(BUILT_SOURCES)
+	-rm -f bski $(BUILT_SOURCES)

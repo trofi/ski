@@ -196,9 +196,6 @@ int main(int argc, char *argv[])
 	case 'b':
 	    interface = BATCH;
 	    break;
-        case 'g':
-	    interface = GTK_INTERFACE;
-	    break;
 	case 's':
 	    interface = CURSES_INTERFACE;
  	    break;

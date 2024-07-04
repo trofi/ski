@@ -17,7 +17,7 @@ typedef enum { ASM, MIXED, SRC } PrgwMode;
 typedef enum {
     BATCH = 0,
     CURSES_INTERFACE,
-    GTK_INTERFACE } Interface;
+} Interface;
 
 
 /*--------------------------------------------------------------------------
