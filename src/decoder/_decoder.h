@@ -22,8 +22,8 @@
 #ifndef _SKI__DECODER_H
 #define _SKI__DECODER_H
 
-#include <decoder.h>
-#include <EMInst.h>
+#include "decoder/decoder.h"
+#include "encoder/EMInst.h"
 
 /* len must be > 0 */
 #define extract(slot, pos, len) \

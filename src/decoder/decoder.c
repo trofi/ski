@@ -22,7 +22,7 @@
 
 
 #include <string.h> /* for memcmp */
-#include <_decoder.h>
+#include "decoder/_decoder.h"
 
 #define sign_ext(i, n)	((((long long)(i) << (64 - (n)))) >> (64 - (n)))
 

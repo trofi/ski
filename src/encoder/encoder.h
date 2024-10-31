@@ -28,9 +28,9 @@ typedef enum { EncOK, EncBadTemplate, EncBadInstID, EncBadQP, EncBadOperand,
 	       EncBadOperand6
 } EncStatus;
 
-#include <instID.gen.h>
-#include <decoder.h>
-#include <operands.gen.h>
+#include "decoder/instID.gen.h"
+#include "decoder/decoder.h"
+#include "decoder/operands.gen.h"
 
 typedef struct encoded_inst {
     unsigned long long bits;

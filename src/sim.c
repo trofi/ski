@@ -33,8 +33,8 @@
 #include <dl.h>
 #endif
 #ifdef NEW_MP
-#include "decoder.h"
-#include "encoder.h"
+#include "decoder/decoder.h"
+#include "encoder/encoder.h"
 #endif
 #include "exec.h"
 #include "std.h"
@@ -51,15 +51,15 @@
 #include "interruption.h"
 #include "instr.h"
 #ifndef NEW_MP
-#include "decoder.h"
-#include "encoder.h"
+#include "decoder/decoder.h"
+#include "encoder/encoder.h"
 #endif
 #include "ssc.h"
 #include "ia_types.h"
 #include "ia_state.h"
 #include "ia_decoder.h"
 #include "ia_exec.h"
-#include "EMInst.h"
+#include "encoder/EMInst.h"
 #include "instinfo.h"
 #include "icnt_core.gen.h"
 #include "os_support.h"

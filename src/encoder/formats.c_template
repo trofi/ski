@@ -19,8 +19,8 @@
 
 /* Instruction Format Names */
 
-#include <encoder.h>
-#include <EMInst.h>
+#include "encoder/encoder.h"
+#include "encoder/EMInst.h"
 
 static char *formatName[];
 

@@ -24,10 +24,6 @@ SUBDIRS = fake-xterm
 
 AM_CPPFLAGS = \
 	$(DWARF_CFLAGS) \
-	-I$(srcdir)/decoder \
-	-I$(srcdir)/encoder \
-	-I$(top_builddir)/src/encoder \
-	-I$(top_builddir)/src/decoder \
 	-DSKI_DATA_DIR=\"$(pkgdatadir)\"
 
 bin_PROGRAMS = ski

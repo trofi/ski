@@ -21,9 +21,10 @@
 
 #include <stdlib.h>
 #include <assert.h>
-#include <encoder.h>
-#include <_decoder.h>
-#include "EMInst.h"
+
+#include "decoder/_decoder.h"
+#include "encoder/encoder.h"
+#include "encoder/EMInst.h"
 
 #define deposit(val, pos, len) \
     (((unsigned long long)(val) << (64 - (len)) >> (64 - (len) - (pos))))

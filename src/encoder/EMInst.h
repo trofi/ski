@@ -53,9 +53,9 @@
 #define Impl_AtomicOps				0x800
 #define Impl_VM					0x10000
 
-#include <EMformats.gen.h>
-#include <decoder.h>
-#include <operands.gen.h>
+#include "decoder/decoder.h"
+#include "decoder/operands.gen.h"
+#include "encoder/EMformats.gen.h"
 
 typedef unsigned long long UInt64;
 typedef char Major_opcode;

@@ -25,8 +25,8 @@
 #include <ctype.h>
 
 #include "asm.h"
-#include "decoder.h"
-#include "encoder.h"
+#include "decoder/decoder.h"
+#include "encoder/encoder.h"
 #include "std.h"
 #include "libsym.h"
 #include "types.h"

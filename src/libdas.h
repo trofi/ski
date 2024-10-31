@@ -22,8 +22,8 @@
 #ifndef _SKI_LIBDAS_H
 #define _SKI_LIBDAS_H
 
-#include "decoder.h"
-#include "encoder.h"
+#include "decoder/decoder.h"
+#include "encoder/encoder.h"
 
 /*
  * The user of this library must provide three functions:

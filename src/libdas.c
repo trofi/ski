@@ -27,13 +27,13 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "EMInst.h"
+#include "encoder/EMInst.h"
 #include "std.h"
 #include "bits.h"
 #include "types.h"
 #include "das_instr.h"
-#include "decoder.h"
-#include "encoder.h"
+#include "decoder/decoder.h"
+#include "encoder/encoder.h"
 #include "libdas.h"
 #include "libsym.h"
 #include "program.h"

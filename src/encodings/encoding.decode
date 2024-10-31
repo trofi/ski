@@ -21,7 +21,7 @@
  *
  */
 
-#include "_decoder.h"
+#include "decoder/_decoder.h"
 
 TemplateInfo templates[] = {
 /*  Slot 0		Slot 1		    Slot 2

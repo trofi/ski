@@ -23,7 +23,8 @@
 #define _SKI_ASM_H
 
 #include <string.h>
-#include <encoder.h>
+
+#include "encoder/encoder.h"
 
 /* these enum values must match the EncStatus enum values */
 typedef enum { AsmOK, AsmBadTemplate, AsmBadInst, AsmBadQP, AsmBadOperand,

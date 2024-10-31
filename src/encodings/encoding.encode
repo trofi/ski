@@ -23,8 +23,8 @@
  */
 
 
-#include <encoder.h>
-#include "EMInst.h"
+#include "encoder/encoder.h"
+#include "encoder/EMInst.h"
 
 UInt64 nop_i = 0x0000000008000000ull;
 UInt64 nop_m = 0x0000000008000000ull;
