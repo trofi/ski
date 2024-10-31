@@ -23,8 +23,7 @@
 SUBDIRS = fake-xterm
 
 AM_CPPFLAGS = \
-	$(DWARF_CFLAGS) \
-	-DSKI_DATA_DIR=\"$(pkgdatadir)\"
+	$(DWARF_CFLAGS)
 
 bin_PROGRAMS = ski
 
