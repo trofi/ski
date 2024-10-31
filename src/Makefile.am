@@ -465,17 +465,18 @@ encoder/encode_table.gen.c: $(srcdir)/encodings/encoding.encode
 
 ## DERIVED lexers and parsers
 
-escan.gen.h: escan.gen.c
-
-escan.gen.c escan.gen.h: $(srcdir)/escan.l
+escan.gen.c: $(srcdir)/escan.l
 	$(FLEX) $(LFLAGS) --outfile=escan.gen.c --header-file=escan.gen.h $(srcdir)/escan.l
-	touch escan.gen.h
+
+# $(FLEX) generates both files. Make sure we set the defined order of file updates.
+escan.gen.h: escan.gen.c
+	touch $@
+
+eparse.gen.c: eparse.y
+	$(BISON) --warnings $(YFLAGS) --output=eparse.gen.c --defines=eparse.gen.h $(srcdir)/eparse.y
 
 eparse.gen.h: eparse.gen.c
-
-eparse.gen.c eparse.gen.h: eparse.y
-	$(BISON) --warnings $(YFLAGS) --output=eparse.gen.c --defines=eparse.gen.h $(srcdir)/eparse.y
-	touch eparse.gen.h
+	touch $@
 
 
 distclean-local:
