@@ -3804,7 +3804,7 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
       act.sa_flags = sa->sa_flags & ~SA_ONSTACK;
       if (sa->lia_handler == (ADDR) SIG_DFL
 	  || sa->lia_handler == (ADDR) SIG_IGN)
-	act.sa_handler = (void (*)()) (long) sa->lia_handler;
+	act.sa_handler = (void (*)(int)) (long) sa->lia_handler;
       else
 	act.sa_handler = signal_queue;
       *status = sigaction (arg0, &act, 0);
