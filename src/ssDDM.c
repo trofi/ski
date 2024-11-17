@@ -133,8 +133,8 @@ BOOL valAssign(unsigned argc, char *argv[])
 
     switch (sym.type) {
 	case SINGLE_SYM:
-	    if (sym.setFn) {
-		if (!sym.setFn(0, val)) {
+	    if (sym.setFn2) {
+		if (!sym.setFn2(0, val)) {
 		    cmdErr("Attempt to modify symbol failed\n");
 		    return NO;
 		}
@@ -144,8 +144,8 @@ BOOL valAssign(unsigned argc, char *argv[])
 	    }
 	    break;
 	case REGSET_SYM:
-	    if (sym.setFn) {
-		if (!sym.setFn(0, sym.ndx, val)) {
+	    if (sym.setFn3) {
+		if (!sym.setFn3(0, sym.ndx, val)) {
 		    cmdErr("Attempt to modify symbol failed\n");
 		    return NO;
 		}
@@ -155,13 +155,13 @@ BOOL valAssign(unsigned argc, char *argv[])
 	    }
 	    break;
 	case BITF_SYM:
-	    if (sym.setFn) {
-		REG oldval = sym.getFn(0), mask;
+	    if (sym.setFn2) {
+		REG oldval = sym.getFn1(0), mask;
 
 		mask = ONES(sym.len) << (sym.start - (sym.len - 1));
 		val <<= sym.start - (sym.len - 1);
 		val = (oldval & ~mask) | (val & mask);
-		if (!sym.setFn(0, val)) {
+		if (!sym.setFn2(0, val)) {
 		    cmdErr("Attempt to modify symbol failed\n");
 		    return NO;
 		}
@@ -171,13 +171,13 @@ BOOL valAssign(unsigned argc, char *argv[])
 	    }
 	    break;
 	case RS_BITF_SYM:
-	    if (sym.setFn) {
-		REG oldval = sym.getFn(0, sym.ndx), mask;
+	    if (sym.setFn3) {
+		REG oldval = sym.getFn2(0, sym.ndx), mask;
 
 		mask = ONES(sym.len) << (sym.start - (sym.len - 1));
 		val <<= sym.start - (sym.len - 1);
 		val = (oldval & ~mask) | (val & mask);
-		if (!sym.setFn(0, sym.ndx, val)) {
+		if (!sym.setFn3(0, sym.ndx, val)) {
 		    cmdErr("Attempt to modify symbol failed\n");
 		    return NO;
 		}

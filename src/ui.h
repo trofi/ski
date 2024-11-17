@@ -24,8 +24,10 @@ typedef enum {
  *  Internal symbol interface
  *-------------------------------------------------------------------------*/
 
-typedef REG (*PGetFn)(/* TODO: add prototype here */);
-typedef BOOL (*PSetFn)(/* TODO: add prototype here */);
+typedef REG (*PGetFn1)(int);
+typedef REG (*PGetFn2)(int, int);
+typedef BOOL (*PSetFn2)(int, REG);
+typedef BOOL (*PSetFn3)(int, int, REG);
 
 typedef enum {
     SINGLE_SYM,
@@ -54,8 +56,13 @@ typedef enum {
 struct isym {
     char name[NAMLEN];          /* internal symbol name */
     Symtyp type;                /* internal symbol type */
-    PGetFn getFn;
-    PSetFn setFn;
+
+    PGetFn1 getFn1;
+    PGetFn2 getFn2;
+
+    PSetFn2 setFn2;
+    PSetFn3 setFn3;
+
     void *pval;
     BOOL readonly;		/* is symbol read-only */
     unsigned len;		/* subfield length (len == 0 => not a subfld) */

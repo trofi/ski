@@ -125,21 +125,21 @@ static void isymChk(const char *sname)
  *  into the internal symbol table.
  *---------------------------------------------------------------------------*/
 
-static void isymIns1(const char *sname, PGetFn gf, PSetFn sf, int dbase)
+static void isymIns1(const char *sname, PGetFn1 gf, PSetFn2 sf, int dbase)
 {
     isymChk(sname);
-    isymtbl[topisym].getFn = gf;
-    isymtbl[topisym].setFn = sf;
+    isymtbl[topisym].getFn1 = gf;
+    isymtbl[topisym].setFn2 = sf;
     isymtbl[topisym].type  = SINGLE_SYM;
     isymtbl[topisym].dbase = dbase;
     topisym++;
 }
 
-static void isymIns2(const char *sname, PGetFn gf, PSetFn sf, int dbase, int ndx)
+static void isymIns2(const char *sname, PGetFn2 gf, PSetFn3 sf, int dbase, int ndx)
 {
     isymChk(sname);
-    isymtbl[topisym].getFn = gf;
-    isymtbl[topisym].setFn = sf;
+    isymtbl[topisym].getFn2 = gf;
+    isymtbl[topisym].setFn3 = sf;
     isymtbl[topisym].type  = REGSET_SYM;
     if (ndx >= 0) {	/* specific register in a register set */
 	isymtbl[topisym].ndx = ndx;
@@ -155,12 +155,12 @@ static void isymIns2(const char *sname, PGetFn gf, PSetFn sf, int dbase, int ndx
 
 /* len is bit-field length, start is the little-endian bit number of the left
    edge of the field */
-static void isymIns3(const char *sname, PGetFn gf, PSetFn sf, int dbase,
+static void isymIns3(const char *sname, PGetFn1 gf, PSetFn2 sf, int dbase,
 	      unsigned start, unsigned len)
 {
     isymChk(sname);
-    isymtbl[topisym].getFn = gf;
-    isymtbl[topisym].setFn = sf;
+    isymtbl[topisym].getFn1 = gf;
+    isymtbl[topisym].setFn2 = sf;
     isymtbl[topisym].type  = BITF_SYM;
     isymtbl[topisym].len   = len;
     isymtbl[topisym].start = start;
@@ -168,12 +168,12 @@ static void isymIns3(const char *sname, PGetFn gf, PSetFn sf, int dbase,
     topisym++;
 }
 
-static void isymIns4(const char *sname, PGetFn gf, PSetFn sf, int dbase, unsigned ndx,
+static void isymIns4(const char *sname, PGetFn2 gf, PSetFn3 sf, int dbase, unsigned ndx,
 	      unsigned start, unsigned len)
 {
     isymChk(sname);
-    isymtbl[topisym].getFn = gf;
-    isymtbl[topisym].setFn = sf;
+    isymtbl[topisym].getFn2 = gf;
+    isymtbl[topisym].setFn3 = sf;
     isymtbl[topisym].type  = RS_BITF_SYM;
     isymtbl[topisym].ndx   = ndx;
     isymtbl[topisym].len   = len;
@@ -213,6 +213,23 @@ struct isym *isymVLkp(const char *sname)
 	}
     return NULL;
 }
+
+/* Wrappers to match types for the fetcher.
+ * TODO: extract 0-getters into it's own symbol type.
+ */
+
+#define MK_ACCESSOR_01(wrapper, orig) \
+static REG wrapper(int unused)        \
+{                                     \
+    (void)unused;                     \
+    return orig();                    \
+}
+
+
+MK_ACCESSOR_01(getTotalCycles1, getTotalCycles);
+MK_ACCESSOR_01(getTotalInsts1, getTotalInsts);
+MK_ACCESSOR_01(getTotalFaults1, getTotalFaults);
+MK_ACCESSOR_01(getExited1, getExited);
 
 /*---------------------------------------------------------------------------
  * internalSymbol$Init - Initialize the internal symbol table.
@@ -503,14 +520,14 @@ void isymInit(void)
     isymIns4("eflags.pf",  arGet, arSet, HEXEXP, EFLAGS_ID,  2, 1);
     isymIns4("eflags.cf",  arGet, arSet, HEXEXP, EFLAGS_ID,  0, 1);
 
-    isymIns1("$insts$", getTotalInsts, NULL, DECEXP);
-    isymIns1("$cycles$", getTotalCycles, NULL, DECEXP);
-    isymIns1("$faults$", getTotalFaults, NULL, DECEXP);
+    isymIns1("$insts$", getTotalInsts1, NULL, DECEXP);
+    isymIns1("$cycles$", getTotalCycles1, NULL, DECEXP);
+    isymIns1("$faults$", getTotalFaults1, NULL, DECEXP);
 #ifdef NEW_MP
     isymIns1("$pid$", getCurPid, NULL, DECEXP);
 #endif
     isymIns1("$heap$", heapGet, NULL, HEXEXP);
-    isymIns1("$exited$", getExited, NULL, HEXEXP);
+    isymIns1("$exited$", getExited1, NULL, HEXEXP);
 
     qsort((void *)isymtbl, topisym, sizeof (struct isym), cmpisym);
 #if 0

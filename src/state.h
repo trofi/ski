@@ -570,16 +570,16 @@ void cfmSet(int cproc, REG val);
 BOOL frSignSet(int cproc, int i, REG val);
 
 /* Sets the exponent field of virtual FR[i] for cproc */
-BOOL frExpSet(int cproc, int i, WORD exp);
+BOOL frExpSet(int cproc, int i, REG exp);
 
 /* Sets the mantissa field of virtual FR[i] for cproc */
-BOOL frMantSet(int cproc, int i, DWORD mant);
+BOOL frMantSet(int cproc, int i, REG mant);
 
 /* Sets the ip for cproc */
 BOOL ipSet(int cproc, REG val);
 
 /* Sets the virtual GR[i].nat for cproc */
-BOOL grNatSet(int cproc, int i, BOOL nat);
+BOOL grNatSet(int cproc, int i, REG nat);
 
 /* Sets the virtual GR[i] for cproc */
 BOOL grSet(int cproc, int i, REG val);
@@ -594,7 +594,7 @@ BOOL phyFrExpSet(int cproc, int i, WORD exp);
 BOOL phyFrMantSet(int cproc, int i, DWORD mant);
 
 /* Sets the physical GR[i].nat for cproc */
-BOOL phyGrNatSet(int cproc, int i, BOOL nat);
+BOOL phyGrNatSet(int cproc, int i, REG nat);
 
 /* Sets the physical GR[i] for cproc */
 BOOL phyGrSet(int cproc, int i, REG val);
@@ -603,7 +603,7 @@ BOOL phyGrSet(int cproc, int i, REG val);
 BOOL phyPrSet(int cproc, int i, BOOL val);
 
 /* Sets the virtual PR[i] for cproc */
-BOOL prSet(int cproc, int i, BOOL val);
+BOOL prSet(int cproc, int i, REG val);
 
 /* Sets the psr for cproc */
 BOOL psrSet(int cproc, REG val);
@@ -646,7 +646,7 @@ BOOL crSet(int cproc, int i, REG val);
 BOOL bkrSet(int cproc, int i, REG val);
 
 /* Sets the banked GR[i].nat for cproc */
-BOOL bkrNatSet(int cproc, int i, BOOL val);
+BOOL bkrNatSet(int cproc, int i, REG val);
 
 /* Sets RR[i] for cproc */
 BOOL rrSet(int cproc, int i, REG val);

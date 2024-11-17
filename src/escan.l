@@ -153,13 +153,13 @@ static REG getVal(struct isym *psym)
 {
     switch (psym->type) {
 	case SINGLE_SYM:
-	    return psym->getFn(viewPid);
+	    return psym->getFn1(viewPid);
 	case REGSET_SYM:
-	    return psym->getFn(viewPid, psym->ndx);
+	    return psym->getFn2(viewPid, psym->ndx);
 	case BITF_SYM:
-	    return (psym->getFn(viewPid) << (63 - psym->start)) >> (64 - psym->len);
+	    return (psym->getFn1(viewPid) << (63 - psym->start)) >> (64 - psym->len);
 	case RS_BITF_SYM:
-	    return (psym->getFn(viewPid, psym->ndx) << (63 - psym->start)) >> (64 - psym->len);
+	    return (psym->getFn2(viewPid, psym->ndx) << (63 - psym->start)) >> (64 - psym->len);
 	default:
 	    return 0;
     }

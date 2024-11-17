@@ -605,7 +605,7 @@ BOOL grSet(int proc, int i, REG val)
     return YES;
 }
 
-BOOL grNatSet(int proc, int i, BOOL nat)
+BOOL grNatSet(int proc, int i, REG nat)
 {
     REG val;
     BOOL old;
@@ -643,7 +643,7 @@ BOOL phyGrSet(int proc, int i, REG val)
     return YES;
 }
 
-BOOL phyGrNatSet(int proc, int i, BOOL nat)
+BOOL phyGrNatSet(int proc, int i, REG nat)
 {
     if (!i && nat)
 	return NO;
@@ -681,7 +681,7 @@ BOOL frSignSet(int proc, int i, REG val)
     return YES;
 }
 
-BOOL frExpSet(int proc, int i, WORD exp)
+BOOL frExpSet(int proc, int i, REG exp)
 {
     FREG fr;
     BYTE sign;
@@ -697,7 +697,7 @@ BOOL frExpSet(int proc, int i, WORD exp)
     return YES;
 }
 
-BOOL frMantSet(int proc, int i, DWORD mant)
+BOOL frMantSet(int proc, int i, REG mant)
 {
     FREG fr;
     BYTE sign;
@@ -771,7 +771,7 @@ BOOL phyFrMantSet(int proc, int i, DWORD mant)
     return YES;
 }
 
-BOOL prSet(int proc, int i, BOOL val)
+BOOL prSet(int proc, int i, REG val)
 {
     if (!i && !val)
 	return NO;
@@ -950,7 +950,7 @@ BOOL bkrSet(int proc, int i, REG val)
     return YES;
 }
 
-BOOL bkrNatSet(int proc, int i, BOOL nat)
+BOOL bkrNatSet(int proc, int i, REG nat)
 {
 #ifdef NEW_MP
     mpState[proc].bankedGrs_[i].nat = nat & 1;
