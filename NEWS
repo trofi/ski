@@ -1,3 +1,20 @@
+* What's New with Ski 1.5.0 - 2024-11-23
+
+No major features added. The main change is the removal of `mootif` and
+`gtk` backends and the build fix for better C23 standard compatibility.
+
+** New `-initramfs` option to pass a separate initramfs file to the
+bootloader.
+
+** `--with-gtk` and `--with-x11` `./configure` options (and backend
+code) are removed. `xski` binary is not built anymore.
+
+** Build fix against `-std=c23` toolchain.
+
+** Pull in 'bootloader' code from `linux-4.19.241`.
+
+** Switch from `lex` and `yacc` to `flex` and `bison` as dependencies.
+
 * What's New with Ski 1.4.0 - 2022-08-19
 
 It's a new fork based on lates 1.3.2 version available. It's new home
