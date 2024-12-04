@@ -22,6 +22,8 @@
 #ifndef _SKI_BITS_H
 #define _SKI_BITS_H
 
+#include <endian.h>
+
 #include "std.h"
 
 #if !BYTE_ORDER || !BIG_ENDIAN || !LITTLE_ENDIAN

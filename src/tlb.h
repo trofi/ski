@@ -22,6 +22,8 @@
 #ifndef _SKI_TLB_H_
 #define	_SKI_TLB_H_
 
+#include <stddef.h>
+
 #include "simmem.h"
 
 #define NDTRS	 16

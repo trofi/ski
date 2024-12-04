@@ -66,27 +66,7 @@ AC_DEFINE_UNQUOTED([PAGER], ["$PAGER"], [Define to the pager program.])
 dnl Initialize maintainer mode
 AM_MAINTAINER_MODE
 
-dnl Check for host endianness
-AC_CACHE_CHECK([whether host byte ordering is defined in sys/param.h],
-ski_cv_c_bigendian_compile,
-[AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
-#include <sys/types.h>
-#include <sys/param.h>
-]],[[
-#if !BYTE_ORDER || !BIG_ENDIAN || !LITTLE_ENDIAN
-#error bogus endian macros
-#endif
-]])],
-[ski_cv_c_bigendian_compile=yes], [ski_cv_c_bigendian_compile=no])])
-
-AS_IF([test "x$ski_cv_c_bigendian_compile" = xyes], [
-AC_DEFINE(ENDIANESS_IN_SYS_PARAM_H, 1,
-    [define if sys/param.h defines the endiness])
-])
-AC_C_BIGENDIAN
-
 dnl Check for variables & functions
-
 AC_FUNC_ALLOCA
 
 dnl Find libelf.h

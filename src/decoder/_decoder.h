@@ -97,6 +97,7 @@ extern TemplateInfo templates[NUM_TEMPL_SBS];
 #include <machine/inline.h>
 #endif /* INLINE */
 
+# include <endian.h>
 # include "std.h"
 
 #if !BYTE_ORDER || !BIG_ENDIAN || !LITTLE_ENDIAN

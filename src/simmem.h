@@ -22,6 +22,9 @@
 #ifndef _SKI_MEMORY_H_
 #define _SKI_MEMORY_H_
 
+#include <endian.h>
+#include <stddef.h>
+
 #include "types.h"
 #include "sim.h"
 
