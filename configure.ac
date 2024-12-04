@@ -66,9 +66,6 @@ AC_DEFINE_UNQUOTED([PAGER], ["$PAGER"], [Define to the pager program.])
 dnl Initialize maintainer mode
 AM_MAINTAINER_MODE
 
-dnl Check for variables & functions
-AC_FUNC_ALLOCA
-
 dnl Find libelf.h
 AC_CHECK_HEADER(libelf.h,,
     [AC_CHECK_HEADER(libelf/libelf.h, have_libelf_libelf_h=yes,

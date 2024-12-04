@@ -30,9 +30,6 @@
 #include <unistd.h>
 
 #include "std.h"
-#if defined HAVE_ALLOCA_H
-#include <alloca.h>
-#endif /* defined HAVE_ALLOCA_H */
 #include "bits.h"
 #include "types.h"
 #include "fields.h"
