@@ -23,10 +23,7 @@
 #define _SKI_STD_H
 
 /* Standard header to be included in all source files */
-
-#if defined HAVE_CONFIG_H
-# include "config.h"
-#endif /* defined HAVE_CONFIG_H */
+#include "config.h"
 
 typedef enum {NO, YES}	BOOL;
 
