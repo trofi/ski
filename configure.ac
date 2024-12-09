@@ -179,6 +179,8 @@ AX_CHECK_COMPILE_FLAG([-Werror=implicit-function-declaration], [CFLAGS="$CFLAGS 
 AX_CHECK_COMPILE_FLAG([-Wmissing-declarations], [CFLAGS="$CFLAGS -Wmissing-declarations"], [], [-Werror])
 AX_CHECK_COMPILE_FLAG([-Wunused-function], [CFLAGS="$CFLAGS -Wunused-function"], [], [-Werror])
 AX_CHECK_COMPILE_FLAG([-Wunused-variable], [CFLAGS="$CFLAGS -Wunused-variable"], [], [-Werror])
+# Useful to catch non-standard constructs.
+AX_CHECK_COMPILE_FLAG([-Wpedantic], [CFLAGS="$CFLAGS -Wpedantic"], [], [-Werror])
 
 dnl Treat warnings as errors
 AC_ARG_ENABLE([werror],

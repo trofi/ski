@@ -22,7 +22,7 @@
 #include "encoder/encoder.h"
 #include "encoder/EMInst.h"
 
-static char *formatName[];
+static char *formatName[NUM_FORMATS+1];
 
 char *instFormatName(InstID instID)
 {
