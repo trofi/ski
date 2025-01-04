@@ -70,7 +70,7 @@ const REG cpuids[NCPUIDS] = { 0x2d7474656c776548ULL, 0x006472616b636150ULL,
 #else
 const REG cpuids[NCPUIDS] = { 0x5320696b53205048ULL, 0x726f74616c756d69ULL,
 #endif
-			      0,                     0x000000001f000004ULL,
+			      0,                     0x000000001f030004ULL,
 			      0x5ULL };
 
 unsigned n_stack_phys /* = 96 */;	/* initialized in InitPlatform() */
