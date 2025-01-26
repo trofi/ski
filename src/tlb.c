@@ -1300,7 +1300,10 @@ static TlbEntry *tcInsert(TlbEntry tc[], unsigned tccnt,
 {
     ADDR rangeMask = (~ONES(BitfX(tar,56,6)) & ~VRN_MASK) | 1;
     ADDR vam = tva & rangeMask;
-    unsigned i, ind, first_when, rid = RR_RID(RR(tva));
+    unsigned i, rid = RR_RID(RR(tva));
+#if 0
+    unsigned ind, first_when;
+#endif
     static unsigned when = 0;
     BOOL found = NO;
     TlbEntry *tce;

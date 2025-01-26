@@ -27,5 +27,6 @@
 EaInfoPtr ea16Info(ModRM modrm);
 EaInfoPtr ea32Info(ModRM modrm);
 BOOL ia_decode(ADDR4 eip, IAinstInfoPtr info);
+BOOL iadas_decode(ADDR4 eip, IAinstInfoPtr info);
 
 #endif	/* _SKI_IA_DECODER_H */

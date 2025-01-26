@@ -278,6 +278,8 @@ xxx:
 }
 
 #undef EIPfromIP
+ADDR4 EIPfromIP(ADDR adr);
+
 ADDR4 EIPfromIP(ADDR adr)
 {
     REG tmpreg = grGet(viewPid, CSD_ID);

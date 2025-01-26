@@ -990,7 +990,7 @@ static ADDR getNSgp(Elf *elfptr)
  *-------------------------------------------------------------------------*/
 BOOL elfLoad(const char *file_name, int s_argc, char *s_argv[])
 {
-    struct os_proc proc = {};
+    struct os_proc proc = {0};
     Elf *elfptr;
     int fd;
     unsigned char class;

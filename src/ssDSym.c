@@ -226,10 +226,10 @@ static REG wrapper(int unused)        \
 }
 
 
-MK_ACCESSOR_01(getTotalCycles1, getTotalCycles);
-MK_ACCESSOR_01(getTotalInsts1, getTotalInsts);
-MK_ACCESSOR_01(getTotalFaults1, getTotalFaults);
-MK_ACCESSOR_01(getExited1, getExited);
+MK_ACCESSOR_01(getTotalCycles1, getTotalCycles)
+MK_ACCESSOR_01(getTotalInsts1, getTotalInsts)
+MK_ACCESSOR_01(getTotalFaults1, getTotalFaults)
+MK_ACCESSOR_01(getExited1, getExited)
 
 /*---------------------------------------------------------------------------
  * internalSymbol$Init - Initialize the internal symbol table.
