@@ -69,15 +69,15 @@ simroot(REG arg, char *path, int creat)
 	char c, *p;
 
 	p = path;
-	memBBRd(arg, &c, 1);
+	memBBRd(arg, (BYTE *) &c, 1);
 	if (c == '/') {
 		strcpy(p, sim_root);
 		p += sim_root_len;
 	}
-	memBBRd(arg, p, 0);
+	memBBRd(arg, (BYTE *) p, 0);
 	if (p == path)
 		return (0);
 	if (access(path, F_OK) != 0)
-		memBBRd(arg, path, 0);
+		memBBRd(arg, (BYTE *) path, 0);
 	return (0);
 }

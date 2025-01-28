@@ -1165,7 +1165,7 @@ mapSelectFds (BYTE *buf, int num, int *new_num)
 
   FD_ZERO (&fds);
   for (i = 0; i < num; i++)
-    if (FD_ISSET (i, (fd_set *)buf))
+    if (FD_ISSET (i, (fd_set *) buf))
       {
 	mapped_fd = fdmap[i];
 	backmap[mapped_fd] = i;
@@ -1673,8 +1673,8 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
 
     case SYS_OPEN:
     case LIA64_open:
-      simroot(ADDPTR(arg0), buf, arg1 & O_CREAT);
-      *status = open ((char *)buf, arg1, arg2);
+      simroot(ADDPTR(arg0), (char *) buf, arg1 & O_CREAT);
+      *status = open ((char *) buf, arg1, arg2);
       if ((int)*status != -1) {
 #ifdef HOST_MAP
 	int simfd;
@@ -1695,8 +1695,8 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
       break;
 
     case LIA64_openat:
-      simroot(ADDPTR(arg1), buf, arg2 & O_CREAT);
-      *status = openat (arg0, (char *)buf, arg2, arg3);
+      simroot(ADDPTR(arg1), (char *) buf, arg2 & O_CREAT);
+      *status = openat (arg0, (char *) buf, arg2, arg3);
       if ((int)*status != -1) {
 #ifdef HOST_MAP
 	int simfd;
@@ -1729,14 +1729,14 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
     case LIA64_link:
       memBBRd (ADDPTR (arg0), buf, 0);
       memBBRd (ADDPTR (arg1), buf2, 0);
-      *status = link ((char *)buf, (char *)buf2);
+      *status = link ((char *) buf, (char *) buf2);
       setStatReturn (ret, status);
       break;
 
     case SYS_UNLINK:
     case LIA64_unlink:
-      simroot(ADDPTR(arg0), buf, 0);
-      *status = unlink ((char *)buf);
+      simroot(ADDPTR(arg0), (char *) buf, 0);
+      *status = unlink ((char *) buf);
       setStatReturn (ret, status);
       break;
 
@@ -1766,7 +1766,7 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
 	      break;
 
 	    memBBRd (ADDPTR (argp), buf2, 0);
-	    len = strlen ((char*) buf2) + 1;
+	    len = strlen ((char *) buf2) + 1;
 	    if (off + len >= total)
 	      {
 		total += 32768;
@@ -1793,7 +1793,7 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
 	      break;
 
 	    memBBRd (argp, buf2, 0);
-	    len = strlen ((char *)buf2) + 1;
+	    len = strlen ((char *) buf2) + 1;
 	    if (off + len >= total)
 	      {
 		total += 32768;
@@ -1846,7 +1846,7 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
     case SYS_CHDIR:
     case LIA64_chdir:
       memBBRd (ADDPTR (arg0), buf, 0);
-      *status = chdir ((char *)buf);
+      *status = chdir ((char *) buf);
       setStatReturn (ret, status);
       break;
 
@@ -1872,21 +1872,21 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
     case SYS_MKNOD:
     case LIA64_mknod:
       memBBRd (ADDPTR (arg0), buf, 0);
-      *status = mknod ((char *)buf, arg1, arg2);
+      *status = mknod ((char *) buf, arg1, arg2);
       setStatReturn (ret, status);
       break;
 
     case SYS_CHMOD:
     case LIA64_chmod:
       memBBRd (ADDPTR (arg0), buf, 0);
-      *status = chmod ((char *)buf, arg1);
+      *status = chmod ((char *) buf, arg1);
       setStatReturn (ret, status);
       break;
 
     case SYS_CHOWN:
     case LIA64_chown:
       memBBRd (ADDPTR (arg0), buf, 0);
-      *status = chown ((char *)buf, arg1, arg2);
+      *status = chown ((char *) buf, arg1, arg2);
       setStatReturn (ret, status);
       break;
 
@@ -1917,14 +1917,14 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
       memBBRd (ADDPTR (arg0), buf, 0);
       memBBRd (ADDPTR (arg1), buf1, 0);
       memBBRd (ADDPTR (arg2), buf2, 0);
-      *status = mount ((char *)buf, (char *)buf1, (char *)buf2, arg3, 0);
+      *status = mount ((char *) buf, (char *) buf1, (char *) buf2, arg3, 0);
       setStatReturn (ret, status);
       break;
 
     case SYS_UMOUNT:
     case LIA64_umount:
       memBBRd (ADDPTR (arg0), buf, 0);
-      *status = umount ((char *)buf);
+      *status = umount ((char *) buf);
       setStatReturn (ret, status);
       break;
 
@@ -1952,14 +1952,14 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
 
     case SYS_ACCESS:
     case LIA64_access:
-      simroot(ADDPTR(arg0), buf, 0);
-      *status = access (buf, arg1);
+      simroot(ADDPTR(arg0), (char *) buf, 0);
+      *status = access ((char *) buf, arg1);
       setStatReturn (ret, status);
       break;
 
     case LIA64_faccessat:
-      simroot(ADDPTR(arg1), buf, 0);
-      *status = faccessat (fdmap[arg0], buf, arg2, arg3);
+      simroot(ADDPTR(arg1), (char *) buf, 0);
+      *status = faccessat (fdmap[arg0], (char *) buf, arg2, arg3);
       setStatReturn (ret, status);
       break;
 
@@ -1994,21 +1994,21 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
     case LIA64_rename:
       memBBRd (ADDPTR (arg0), buf, 0);
       memBBRd (ADDPTR (arg1), buf2, 0);
-      *status = rename ((char *)buf, (char *)buf2);
+      *status = rename ((char *) buf, (char *) buf2);
       setStatReturn (ret, status);
       break;
 
     case SYS_MKDIR:
     case LIA64_mkdir:
       memBBRd (ADDPTR (arg0), buf, 0);
-      *status = mkdir ((char *)buf, arg1);
+      *status = mkdir ((char *) buf, arg1);
       setStatReturn (ret, status);
       break;
 
     case SYS_RMDIR:
     case LIA64_rmdir:
       memBBRd (ADDPTR (arg0), buf, 0);
-      *status = rmdir ((char *)buf);
+      *status = rmdir ((char *) buf);
       setStatReturn (ret, status);
       break;
 
@@ -2752,7 +2752,7 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
 
     case SYS_READLINK:
     case LIA64_readlink:
-      simroot(ADDPTR(arg0), buf, 0);
+      simroot(ADDPTR(arg0), (char *) buf, 0);
       /* make sure we have enough space in malargbuf */
       ENSURE_SIZE (arg2);
       *status = readlink ((char *) buf, (char *) malargbuf, arg2);
@@ -2769,13 +2769,13 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
 
     case LIA64_swapon:
       memBBRd (ADDPTR (arg0), buf, 0);
-      *status = swapon ((char *)buf, arg1);
+      *status = swapon ((char *) buf, arg1);
       setStatReturn (ret, status);
       break;
 
     case LIA64_swapoff:
       memBBRd (ADDPTR (arg0), buf, 0);
-      *status = swapoff ((char *)buf);
+      *status = swapoff ((char *) buf);
       setStatReturn (ret, status);
       break;
 
@@ -2828,7 +2828,7 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
       if (num == LIA64_statfs)
 	{
 	  memBBRd (ADDPTR (arg0), buf, 0);
-	  *status = statfs ((char *)buf, &host_statfs);
+	  *status = statfs ((char *) buf, &host_statfs);
 	}
       else
 	{
@@ -3018,7 +3018,7 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
     case LIA64_syslog:
       if (arg2 > 0)
 	memBBRd (ADDPTR (arg1), buf, arg2);
-      *status = klogctl (arg0, (char *)buf, arg2);
+      *status = klogctl (arg0, (char *) buf, arg2);
       setStatReturn (ret, status);
       break;
 
@@ -3068,7 +3068,7 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
       break;
 
     case LIA64_old_stat:
-      simroot(ADDPTR(arg0), buf, 0);
+      simroot(ADDPTR(arg0), (char *) buf, 0);
       *status = stat ((char *) buf, &host_stat);
       if ((int) *status != -1)
 	{
@@ -3080,7 +3080,7 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
       break;
 
     case LIA64_stat:
-      simroot(ADDPTR(arg0), buf, 0);
+      simroot(ADDPTR(arg0), (char *) buf, 0);
       *status = stat ((char *) buf, &host_stat);
       if ((int) *status != -1)
 	{
@@ -3092,7 +3092,7 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
       break;
 
     case LIA64_old_lstat:
-      simroot(ADDPTR(arg0), buf, 0);
+      simroot(ADDPTR(arg0), (char *) buf, 0);
       *status = lstat ((char *) buf, &host_stat);
       if ((int) *status != -1)
 	{
@@ -3104,7 +3104,7 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
       break;
 
     case LIA64_lstat:
-      simroot(ADDPTR(arg0), buf, 0);
+      simroot(ADDPTR(arg0), (char *) buf, 0);
       *status = lstat ((char *) buf, &host_stat);
       if ((int) *status != -1)
 	{
@@ -3147,7 +3147,7 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
       */
       CHECK_FD (arg0);
       memBBRd (ADDPTR (arg1), buf, 0);
-      *status = fstatat (fdmap[arg0], buf, &host_stat, arg3);
+      *status = fstatat (fdmap[arg0], (const char *) buf, &host_stat, arg3);
       if ((int) *status != -1)
 	{
 	  stat_host2lia64 (&host_stat, &lia64_stat);
@@ -3164,7 +3164,7 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
 
     case LIA64_lchown:
       memBBRd (ADDPTR (arg0), buf, 0);
-      *status = lchown ((char *)buf, arg1, arg2);
+      *status = lchown ((char *) buf, arg1, arg2);
       setStatReturn (ret, status);
       break;
 
@@ -3224,7 +3224,7 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
     case LIA64_setdomainname:
       if (arg1 > 0)
 	memBBRd (ADDPTR (arg0), buf, arg1);
-      *status = setdomainname ((char *)buf, arg1);
+      *status = setdomainname ((char *) buf, arg1);
       setStatReturn (ret, status);
       break;
 
@@ -3232,11 +3232,11 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
       *status = uname ((struct utsname *) buf);
       if ((int) *status == 0)
 	{
-	  strcpy (&((struct utsname *)buf)->machine[0], "ia64");
+	  strcpy (&((struct utsname *) buf)->machine[0], "ia64");
 	  /* New glibc's check for minimum kernel. Defined in glibc as:
 	   * sysdeps/unix/sysv/linux/ia64/configure.ac:arch_minimum_kernel=3.2.18
 	   */
-	  strcpy (&((struct utsname *)buf)->release[0], "3.2.18");
+	  strcpy (&((struct utsname *) buf)->release[0], "3.2.18");
 	  memBBWrt_alloc (ADDPTR (arg0), buf, sizeof (struct utsname));
 	}
       setStatReturn (ret, status);
@@ -3837,7 +3837,7 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
 	      *status = -1; *ret = EINVAL;
 	      break;
 	    }
-	  if (status >= 0)
+	  if ((int)*status >= 0)
 	    masked_signals = lia64_sigset;
 	}
       break;
@@ -4571,7 +4571,7 @@ doSSC (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG *ret)
 	    for (;;) {
 		size_t r = fread(buffer, 1, sizeof (buffer), f);
 		if (r == 0) break;
-		memBBWrt(addr, buffer, r);
+		memBBWrt(addr, (const BYTE *) buffer, r);
 		addr += r;
 	    }
 	    fclose(f);
@@ -4589,11 +4589,11 @@ doSSC (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG *ret)
       memBBRd (arg0, buf, 0);
       PSR_DT = olddt;
       if (arg1 == SSC_READ_ACCESS)
-	*ret = open ((char *)buf, O_RDONLY);
+	*ret = open ((char *) buf, O_RDONLY);
       else if (arg1 == SSC_WRITE_ACCESS)
-	*ret = open ((char *)buf, O_WRONLY);
+	*ret = open ((char *) buf, O_WRONLY);
       else if (arg1 == (SSC_READ_ACCESS | SSC_WRITE_ACCESS))
-	*ret = open ((char *)buf, O_RDWR);
+	*ret = open ((char *) buf, O_RDWR);
       else
 	progExit ("doSSC (SSC_OPEN): arg1 has an illegal access type\n");
       break;
@@ -4796,7 +4796,7 @@ doSSC (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG *ret)
       PSR_DT = 0;
       memBBRd (arg1, buf, 0);
       /* arg0, arg2, and arg3 are currently not used */
-      if (elfSymLoad((char *)buf))
+      if (elfSymLoad((char *) buf))
 	*ret = 0;
       else
 	*ret = -1;
@@ -4855,7 +4855,7 @@ doSSC (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG *ret)
     case SSC_PUTCHAR:
       buf[0] = arg0;
       buf[1] = '\0';
-      writeConsole ((char *)buf, 1);
+      writeConsole ((char *) buf, 1);
       /* no return value */
       break;
 
@@ -4878,7 +4878,7 @@ doSSC (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG *ret)
 	memBBRd (arg0, buf, 0);
 
 	/* buf holds the device name to open on the host */
-        *ret = (long)netdev_open ((char *)buf, ether);
+        *ret = (long)netdev_open ((char *) buf, ether);
 
 	/* copy back the link level addr */
 	memBBWrt (arg1, (BYTE *)ether, sizeof (ether));

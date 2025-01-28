@@ -10,7 +10,7 @@
 
 #include "types.h"
 
-char *getSrcLines(ADDR ofs, unsigned *count);;
+char *getSrcLines(ADDR ofs, unsigned *count);
 
 void signal_invoke_handler (int in_syscall);
 int signal_pending(void);

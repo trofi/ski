@@ -356,7 +356,7 @@ int ioLoad(IS_t *argIn)
 			offset, argIn->data, argIn->size);
 	}
 	unsigned char c = '\0';
-	uartRead(1, offset, &c);
+	uartRead(1, offset, (char *) &c);
 	argIn->data = c;
 	return 2;
     }
@@ -367,7 +367,7 @@ int ioLoad(IS_t *argIn)
 			offset, argIn->data, argIn->size);
 	}
 	unsigned char c = '\0';
-	uartRead(2, offset, &c);
+	uartRead(2, offset, (char *) &c);
 	argIn->data = c;
 	return 2;
     }

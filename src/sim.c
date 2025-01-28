@@ -398,6 +398,8 @@ static void fillinDecodePage(CT *ct, ADDR adr)
     }
 }
 
+Status iAinstFetchDecode(IAinstInfoPtr info);
+
 Status iAinstFetchDecode(IAinstInfoPtr info)
 {
     if (!ia_decode(EIP, info))

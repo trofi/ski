@@ -29,6 +29,7 @@
 #include "types.h"
 #include "fields.h"
 #include "sim.h"
+#include "ia_decoder.h"
 #include "ia_exec.h"
 #include "sign_ext.h"
 
