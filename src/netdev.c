@@ -31,6 +31,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <linux/filter.h>
+#include <linux/if_packet.h>
 #include <net/ethernet.h>
 #include <sys/ioctl.h>
 #include <sys/time.h>
@@ -125,10 +126,10 @@ typedef struct _eth_dev_t
   {
     struct _eth_dev_t *eth_next;	/* linked list of devices */
     char eth_name[IFNAMSIZ];	/* real name */
-    unsigned int eth_ipaddr;	/* current ipaddress */
-    int eth_fd;			/* current fiel descriptor */
+    unsigned int eth_ipaddr;	/* current IP address */
+    int eth_fd;			/* current field descriptor */
     int eth_flags;		/* attached|detached */
-    struct sockaddr eth_sa;	/* save extra copies on send */
+    struct sockaddr_ll eth_sa_ll;	/* save extra copies on send */
   }
 eth_dev_t;
 
@@ -153,7 +154,11 @@ find_eth (int fd)
 int
 netdev_open (char *name, unsigned char *macaddr)
 {
-  struct sockaddr sa;
+  struct sockaddr_ll sa_ll = {
+    .sll_family = AF_PACKET,
+    .sll_protocol = htons(ETH_P_ALL),
+    .sll_ifindex = if_nametoindex(name),
+  };
   struct sockaddr_in *sin;
   struct ifreq ifr;
   eth_dev_t *eth;
@@ -167,10 +172,8 @@ netdev_open (char *name, unsigned char *macaddr)
    * Open a RAW/PACKET socket (just like tcpdump)
    *
    * See 'man 7 packet' on Linux.
-   *
-   * TODO: switch obsolete PF_INET to AF_PACKET.
    */
-  fd = socket (PF_INET, SOCK_PACKET, htons(ETH_P_ALL));
+  fd = socket (AF_PACKET, SOCK_RAW, htons(ETH_P_ALL));
   if (fd == -1)
     {
       if (errno == EPERM)  
@@ -180,12 +183,7 @@ netdev_open (char *name, unsigned char *macaddr)
       return -1;
     }
 
-  memset (&sa, 0, sizeof (sa));
-
-  sa.sa_family = AF_INET;
-  strncpy (sa.sa_data, name, sizeof (sa.sa_data));
-
-  r = bind (fd, &sa, sizeof (sa));
+  r = bind (fd, (struct sockaddr *)&sa_ll, sizeof (sa_ll));
   if (r) {
     cmdwPrint("Cannot bind (disabling network): make sure %s exists\n", name);
     close(fd);
@@ -215,7 +213,7 @@ netdev_open (char *name, unsigned char *macaddr)
   eth->eth_flags = ETH_DETACHED;
   eth_list = eth;		/* we're at the head of the list now */
 
-  eth->eth_sa = sa;		/* we're fine because sa_data is an array */
+  eth->eth_sa_ll = sa_ll;
 
   r = ioctl (fd, SIOCGIFHWADDR, &ifr);
   if (r)
@@ -377,7 +375,7 @@ long
 netdev_send (int fd, char *fbuf, int len)
 {
   int r;
-  struct sockaddr sa;
+  struct sockaddr_ll sa_ll;
   eth_dev_t *eth = find_eth (fd);
 
   if ((unsigned long) fbuf & 0x3)
@@ -386,7 +384,7 @@ netdev_send (int fd, char *fbuf, int len)
   if (eth == NULL)
     progExit ("netdev_send: can't find %d\n", fd);
 
-  r = sendto (fd, fbuf, len, 0, &eth->eth_sa, sizeof (sa));
+  r = sendto (fd, fbuf, len, 0, (struct sockaddr *)&eth->eth_sa_ll, sizeof (sa_ll));
   if (r == -1)
     progExit ("netdev_send: error on sendto %d\n", errno);
 
