@@ -57,9 +57,9 @@
 
 #define MAX_FD		256
 
-BOOL ski_nonet;			/* when true network is disable, ie no interface is found */
+BOOL ski_nonet;			/* when true network is disabled, i.e. no interface is found */
 
-/* 
+/*
  * thanks to tcpdump for the program dump
  *
  * /usr/sbin/tcpdump -dd dst xx.xx.xx.xx or ether broadcast
@@ -134,7 +134,7 @@ typedef struct _eth_dev_t
 eth_dev_t;
 
 /*
- * list od currently detected devices
+ * list of currently detected devices
  */
 static eth_dev_t *eth_list;
 
@@ -176,7 +176,7 @@ netdev_open (char *name, unsigned char *macaddr)
   fd = socket (AF_PACKET, SOCK_RAW, htons(ETH_P_ALL));
   if (fd == -1)
     {
-      if (errno == EPERM)  
+      if (errno == EPERM)
 		cmdwPrint("No network support: must be run as root\n");
       else
 		cmdwPrint("No network support: make sure SOCK_PACKET is configured\n");
@@ -217,7 +217,7 @@ netdev_open (char *name, unsigned char *macaddr)
 
   r = ioctl (fd, SIOCGIFHWADDR, &ifr);
   if (r)
-    progExit ("netdev_open: get can't HW addr\n");
+    progExit ("netdev_open: can't get HW addr\n");
 
   memcpy (macaddr, (char *) ifr.ifr_hwaddr.sa_data, IFHWADDRLEN);
 
@@ -229,7 +229,7 @@ netdev_open (char *name, unsigned char *macaddr)
 }
 
 static inline
-void 
+void
 filter_patch (struct sock_filter *filter, unsigned int ipaddr)
 {
   filter[BPF_INS1].k = ipaddr;
@@ -238,8 +238,8 @@ filter_patch (struct sock_filter *filter, unsigned int ipaddr)
 
 
 /*
- * Put the device is promiscuous mode
- * and enable packet filtering on the ipaddress
+ * Put the device in promiscuous mode
+ * and enable packet filtering on the IP address
  */
 int
 netdev_attach (int fd, unsigned int ipaddr)
@@ -285,7 +285,7 @@ netdev_attach (int fd, unsigned int ipaddr)
   ifr.ifr_flags |= IFF_PROMISC;
 
   /*
-   * promiscuous mode enabled now 
+   * promiscuous mode enabled now
    */
   r = ioctl (fd, SIOCSIFFLAGS, &ifr);
   if (r)
@@ -324,7 +324,7 @@ netdev_detach (int fd)
    */
   r = setsockopt (fd, SOL_SOCKET, SO_DETACH_FILTER, &dummy, sizeof (dummy));
   if (r)
-    progExit ("netdev_attach: can't detach filter %d\n", errno);
+    progExit ("netdev_detach: can't detach filter %d\n", errno);
 
   memset (&ifr, 0, sizeof (ifr));
 
@@ -332,7 +332,7 @@ netdev_detach (int fd)
 
   r = ioctl (fd, SIOCGIFFLAGS, &ifr);
   if (r)
-    progExit ("net_detach: ioctl getflags");
+    progExit ("netdev_detach: ioctl getflags");
 
   ifr.ifr_flags &= ~IFF_PROMISC;
 
@@ -362,7 +362,7 @@ netdev_recv (int fd, char *fbuf, int len)
 
   r = recv (fd, fbuf, len, 0);
   if (r == -1 && errno != EAGAIN)
-    progExit ("netdev_recv: error on read %d\n", errno);
+    progExit ("netdev_recv: error on recv %d\n", errno);
 
   return (long) (r > 0 ? r : 0);
 }
@@ -379,7 +379,7 @@ netdev_send (int fd, char *fbuf, int len)
   eth_dev_t *eth = find_eth (fd);
 
   if ((unsigned long) fbuf & 0x3)
-    progExit ("trasmit frame not aligned");
+    progExit ("transmit frame not aligned");
 
   if (eth == NULL)
     progExit ("netdev_send: can't find %d\n", fd);
@@ -392,7 +392,7 @@ netdev_send (int fd, char *fbuf, int len)
 }
 
 /*
- * check is SIGIO was because of network I/O
+ * check if SIGIO was because of network I/O
  * the other possible reason is keyboard input
  *
  * This is kind of heavy weight but we need to demultiplex somewhow !
