@@ -151,6 +151,47 @@ find_eth (int fd)
   return NULL;
 }
 
+/*
+ * taken and adapted from
+ * https://github.com/torvalds/linux/blob/v3.10/Documentation/networking/ifenslave.c
+ */
+static
+int
+set_if_up (char *ifname)
+{
+  int skfd = -1; /* AF_INET socket for ioctl() calls.*/
+  int saved_errno;
+
+  struct ifreq ifr;
+  int res = 0;
+
+  ifr.ifr_flags = IFF_UP;
+  strncpy(ifr.ifr_name, ifname, IFNAMSIZ);
+
+  /* Open a basic socket */
+  if ((skfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
+    perror("set_if_up: socket() failed\n");
+    res = 1;
+    goto out;
+  }
+
+  res = ioctl(skfd, SIOCSIFFLAGS, &ifr);
+  if (res < 0) {
+    saved_errno = errno;
+    cmdwPrint("Host interface '%s': Error: SIOCSIFFLAGS failed: %s\n",
+            ifname, strerror(saved_errno));
+  } else {
+    cmdwPrint("Host interface '%s': flags set to %04X.\n", ifname, IFF_UP);
+  }
+
+  out:
+  if (skfd >= 0) {
+    close(skfd);
+  }
+
+  return res;
+}
+
 int
 netdev_open (char *name, unsigned char *macaddr)
 {
@@ -182,6 +223,11 @@ netdev_open (char *name, unsigned char *macaddr)
 		cmdwPrint("No network support: make sure SOCK_PACKET is configured\n");
       return -1;
     }
+
+  /*
+   * Make sure the selected interface is up, before using it.
+   */
+  set_if_up (name);
 
   r = bind (fd, (struct sockaddr *)&sa_ll, sizeof (sa_ll));
   if (r) {
