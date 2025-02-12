@@ -31,6 +31,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <linux/filter.h>
+#include <linux/if_packet.h>
 #include <net/ethernet.h>
 #include <sys/ioctl.h>
 #include <sys/time.h>
@@ -56,9 +57,9 @@
 
 #define MAX_FD		256
 
-BOOL ski_nonet;			/* when true network is disable, ie no interface is found */
+BOOL ski_nonet;			/* when true network is disabled, i.e. no interface is found */
 
-/* 
+/*
  * thanks to tcpdump for the program dump
  *
  * /usr/sbin/tcpdump -dd dst xx.xx.xx.xx or ether broadcast
@@ -125,15 +126,15 @@ typedef struct _eth_dev_t
   {
     struct _eth_dev_t *eth_next;	/* linked list of devices */
     char eth_name[IFNAMSIZ];	/* real name */
-    unsigned int eth_ipaddr;	/* current ipaddress */
-    int eth_fd;			/* current fiel descriptor */
+    unsigned int eth_ipaddr;	/* current IP address */
+    int eth_fd;			/* current field descriptor */
     int eth_flags;		/* attached|detached */
-    struct sockaddr eth_sa;	/* save extra copies on send */
+    struct sockaddr_ll eth_sa_ll;	/* save extra copies on send */
   }
 eth_dev_t;
 
 /*
- * list od currently detected devices
+ * list of currently detected devices
  */
 static eth_dev_t *eth_list;
 
@@ -150,10 +151,55 @@ find_eth (int fd)
   return NULL;
 }
 
+/*
+ * taken and adapted from
+ * https://github.com/torvalds/linux/blob/v3.10/Documentation/networking/ifenslave.c
+ */
+static
+int
+set_if_up (char *ifname)
+{
+  int skfd = -1; /* AF_INET socket for ioctl() calls.*/
+  int saved_errno;
+
+  struct ifreq ifr;
+  int res = 0;
+
+  ifr.ifr_flags = IFF_UP;
+  strncpy(ifr.ifr_name, ifname, IFNAMSIZ);
+
+  /* Open a basic socket */
+  if ((skfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
+    perror("set_if_up: socket() failed\n");
+    res = 1;
+    goto out;
+  }
+
+  res = ioctl(skfd, SIOCSIFFLAGS, &ifr);
+  if (res < 0) {
+    saved_errno = errno;
+    cmdwPrint("Host interface '%s': Error: SIOCSIFFLAGS failed: %s\n",
+            ifname, strerror(saved_errno));
+  } else {
+    cmdwPrint("Host interface '%s': flags set to %04X.\n", ifname, IFF_UP);
+  }
+
+  out:
+  if (skfd >= 0) {
+    close(skfd);
+  }
+
+  return res;
+}
+
 int
 netdev_open (char *name, unsigned char *macaddr)
 {
-  struct sockaddr sa;
+  struct sockaddr_ll sa_ll = {
+    .sll_family = AF_PACKET,
+    .sll_protocol = htons(ETH_P_ALL),
+    .sll_ifindex = if_nametoindex(name),
+  };
   struct sockaddr_in *sin;
   struct ifreq ifr;
   eth_dev_t *eth;
@@ -167,25 +213,23 @@ netdev_open (char *name, unsigned char *macaddr)
    * Open a RAW/PACKET socket (just like tcpdump)
    *
    * See 'man 7 packet' on Linux.
-   *
-   * TODO: switch obsolete PF_INET to AF_PACKET.
    */
-  fd = socket (PF_INET, SOCK_PACKET, htons(ETH_P_ALL));
+  fd = socket (AF_PACKET, SOCK_RAW, htons(ETH_P_ALL));
   if (fd == -1)
     {
-      if (errno == EPERM)  
+      if (errno == EPERM)
 		cmdwPrint("No network support: must be run as root\n");
       else
 		cmdwPrint("No network support: make sure SOCK_PACKET is configured\n");
       return -1;
     }
 
-  memset (&sa, 0, sizeof (sa));
+  /*
+   * Make sure the selected interface is up, before using it.
+   */
+  set_if_up (name);
 
-  sa.sa_family = AF_INET;
-  strncpy (sa.sa_data, name, sizeof (sa.sa_data));
-
-  r = bind (fd, &sa, sizeof (sa));
+  r = bind (fd, (struct sockaddr *)&sa_ll, sizeof (sa_ll));
   if (r) {
     cmdwPrint("Cannot bind (disabling network): make sure %s exists\n", name);
     close(fd);
@@ -215,11 +259,11 @@ netdev_open (char *name, unsigned char *macaddr)
   eth->eth_flags = ETH_DETACHED;
   eth_list = eth;		/* we're at the head of the list now */
 
-  eth->eth_sa = sa;		/* we're fine because sa_data is an array */
+  eth->eth_sa_ll = sa_ll;
 
   r = ioctl (fd, SIOCGIFHWADDR, &ifr);
   if (r)
-    progExit ("netdev_open: get can't HW addr\n");
+    progExit ("netdev_open: can't get HW addr\n");
 
   memcpy (macaddr, (char *) ifr.ifr_hwaddr.sa_data, IFHWADDRLEN);
 
@@ -231,7 +275,7 @@ netdev_open (char *name, unsigned char *macaddr)
 }
 
 static inline
-void 
+void
 filter_patch (struct sock_filter *filter, unsigned int ipaddr)
 {
   filter[BPF_INS1].k = ipaddr;
@@ -240,8 +284,8 @@ filter_patch (struct sock_filter *filter, unsigned int ipaddr)
 
 
 /*
- * Put the device is promiscuous mode
- * and enable packet filtering on the ipaddress
+ * Put the device in promiscuous mode
+ * and enable packet filtering on the IP address
  */
 int
 netdev_attach (int fd, unsigned int ipaddr)
@@ -287,7 +331,7 @@ netdev_attach (int fd, unsigned int ipaddr)
   ifr.ifr_flags |= IFF_PROMISC;
 
   /*
-   * promiscuous mode enabled now 
+   * promiscuous mode enabled now
    */
   r = ioctl (fd, SIOCSIFFLAGS, &ifr);
   if (r)
@@ -326,7 +370,7 @@ netdev_detach (int fd)
    */
   r = setsockopt (fd, SOL_SOCKET, SO_DETACH_FILTER, &dummy, sizeof (dummy));
   if (r)
-    progExit ("netdev_attach: can't detach filter %d\n", errno);
+    progExit ("netdev_detach: can't detach filter %d\n", errno);
 
   memset (&ifr, 0, sizeof (ifr));
 
@@ -334,7 +378,7 @@ netdev_detach (int fd)
 
   r = ioctl (fd, SIOCGIFFLAGS, &ifr);
   if (r)
-    progExit ("net_detach: ioctl getflags");
+    progExit ("netdev_detach: ioctl getflags");
 
   ifr.ifr_flags &= ~IFF_PROMISC;
 
@@ -364,7 +408,7 @@ netdev_recv (int fd, char *fbuf, int len)
 
   r = recv (fd, fbuf, len, 0);
   if (r == -1 && errno != EAGAIN)
-    progExit ("netdev_recv: error on read %d\n", errno);
+    progExit ("netdev_recv: error on recv %d\n", errno);
 
   return (long) (r > 0 ? r : 0);
 }
@@ -377,16 +421,16 @@ long
 netdev_send (int fd, char *fbuf, int len)
 {
   int r;
-  struct sockaddr sa;
+  struct sockaddr_ll sa_ll;
   eth_dev_t *eth = find_eth (fd);
 
   if ((unsigned long) fbuf & 0x3)
-    progExit ("trasmit frame not aligned");
+    progExit ("transmit frame not aligned");
 
   if (eth == NULL)
     progExit ("netdev_send: can't find %d\n", fd);
 
-  r = sendto (fd, fbuf, len, 0, &eth->eth_sa, sizeof (sa));
+  r = sendto (fd, fbuf, len, 0, (struct sockaddr *)&eth->eth_sa_ll, sizeof (sa_ll));
   if (r == -1)
     progExit ("netdev_send: error on sendto %d\n", errno);
 
@@ -394,7 +438,7 @@ netdev_send (int fd, char *fbuf, int len)
 }
 
 /*
- * check is SIGIO was because of network I/O
+ * check if SIGIO was because of network I/O
  * the other possible reason is keyboard input
  *
  * This is kind of heavy weight but we need to demultiplex somewhow !
