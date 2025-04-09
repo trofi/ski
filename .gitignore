@@ -10,7 +10,7 @@ Makefile.in
 /m4/
 
 # configure
-Makefile
+/Makefile
 /config.h
 /config.log
 /config.status
