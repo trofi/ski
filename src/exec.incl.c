@@ -43,6 +43,7 @@
 #include "ia_state.h"
 #include "ia_exec.h"
 #include "ssc.h"
+#include "itc.h"
 #include "syscall_api.h"
 
 #define HYPERLAZY		/* To support non-hyperlazy RSE, Ski must

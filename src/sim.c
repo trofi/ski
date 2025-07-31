@@ -63,6 +63,7 @@
 #include "instinfo.h"
 #include "icnt_core.gen.h"
 #include "os_support.h"
+#include "itc.h"
 #include "syscall_api.h"
 
 #define ALARM
@@ -238,7 +239,7 @@ rseDB(char *s)
 
 static void updateTmrs(void)
 {
-    if (++ITC == ITM && !IMASK(ITV))
+    if (itc_tick_overflow() && !IMASK(ITV))
 	pendIrpt(ITV);
     if (sscPend && --sscPend->irptcnt <= 0) {
 	pendSscIrpt(sscPend->type);
@@ -708,7 +709,7 @@ Status iCycleSys(void)
 	}
     } else		/* Fault */
 	icp = NULL;
-    if (++ITC == ITM && !IMASK(ITV))
+    if (itc_tick_overflow() && !IMASK(ITV))
 	pendIrpt(ITV);
     if (sscPend && --sscPend->irptcnt <= 0)
 	pendSscIrpt(sscPend->type);
@@ -1514,7 +1515,7 @@ lbl:
 	}
 
 	total_insts++;
-	if (++ITC == ITM && !IMASK(ITV))
+	if (itc_tick_overflow() && !IMASK(ITV))
 	    pendIrpt(ITV);
 	if (sscPend && --sscPend->irptcnt <= 0)
 	    pendSscIrpt(sscPend->type);
@@ -1548,6 +1549,7 @@ static Status iCycleSysLoopLite(unsigned long count)
     unsigned long cycle_count = 0L;
     BOOL psr_ic = PSR_IC;
     Status st;
+    int itc_overflow_flag = 0;
 
     do {
 	INSTINFO *info = icp;
@@ -1589,7 +1591,8 @@ static Status iCycleSysLoopLite(unsigned long count)
 	--insn_count;
 
 	/* should we break the loop? */
-	if (++ITC == ITM || !icp || st & ST_CHECK || intrsim) {
+	itc_overflow_flag = itc_tick_overflow();
+	if (itc_overflow_flag || !icp || st & ST_CHECK || intrsim) {
 	    break;
 	}
 
@@ -1597,7 +1600,7 @@ static Status iCycleSysLoopLite(unsigned long count)
 
     
     /* ITC will get incremented upon return, restore value */
-    --ITC;
+    itc_untick(itc_overflow_flag);
 
     /* update the counters */
     total_insts += count - insn_count;
@@ -1665,7 +1668,7 @@ static void iCycleSysLoop(void)
 	    }
 	}
 
-	if (++ITC == ITM && !IMASK(ITV))
+	if (itc_tick_overflow() && !IMASK(ITV))
 	    pendIrpt(ITV);
 
 	if (sscPend && --sscPend->irptcnt <= 0)

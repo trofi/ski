@@ -143,6 +143,7 @@ noinst_HEADERS= \
 	simmem.h \
 	os_support.h \
 	platform.h \
+	itc.h \
 	sim.h \
 	ski.h \
 	state.h \
@@ -230,6 +231,7 @@ ski_SOURCES = \
 	$(IAEXEC_DECODER_DERIVED) \
 	$(ICNT_DERIVED) \
 	state.c \
+	itc.c \
 	sim.c \
 	simmem.c \
 	ski_elf.h \
