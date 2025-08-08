@@ -83,6 +83,26 @@ AS_IF([test "$HOST_OS" = linux], [
   ])
 ])
 
+dnl Check that the host supports TUN/TAP devices
+AC_CACHE_CHECK([whether TUN/TAP is supported],
+  ac_cv_have_tun_tap, [
+  AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+    #include <string.h>
+    #include <sys/socket.h>
+    #include <linux/if.h>
+    #include <linux/if_tun.h>
+  ]], [[
+    struct ifreq ifr;
+    memset(&ifr, 0, sizeof(ifr));
+    ifr.ifr_flags = IFF_TAP | IFF_NO_PI;
+  ]])],[ac_cv_have_tun_tap=yes],[ac_cv_have_tun_tap=no
+  ])
+])
+
+AS_IF([test "$ac_cv_have_tun_tap" = yes], [
+  AC_DEFINE(HAVE_TUN_TAP, 1, [define if you have TUN/TAP support])
+])
+
 AS_IF([test "$HOST_OS" = freebsd], [
     LDFLAGS="$LDFLAGS -lutil"
 ])
