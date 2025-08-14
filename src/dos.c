@@ -35,13 +35,10 @@
 #include <sys/stat.h>
 #include <signal.h>
 #include <string.h>
-#if defined(__FreeBSD__)
 #include <termios.h>
-#define termio  termios
+#if defined(__FreeBSD__)
 #define TCGETA  TIOCGETA
 #define TCSETA  TIOCSETA
-#else
-#include <termio.h>
 #endif
 #include <time.h>
 #if defined __linux__
@@ -140,7 +137,7 @@ Status dosInt21(BYTE func, BYTE subFunc)
 	break;
     case 0x08:				/* read keyboard without echo */
 	if (isatty(fhmap[0])) {
-	    struct termio origTermio, newTermio;
+	    struct termios origTermio, newTermio;
 
 	    (void)ioctl(fhmap[0], TCGETA, &origTermio);
 	    newTermio = origTermio;
