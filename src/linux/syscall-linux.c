@@ -2147,14 +2147,14 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
 
 	case TCGETA:
 	  /* assumes host OS matches Linux/ia64 */
-	  bytes_out = sizeof (struct termio);
+	  bytes_out = sizeof (struct termios);
 	  break;
 
 	case TCSETA:
 	case TCSETAW:
 	case TCSETAF:
 	  /* assumes host OS matches Linux/ia64 */
-	  bytes_in = sizeof (struct termio);
+	  bytes_in = sizeof (struct termios);
 	  break;
 
 	case TIOCGPGRP:
