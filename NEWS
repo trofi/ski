@@ -1,3 +1,16 @@
+* What's New with Ski 1.5.1 - 2025-08-18
+
+An experimental `ski-efi` binary was added. It's an EFI applicatiion
+loader. See `ski-efi/README.md` for more details.
+
+** New `ski-efi` binary to load EFI applications by Vladimir Serbinenko.
+
+** Network device emulation switched from long deprecated `PF_INET` to
+   `AF_PACKET` by Johnny Mnemonic.
+
+** The build was fixed for `glibc-2.42` systems where `termio.h` is no
+   longer provided. Fix by Nicolas PARLANT.
+
 * What's New with Ski 1.5.0 - 2024-11-23
 
 No major features added. The main change is the removal of `mootif` and
