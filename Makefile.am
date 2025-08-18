@@ -44,11 +44,31 @@ SKI_BOOTLOADER_FILES = \
 	ski-bootloader/memstr.h \
 	ski-bootloader/ssc.h
 
+SKI_EFI_FILES = \
+	ski-efi/boot_head.S \
+	ski-efi/bootloader.c \
+	ski-efi/bootloader.h \
+	ski-efi/bootloader.lds \
+	ski-efi/fw-emu.c \
+	ski-efi/fw-emu.h \
+	ski-efi/include \
+	ski-efi/include/efi.h \
+	ski-efi/include/ia64 \
+	ski-efi/include/ia64/pal.h \
+	ski-efi/include/ia64/sal.h \
+	ski-efi/include/types.h \
+	ski-efi/Makefile \
+	ski-efi/memstr.c \
+	ski-efi/memstr.h \
+	ski-efi/README.md \
+	ski-efi/ssc.h
+
 EXTRA_DIST = \
 	misc/bskinc \
 	misc/ia64fmt \
 	ChangeLog.2007 \
-	$(SKI_BOOTLOADER_FILES)
+	$(SKI_BOOTLOADER_FILES) \
+	$(SKI_EFI_FILES)
 
 install-exec-hook:
 	$(LN_S) -f ski $(DESTDIR)/$(bindir)/bski;
