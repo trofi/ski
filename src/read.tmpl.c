@@ -29,6 +29,7 @@
 #include "fields.h"
 #include "state.h"
 #include "sim.h"
+#include "itc.h"
 
 Status illRd(INSTINFO *info)
 {
@@ -1217,7 +1218,10 @@ Status brIARd(INSTINFO *info)
 
 Status oneArRd(INSTINFO *info)
 {
-    SRC1 = ArRd(ar3);
+    if (ar3 == ITC_ID)
+	SRC1 = itc_read();
+    else
+	SRC1 = ArRd(ar3);
     return PrRd(qp);
 }
 

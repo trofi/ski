@@ -32,6 +32,7 @@
 #include "types.h"
 #include "fields.h"
 #include "state.h"
+#include "itc.h"
 
 unsigned nproc = 1;
 unsigned cproc = 0;
@@ -301,7 +302,10 @@ REG arGet(int proc, int i)
 #ifdef NEW_MP
     return mpState[proc].ars_[i];
 #else
-    return ars[i];
+    if (i == ITC_ID)
+	return itc_read();
+    else
+	return ars[i];
 #endif
 }
 
@@ -808,7 +812,10 @@ BOOL arSet(int proc, int i, REG val)
 #ifdef NEW_MP
     mpState[proc].ars_[i] = val;
 #else
-    ars[i] = val;
+    if (i == ITC_ID)
+	itc_write(val);
+    else
+	ars[i] = val;
 #endif
     return YES;
 }
@@ -935,6 +942,8 @@ BOOL crSet(int proc, int i, REG val)
 #ifdef NEW_MP
     mpState[proc].crs_[i] = val;
 #else
+    if (i == ITM_ID)
+	itm_write(val);
     crs[i] = val;
 #endif
     return YES;

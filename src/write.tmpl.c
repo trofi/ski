@@ -29,6 +29,7 @@
 #include "fields.h"
 #include "state.h"
 #include "sim.h"
+#include "itc.h"
 #include "trace.h"
 
 void nullWrt(INSTINFO *info)
@@ -133,7 +134,10 @@ void rotPrWrt(INSTINFO *info)
 void oneArWrt(INSTINFO *info)
 {
     traceArTgt(DST1);
-    ArWrt(ar3, DST1);
+    if (ar3 == ITC_ID)
+	itc_write(DST1);
+    else
+	ArWrt(ar3, DST1);
 }
 
 void oneFrWrt(INSTINFO *info)
@@ -786,6 +790,8 @@ void rfiWrt(INSTINFO *info)
 
 void oneCrWrt(INSTINFO *info)
 {
+    if (cr3 == ITM_ID)
+	itm_write(DST1);
     CrWrt(cr3, DST1);
     if (cr3 == TPR_ID && acceptIrpt())
 	intrsim = extint = YES;
