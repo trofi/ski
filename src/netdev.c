@@ -94,6 +94,9 @@ find_eth (int fd)
 #include <poll.h>
 #include <linux/if_tun.h>
 
+/* init 1st two bytes to 1Ah 64h */
+unsigned char macaddr_tmp[IFHWADDRLEN] = { 26, 100 };
+
 int
 netdev_open (char *name, unsigned char *macaddr)
 {
@@ -131,6 +134,7 @@ netdev_open (char *name, unsigned char *macaddr)
     }
 
   memcpy (macaddr, (char *) ifr.ifr_hwaddr.sa_data, IFHWADDRLEN);
+  memcpy (macaddr, macaddr_tmp, 2); /* overwrite first two bytes */
 
   eth = malloc (sizeof *eth);
   if (!eth)
