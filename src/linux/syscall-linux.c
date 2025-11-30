@@ -95,6 +95,7 @@
 #include "os_support.h"
 #include "syscall_api.h"
 #include "ui.h"
+#include "itc.h"
 
 #if defined NEW_MP
 # error "not supported"
@@ -4501,6 +4502,50 @@ asynckb (int sig)
 
 #endif
 
+/*
+ * Sleep until SIGIO or SIGALRM is received; this relies on
+ * keyboard/ethernet input being detected via SIGIO, and the
+ * ITC now being emulated via setitimer() and SIGALRM.
+ *
+ * A SIGALRM might be delivered just before we enter the
+ * blocking (but interruptible) system call.  To ensure that
+ * we notice that SIGALRM, the protocol is:
+ *
+ * 1. We atomically retrieve the current signal mask and block SIGALRM.
+ *
+ * 2. We check if an ITC SIGALRM has been received, if so we
+ *    restore the signal mask and return.
+ *
+ * 3. We call pselect to atomically unblock SIGALRM and block until
+ *    a signal is delivered.
+ *
+ * 4. We unblock SIGALRM since pselect re-blocks it.
+ *
+ * Any SIGALRM before step 1 is detected by step 2, and any SIGALRM
+ * after step 1 is detected via the pselect in step 3.
+ */
+static void
+doSSC_HALT_LIGHT (void)
+{
+    sigset_t set, oldset;
+
+    sigemptyset(&set);
+    sigaddset(&set, SIGALRM);
+
+    if (sigprocmask(SIG_BLOCK, &set, &oldset) == -1) {
+	perror("sigprocmask");
+	exit(1);
+    }
+
+    if (itc_itimer_fired) {
+	sigprocmask(SIG_SETMASK, &oldset, NULL);
+	return;
+    }
+
+    pselect (0, NULL, NULL, NULL, NULL, &oldset);
+    sigprocmask(SIG_SETMASK, &oldset, NULL);
+}
+
 void
 doSSC (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG *ret)
 {
@@ -4528,6 +4573,10 @@ doSSC (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG *ret)
     {
     case SSC_STOP:
       progStop ("SSC breakpoint\n");
+      break;
+
+    case SSC_HALT_LIGHT:
+      doSSC_HALT_LIGHT ();
       break;
 
     case SSC_CTL_TRACE:

@@ -30,6 +30,7 @@
 
 #define SSC_STOP			 0
 
+#define SSC_HALT_LIGHT			19
 #define SSC_CONSOLE_INIT		20
 #define SSC_GETCHAR			21
 #define SSC_PUTCHAR			31
