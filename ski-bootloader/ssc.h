@@ -9,6 +9,7 @@
 
 /* Simulator system calls: */
 
+#define SSC_HALT_LIGHT			19
 #define SSC_CONSOLE_INIT		20
 #define SSC_GETCHAR			21
 #define SSC_PUTCHAR			31
@@ -28,9 +29,13 @@
 #define SSC_GET_ARGS			75
 #define SSC_GET_INITRAMFS		77
 
+#ifndef __ASSEMBLY__
+
 /*
  * Simulator system call.
  */
 extern long ssc (long arg0, long arg1, long arg2, long arg3, int nr);
+
+#endif /* !__ASSEMBLY */
 
 #endif /* ssc_h */
