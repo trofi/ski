@@ -53,11 +53,216 @@
 #include "ui.h"
 
 
+BOOL ski_nonet;			/* when true network is disabled, i.e. no interface is found */
+
+#define ETH_DETACHED	0x0
+#define ETH_ATTACHED	0x1
+
+typedef struct _eth_dev_t
+  {
+    struct _eth_dev_t *eth_next;	/* linked list of devices */
+    int eth_fd;			/* current file descriptor */
+    int eth_flags;			/* attached|detached */
+# if !HAVE_TUN_TAP
+    char eth_name[IFNAMSIZ];		/* real name */
+    unsigned int eth_ipaddr;		/* current ipaddress */
+    struct sockaddr_ll eth_sa_ll;	/* save extra copies on send */
+# endif
+  }
+eth_dev_t;
+
+/*
+ * list of currently detected devices
+ */
+static eth_dev_t *eth_list;
+
+static inline eth_dev_t *
+find_eth (int fd)
+{
+  eth_dev_t *p;
+
+  for (p = eth_list; p; p = p->eth_next)
+    {
+      if (p->eth_fd == fd)
+	return p;
+    }
+  return NULL;
+}
+
+# if HAVE_TUN_TAP
+
+#include <poll.h>
+#include <linux/if_tun.h>
+
+/* init 1st two bytes to 1Ah 64h */
+unsigned char macaddr_tmp[IFHWADDRLEN] = { 26, 100 };
+
+int
+netdev_open (char *name, unsigned char *macaddr)
+{
+  int fd;
+  struct ifreq ifr;
+  eth_dev_t *eth;
+
+  if (ski_nonet == YES)
+    return -1;
+
+  fd = open ("/dev/net/tun", O_RDWR);
+  if (fd == -1)
+    {
+      cmdwPrint ("netdev_open: open /dev/net/tun failed: %d\n", errno);
+      return -1;
+    }
+
+  memset (&ifr, 0, sizeof ifr);
+  ifr.ifr_flags = IFF_TAP | IFF_NO_PI;
+  if (name)
+    strncpy (ifr.ifr_name, name, IFNAMSIZ);
+
+  if (ioctl (fd, TUNSETIFF, &ifr) < 0)
+    {
+      cmdwPrint ("netdev_open: ioctl TUNSETIFF failed: %d\n", errno);
+      close (fd);
+      return -1;
+    }
+
+  if (ioctl (fd, SIOCGIFHWADDR, &ifr) == -1)
+    {
+      cmdwPrint ("netdev_open: ioctl SIOCGIFHWADDR failed: %d\n", errno);
+      close (fd);
+      return -1;
+    }
+
+  memcpy (macaddr, (char *) ifr.ifr_hwaddr.sa_data, IFHWADDRLEN);
+  memcpy (macaddr, macaddr_tmp, 2); /* overwrite first two bytes */
+
+  eth = malloc (sizeof *eth);
+  if (!eth)
+    {
+      cmdwPrint ("netdev_open: malloc failed: %d\n", errno);
+      close (fd);
+      return -1;
+    }
+
+  /*
+   * the device is not yet attached
+   */
+  eth->eth_fd = fd;
+  eth->eth_next = eth_list;
+  eth->eth_flags = ETH_DETACHED;
+  eth_list = eth;		/* we're at the head of the list now */
+
+  return fd;
+}
+
+int
+netdev_attach (int fd, unsigned int ipaddr)
+{
+  int r;
+  eth_dev_t *eth = find_eth (fd);
+
+  if (eth == NULL)
+    progExit ("netdev_attach: can't find eth %d\n", fd);
+
+  /*
+   * prepare for SIGIO: set ownership + asynchronous notification
+   */
+  r = fcntl (fd, F_SETOWN, getpid ());
+  if (r == -1)
+    progExit ("netdev_attach: f_setown %d\n", errno);
+
+  r = fcntl (fd, F_SETFL, fcntl (fd, F_GETFL, 0) | O_ASYNC | O_NONBLOCK);
+  if (r == -1)
+    progExit ("netdev_attach: f_setfl %d\n", errno);
+
+  eth->eth_flags = ETH_ATTACHED;
+
+  return 0;
+}
+
+int
+netdev_detach (int fd)
+{
+  int r;
+  eth_dev_t *eth = find_eth (fd);
+
+  if (eth == NULL)
+    progExit ("netdev_detach: can't find eth %d\n", fd);
+
+  /*
+   * don't notify
+   *
+   * should also remove ownership but it does not really matter
+   */
+  r = fcntl (fd, F_SETFL, fcntl (fd, F_GETFL, 0) & (~O_ASYNC | O_NONBLOCK));
+  if (r == -1)
+    progExit ("netdev_detach: f_setfl %d\n", errno);
+
+  eth->eth_flags = ETH_DETACHED;
+
+  return 0;
+}
+
+/*
+ * read the next frame from interface
+ */
+long
+netdev_recv (int fd, char *fbuf, int len)
+{
+  int r;
+
+  if ((unsigned long) fbuf & 0x3)
+    progExit ("receive frame not aligned");
+
+  r = read (fd, fbuf, len);
+  if (r == -1 && errno != EAGAIN)
+    progExit ("netdev_recv: error on read %d\n", errno);
+
+  return (long) (r > 0 ? r : 0);
+}
+
+/*
+ * write next frame to interface
+ */
+long
+netdev_send (int fd, char *fbuf, int len)
+{
+  int r;
+  eth_dev_t *eth = find_eth (fd);
+
+  if ((unsigned long) fbuf & 0x3)
+    progExit ("trasmit frame not aligned");
+
+  if (eth == NULL)
+    progExit ("netdev_send: can't find %d\n", fd);
+
+  r = write (fd, fbuf, len);
+  if (r == -1)
+    progExit ("netdev_send: error on write %d\n", errno);
+
+  return (long) len;
+}
+
+static int
+netdev_can_read (int fd)
+{
+  struct pollfd pfd;
+  int r;
+
+  pfd.fd = fd;
+  pfd.events = POLLIN;
+  pfd.revents = 0;
+  r = poll (&pfd, 1, 0);
+  if (r == -1 || r == 0)
+      return r;
+  return pfd.revents & POLLIN;
+}
+
+# else /* !HAVE_TUN_TAP */
+
 #define MAX_FRAME_SIZE	1536	/* should be more than enough for ethernet */
 
 #define MAX_FD		256
-
-BOOL ski_nonet;			/* when true network is disabled, i.e. no interface is found */
 
 /*
  * thanks to tcpdump for the program dump
@@ -118,38 +323,6 @@ static struct sock_filter insns[] =
   /* return success (maximum size) */
   BPF_STMT (BPF_RET + BPF_K, 0xffffffff)
 };
-
-#define ETH_DETACHED	0x0
-#define ETH_ATTACHED	0x1
-
-typedef struct _eth_dev_t
-  {
-    struct _eth_dev_t *eth_next;	/* linked list of devices */
-    char eth_name[IFNAMSIZ];	/* real name */
-    unsigned int eth_ipaddr;	/* current IP address */
-    int eth_fd;			/* current field descriptor */
-    int eth_flags;		/* attached|detached */
-    struct sockaddr_ll eth_sa_ll;	/* save extra copies on send */
-  }
-eth_dev_t;
-
-/*
- * list of currently detected devices
- */
-static eth_dev_t *eth_list;
-
-static inline eth_dev_t *
-find_eth (int fd)
-{
-  eth_dev_t *p;
-
-  for (p = eth_list; p; p = p->eth_next)
-    {
-      if (p->eth_fd == fd)
-	return p;
-    }
-  return NULL;
-}
 
 /*
  * taken and adapted from
@@ -394,7 +567,6 @@ netdev_detach (int fd)
   return 0;
 }
 
-
 /*
  * read the next frame from interface
  */
@@ -437,6 +609,20 @@ netdev_send (int fd, char *fbuf, int len)
   return (long) len;
 }
 
+static int
+netdev_can_read (int fd)
+{
+  char c;
+
+  /*
+   * We can't use FIONREAD here because it's only supported
+   * by TCP sockets.
+   */
+  return recv (fd, &c, 1, MSG_PEEK);
+}
+
+# endif /* !HAVE_TUN_TAP */
+
 /*
  * check if SIGIO was because of network I/O
  * the other possible reason is keyboard input
@@ -449,7 +635,6 @@ int
 isnetio (void)
 {
   int r;
-  char c;
   eth_dev_t *p;
 
   if (eth_list == NULL)
@@ -462,11 +647,7 @@ isnetio (void)
       if (p->eth_flags != ETH_ATTACHED)
 	continue;
 
-      /*
-       * We can't use FIONREAD here because it's only supported
-       * by TCP sockets.
-       */
-      r = recv (p->eth_fd, &c, 1, MSG_PEEK);
+      r = netdev_can_read (p->eth_fd);
       if (r > 0)
 	return 1;
 

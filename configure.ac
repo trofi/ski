@@ -80,6 +80,32 @@ AS_IF([test "$HOST_OS" = linux], [
     AS_HELP_STRING([--disable-netdev], [disable netdev support]))
   AS_IF([test "x$enable_netdev" != xno], [
     AC_DEFINE(SKINET_ENABLE, 1, [define if you want netdev support])
+
+    dnl Enable TUN/TAP support on request...
+    AC_ARG_ENABLE([tuntap],
+      AS_HELP_STRING([--enable-tuntap], [enable TUN/TAP support]), [
+
+      dnl Check that the host supports TUN/TAP devices
+      AC_CACHE_CHECK([whether TUN/TAP is supported],
+        ac_cv_have_tun_tap, [
+        AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+          #include <string.h>
+          #include <sys/socket.h>
+          #include <linux/if.h>
+          #include <linux/if_tun.h>
+        ]], [[
+          struct ifreq ifr;
+          memset(&ifr, 0, sizeof(ifr));
+          ifr.ifr_flags = IFF_TAP | IFF_NO_PI;
+        ]])],[ac_cv_have_tun_tap=yes],[ac_cv_have_tun_tap=no
+        ])
+      ])
+
+      AS_IF([test "$ac_cv_have_tun_tap" = yes], [
+        AC_DEFINE(HAVE_TUN_TAP, 1, [define if you have TUN/TAP support])
+      ])
+    ])
+    dnl ...else use stock networking.
   ])
 ])
 
