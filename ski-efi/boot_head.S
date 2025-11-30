@@ -5,6 +5,9 @@
  */
 
 #include <ia64/pal.h>
+#ifndef __ASSEMBLY__
+#define __ASSEMBLY__
+#endif
 #include "ssc.h"
 
 #define ENTRY(name)		\
