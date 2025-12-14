@@ -5,6 +5,10 @@
  */
 
 #include <ia64/pal.h>
+#ifndef __ASSEMBLY__
+#define __ASSEMBLY__
+#endif
+#include "ssc.h"
 
 #define ENTRY(name)		\
 	.align 32;		\
@@ -156,6 +160,11 @@ static:	cmp.eq p6,p7=PAL_PTCE_INFO,r28
 (p7)	br.cond.sptk.few 1f
 	mov	r8=0			/* status = 0 */
 	mov	r9=0x80|0x01		/* NatPage|WB */
+	;;
+1:	cmp.eq p6,p7=PAL_HALT_LIGHT,r28
+(p7)	br.cond.sptk.few 1f
+	mov	r15=SSC_HALT_LIGHT
+	break	0x80001
 	;;
 1:	br.cond.sptk.few rp
 stacked:

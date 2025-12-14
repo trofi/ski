@@ -8,5 +8,6 @@
 #define PAL_FREQ_RATIOS		14
 #define PAL_PERF_MON_INFO	15
 #define PAL_RSE_INFO		19
+#define PAL_HALT_LIGHT		29	/* enter the low power light halt state */
 
 #endif /* _INCLUDE_PAL_H_ */
