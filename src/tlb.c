@@ -691,15 +691,15 @@ static int keyCheck(Accesstype atype, unsigned key)
 static BOOL accessRights(unsigned ar, unsigned pl, unsigned cpl,
 			 Accesstype atype)
 {
-    atype &= READ_ACCESS | WRITE_ACCESS;
+    Accesstypemask atypem = atype & READ_ACCESS | WRITE_ACCESS;
 
     switch (ar) {
 	case 0:
-	    if (atype != READ_ACCESS || cpl > pl)
+	    if (atypem != READ_ACCESS || cpl > pl)
 		return NO;
 	    break;
 	case 1:
-	    if (atype & WRITE_ACCESS || cpl > pl)
+	    if (atypem & WRITE_ACCESS || cpl > pl)
 		return NO;
 	    break;
 	case 2:
@@ -713,13 +713,13 @@ static BOOL accessRights(unsigned ar, unsigned pl, unsigned cpl,
 	case 4:
 	    if (atype == EXECUTE_ACCESS || cpl > pl)
 		return NO;
-	    if ((atype & WRITE_ACCESS) && cpl && cpl == pl)
+	    if ((atypem & WRITE_ACCESS) && cpl && cpl == pl)
 		return NO;
 	    break;
 	case 5:
 	    if (cpl > pl)
 		return NO;
-	    if ((atype & WRITE_ACCESS) && cpl)
+	    if ((atypem & WRITE_ACCESS) && cpl)
 		return NO;
 	    break;
 	case 6:
@@ -729,9 +729,9 @@ static BOOL accessRights(unsigned ar, unsigned pl, unsigned cpl,
 		return NO;
 	    break;
 	case 7:
-	    if (atype & WRITE_ACCESS)
+	    if (atypem & WRITE_ACCESS)
 		return NO;
-	    if (atype == READ_ACCESS && cpl)
+	    if (atypem == READ_ACCESS && cpl)
 		return NO;
 	    break;
     }
