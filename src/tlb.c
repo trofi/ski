@@ -903,17 +903,17 @@ int specLookup(ADDR va, unsigned size, Accesstype atype, ADDR *pa)
 	}
 #ifdef DBGREGS
 	if (PSR_DB && !PSR_DD && search_DBR(va, size, atype, 1<<pl))
-	    if (!PSR_IC || ITLB_ED && DCR_DD)
+	    if (!PSR_IC || ITLB_ED && DCR_DD) {
 		return 1;
-	    else {
+	    } else {
 		dataDebugFault(atype);
 		return -1;
 	    }
 #endif
 	if (va & (size - 1)) {
-	    if (!PSR_IC || ITLB_ED)
+	    if (!PSR_IC || ITLB_ED) {
 		return 1;
-	    else {
+	    } else {
 		unalignedDataFault(atype);
 		return -1;
 	    }
