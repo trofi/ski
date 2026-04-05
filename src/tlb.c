@@ -411,7 +411,7 @@ static TlbEntry *dataLookup(ADDR va, Accesstype atype)
 	}
 #ifdef DBGREGS
 	if (!PSR_DB ||
-	    !search_DBR(vhptaddr, PTA_VF ? 32 : 8, READ_ACCESS, 1 << 0)) {
+	    !search_DBR(vhptaddr, PTA_VF ? 32 : 8, MEM_LD_ACCESS, 1 << 0)) {
 #endif
 
 	    if (!PTA_VF)	/* short format */
@@ -508,7 +508,7 @@ static TlbEntry *instLookup(ADDR va)
 	}
 #ifdef DBGREGS
 	if (!PSR_DB ||
-	    !search_DBR(vhptaddr, PTA_VF ? 32 : 8, READ_ACCESS, 1 << 0)) {
+	    !search_DBR(vhptaddr, PTA_VF ? 32 : 8, MEM_LD_ACCESS, 1 << 0)) {
 #endif
 
 	    if (!PTA_VF)	/* short format */
