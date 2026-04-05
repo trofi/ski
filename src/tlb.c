@@ -902,13 +902,14 @@ int specLookup(ADDR va, unsigned size, Accesstype atype, ADDR *pa)
 	    return -1;
 	}
 #ifdef DBGREGS
-	if (PSR_DB && !PSR_DD && search_DBR(va, size, atype, 1<<pl))
+	if (PSR_DB && !PSR_DD && search_DBR(va, size, atype, 1<<pl)) {
 	    if (!PSR_IC || ITLB_ED && DCR_DD) {
 		return 1;
 	    } else {
 		dataDebugFault(atype);
 		return -1;
 	    }
+	}
 #endif
 	if (va & (size - 1)) {
 	    if (!PSR_IC || ITLB_ED) {
@@ -917,7 +918,7 @@ int specLookup(ADDR va, unsigned size, Accesstype atype, ADDR *pa)
 		unalignedDataFault(atype);
 		return -1;
 	    }
-    }
+	}
 	return 1;
     }
 
