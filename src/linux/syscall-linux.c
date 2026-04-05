@@ -3201,8 +3201,8 @@ doSyscall (HWORD num, REG arg0, REG arg1, REG arg2, REG arg3, REG arg4,
       tmp = arg0 & ~sig;
       if (   sig == SIGCHLD
 	  && arg1 == 0
-	  && ((tmp & ~(CLONE_PARENT_SETTID | CLONE_CHILD_CLEARTID | CLONE_CHILD_SETTID) == 0) /* fork()-ish */
-	      || (tmp == CLONE_VFORK | CLONE_VM)) /* vfork()-ish */
+	  && (((tmp & ~(CLONE_PARENT_SETTID | CLONE_CHILD_CLEARTID | CLONE_CHILD_SETTID)) == 0) /* fork()-ish */
+	      || (tmp == (CLONE_VFORK | CLONE_VM))) /* vfork()-ish */
 	  )
 	{
 	  /* we're doing a plain-ol' fork or vfork */
