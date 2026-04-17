@@ -691,7 +691,7 @@ static int keyCheck(Accesstype atype, unsigned key)
 static BOOL accessRights(unsigned ar, unsigned pl, unsigned cpl,
 			 Accesstype atype)
 {
-    Accesstypemask atypem = atype & READ_ACCESS | WRITE_ACCESS;
+    Accesstypemask atypem = atype & (READ_ACCESS | WRITE_ACCESS);
 
     switch (ar) {
 	case 0:
